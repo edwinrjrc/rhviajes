@@ -68,6 +68,7 @@ public class PaisMBean extends BaseMBean {
 			Maestro hijo = new Maestro();
 			hijo.setCodigoMaestro(10);
 			hijo.setCodigoEntero(idcontinente);
+			hijo.setEmpresa(this.obtenerEmpresa());
 			this.setContinente(this.soporteServicio.consultarHijoMaestro(hijo));
 			this.setListaPaisContinente(this.soporteServicio
 					.consultarPaises(idcontinente, this.obtenerIdEmpresa()));
@@ -95,18 +96,19 @@ public class PaisMBean extends BaseMBean {
 						.getAttribute("usuarioSession");
 				getPais().setUsuarioCreacion(usuario);
 				getPais().setIpCreacion(obtenerRequest().getRemoteAddr());
+				getPais().setEmpresa(this.obtenerEmpresa());
 				this.getPais().setContinente(getContinente());
 				this.soporteServicio.ingresarPais(getPais());
-				this.setShowModal(true);
-				this.setTipoModal("1");
-				this.setMensajeModal("Pais registrado Satisfactoriamente");
+				this.mostrarMensajeExito("Pais registrado Satisfactoriamente");
 			} else if (this.isEditarPais()) {
 
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
+			this.mostrarMensajeError(e.getMessage());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			this.mostrarMensajeError(e.getMessage());
 		}
 	}
 
@@ -155,6 +157,9 @@ public class PaisMBean extends BaseMBean {
 	 * @return the continente
 	 */
 	public BaseVO getContinente() {
+		if (continente == null){
+			continente = new BaseVO();
+		}
 		return continente;
 	}
 
