@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalregpagos" modal="true" width="800"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText value="Registrar Pago" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalregpagos')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFormRegisPago" enctype="multipart/form-data">
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;" id="idGrFrRegpagos">
+				<h:panelGrid id="idPnRegpago" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
+					<f:facet name="header">
+						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+							style="text-align: left;vertical-align: top; width: 100%;">
+							<h:outputText value="Registrar Pago" style="height: 100px"
+								styleClass="subtitulo2" />
+							<hr width="100%" />
+						</h:panelGrid>
+					</f:facet>
+					<h:outputText value="Id Servicio" />
+					<h:outputText
+						value="#{servicioAgenteMBean.servicioAgencia.codigoEntero}" />
+					<h:outputText value="Cliente" />
+					<h:outputText
+						value="#{servicioAgenteMBean.servicioAgencia.cliente.nombreCompleto}" />
+					<h:outputText value="Monto Total de Pago" />
+					<h:outputText
+						value="#{servicioAgenteMBean.servicioAgencia.montoTotalServicios}">
+						<f:convertNumber pattern="$ #,###,##0.00" locale="en_US" />
+					</h:outputText>
+					<h:outputText value="Fecha Pago" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<rich:calendar datePattern="dd/MM/yyyy" id="idSelFecSer"
+							value="#{servicioAgenteMBean.pagoServicio.fechaPago}"></rich:calendar>
+						<rich:message for="idSelFecSer" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+					</h:panelGrid>
+					<h:outputText value="Tipo Pago" />
+					<h:selectOneMenu
+						value="#{servicioAgenteMBean.pagoServicio.tipoPago.codigoCadena}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItem itemLabel="Detracción" itemValue="D" />
+						<f:selectItem itemLabel="Retención" itemValue="R" />
+					</h:selectOneMenu>
+					<h:outputText value="Forma Pago" />
+					<h:selectOneMenu
+						value="#{servicioAgenteMBean.pagoServicio.formaPago.codigoEntero}"
+						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
+						<a4j:ajax event="valueChange" render="idPnRegpago2" />
+					</h:selectOneMenu>
+
+				</h:panelGrid>
+				<h:panelGrid id="idPnRegpago2" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
+					<h:outputText value="Cuenta Bancaria"
+						rendered="#{servicioAgenteMBean.mostrarCuenta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarCuenta}"
+						id="idSelCuentaBancaria"
+						value="#{servicioAgenteMBean.pagoServicio.cuentaBancariaDestino.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{servicioAgenteMBean.listadoCuentasBancarias}" />
+					</h:selectOneMenu>
+					<h:outputText value="Numero Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						maxlength="16"
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.numeroTarjeta}" />
+					<h:outputText value="Tipo Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.proveedoTarjeta.codigoEntero}"
+						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoProveedorTarjeta}" />
+					</h:selectOneMenu>
+					<h:outputText value="Banco Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.banco.codigoEntero}"
+						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoBanco}" />
+					</h:selectOneMenu>
+					<h:outputText value="Nombre Titular Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						maxlength="30" size="20"
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.nombreTitular}" />
+				</h:panelGrid>
+				<h:panelGrid id="idPnRegpago3" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
+					<h:outputText value="Monto Pago" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2">
+						<h:inputText id="idMontoPago"
+							onkeypress="return js_soloDecimal(event)"
+							style="text-align:right;"
+							value="#{servicioAgenteMBean.pagoServicio.montoPago}" size="10"
+							maxlength="8" />
+						<h:selectOneMenu id="idSelMonedapago" value="#{servicioAgenteMBean.pagoServicio.moneda.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-"/>
+							<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+						</h:selectOneMenu>
+						<rich:message for="idMontoPago" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+						<rich:message for="idSelMonedapago" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+					</h:panelGrid>
+					<h:outputText value="Comentario" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<h:inputTextarea id="idTxtComentario" cols="50"
+							value="#{servicioAgenteMBean.pagoServicio.comentario}" />
+						<rich:message for="idTxtComentario" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+					</h:panelGrid>
+					<h:outputText value="Sustento Pago" />
+					<rich:fileUpload style="Height: 100px;"
+						fileUploadListener="#{servicioAgenteMBean.listener}" id="upload"
+						acceptedTypes="jpg, gif, png, jpeg, pdf, JPG, GIF, PNG, JPEG, PDF"
+						ontyperejected="alert('Only JPG, GIF, PNG, PDF files are accepted');"
+						maxFilesQuantity="1">
+						<a4j:ajax event="uploadcomplete" execute="@none" />
+					</rich:fileUpload>
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;text-align:center;" columns="1">
+						<br />
+						<a4j:commandButton value="Grabar" style="width:150px;Height;25px"
+							action="#{servicioAgenteMBean.registrarPago()}"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrRegisVenServicio,idDatapagos,idGrSaldoServicio"
+							oncomplete="mostrarModal('idformadmservicios'); #{rich:component('idModalregpagos')}.hide(); return false;"></a4j:commandButton>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

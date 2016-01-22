@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalformnovios" modal="true" width="1100"
+		height="650">
+
+		<f:facet name="header">
+			<h:outputText id="idNomModal" value="#{noviosMBean.nombreFormulario}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalformnovios')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFormNovios">
+
+			<h:panelGrid columns="2" border="0" cellpadding="0" cellspacing="0"
+				style="width:100%;" id="idGrProgrNovios">
+
+				<rich:tabPanel switchType="client">
+					<rich:tab>
+						<f:facet name="header">
+							<h:outputText value="Informacion Novios" />
+						</f:facet>
+						<h:panelGrid id="idGridFormNovios" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;" columns="1">
+
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								rendered="#{noviosMBean.editarNovios}"
+								columnClasses="textNegrita, textSinNegrita, colNov3, colNov4">
+								<h:outputText value="Codigo Novios" />
+								<h:outputText value="#{noviosMBean.programaNovios.codigoNovios}" />
+
+								<h:outputText value="" />
+								<h:outputText value="" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov5">
+								<h:outputText value="Novia" />
+								<h:panelGrid columns="2" border="0" cellpadding="0"
+									cellspacing="0" id="idGrnovia"
+									columnClasses="col1iconoformulario,col1iconoformulario"
+									rendered="#{noviosMBean.nuevoNovios}">
+									<h:inputText readonly="true" size="100" id="idFrNovia"
+										value="#{noviosMBean.programaNovios.novia.nombreCompleto}" />
+									<a4j:commandLink
+										action="#{noviosMBean.consultaClientes('F',2)}"
+										oncomplete="#{rich:component('idModalbusqnovios')}.show();"
+										render="idTablaClientes,idBusqCliente" immediate="true">
+										<h:graphicImage style="border:0px;"
+											value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+									</a4j:commandLink>
+									<rich:message for="idFrNovia" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText rendered="#{noviosMBean.editarNovios}"
+									value="#{noviosMBean.programaNovios.novia.nombreCompleto}" />
+							</h:panelGrid>
+							<h:panelGrid columns="3" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov5">
+								<h:outputText value="Novio" />
+								<h:panelGrid columns="2" border="0" cellpadding="0"
+									cellspacing="0" id="idGrnovio"
+									columnClasses="col1fil1formulario,col1iconoformulario"
+									rendered="#{noviosMBean.nuevoNovios}">
+									<h:inputText readonly="true" size="100" id="idFrNovio"
+										value="#{noviosMBean.programaNovios.novio.nombreCompleto}" />
+									<a4j:commandLink
+										action="#{noviosMBean.consultaClientes('M',2)}"
+										oncomplete="#{rich:component('idModalbusqnovios')}.show();"
+										render="idTablaClientes,idBusqCliente" immediate="true">
+										<h:graphicImage style="border:0px;"
+											value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+									</a4j:commandLink>
+									<rich:message for="idFrNovio" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText rendered="#{noviosMBean.editarNovios}"
+									value="#{noviosMBean.programaNovios.novio.nombreCompleto}" />
+							</h:panelGrid>
+							<h:panelGrid columns="3" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov5">
+								<h:outputText value="Destino" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0"
+									columnClasses="col1iconoformulario,col1iconoformulario">
+									<rich:select enableManualInput="true" id="idSelDestino"
+										value="#{noviosMBean.programaNovios.destino.codigoEntero}"
+										defaultLabel="Seleccione el destino">
+										<f:selectItem itemLabel="-Seleccione el destino-" />
+										<f:selectItems value="#{catalogoMBean.catalogoDestino}" />
+									</rich:select>
+									<rich:message for="idSelDestino" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov2, colNov1, colNov2">
+								<h:outputText value="Fecha Shower" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<rich:calendar id="idFecShower" datePattern="dd/MM/yyyy"
+										value="#{noviosMBean.programaNovios.fechaShower}" />
+									<rich:message for="idFecShower" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+
+								<h:outputText value="Fecha Boda" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<rich:calendar id="idFecBoda" datePattern="dd/MM/yyyy"
+										value="#{noviosMBean.programaNovios.fechaBoda}" />
+									<rich:message for="idFecBoda" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov2, colNov1, colNov2">
+								<h:outputText value="Fecha Viaje" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<rich:calendar id="idFecViaje" datePattern="dd/MM/yyyy"
+										value="#{noviosMBean.programaNovios.fechaViaje}" />
+									<rich:message for="idFecViaje" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+
+								<h:outputText value="" />
+								<h:outputText value="" />
+							</h:panelGrid>
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov2, colNov1, colNov2">
+								<h:outputText value="Dias" />
+								<h:inputText value="#{noviosMBean.programaNovios.nroDias}" />
+								<h:outputText value="Noches" />
+								<h:inputText value="#{noviosMBean.programaNovios.nroNoches}" />
+							</h:panelGrid>
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov2, colNov1, colNov2">
+								<h:outputText value="Moneda" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<h:selectOneMenu id="idSelMoneda"
+										value="#{noviosMBean.programaNovios.moneda.codigoEntero}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoMoneda}"></f:selectItems>
+									</h:selectOneMenu>
+									<rich:message for="idSelMoneda" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText value="Cuota Inicial" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<h:inputText id="idCuotaInicial"
+										value="#{noviosMBean.programaNovios.cuotaInicial}" />
+									<rich:message for="idCuotaInicial" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="colNov1, colNov2, colNov1, colNov2"
+								rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 1}">
+								<h:outputText value="Agente Viajes" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<h:selectOneMenu id="idSelVende"
+										value="#{noviosMBean.programaNovios.vendedor.codigoEntero}">
+										<f:selectItem itemLabel="-Seleccione el agente-" />
+										<f:selectItems value="#{catalogoMBean.catalogoVendedores}" />
+									</h:selectOneMenu>
+									<rich:message for="idSelVende" showDetail="false"
+										showSummary="true" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText value="" />
+								<h:outputText value="" />
+
+							</h:panelGrid>
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario"
+								rendered="#{sessionScope.usuarioSession.rol.codigoEntero != 1}">
+								<h:outputText value="Agente Viajes" />
+								<h:outputText
+									value="#{noviosMBean.programaNovios.vendedor.nombre}" />
+
+								<h:outputText value="" />
+								<h:outputText value="" />
+
+							</h:panelGrid>
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;">
+								<h:outputText value="Observaciones" />
+								<h:inputTextarea rows="10" cols="130" styleClass="estilocampo1"
+									value="#{noviosMBean.programaNovios.observaciones}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+					</rich:tab>
+
+					<rich:tab>
+						<f:facet name="header">
+							<h:outputText value="Invitados" />
+						</f:facet>
+
+						<rich:dataTable id="idTablaInvitados"
+							value="#{noviosMBean.listadoInvitados}" var="row"
+							style="width:100%;">
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Nombres" />
+								</f:facet>
+								<h:inputText value="#{row.nombres}" maxlength="20"
+									styleClass="estilocampo1" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Apellido Paterno" />
+								</f:facet>
+								<h:inputText value="#{row.apellidoPaterno}" maxlength="20"
+									styleClass="estilocampo1" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Apellido Materno" />
+								</f:facet>
+								<h:inputText value="#{row.apellidoMaterno}" maxlength="20"
+									styleClass="estilocampo1" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Telefono" />
+								</f:facet>
+								<h:inputText value="#{row.telefonoInvitadoNovios}" maxlength="9" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Correo Electronico" />
+								</f:facet>
+								<h:inputText value="#{row.correoElectronico}" maxlength="100"
+									styleClass="estilocampo1" />
+							</rich:column>
+							<rich:column>
+								<a4j:commandButton value="Eliminar" render="idTablaInvitados"
+									action="#{noviosMBean.eliminarInvitado(row)}"></a4j:commandButton>
+							</rich:column>
+							<f:facet name="header">
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									style="width:100%;text-align:right;">
+									<a4j:commandButton value="Agregar" render="idTablaInvitados"
+										action="#{noviosMBean.agregarInvitado()}"></a4j:commandButton>
+								</h:panelGrid>
+							</f:facet>
+						</rich:dataTable>
+					</rich:tab>
+				</rich:tabPanel>
+
+				<f:facet name="footer">
+					<table border="0" cellpadding="0" cellspacing="0"
+						style="width: 100%;">
+						<tr>
+							<td align="center"><h:panelGrid border="0" cellpadding="0"
+									cellspacing="0" columns="4" id="idBotNovios">
+									<h:inputHidden id="idHidRegExito"
+										value="#{noviosMBean.registroExito}" />
+									<a4j:commandButton value="Grabar" style="width: 100px;"
+										rendered="#{!noviosMBean.registroExito}"
+										actionListener="#{noviosMBean.ejecutarMetodo}"
+										render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idBotNovios"
+										oncomplete="mostrarModal('idformadmnovios')" />
+									<a4j:commandButton value="Imprimir Registro Novios"
+										style="width: 170px;"
+										rendered="#{noviosMBean.registroExito || noviosMBean.editarNovios}"
+										onclick="document.getElementById('idformadmnovios:idbtnImpNovios').click();" />
+									<a4j:commandButton value="Salir" style="width: 100px;"
+										rendered="#{noviosMBean.registroExito || noviosMBean.editarNovios}"
+										oncomplete="#{rich:component('idModalformnovios')}.hide(); return false;" />
+								</h:panelGrid></td>
+						</tr>
+
+					</table>
+				</f:facet>
+			</h:panelGrid>
+
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

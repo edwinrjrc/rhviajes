@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="documentoCobranza" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e0edd76e-259c-490f-833c-d2e9657851c1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="121" height="50" uuid="87137673-e853-4957-ac79-a7ef9b274cbd"/>
+				<imageExpression><![CDATA["D:\\WORKSPACE\\ViajesNovaWeb\\src\\main\\webapp\\resources\\img\\logovaciones2.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="376" y="0" width="100" height="20" uuid="804bad1a-568d-4180-b1c4-ffd32310a21f"/>
+				<text><![CDATA[R.U.C. 20545920191]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="10" width="207" height="20" uuid="0561ce47-d811-4de7-be1d-37572e4fa0b3"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTO DE COBRANZA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="211" y="0" width="100" height="15" uuid="2cfca156-a3fe-4af6-8b66-19726616fd48"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Grupo Maral S.A.C.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="15" width="176" height="15" uuid="020ee831-08bf-41ba-83eb-b7ff1ddff5c4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Central Telefonica: (511) 444-1790]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="30" width="176" height="15" uuid="85fc14f5-ded4-4a6c-84e7-08cf6ed1b9b9"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[RPC: 966 720 284]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="45" width="176" height="15" uuid="518fcb5b-4167-414b-9261-68e4fa358ee4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[www.viajesterranova.com.pe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="40" width="100" height="20" uuid="68bf113e-23ce-48cd-a3d9-b2815cbd312d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[001]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="15" uuid="b7d2711e-85da-42dc-b4ae-039f161e7bd5"/>
+				<text><![CDATA[CLIENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="17" width="100" height="15" uuid="22ed963a-655f-487d-8bdc-9c335d8160c0"/>
+				<text><![CDATA[FECHA EMISON:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<rectangle>
+				<reportElement x="23" y="5" width="371" height="20" backcolor="#CCCCCC" uuid="1af68229-587d-4415-8550-80d69b7c2c83"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="394" y="5" width="70" height="20" backcolor="#CCCCCC" uuid="1655bd53-1e0c-4ed8-9c92-7b443b24352d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="464" y="5" width="70" height="20" backcolor="#CCCCCC" uuid="9bd4bdc3-0966-49fe-9911-5a7d87931a8b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="23" y="5" width="371" height="20" uuid="183e990a-a9ee-49e1-a5cb-152b5a5e30ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="5" width="70" height="20" uuid="3aa52d28-5b27-49fc-9f81-02e524f065ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[US $]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="464" y="5" width="70" height="20" uuid="d6d936eb-04e3-45b1-bb0a-c23e6bf9cdf3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S/.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="48" splitType="Stretch">
+			<rectangle>
+				<reportElement x="23" y="0" width="371" height="31" uuid="7cc4675a-3737-4d76-aea9-f832f79552bf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="23" y="0" width="26" height="14" uuid="c9e4fcb7-bcbe-4992-8eb9-26ce5b466bca"/>
+				<text><![CDATA[Son: ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="23" y="31" width="371" height="15" uuid="097ef98f-ee45-4a4b-86b3-890127b62541"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="346" y="31" width="48" height="15" uuid="eb14eb4d-ccd1-44c7-a610-575620ab430a"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="394" y="31" width="70" height="15" uuid="a3a7427b-ca78-4e7b-9bc9-ac22af6093d3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="464" y="31" width="70" height="15" uuid="83b5409b-d9aa-4193-9562-b5f17f96b544"/>
+			</rectangle>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="233" y="13" width="130" height="20" uuid="50334de9-be25-4536-aa28-19d6cf10cf76"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[CANCELADO]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

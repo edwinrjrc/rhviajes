@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<!-- la ventana modal -->
+	<rich:popupPanel id="idModalConfirma" width="375" height="160"
+		resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Confirmar" />
+		</f:facet>
+		<h:panelGrid style="width:100%; height: 120px;" border="0"
+			cellpadding="0" cellspacing="0" id="idGrConfir">
+			<h:panelGrid columns="2" border="0" cellpadding="0" cellspacing="0"
+				style="width:100%;" columnClasses="col1confirm,col2confirm">
+				<h:graphicImage
+					value="#{facesContext.externalContext.requestContextPath}/../resources/img/pregunta.gif"></h:graphicImage>
+				<h:outputText value="#{pregunta}" />
+			</h:panelGrid>
+			<f:facet name="footer">
+
+				<table cellpadding="0" cellspacing="0" border="0"
+					style="width: 70%;" align="center">
+					<tr>
+						<td><a4j:commandButton value="Aceptar" type="button"
+								onclick="clicBoton('#{idBotonEjecutar}');#{rich:component('idModalConfirma')}.hide(); return false;"
+								style="width: 100px; height: 20px;" render="#{renderizar}"
+								></a4j:commandButton></td>
+						<td><a4j:commandButton value="Cancelar"
+								style="width: 100px; height: 20px;"
+								oncomplete="#{rich:component('idModalConfirma')}.hide(); return false;"></a4j:commandButton></td>
+					</tr>
+				</table>
+			</f:facet>
+		</h:panelGrid>
+	</rich:popupPanel>
+
+</ui:composition>

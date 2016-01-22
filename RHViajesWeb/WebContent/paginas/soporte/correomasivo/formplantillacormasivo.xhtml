@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalformplantillacorreo" modal="true"
+		width="800" height="500" style="background-color: #FFFFFF">
+
+		<f:facet name="header">
+			<h:outputText id="idNomModal"
+				value="#{plantillaCorreoMasivoMBean.nombreFormulario}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalformplantillacorreo')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFormplantillacorreo">
+			<h:panelGrid id="idGridFormplantilla" columns="1" border="0"
+				cellpadding="1" cellspacing="2" style="width: 100%;"
+				columnClasses="col1fil1proveedor,col2fil1proveedor">
+				<f:facet name="header">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						style="text-align: left;vertical-align: top; width: 100%;">
+						<h:outputText id="idNomSubtitulo"
+							value="#{plantillaCorreoMasivoMBean.nombreFormulario}"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:outputText value="Nombre"
+					style="height: 50px; vertical-align: bottom;" />
+				<h:panelGrid border="0" cellpadding="0" cellspacing="0" columns="1">
+					<h:inputText
+						value="#{plantillaCorreoMasivoMBean.plantillaCorreo.nombre}" />
+					<rich:message for="idSelContinente" showSummary="true"
+						showDetail="false" ajaxRendered="true" />
+				</h:panelGrid>
+
+				<h:outputText value="Editor"
+					style="height: 50px; vertical-align: bottom;" />
+				<h:panelGrid border="0" cellpadding="0" cellspacing="0" columns="1"
+					id="idGrdEditor">
+					<rich:editor id="idEditorCorreo" 
+						value="#{plantillaCorreoMasivoMBean.plantillaCorreo.contenidoPlantilla}"
+						style="margin-bottom: 1em" toolbar="full">
+						
+					</rich:editor>
+					<rich:message for="idEditorCorreo" showSummary="true"
+						showDetail="false" ajaxRendered="true" />
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						width="100%" id="idPanelBotones">
+						<table align="center" border="0" cellpadding="0" cellspacing="0"
+							style="height: 40px">
+							<tr>
+								<td><h:panelGrid columns="3" border="0" cellpadding="0"
+										cellspacing="0">
+										<a4j:commandButton value="Grabar"
+											style="height:20px; width:100px"
+											actionListener="#{plantillaCorreoMasivoMBean.ejecutarMetodo}"
+											render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+											oncomplete="mostrarModal('idformadmcorrmasivo')" />
+										<a4j:commandButton value="Cancelar"
+											style="height:20px; width:100px"
+											oncomplete="#{rich:component('idModalformplantillacorreo')}.hide();return false;" />
+									</h:panelGrid></td>
+							</tr>
+						</table>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

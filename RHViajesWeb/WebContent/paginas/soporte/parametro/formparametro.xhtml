@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalformparametro" modal="true" width="600"
+		height="500" >
+
+		<f:facet name="header">
+			<h:outputText id="idNomModal"
+				value="#{parametroMBean.nombreFormulario}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalformparametro')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFormParametro">
+			<h:panelGrid id="idGridFormParametro" columns="2" border="0"
+				cellpadding="1" cellspacing="2" width="100%">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText id="idNomSubtitulo"
+							value="#{parametroMBean.nombreFormulario}" style="height: 100px"
+							styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:outputLabel value="Codigo" style="width: 100px; text-align:left"
+					rendered="#{parametroMBean.editarParametro}" />
+				<h:outputText value="#{parametroMBean.parametro.codigoEntero}"
+					rendered="#{parametroMBean.editarParametro}" />
+
+				<h:outputLabel value="Nombre" style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+					<h:inputText id="idNombreParametro"
+						value="#{parametroMBean.parametro.nombre}" required="true"
+						requiredMessage="Ingrese el nombre" styleClass="estilocampo1"
+						rendered="#{parametroMBean.nuevoParametro or parametroMBean.editarParametro}" />
+					<rich:message for="idNombreParametro" showDetail="true"
+						showSummary="false" />
+				</h:panelGrid>
+				<h:outputLabel value="Descripcion"
+					style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					rendered="#{parametroMBean.nuevoParametro or parametroMBean.editarParametro}">
+					<h:inputText id="idDescripcion" required="true"
+						requiredMessage="Ingrese la descripcion"
+						value="#{parametroMBean.parametro.descripcion}"
+						styleClass="estilocampo1" />
+					<rich:message for="idDescripcion" showDetail="true"
+						showSummary="false" />
+				</h:panelGrid>
+				<h:outputLabel value="Valor" style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					rendered="#{parametroMBean.nuevoParametro or parametroMBean.editarParametro}">
+					<h:inputText id="idValor" required="true"
+						requiredMessage="Ingrese el valor" styleClass="estilocampo1"
+						value="#{parametroMBean.parametro.valor}" />
+					<rich:message for="idValor" showDetail="true" showSummary="false" />
+				</h:panelGrid>
+				<h:outputLabel value="Estado"
+					rendered="#{parametroMBean.editarParametro}"
+					style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					rendered="#{parametroMBean.editarParametro}">
+					<h:selectOneMenu id="idEstado"
+						value="#{parametroMBean.parametro.estado.codigoCadena}"
+						requiredMessage="Seleccione un estado">
+						<f:selectItem itemLabel="Activo" itemValue="A" />
+						<f:selectItem itemLabel="Inactivo" itemValue="I" />
+					</h:selectOneMenu>
+					<rich:message for="idEstado" showDetail="true" showSummary="false" />
+				</h:panelGrid>
+				<h:outputLabel value="Editable"
+					rendered="#{parametroMBean.editarParametro}"
+					style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					rendered="#{parametroMBean.editarParametro}">
+					<h:selectBooleanCheckbox
+						value="#{parametroMBean.parametro.editable}" id="idEditable" />
+					<rich:message for="idEditable" showDetail="true"
+						showSummary="false" />
+				</h:panelGrid>
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						width="100%" id="idPanelBotones">
+						<table align="center" border="0" cellpadding="0" cellspacing="0"
+							style="height: 40px">
+							<tr>
+								<td><h:panelGrid columns="3" border="0" cellpadding="0"
+										cellspacing="0">
+										<a4j:commandButton value="Grabar"
+											style="height:20px; width:100px"
+											actionListener="#{parametroMBean.ejecutarMetodo}"
+											render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+											oncomplete="mostrarModal('idformadmparametro')" />
+										<a4j:commandButton value="Cancelar" type="button"
+											style="height:20px; width:100px"
+											oncomplete="#{rich:component('idModalformparametro')}.hide();return false;" />
+									</h:panelGrid></td>
+							</tr>
+						</table>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

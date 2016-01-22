@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalbusqobligacion" modal="true" width="800"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText value="Busqueda Obligacion" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalbusqobligacion')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form>
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;" id="idGrFrBusqObligacion">
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;">
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:left;">
+							<h:outputText value="Busqueda Obligacion" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+						style="width:80%;text-align:center;">
+						<h:panelGrid columns="4" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;"
+							columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+							<h:outputText value="Tipo comprobante" />
+							<h:selectOneMenu
+								value="#{servicioAgenteMBean.comprobanteBusqueda.proveedor.documentoIdentidad.tipoDocumento.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoTipoComprobante}" />
+							</h:selectOneMenu>
+							<h:outputText value="Numero documento" />
+							<h:inputText maxlength="11"
+								value="#{servicioAgenteMBean.comprobanteBusqueda.proveedor.documentoIdentidad.numeroDocumento}" />
+						</h:panelGrid>
+						<h:panelGrid columns="2" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;"
+							columnClasses="col1fil2proveedor,col2fil2proveedor">
+							<h:outputText value="Proveedor" />
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								columns="6" id="idGrBusqProveedor">
+								<h:inputText
+									value="#{servicioAgenteMBean.comprobanteBusqueda.proveedor.nombres}"
+									size="100" maxlength="100" styleClass="estilocampo1" />
+								<a4j:commandLink
+									oncomplete="mostrarModal3('idModalbusqproveedor')">
+									<h:graphicImage style="border:0px;"
+										value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+								</a4j:commandLink>
+							</h:panelGrid>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%; text-align:center;">
+							<a4j:commandButton value="Buscar" render="idTablaObligacion"
+								action="#{servicioAgenteMBean.buscarComprobante()}" />
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;">
+
+					<f:facet name="header">
+						<h:panelGrid style="width:100%;text-align:left;" cellpadding="0"
+							cellspacing="0" border="0" columns="1">
+							<h:outputText value="Resultado Busqueda" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+					<rich:dataTable var="row" id="idTablaObligacion" rows="10"
+						value="#{servicioAgenteMBean.listaComprobantes}"
+						style="width:100%;">
+						<f:facet name="noData">
+							<h:outputText value="No se encontraron registros" />
+						</f:facet>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Tipo Comprobante" />
+							</f:facet>
+							<h:outputText value="#{row.tipoComprobante.nombre}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Numero Comprobante" />
+							</f:facet>
+							<h:outputText value="#{row.numeroComprobante}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Proveedor" />
+							</f:facet>
+							<h:outputText value="#{row.proveedor.nombreCompleto}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha Comprobante" />
+							</f:facet>
+							<h:outputText value="#{row.fechaComprobante}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha Pago" />
+							</f:facet>
+							<h:outputText value="#{row.fechaPago}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Total Comprobante" />
+							</f:facet>
+							<h:outputText value="#{row.totalComprobante}" />
+						</rich:column>
+						
+						<rich:column>
+							<h:selectOneRadio id="idRadioObligacion" onclick="dataTableSelectOneRadio(this);" value="#{row.codigoSeleccionado}">
+								<f:selectItem itemValue="#{row.codigoEntero}"/>
+							</h:selectOneRadio>
+						</rich:column>
+
+					</rich:dataTable>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="height: 50px; width:100%;text-align:center;">
+
+						<a4j:commandButton value="Seleccionar"
+							action="#{servicioAgenteMBean.seleccionarComprobante()}"
+							render="idServVentaVista2, idServHijos2"
+							oncomplete="#{rich:component('idModalbusqobligacion')}.hide(); return false;" />
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

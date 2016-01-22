@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. 
+	and/or its affiliates, and individual contributors by the @authors tag. See 
+	the copyright.txt in the distribution for a full listing of individual contributors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. This file 
+	is not required if you don't need any extra configuration. -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="         http://java.sun.com/xml/ns/javaee         http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>irAdministrarUsuarios</from-outcome>
+			<to-view-id>/paginas/seguridad/usuario/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarParametros</from-outcome>
+			<to-view-id>/paginas/soporte/parametro/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarMaestros</from-outcome>
+			<to-view-id>/paginas/soporte/maestro/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarProveedor</from-outcome>
+			<to-view-id>/paginas/negocio/proveedor/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarCliente</from-outcome>
+			<to-view-id>/paginas/negocio/cliente/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case id="inicioSistemaPagina">
+			<from-outcome>irSalirSistema</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case id="inicioSistema">
+			<from-outcome>irInicioSistema</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarPaises</from-outcome>
+			<to-view-id>/paginas/soporte/destino/pais/listacontinentes.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarDestino</from-outcome>
+			<to-view-id>/paginas/soporte/destino/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irInicio2Sistema</from-outcome>
+			<to-view-id>/paginas/inicio.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irProgramaNovios</from-outcome>
+			<to-view-id>/paginas/negocio/novios/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarVentaServicios</from-outcome>
+			<to-view-id>/paginas/negocio/servicios/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarPlantillaCorreo</from-outcome>
+			<to-view-id>/paginas/soporte/correomasivo/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarMaeServicios</from-outcome>
+			<to-view-id>/paginas/negocio/maestroservicios/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irEnvioMasivoCorreo</from-outcome>
+			<to-view-id>/paginas/negocio/correomasivo/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarConsolidador</from-outcome>
+			<to-view-id>/paginas/negocio/consolidador/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irConfigurarServicios</from-outcome>
+			<to-view-id>/paginas/soporte/servicios/configurar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministracionObliXPagar</from-outcome>
+			<to-view-id>/paginas/negocio/obligaciones/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irReporteGeneralVentas</from-outcome>
+			<to-view-id>/paginas/reportes/ventas/reportegeneralventas.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irCargaDeudaClientes</from-outcome>
+			<to-view-id>/paginas/negocio/cargareporteproveedor/cargadeudas.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irConsultaComprobantesGenerados</from-outcome>
+			<to-view-id>/paginas/negocio/comprobante/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarCargaArchivo</from-outcome>
+			<to-view-id>/paginas/negocio/cargareporteproveedor/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdministrarCuentaBancaria</from-outcome>
+			<to-view-id>/paginas/negocio/cuentabancaria/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irAdmTipoCambio</from-outcome>
+			<to-view-id>/paginas/negocio/tipocambio/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>irConsultaAsistencia</from-outcome>
+			<to-view-id>/paginas/recursoshumanos/controlasistencia/consultaasistencia.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/paginas/soporte/maestro/administrar.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>irHijoMaestro</from-outcome>
+			<to-view-id>/paginas/soporte/maestro/hijo/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>irInicio</from-outcome>
+			<to-view-id>/paginas/inicio.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/paginas/soporte/destino/pais/listacontinentes.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>irPaises</from-outcome>
+			<to-view-id>/paginas/soporte/destino/pais/administrar.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/paginas/negocio/servicios/administrar.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>irRegistroVentaServicio</from-outcome>
+			<to-view-id>/paginas/negocio/servicios/registroventaservicio2.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<lifecycle>
+		<phase-listener>pe.com.viajes.web.seguridad.AuthorizationListener</phase-listener>
+	</lifecycle>
+	<!-- This descriptor activates the JSF 2.0 Servlet Write your navigation 
+		rules here. You are encouraged to use CDI for creating @Named managed beans. -->
+</faces-config>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+<h:head></h:head>
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+
+		<h:form id="idformadmobligatorios">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				width="100%;text-align:center;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Administrar Obligaciones por Pagar"
+							style="height: 100px" styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					style="width:100%;text-align:center;">
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;text-align:center;">
+						<f:facet name="header">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;">
+								<h:outputText value="Filtro de Busqueda" style="Color:#5885BE;" />
+								<hr style="width: 100%;" />
+							</h:panelGrid>
+						</f:facet>
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0" style="width:80%;text-align:center;">
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Tipo comprobante" />
+								<h:selectOneMenu
+									value="#{obligacionPorPagarMBean.comprobanteBusqueda.proveedor.documentoIdentidad.tipoDocumento.codigoEntero}">
+									<f:selectItem itemLabel="-Seleccione-" />
+									<f:selectItems value="#{catalogoMBean.catalogoTipoComprobante}" />
+								</h:selectOneMenu>
+								<h:outputText value="Numero documento" />
+								<h:inputText maxlength="11" onkeypress="return js_soloEntero(event);"
+									value="#{obligacionPorPagarMBean.comprobanteBusqueda.proveedor.documentoIdentidad.numeroDocumento}" />
+							</h:panelGrid>
+							<h:panelGrid columns="2" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Proveedor" />
+								<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+									columns="6" id="idGrBusqProveedor">
+									<h:inputText
+										value="#{obligacionPorPagarMBean.comprobanteBusqueda.proveedor.nombres}"
+										size="100" maxlength="100" styleClass="estilocampo1" />
+									<a4j:commandLink
+										action="#{obligacionPorPagarMBean.defineSalida()}"
+										oncomplete="mostrarModal3('idModalbusqproveedor')">
+										<h:graphicImage style="border:0px;"
+											value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+									</a4j:commandLink>
+								</h:panelGrid>
+							</h:panelGrid>
+						</h:panelGrid>
+						<f:facet name="footer">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:center;">
+								<a4j:commandButton value="Buscar" render="idTabla"
+									action="#{obligacionPorPagarMBean.buscar()}"
+									style="height:20px; width:150px" />
+							</h:panelGrid>
+						</f:facet>
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" border="0" style="width:100%;">
+						<rich:dataTable var="row" id="idTabla" rows="10"
+							value="#{obligacionPorPagarMBean.listaComprobantes}"
+							style="width:100%;">
+							<f:facet name="noData">
+								<h:outputText value="No se encontraron registros" />
+							</f:facet>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Id" />
+								</f:facet>
+								<h:outputText value="#{row.codigoEntero}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Tipo Comprobante" />
+								</f:facet>
+								<h:outputText value="#{row.tipoComprobante.nombre}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Numero Comprobante" />
+								</f:facet>
+								<h:outputText value="#{row.numeroComprobante}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Proveedor" />
+								</f:facet>
+								<h:outputText value="#{row.proveedor.nombreCompleto}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha Comprobante" />
+								</f:facet>
+								<h:outputText value="#{row.fechaComprobante}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha Pago" />
+								</f:facet>
+								<h:outputText value="#{row.fechaPago}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Total Comprobante" />
+								</f:facet>
+								<h:outputText value="#{row.totalComprobante}" />
+							</rich:column>
+
+							<rich:column>
+								<a4j:commandButton render="idGrFrAdmpagoscomprobante" value="Pagos" action="#{obligacionPorPagarMBean.verPagos(row)}"
+									oncomplete="mostrarModal3('idModaladmpagoscomprobante')"></a4j:commandButton>
+							</rich:column>
+
+						</rich:dataTable>
+						<rich:dataScroller for="idTabla" />
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGroup style="text-align:center;">
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="height: 50px" width="100%">
+								<a4j:commandButton value="NUEVO COMPROBANTE"
+									action="#{obligacionPorPagarMBean.nuevaObligacion()}"
+									style="height:20px; width:150px"
+									render="idGridFormObligacion, idNomModal, idTablaProveedores"
+									oncomplete="#{rich:component('idModalformobligacion')}.show();">
+								</a4j:commandButton>
+								<a4j:commandButton id="idBotonModalCorrecto"
+									style="display:none;" type="button"
+									oncomplete="#{rich:component('idModalcorrecto')}.show();" />
+								<a4j:commandButton id="idBotonModalError" style="display:none;"
+									type="button"
+									oncomplete="#{rich:component('idModalError')}.show();" />
+								<h:commandButton value="Exportar" style="display:none"
+									id="idbtnExportarArchivo"
+									action="#{obligacionPorPagarMBean.exportarArchivo()}" />
+							</h:panelGrid>
+						</h:panelGroup>
+					</f:facet>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+		<ui:include
+			src="/paginas/negocio/obligaciones/modal/busquedaproveedor.xhtml" />
+		<ui:include src="/paginas/negocio/obligaciones/formobligacion.xhtml" />
+		<ui:include
+			src="/paginas/negocio/obligaciones/modal/registrarpagocomprobante.xhtml" />
+		<ui:include
+			src="/paginas/negocio/obligaciones/modal/admpagoscomprobante.xhtml" />
+		<ui:include src="/resources/includes/includemensaje.xhtml">
+			<ui:param name="backBean" value="#{obligacionPorPagarMBean}" />
+			<ui:param name="idModalForm" value="idModalformobligacion" />
+			<ui:param name="idrender" value="idTabla" />
+		</ui:include>
+		<script type="text/javascript">
+		mostrarModal('idformadmobligatorios');
+		</script>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form id="idFormHiddenCC">
+		<h:panelGroup id="idPanelHiddenCC">
+			<h:inputHidden id="idTipoModal" value="#{backBean.tipoModal}" />
+			<h:inputHidden id="idMsjeModal" value="#{backBean.mensajeModal}" />
+			<h:inputHidden id="idShowModal" value="#{backBean.showModal}" />
+		</h:panelGroup>
+	</h:form>
+
+	<ui:include src="/resources/modal/modalcorrectoCC.xhtml">
+		<ui:param name="msjeModalCorrecto" value="#{backBean.mensajeModal}" />
+		<ui:param name="idModalForm" value="#{idModalForm}" />
+	</ui:include>
+	<ui:include src="/resources/modal/modalerrorCC.xhtml">
+		<ui:param name="backBean" value="#{backBean}" />
+		<ui:param name="msjeModalError" value="#{backBean.mensajeModal}" />
+	</ui:include>
+
+</ui:composition>

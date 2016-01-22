@@ -1,0 +1,6 @@
+no jala la comision configurada para el tipo de servicio --ok
+agregar nombre a la descripcion del servicio--ok
+no aparece el check de aplicar igv -- revisar la configuracion de los parametros
+cambiar la validacion de servicios invisibles en el registro de servicio venta -- ok
+
+deshabilitar los servicios cuando se actualize el proveedor

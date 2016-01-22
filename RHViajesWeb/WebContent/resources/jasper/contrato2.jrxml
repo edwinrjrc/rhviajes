@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato2" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a94face2-9514-4927-99d3-753a274f2ea0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="nomNovia" class="java.lang.String"/>
+	<parameter name="nomNovio" class="java.lang.String"/>
+	<parameter name="dniNovia" class="java.lang.String"/>
+	<parameter name="dniNovio" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement x="36" y="0" width="27" height="15" uuid="25d122de-fc69-4fc4-93fe-a004ae2e502d"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.5.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="0" width="492" height="26" uuid="42e1b64d-58ce-43f7-a323-446687be3f3d"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Que los NOVIOS  soliciten a vendedores de GRUPO MARAL S.A. que asocien las compras realizadas por terceros que no estén dentro de la categoría Familiares y/o Amigos definida en el número 3.2.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="26" width="555" height="15" uuid="fcc387d1-946b-466b-b83d-e27d7aa11678"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4. LIQUIDACIÓN DE CUENTA Y CONDICIONES PARA SOLICITAR LOS PREMIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="45" width="23" height="15" uuid="3429892b-de53-4cd5-a1c1-cc101132bf2b"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="45" width="509" height="31" uuid="10a0d8b0-5db1-48cb-b48e-8d75fbf6f3f6"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS podrán acceder a los beneficios del PROGRAMA bajo la condición de que se realice el Matrimonio, dentro del plazo fijado para tal efecto.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="76" width="23" height="15" uuid="6eb2c4fb-0c2a-480d-bdde-8513402cfcdf"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="76" width="509" height="25" uuid="07bce9dd-bce7-4394-9a08-4ebbd06648fd"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[GRUPO MARAL S.A. se reserva el derecho de variar las opciones de alojamiento y servicios de Proveedores de Luna de Miel hasta que los Novios hayan firmado la solicitud de reserva.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="105" width="23" height="15" uuid="185f41c4-1cc1-4933-9cc6-63f729642001"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4.3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="105" width="509" height="33" uuid="53d40203-6eb8-4419-8361-76db1a4da75c"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Si los NOVIOS optan por planificar su Luna de Miel en un plazo máximo de 90 días posteriores al matrimonio, debiendo los NOVIOS entregar fotocopias de sus respectivos documentos de identidad vigentes y la partida de matrimonio civil emitida por RENIEC o constancia de matrimonio emitida por el Arzobispado o entidad similar.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="141" width="23" height="15" uuid="ab36994c-c429-4c7c-84cd-d48dc10bb189"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4.4.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="141" width="509" height="15" uuid="9bc31dd8-b736-4d05-ad5b-ad07d550e520"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los servicios brindados por los hoteles y además proveedores son de exclusiva responsabilidad de las empresas elegidas por los NOVIOS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="161" width="23" height="15" uuid="1aac926a-d793-4803-9fb4-7fde6c1973e0"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4.5.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="161" width="509" height="15" uuid="dbd721c6-5d65-4d5b-be85-aec00761c708"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Si serán considerados las compras que los mismos NOVIOS hagan para ellos mismos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="183" width="23" height="15" uuid="579f31fc-0bb3-4811-916b-ba19338ae4b7"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[4.6.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="183" width="509" height="34" uuid="23eac851-f7bc-4a97-8c43-b437d5a7d352"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Adicionalmente al cumplimiento del puntaje correspondiente, para acceder al premio de la Luna de Miel, los novios deberán elaborar su lista de invitados como mínimo  90 días anteriores a la fecha de para la elaboración del shower de Miel que será realizado 30 o 45 días antes a la fecha del matrimonio.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="219" width="555" height="15" uuid="02a10df5-b9af-4f0c-b8be-9c4765a32d20"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[5. SERVICIOS ADICIONALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="235" width="23" height="15" uuid="a3b2311c-9c24-4774-989d-37d87faefccb"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[5.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="235" width="509" height="34" uuid="84f08a5f-0ddf-4697-a08b-1a64f2956e16"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[El PROGRAMA organizará el SHOWER DE MIEL 30 a 45 días antes a la fecha del matrimonio, por lo cual los NOVIOS deberán elaborar una lista de sus invitados con sus respectivos correos electrónicos, direcciones y números telefónicos en archivo y formato impreso, entre 30 a 45 días de la fecha de inscripción.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="271" width="555" height="15" uuid="254bc739-2abc-44a5-b533-102d310163f4"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[6. OTRAS CONSIDERACIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="288" width="23" height="15" uuid="709acc60-0b1b-434e-990e-e15ff5218922"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[6.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="288" width="509" height="45" uuid="477e1f17-612f-46f1-84b6-9c885c98f514"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS liberan a GRUPO MARAL S.A.C. de toda responsabilidad derivada de la calidad u oportunidad de los servicios de las empresas relacionadas al matrimonio (fotografía, partes de matrimonio, música para la ceremonia y recepción, entre otros) que figuren en los materiales que entregan a los NOVIOS ( agenda, cupones, revistas, etc.). Cualquier reclamo por calidad, daños, incumplimiento u otros, deberá ser realizado directamente al servicio contratado.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="336" width="23" height="15" uuid="a2fcc0d3-557b-45d6-8799-909e0b55d51c"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[6.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="336" width="509" height="27" uuid="3d475777-2eea-49c8-9a35-3ca6ddd331d7"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[El incumplimiento de las condiciones generales indicadas en el presente contrato faculta a GRUPO MARAL S.AC.. a dejar sin efecto los beneficios y resolver el presente contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="363" width="555" height="15" uuid="21a5abb0-caa2-46af-ab8a-78177da78ac0"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[7. ÁMBITO TERRITORIAL DE APLICACIÓN AL CONTRATO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="381" width="532" height="15" uuid="fadbcdc3-d4c5-4039-a02d-57e05c3b251e"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Todos los beneficios y condiciones que se deriven del contrato son única y exclusiva aplicadas en las oficinas de GRUPO MARAL S.A.C.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="399" width="555" height="15" uuid="406b69ea-d5fc-446e-8d2e-a815c3f81204"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[8. PROTECCIÓN DE DATOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="418" width="532" height="197" uuid="d40ec15e-d09c-44ba-a9df-09f1d22ff9f9"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Con la inscripción al PROGRAMA, los NOVIOS autorizan expresamente a GRUPO MARAL S.A.  a integrar, recopilar, registrar, conservar, consultar, almacenar y en general tratar los datos personales que los NOVIOS brinden a  GRUPO MARAL S.A.C. o que GRUPO MARAL S.A.C. recabe, dentro del Banco de Datos Personales, según lo previsto en la Ley 29733 y su Reglamento. Los NOVIOS declaran haber sido informados que el titular del Banco de Datos es GRUPO MARAL S.A.C., con domicilio real en Ca. Elias Aguirre 126 of 604 Miraflores. La autorización por parte de los NOVIOS se extiende durante el término de la relación contractual y de manera posterior, salvo que los NOVIOS revoquen su autorización.
+
+La integración de los datos personales de los novios dentro del Banco de Datos de GRUPO MARAL S.A.C. se realizará con la finalidad de enviar a los NOVIOS, por medios electrónicos, telecomunicaciones, a domicilio y/o cualquier otro medio creado o por crearse, información sobre ofertas y promociones de GRUPO MARAL S.A.C. participe o auspicie, información relacionada a el PROGRAMA o cualquier beneficio de éste, envío de encuestas, promociones, notificaciones.
+
+GRUPO MARAL S.A.C. garantizada a los NOVIOS que sus datos personales no serán transferidos ni revelados  ninguna persona natural o jurídica que no pertenezca a GRUPO MARAL S.A.C., bajo ninguna modalidad. La información recibida será manejada en forma absolutamente confidencial y segura, conforme lo dispone la legislación vigente en el Perú.
+Los NOVIOS podrán revocar el consentimiento expresado en el párrafo precedente, a través de una comunicación escrita dirigida a GRUPO MARAL S.A.C. Dicha revocatoria surtirá efectos en un plazo no mayor de 5 días calendario contados desde el día siguiente de recibida al comunicación. La presente cláusula no restringe los alcances de la Ley N°29733.
+
+El usuario disponible dispondrá en todo momento del derecho de rectificar sus datos personales escribiendo a  novios@viajesterranova.com.pe
+]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="46" y="625" width="509" height="15" uuid="500eb935-3fc7-4c0f-aec6-e1cd2af14838"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="46" y="725" width="156" height="1" uuid="e3566fb8-039a-42e5-8084-67c5e6995c0f"/>
+			</line>
+			<line>
+				<reportElement x="353" y="724" width="156" height="1" uuid="bc86fe4b-77b6-431d-8d89-08571d349378"/>
+			</line>
+			<staticText>
+				<reportElement x="46" y="726" width="156" height="13" uuid="c8b339ab-50c1-417c-8043-de9f49693174"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Novia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="726" width="156" height="13" uuid="cc5940c9-bacc-4cba-bc66-43ecebe20b55"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Novio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="46" y="739" width="156" height="15" uuid="8496e95d-020b-4c35-b138-d81436df8efc"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomNovia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="739" width="156" height="15" uuid="196e80e0-1467-4fb0-891f-41a077c07c32"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomNovio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="754" width="156" height="14" uuid="cabd96b7-75e8-4586-bdb2-f1ee761429bc"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dniNovia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="754" width="156" height="14" uuid="e98e57d3-f9a2-44ad-935a-3e7c168c9d40"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dniNovio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

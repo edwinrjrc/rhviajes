@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalObsAnu" modal="true" width="400"
+		height="300">
+
+		<f:facet name="header">
+			<h:outputText id="idTxtNomTitulo" value="#{nombreTitulo}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalObsAnu')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFrObsAnu">
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;">
+				<f:facet name="header">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0" id="idTxtSubTitulo"
+						style="text-align: left;vertical-align: top; width: 100%;">
+						<h:outputText value="#{nombreTitulo}" style="height: 100px"
+							styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;" id="idGrFrObsAnu">
+					<h:outputText value="#{nombreCampoTexto}" />
+					<h:inputTextarea
+						value="#{servicioAgenteMBean.eventoObsAnu.comentario}" cols="50"
+						rows="10" />
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0">
+						<a4j:commandButton value="Grabar"
+							action="#{servicioAgenteMBean.preEvento2()}"
+							render="idGrConfirID"
+							oncomplete="#{rich:component('idModConfimr')}.show(); return false;"></a4j:commandButton>
+						<a4j:commandButton value="Grabar" id="idBtnRegObsAnu"
+							style="display:none;"
+							action="#{servicioAgenteMBean.registrarEvento()}"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrConfirID"
+							oncomplete="mostrarModal2('idformadmservicios')"></a4j:commandButton>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+
+</ui:composition>

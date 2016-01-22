@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalfrenviomasivo" modal="true" width="1100"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText id="idNomModal" value="Envío Correo Masivo" />
+		</f:facet>
+		<!-- f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalfrenviomasivo')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet -->
+
+		<h:form id="idFormEnviomasivo">
+
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				style="width:100%;" id="idGrenviomasivo">
+
+				<f:facet name="header">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;text-align:left;" columns="1">
+						<h:outputText id="idNomSubtitulo" value="Envío Correo Masivo"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;"
+					columnClasses="col1fil3formulario,col2fil3formulario">
+					<h:outputLabel value="Envia" />
+					<h:outputText value="Promociones Viajes TerraNova" />
+					<h:outputLabel value="Asunto" />
+					<h:inputText size="100" maxlength="50"
+						value="#{correoMasivoMBean.correoMasivo.asunto}" />
+					<h:outputText value="" />
+					<a4j:commandLink value="Adjuntar Archivo"
+						oncomplete="#{rich:component('idModalfradjarchivo')}.show();"></a4j:commandLink>
+
+				</h:panelGrid>
+
+				<rich:dataTable value="#{correoMasivoMBean.listaClientesCorreo}"
+					var="row" style="width:100%;">
+					<f:facet name="header">
+						<rich:columnGroup>
+							<rich:column>
+								<h:outputText value="Cliente" />
+							</rich:column>
+							<rich:column>
+								<h:outputText value="Contacto" />
+							</rich:column>
+							<rich:column>
+								<h:outputText value="Correo Electronico" />
+							</rich:column>
+							<rich:column>
+								<h:outputText value="Enviar" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+					<rich:column>
+						<h:outputText value="#{row.cliente.nombreCompleto}" />
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{row.contacto.nombreCompleto}" />
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{row.correoElectronico.direccion}" />
+					</rich:column>
+					<rich:column>
+						<h:selectBooleanCheckbox value="#{row.enviarCorreo}" />
+					</rich:column>
+				</rich:dataTable>
+
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0" columns="1"
+						style="heght:50px; width:100%;text-align:center;"
+						columnClasses="columna1Tabla">
+						<br></br>
+						<table cellpadding="0" cellspacing="0" border="0"
+							style="width: 70%;" align="center">
+							<tr>
+								<td align="center"><h:panelGrid border="0" cellpadding="0"
+										cellspacing="0" columns="3" style="width:100%;">
+										<a4j:commandButton value="Enviar Correo"
+											action="#{correoMasivoMBean.confirmarEnvioCorreo()}"
+											style="width: 150px; height: 20px;" render="idConfirm"
+											oncomplete="#{rich:component('idModalConfirma')}.show(); return false;"
+											rendered="#{!correoMasivoMBean.correoEnviado}" />
+										<a4j:commandButton id="idBtnEnviarCorreo" status="ajaxCorreo"
+											action="#{correoMasivoMBean.enviarMasivo()}"
+											render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+											style="display:none;"
+											oncomplete="mostrarModal('idformenviocorreo')" />
+										<a4j:commandButton value="Cancelar"
+											rendered="#{!correoMasivoMBean.correoEnviado}"
+											style="width: 150px; height: 20px;"
+											oncomplete="#{rich:component('idModalfrenviomasivo')}.hide(); return false;"></a4j:commandButton>
+									</h:panelGrid></td>
+							</tr>
+						</table>
+
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+		<a4j:status name="ajaxCorreo"
+			onstart="#{rich:component('idModalEspera')}.show(); return false;"
+			onstop="#{rich:component('idModalEspera')}.hide(); return false;"></a4j:status>
+
+	</rich:popupPanel>
+</ui:composition>

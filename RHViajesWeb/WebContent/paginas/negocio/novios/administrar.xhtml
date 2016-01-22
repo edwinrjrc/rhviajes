@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+
+<h:head></h:head>
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+
+		<h:form id="idformadmnovios">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				width="100%;text-align:center;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Administrar Programa Novios"
+							style="height: 100px" styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					style="width:100%;text-align:center;">
+					<h:panelGrid columns="0" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;text-align:center;">
+						<f:facet name="header">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;">
+								<h:outputText value="Filtro de Busqueda" style="Color:#5885BE;" />
+								<hr style="width: 100%;" />
+							</h:panelGrid>
+						</f:facet>
+						<h:panelGrid columns="2" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;"
+							columnClasses="col1fil3formulario,col2fil3formulario">
+							<h:outputText value="Codigo Novios" />
+							<h:inputText maxlength="20"
+								value="#{noviosMBean.programaNoviosBusqueda.codigoNovios}" />
+						</h:panelGrid>
+						<h:panelGrid columns="2" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;"
+							columnClasses="col1fil3formulario,col2fil3formulario">
+							<h:outputText value="Novia" />
+							<h:panelGrid columns="2" border="0" cellpadding="0"
+								cellspacing="0" id="idGrFrNovia"
+								columnClasses="col1iconoformulario,col1iconoformulario">
+								<h:inputText readonly="true" size="100"
+									value="#{noviosMBean.programaNoviosBusqueda.novia.nombreCompleto}" />
+								<a4j:commandLink action="#{noviosMBean.consultaClientes('F',1)}"
+									oncomplete="#{rich:component('idModalbusqnovios')}.show();"
+									render="idTablaClientes,idBusqCliente">
+									<h:graphicImage style="border:0px;"
+										value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+								</a4j:commandLink>
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="3" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;"
+							columnClasses="col1fil3formulario,col2fil3formulario">
+							<h:outputText value="Novio" />
+							<h:panelGrid columns="2" border="0" cellpadding="0"
+								cellspacing="0" id="idGrFrNovio"
+								columnClasses="col1iconoformulario,col1iconoformulario">
+								<h:inputText readonly="true" size="100"
+									value="#{noviosMBean.programaNoviosBusqueda.novio.nombreCompleto}" />
+								<a4j:commandLink action="#{noviosMBean.consultaClientes('M',1)}"
+									oncomplete="#{rich:component('idModalbusqnovios')}.show();"
+									render="idTablaClientes,idBusqCliente">
+									<h:graphicImage style="border:0px;"
+										value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+								</a4j:commandLink>
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<f:facet name="footer">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:center;">
+								<a4j:commandButton value="Buscar" render="idTabla"
+									action="#{noviosMBean.buscarProgramaNovios}"
+									style="height:20px; width:150px" />
+							</h:panelGrid>
+						</f:facet>
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" border="0" style="width:100%;">
+						<rich:dataTable var="row" id="idTabla" rows="10"
+							value="#{noviosMBean.listadoNovios}" style="width:100%;">
+							<f:facet name="noData">
+								<h:outputText value="No se encontraron registros" />
+							</f:facet>
+							<rich:column style="text-align:center;">
+								<f:facet name="header">
+									<h:outputText value="Codigo Novios" />
+								</f:facet>
+								<h:outputText value="#{row.codigoNovios}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Novia" />
+								</f:facet>
+								<h:outputText value="#{row.novia.nombreCompleto}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Novio" />
+								</f:facet>
+								<h:outputText value="#{row.novio.nombreCompleto}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Destino" />
+								</f:facet>
+								<h:outputText value="#{row.destino.descripcion}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha Boda" />
+								</f:facet>
+								<h:outputText value="#{row.fechaBoda}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha Viaje" />
+								</f:facet>
+								<h:outputText value="#{row.fechaViaje}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Opciones" />
+								</f:facet>
+								<a4j:commandLink
+									action="#{noviosMBean.consultarProgramaNovios(row.codigoEntero)}"
+									render="idGrProgrNovios, idNomModal, idTablaInvitados, idServNovios"
+									oncomplete="#{rich:component('idModalformnovios')}.show();">
+									<h:graphicImage height="25" width="20"
+										url="/resources/img/editar2.png" style="border:0" />
+								</a4j:commandLink>
+							</rich:column>
+
+						</rich:dataTable>
+						<rich:dataScroller for="idTabla" />
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGroup style="text-align:center;">
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="height: 50px" width="100%">
+								<a4j:commandButton value="REGISTRO NOVIOS"
+									action="#{noviosMBean.registrarNovios()}"
+									style="height:20px; width:150px"
+									render="idGrProgrNovios, idNomModal"
+									oncomplete="#{rich:component('idModalformnovios')}.show();">
+								</a4j:commandButton>
+								<a4j:commandButton id="idBotonModalCorrecto"
+									style="display:none;" type="button"
+									oncomplete="#{rich:component('idModalcorrecto')}.show();" />
+								<a4j:commandButton id="idBotonModalError" style="display:none;"
+									type="button"
+									oncomplete="#{rich:component('idModalError')}.show();" />
+								<h:commandButton value="Imprimir Registro Novios"
+									style="display:none" id="idbtnImpNovios"
+									action="#{noviosMBean.imprimirFormatoNovios()}" />
+							</h:panelGrid>
+						</h:panelGroup>
+					</f:facet>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+		<ui:include
+			src="/paginas/negocio/novios/modal/busquedaorigen.xhtml" />
+		<ui:include
+			src="/paginas/negocio/novios/modal/busquedadestino.xhtml" />
+		<ui:include src="/paginas/negocio/novios/modal/busquedanovios.xhtml" />
+		<ui:include src="/paginas/negocio/novios/formasistentenovios1.xhtml" />
+		<ui:include src="/resources/includes/includemensajenovios.xhtml">
+			<ui:param name="backBean" value="#{noviosMBean}" />
+		</ui:include>
+		<script type="text/javascript">
+		mostrarModal('idformadmnovios');
+		</script>
+	</ui:define>
+</ui:composition>
+
+</html>

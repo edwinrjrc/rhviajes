@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+		<h:form id="idformconsultacomp">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				style="width:100%;text-align:center;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Comprobantes Generados" style="height: 100px"
+							styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					style="width:100%;text-align:center;">
+					<f:facet name="header">
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;">
+							<h:outputText value="Filtro de Busqueda" style="Color:#5885BE;" />
+							<hr style="width: 100%;" />
+						</h:panelGrid>
+					</f:facet>
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+						style="width:80%;text-align:center;">
+						<h:panelGrid columns="4" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;"
+							columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+							<h:outputText value="Id Comprobante" />
+							<h:inputText
+								value="#{comprobanteMBean.comprobanteBusqueda.codigoEntero}"
+								size="10" maxlength="5" styleClass="estilocampo1" />
+							<h:outputText value="Id Servicio" />
+							<h:inputText
+								value="#{comprobanteMBean.comprobanteBusqueda.idServicio}"
+								size="10" maxlength="5" styleClass="estilocampo1" />
+						</h:panelGrid>
+						<h:panelGrid columns="4" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;"
+							columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+							<h:outputText value="Tipo Comprobante" />
+							<h:selectOneMenu
+								value="#{comprobanteMBean.comprobanteBusqueda.tipoComprobante.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoTipoComprobante}" />
+							</h:selectOneMenu>
+							<h:outputText value="Numero Comprobante" />
+							<h:inputText maxlength="11"
+								onkeypress="return js_soloEntero(event);"
+								value="#{comprobanteMBean.comprobanteBusqueda.numeroComprobante}" />
+						</h:panelGrid>
+						<h:panelGrid columns="2" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;"
+							columnClasses="col1fil2proveedor,col2fil2proveedor">
+							<h:outputText value="Adquiriente" />
+							<h:panelGrid columns="2" border="0" cellpadding="0"
+								cellspacing="0">
+								<h:inputText readonly="true"
+									value="#{comprobanteMBean.comprobanteBusqueda.titular.nombreCompleto}"
+									size="100" maxlength="100" styleClass="estilocampo1" />
+								<a4j:commandLink render="idTablaProveedores,idPgBusqProv"
+									oncomplete="#{rich:component('idModalbusqproveedor')}.show();">
+									<h:graphicImage style="border:0px;"
+										value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+								</a4j:commandLink>
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="4" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;"
+							columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+							<h:outputText value="Fecha desde" />
+							<rich:calendar datePattern="dd/MM/yyyy"
+								value="#{comprobanteMBean.comprobanteBusqueda.fechaDesde}" />
+							<h:outputText value="Fecha hasta" />
+							<rich:calendar datePattern="dd/MM/yyyy"
+								value="#{comprobanteMBean.comprobanteBusqueda.fechaHasta}" />
+						</h:panelGrid>
+					</h:panelGrid>
+					<f:facet name="footer">
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:center;">
+							<br />
+							<a4j:commandButton value="Buscar" render="idTabla"
+								action="#{comprobanteMBean.buscar()}"
+								style="height:20px; width:150px" />
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+				<h:panelGrid columns="3" border="0" cellpadding="0" cellspacing="0"
+					style="width:100%;text-align:center;"
+					columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
+					<f:facet name="header">
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0" style="width:100%;text-align:left;">
+							<h:outputText value="Resultado de Busqueda"
+								style="Color:#5885BE;" />
+							<hr style="width: 100%;" />
+						</h:panelGrid>
+					</f:facet>
+					<h:outputText value="" />
+					<rich:dataTable style="width:100%;" id="idTabla" rows="8"
+						value="#{comprobanteMBean.listaComprobantes}" var="fila">
+						<f:facet name="noData">
+							<h:outputText value="No se encontraron resultados" />
+						</f:facet>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Id" />
+							</f:facet>
+							<h:outputText value="#{fila.codigoEntero}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Tipo Comprobante" />
+							</f:facet>
+							<h:outputText value="#{fila.tipoComprobante.nombre}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Número Comprobante" />
+							</f:facet>
+							<h:outputText value="#{fila.numeroComprobante}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha Comprobante" />
+							</f:facet>
+							<h:outputText value="#{fila.fechaComprobante}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</rich:column>
+						<rich:column style="text-align:right;">
+							<f:facet name="header">
+								<h:outputText value="Total Comprobante" />
+							</f:facet>
+							<h:outputText value="#{fila.moneda.abreviatura}" />
+							<h:outputText value="#{fila.totalComprobante}">
+								<f:convertNumber locale="en_US" pattern="###,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Adquiriente" />
+							</f:facet>
+							<h:outputText value="#{fila.titular.nombreCompleto}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Opcion" />
+							</f:facet>
+							<a4j:commandButton value="Ver"
+								oncomplete="#{rich:component('idModalfrcomprobante')}.show();"
+								action="#{comprobanteMBean.consultarComprobante(fila.codigoEntero)}"
+								render="idTabPnComprobante"></a4j:commandButton>
+						</rich:column>
+						<f:facet name="footer">
+							<rich:dataScroller for="idTabla"></rich:dataScroller>
+						</f:facet>
+					</rich:dataTable>
+					<h:outputText value="" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+			<h:panelGrid style="display:none;">
+				<h:commandButton id="idBtnGeneraComprobante" action="#{comprobanteMBean.generarComprobante}"
+					value="Generar Comprobante" style="display:none;" />
+			</h:panelGrid>
+		</h:form>
+
+		<ui:include
+			src="#{facesContext.externalContext.requestContextPath}/../paginas/negocio/comprobante/formcomprobante.xhtml" />
+		<ui:include
+			src="#{facesContext.externalContext.requestContextPath}/../paginas/negocio/comprobante/modal/busquedaproveedor.xhtml" />
+	</ui:define>
+</ui:composition>
+</html>

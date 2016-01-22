@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+
+	<h:outputStylesheet>
+        .pic {
+        margin-bottom: -4px;
+        margin-right: 2px;
+        }
+ 
+        .search .rf-ddm-itm-sel {
+        background-color: transparent;
+        background-image:none;
+        border-color: transparent;
+        cursor: default;
+        }
+    </h:outputStylesheet>
+
+	<h:form id="idFormMenu">
+		<rich:toolbar height="20px">
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 1}">
+				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
+					style="text-align:left" />
+				<f:facet name="label">
+					<h:outputText value="Inicio" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Seguridad" style="text-align:left">
+					<rich:menuItem action="irAdministrarUsuarios"
+						label="Administrar Usuarios" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Soporte" style="text-align:left">
+					<rich:menuItem action="irAdministrarParametros"
+						label="Administrar Parametros" style="text-align:left" />
+					<rich:menuItem action="irAdministrarMaestros"
+						label="Administrar Maestros" style="text-align:left" />
+					<rich:menuItem action="irAdministrarPlantillaCorreo"
+						label="Administrar Plantilla de Correos Masivos"
+						style="text-align:left" />
+					<rich:menuItem action="irConfigurarServicios"
+						label="Configurar Tipos Servicio" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Negocio" style="text-align:left">
+					<rich:menuItem action="irAdministrarMaeServicios"
+						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="#{proveedorMBean.iniciaAdmProveedor()}"
+						label="Administrar Proveedores" style="text-align:left" />
+					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
+						label="Administrar Clientes" style="text-align:left" />
+					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
+						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
+						<f:facet name="icon">
+							<h:graphicImage
+								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
+						</f:facet>
+					</rich:menuItem>
+					<rich:menuItem action="irAdministrarVentaServicios"
+						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irEnvioMasivoCorreo"
+						label="Envio Correo Masivo" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irAdministracionObliXPagar"
+						label="Administrar Obligaciones por Pagar" style="text-align:left"></rich:menuItem>
+				</rich:menuGroup>
+				<rich:menuGroup label="Destinos" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Administrar Paises" style="text-align:left" />
+					<rich:menuItem action="irAdministrarDestino"
+						label="Administrar Destinos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuSeparator />
+				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
+					style="text-align:left" />
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 2}">
+				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
+					style="text-align:left" />
+				<f:facet name="label">
+					<h:outputText value="Inicio" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Negocio" style="text-align:left">
+					<rich:menuItem action="irAdministrarMaeServicios"
+						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irAdministrarProveedor"
+						label="Administrar Proveedores" style="text-align:left" />
+					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
+						label="Administrar Clientes" style="text-align:left" />
+					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
+						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
+						<f:facet name="icon">
+							<h:graphicImage
+								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
+						</f:facet>
+					</rich:menuItem>
+					<rich:menuItem action="irAdministrarVentaServicios"
+						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
+				</rich:menuGroup>
+				<rich:menuGroup label="Destinos" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Administrar Paises" style="text-align:left" />
+					<rich:menuItem action="irAdministrarDestino"
+						label="Administrar Destinos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuSeparator />
+				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
+					style="text-align:left" />
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
+					style="text-align:left" />
+				<f:facet name="label">
+					<h:outputText value="Inicio" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Negocio" style="text-align:left">
+					<rich:menuItem action="irAdministrarMaeServicios"
+						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="#{proveedorMBean.iniciaAdmProveedor()}"
+						label="Administrar Proveedores" style="text-align:left" />
+					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
+						label="Administrar Clientes" style="text-align:left" />
+					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
+						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
+						<f:facet name="icon">
+							<h:graphicImage
+								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
+						</f:facet>
+					</rich:menuItem>
+					<rich:menuItem action="irAdministrarVentaServicios"
+						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irAdministracionObliXPagar"
+						label="Administrar Obligaciones por Pagar" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irConsultaComprobantesGenerados"
+						label="Consulta Comprobantes Generados" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irAdministrarCargaArchivo"
+						label="Carga Deuda Clientes" style="text-align:left"></rich:menuItem>
+					<rich:menuGroup label="Tesoreria" style="text-align:left">
+						<rich:menuItem action="irAdministrarCuentaBancaria"
+							label="Administrar Cuentas Bancarias" style="text-align:left"></rich:menuItem>
+						<rich:menuItem action="irAdmTipoCambio" actionListener="#{tipoCambioMBean.listarTipoCambio}"
+							label="Administrar Tipo Cambio" style="text-align:left"></rich:menuItem>
+					</rich:menuGroup>
+				</rich:menuGroup>
+				<rich:menuGroup label="Destinos" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Administrar Paises" style="text-align:left" />
+					<rich:menuItem action="irAdministrarDestino"
+						label="Administrar Destinos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuSeparator />
+				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
+					style="text-align:left" />
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				<f:facet name="label">
+					<h:outputText value="Reportes" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Ventas" style="text-align:left">
+					<rich:menuItem action="irReporteGeneralVentas"
+						label="Reportes General Ventas" style="text-align:left" />
+				</rich:menuGroup>
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				<f:facet name="label">
+					<h:outputText value="Recursos Humanos" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Control Asistencia" style="text-align:left">
+					<rich:menuItem action="#{usuarioMBean.consultarAsistencia()}" 
+						label="Consulta Asistencia" style="text-align:left" />
+				</rich:menuGroup>
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 4}">
+				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
+					style="text-align:left" />
+				<f:facet name="label">
+					<h:outputText value="Inicio" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Seguridad" style="text-align:left">
+					<rich:menuItem action="irAdministrarUsuarios"
+						label="Administrar Usuarios" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Soporte" style="text-align:left">
+					<rich:menuItem action="irAdministrarMaestros"
+						label="Administrar Maestros" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Negocio" style="text-align:left">
+					<rich:menuItem action="irAdministrarMaeServicios"
+						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="#{proveedorMBean.iniciaAdmProveedor()}"
+						label="Administrar Proveedores" style="text-align:left" />
+					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
+						label="Administrar Clientes" style="text-align:left" />
+					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
+						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
+						<f:facet name="icon">
+							<h:graphicImage
+								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
+						</f:facet>
+					</rich:menuItem>
+					<rich:menuItem action="irAdministrarVentaServicios"
+						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
+					<rich:menuItem action="irEnvioMasivoCorreo"
+						label="Envio Correo Masivo" style="text-align:left"></rich:menuItem>
+				</rich:menuGroup>
+				<rich:menuGroup label="Destinos" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Administrar Paises" style="text-align:left" />
+					<rich:menuItem action="irAdministrarDestino"
+						label="Administrar Destinos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuSeparator />
+				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
+					style="text-align:left" />
+			</rich:dropDownMenu>
+		</rich:toolbar>
+	</h:form>
+
+</ui:composition>

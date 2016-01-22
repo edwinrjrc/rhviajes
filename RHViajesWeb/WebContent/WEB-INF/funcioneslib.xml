@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+    version="2.0">
+    <namespace>http://novaviajes.com.pe/funciones</namespace>
+
+    <function>
+        <function-name>tienePermiso</function-name>
+        <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
+        <function-signature>boolean tienePermiso(java.lang.String, java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>mostrarBotonesVenta1</function-name>
+        <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
+        <function-signature>boolean mostrarBotonesVenta1(java.lang.Integer, java.lang.Integer, java.lang.Integer, boolean)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>formatearMonto</function-name>
+        <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
+        <function-signature>java.lang.String formatearMonto(java.lang.String, java.lang.Object)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>formatearMonto2</function-name>
+        <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
+        <function-signature>java.lang.String formatearMonto2(java.lang.String, java.lang.Object, java.lang.Object)</function-signature>
+    </function>
+    
+</facelet-taglib>

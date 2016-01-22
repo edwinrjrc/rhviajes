@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalregpagoscomprobante" modal="true"
+		width="800" height="650">
+
+		<f:facet name="header">
+			<h:outputText value="Registrar Pago Comprobante" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalregpagoscomprobante')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFrRegiPagoComp" enctype="multipart/form-data">
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;" id="idGrFrRegpagoscomp">
+				<h:panelGrid id="idGrpagos" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
+					<f:facet name="header">
+						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+							style="text-align: left;vertical-align: top; width: 100%;">
+							<h:outputText value="Información Servicio" style="height: 100px"
+								styleClass="subtitulo2" />
+							<hr width="100%" />
+						</h:panelGrid>
+					</f:facet>
+					<h:outputText value="Id Obligacion" />
+					<h:outputText
+						value="#{obligacionPorPagarMBean.comprobante.codigoEntero}" />
+					<h:outputText value="Proveedor" />
+					<h:outputText
+						value="#{obligacionPorPagarMBean.comprobante.proveedor.nombres}" />
+					<h:outputText value="Tipo Comprobante" />
+					<h:outputText
+						value="#{obligacionPorPagarMBean.comprobante.tipoComprobante.nombre}" />
+					<h:outputText value="Número Comprobante" />
+					<h:outputText
+						value="#{obligacionPorPagarMBean.comprobante.numeroComprobante}" />
+					<h:outputText value="Fecha Pago" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+						<rich:calendar datePattern="dd/MM/yyyy" id="idSelFecSer"
+							value="#{obligacionPorPagarMBean.pagoComprobante.fechaPago}"></rich:calendar>
+						<rich:message for="idSelFecSer" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+					</h:panelGrid>
+					<h:outputText value="Monto Pago" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+						<h:inputText id="idMontoPago"
+							onkeypress="return js_soloDecimal(event)"
+							style="text-align:right;"
+							value="#{obligacionPorPagarMBean.pagoComprobante.montoPago}"
+							size="10" maxlength="8" />
+						<h:selectOneMenu id="idSelMonedapago" value="#{obligacionPorPagarMBean.pagoComprobante.moneda.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-"/>
+							<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+						</h:selectOneMenu>
+						<rich:message for="idMontoPago" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+						<rich:message for="idSelMonedapago" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+					</h:panelGrid>
+					<h:outputText value="Tipo Pago" />
+					<h:selectOneMenu
+						value="#{obligacionPorPagarMBean.pagoComprobante.tipoPago.codigoCadena}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItem itemLabel="Detracción" itemValue="D" />
+						<f:selectItem itemLabel="Retención" itemValue="R" />
+					</h:selectOneMenu>
+					<h:outputText value="Forma Pago" />
+					<h:selectOneMenu
+						value="#{obligacionPorPagarMBean.pagoComprobante.formaPago.codigoEntero}"
+						valueChangeListener="#{obligacionPorPagarMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
+						<a4j:ajax event="valueChange" render="idGrpagosDetalleFp" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid id="idGrpagosDetalleFp" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
+					<h:outputText value="Cuenta Bancaria Origen"
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
+					<h:selectOneMenu
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+						id="idSelCuentaBancariaOrigen"
+						value="#{obligacionPorPagarMBean.pagoComprobante.cuentaBancariaOrigen.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{obligacionPorPagarMBean.listadoCuentasBancarias}" />
+					</h:selectOneMenu>
+					<h:outputText value="Cuenta Bancaria Destino"
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
+					<h:selectOneMenu
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+						id="idSelCuentaBancariaDestino"
+						value="#{obligacionPorPagarMBean.pagoComprobante.cuentaBancariaDestino.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{obligacionPorPagarMBean.listadoCuentasBancariasDestino}" />
+					</h:selectOneMenu>
+					<h:outputText value="Número Operación"
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
+					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+						maxlength="20"
+						value="#{obligacionPorPagarMBean.pagoComprobante.numeroOperacion}" />
+					<h:outputText value="Numero Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						maxlength="16"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.numeroTarjeta}" />
+					<h:outputText value="Tipo Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:selectOneMenu
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.proveedoTarjeta.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoProveedorTarjeta}" />
+					</h:selectOneMenu>
+					<h:outputText value="Banco Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.banco.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoBanco}" />
+					</h:selectOneMenu>
+					<h:outputText value="Nombre Titular Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						maxlength="30" size="20"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.nombreTitular}" />
+				</h:panelGrid>
+				<h:panelGrid id="idGrpagos3" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
+					<h:outputText value="Comentario" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+						<h:inputTextarea id="idTxtComentario" rows="5" cols="50"
+							value="#{obligacionPorPagarMBean.pagoComprobante.comentario}" />
+						<rich:message for="idTxtComentario" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+					</h:panelGrid>
+					<h:outputText value="Sustento Pago" />
+					<rich:fileUpload style="height:150px;"
+						fileUploadListener="#{obligacionPorPagarMBean.listener}"
+						id="upload"
+						acceptedTypes="jpg, gif, png, jpeg, pdf, JPG, GIF, PNG, JPEG, PDF"
+						ontyperejected="alert('Only JPG, GIF, PNG, PDF files are accepted');"
+						maxFilesQuantity="1">
+						<a4j:ajax event="uploadcomplete" execute="@none" />
+					</rich:fileUpload>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<a4j:commandButton value="Grabar"
+						action="#{obligacionPorPagarMBean.registrarPagoComprobante()}"
+						render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idDatapagoscomp, idGrSaldoObligacion"
+						oncomplete="mostrarModal('idformadmobligatorios'); #{rich:component('idModalregpagoscomprobante')}.hide(); return false;"></a4j:commandButton>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

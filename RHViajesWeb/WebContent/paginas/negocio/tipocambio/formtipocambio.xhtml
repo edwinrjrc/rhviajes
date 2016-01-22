@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalformtipocambio" modal="true" width="600"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText id="idNomModal" value="Nuevo Tipo Cambio" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalformtipocambio')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+		<h:form id="idFormTipoCambio">
+
+			<h:panelGrid id="idGridFormTipoCambio" columns="2" border="0"
+				cellpadding="1" cellspacing="2" width="100%">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText id="idNomSubtitulo" value="Nuevo Tipo cambio"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:outputLabel value="Fecha" style="width: 100px; text-align:left" />
+				<rich:calendar value="#{tipoCambioMBean.tipoCambio.fechaTipoCambio}"
+					datePattern="dd/MM/yyyy" popup="true"></rich:calendar>
+
+				<h:outputLabel value="Moneda Origen"
+					style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+					<h:selectOneMenu id="idSelMonedaOrigen" required="true"
+						requiredMessage="Seleccione la Moneda Origen"
+						value="#{tipoCambioMBean.tipoCambio.monedaOrigen.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoMoneda}"></f:selectItems>
+					</h:selectOneMenu>
+					<rich:message for="idSelMonedaOrigen" showDetail="true"
+						showSummary="false" />
+				</h:panelGrid>
+				<h:outputLabel value="Moneda Destino"
+					style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+					<h:selectOneMenu id="idSelMonedaDestino" required="true"
+						requiredMessage="Seleccione la Moneda Destino"
+						value="#{tipoCambioMBean.tipoCambio.monedaDestino.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoMoneda}"></f:selectItems>
+					</h:selectOneMenu>
+					<rich:message for="idSelMonedaDestino" showDetail="true"
+						showSummary="false" />
+				</h:panelGrid>
+				<h:outputLabel value="Tipo Cambio"
+					style="width: 100px; text-align:left" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+					<h:inputText id="idTipoCambio" required="true"
+						requiredMessage="Ingrese el valor" styleClass="estilocampo1"
+						value="#{tipoCambioMBean.tipoCambio.montoCambio}" />
+					<rich:message for="idTipoCambio" showDetail="true"
+						showSummary="false" />
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						width="100%" id="idPanelBotones">
+						<table align="center" border="0" cellpadding="0" cellspacing="0"
+							style="height: 40px">
+							<tr>
+								<td><h:panelGrid columns="3" border="0" cellpadding="0"
+										cellspacing="0">
+										<a4j:commandButton value="Grabar"
+											style="height:20px; width:100px"
+											actionListener="#{tipoCambioMBean.ejecutarMetodo()}"
+											render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+											oncomplete="mostrarModal('idfradmtipocambio')" />
+										<a4j:commandButton value="Cancelar" type="button"
+											style="height:20px; width:100px"
+											oncomplete="#{rich:component('idModalformtipocambio')}.hide();return false;" />
+									</h:panelGrid></td>
+							</tr>
+						</table>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

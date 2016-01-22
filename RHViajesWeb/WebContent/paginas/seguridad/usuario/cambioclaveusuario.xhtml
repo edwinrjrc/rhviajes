@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalfrcambioclaveusuario" modal="true" width="600"
+		height="250">
+
+		<f:facet name="header">
+			<h:outputText id="idNomModalCCusu" value="Cambio de clave" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalfrcambioclaveusuario')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFrcambioclaveusu">
+			<h:panelGrid id="idGrFrcambioclaveusu" columns="2" border="0"
+				cellpadding="0" cellspacing="0" style="width: 100%;"
+				columnClasses="col1fil1proveedor,col2fil1proveedor">
+				<f:facet name="header">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						style="text-align: left;vertical-align: top; width: 100%;">
+						<h:outputText id="idNomSubtitulo" value="Cambio Clave"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:outputText value="Usuario" />
+				<h:outputText value="#{usuarioMBean.usuario.usuario}" />
+
+				<h:outputText value="Contraseña nueva" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+					<h:inputSecret id="idCredenNueva"
+						value="#{usuarioMBean.credencialNueva}" required="true"
+						requiredMessage="Ingrese la contraseña nueva" />
+					<rich:message for="idCredenNueva" showSummary="true"
+						showDetail="false" ajaxRendered="true" />
+				</h:panelGrid>
+
+				<h:outputText value="Re Contraseña nueva" />
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+					<h:inputSecret id="idReCredenNueva"
+						value="#{usuarioMBean.usuario.credencialNueva}" required="true"
+						requiredMessage="Ingrese la contraseña nueva" />
+					<rich:message for="idReCredenNueva" showSummary="true"
+						showDetail="false" ajaxRendered="true" />
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						width="100%" id="idPanelBotones">
+						<table align="center" border="0" cellpadding="0" cellspacing="0"
+							style="height: 40px">
+							<tr>
+								<td><h:panelGrid columns="3" border="0" cellpadding="0"
+										cellspacing="0">
+										<a4j:commandButton value="Grabar"
+											style="height:20px; width:100px"
+											actionListener="#{usuarioMBean.actualizarClave}"
+											render="idGridFormUsuario,idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+											oncomplete="mostrarModal('idformadmusuario')" />
+										<a4j:commandButton value="Cancelar"
+											style="height:20px; width:100px"
+											oncomplete="#{rich:component('idModalfrcambioclaveusuario')}.hide();return false;" />
+									</h:panelGrid></td>
+							</tr>
+						</table>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

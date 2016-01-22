@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<title>Nova Viajes Web</title>
+	<h:outputStylesheet name="screen.css" library="css" />
+	<h:outputStylesheet name="app.css" library="css" />
+	<h:outputScript library="js" name="script.js" />
+	<h:outputScript library="js" name="validacion.js" />
+	<!-- definición del comportamiento en javascript tras la perdida de sesión -->
+</h:head>
+<h:body>
+	<table border="0" cellpadding="0" cellspacing="1" bgcolor="#F1F1F1"
+		style="height: 600px; width:100%;">
+		<tr>
+			<td><table border="0" cellpadding="0" cellspacing="0"
+					style="height: 600px; width:100%;">
+					<tr>
+						<td height="20" valign="top"><ui:insert name="cabecera">
+								<ui:include src="/templates/cabeceraeditor.xhtml" />
+							</ui:insert></td>
+					</tr>
+					<tr>
+						<td align="center" height="20" valign="top"><ui:include
+								src="/templates/menu.xhtml" /></td>
+					</tr>
+					<tr>
+						<td valign="top" align="center" height="550"><ui:insert
+								name="cuerpo">Cuerpo</ui:insert></td>
+					</tr>
+					<tr>
+						<td height="10" valign="bottom"><ui:insert name="pie">
+								<ui:include src="/templates/pieeditor.xhtml" />
+							</ui:insert></td>
+					</tr>
+				</table></td>
+		</tr>
+	</table>
+
+</h:body>
+
+<ui:include src="/resources/modal/perdidasesion.xhtml" />
+<ui:include src="/paginas/seguridad/usuario/cambioclave.xhtml" />
+</html>

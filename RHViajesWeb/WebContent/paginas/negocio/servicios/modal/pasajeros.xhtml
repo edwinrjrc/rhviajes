@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<rich:popupPanel id="idModalpasajeros" modal="true" width="1100"
+		height="350">
+
+		<f:facet name="header">
+			<h:outputText value="Ingreso Pasajeros" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalpasajeros')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFrPasajeros">
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;" id="idPnFrPasajeros">
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;" id="idPnFrAddPax">
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Tipo Documento" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:selectOneMenu id="idSelTipoDocumentoPasajero"
+								value="#{servicioAgenteMBean.pasajero.documentoIdentidad.tipoDocumento.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoTipoDocumento}"></f:selectItems>
+							</h:selectOneMenu>
+							<rich:message for="idSelTipoDocumentoPasajero" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Número Documento" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="2">
+							<h:inputText id="idTxtNroDocumentoPasajero"
+								styleClass="estilocampo1" maxlength="11"
+								value="#{servicioAgenteMBean.pasajero.documentoIdentidad.numeroDocumento}" />
+							<a4j:commandLink
+								action="#{servicioAgenteMBean.consultarPasajero}"
+								render="idPnFrAddPax">
+								<h:graphicImage style="width:15px;height:15px;"
+									name="refresh.png" value="refresh.png" library="img" />
+							</a4j:commandLink>
+							<rich:message for="idTxtNroDocumentoPasajero" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Nombres" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtNombres" styleClass="estilocampo1"
+								maxlength="100" value="#{servicioAgenteMBean.pasajero.nombres}" />
+							<rich:message for="idTxtNombres" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Nacionalidad" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:selectOneMenu id="idSelNacionalidad"
+								value="#{servicioAgenteMBean.pasajero.pais.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-"/>
+								<f:selectItems value="#{catalogoMBean.catalogoPais}"></f:selectItems>
+							</h:selectOneMenu>
+							<rich:message for="idSelNacionalidad" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Apellido Paterno" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtApPaterno" styleClass="estilocampo1"
+								maxlength="50"
+								value="#{servicioAgenteMBean.pasajero.apellidoPaterno}" />
+							<rich:message for="idTxtApPaterno" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Apellido Materno" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtApMaterno" styleClass="estilocampo1"
+								maxlength="50"
+								value="#{servicioAgenteMBean.pasajero.apellidoMaterno}" />
+							<rich:message for="idTxtApMaterno" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Teléfono 1" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtTelefono1"
+								onkeypress="return js_soloEntero(event)"
+								value="#{servicioAgenteMBean.pasajero.telefono1}" maxlength="10" />
+							<rich:message for="idTxtApMaterno" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Teléfono 2" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtTelefono2"
+								onkeypress="return js_soloEntero(event)"
+								value="#{servicioAgenteMBean.pasajero.telefono2}" maxlength="10" />
+							<rich:message for="idTxtTelefono2" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Correo Electronico" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtCorreoElectronico"
+								styleClass="estilocampo1"
+								value="#{servicioAgenteMBean.pasajero.correoElectronico}"
+								maxlength="100" />
+							<rich:message for="idTxtCorreoElectronico" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Relación" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:selectOneMenu id="idSelRelacion"
+								value="#{servicioAgenteMBean.pasajero.relacion.codigoEntero}"
+								valueChangeListener="#{servicioAgenteMBean.cargarPasajero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoRelacion}" />
+								<a4j:ajax event="valueChange"
+									render="#{servicioAgenteMBean.renderFormularioPasajero}" />
+							</h:selectOneMenu>
+							<rich:message for="idSelRelacion" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Numero pasajero frecuente" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:inputText id="idTxtNropaxfrecuente" maxlength="20"
+								value="#{servicioAgenteMBean.pasajero.numeroPasajeroFrecuente}" />
+							<rich:message for="idTxtNropaxfrecuente" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Aerolinea" />
+						<h:selectOneMenu style="width:100px;"
+							value="#{servicioAgenteMBean.pasajero.aerolinea.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione la aerolinea-" />
+							<f:selectItems value="#{catalogoMBean.catalogoAerolineas}" />
+						</h:selectOneMenu>
+
+						<h:outputText value="Fecha Vcto Pasaporte" />
+						<rich:calendar datePattern="dd/MM/yyyy"
+							value="#{servicioAgenteMBean.pasajero.fechaVctoPasaporte}"></rich:calendar>
+
+						<h:outputText value="Fecha Nacimiento" />
+						<rich:calendar datePattern="dd/MM/yyyy"
+							value="#{servicioAgenteMBean.pasajero.fechaNacimiento}"></rich:calendar>
+
+						<h:outputText value="Código Reserva" />
+						<h:inputText value="#{servicioAgenteMBean.pasajero.codigoReserva}"
+							maxlength="10" size="15" styleClass="estilocampo1" />
+
+						<h:outputText value="Número Boleto" />
+						<h:inputText maxlength="13" size="15" id="idTxtNumeroBoleto"
+							onkeypress="return js_soloEntero(event)"
+							value="#{servicioAgenteMBean.pasajero.numeroBoleto}" />
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:center;">
+							<a4j:commandButton value="Agregar" styleClass="estiloBoton1"
+								render="idPnFrPasajeros"
+								action="#{servicioAgenteMBean.agregarPasajero}"></a4j:commandButton>
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;" id="idPnDatPax">
+
+					<rich:dataTable style="width:100%;"
+						value="#{servicioAgenteMBean.detalleServicio.listaPasajeros}"
+						var="pax">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Nombres" />
+							</f:facet>
+							<h:outputText value="#{pax.nombres}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Apellido Paterno" />
+							</f:facet>
+							<h:outputText value="#{pax.apellidoPaterno}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Apellido Materno" />
+							</f:facet>
+							<h:outputText value="#{pax.apellidoMaterno}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Correo Electronico" />
+							</f:facet>
+							<h:outputText value="#{pax.correoElectronico}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Telefono 1" />
+							</f:facet>
+							<h:outputText value="#{pax.telefono1}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Telefono 2" />
+							</f:facet>
+							<h:outputText value="#{pax.telefono2}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Relación" />
+							</f:facet>
+							<h:outputText value="#{pax.relacion.nombre}" />
+						</rich:column>
+						<rich:column>
+							<a4j:commandLink render="idPnFrPasajeros"
+								action="#{servicioAgenteMBean.eliminarPasajero(pax)}">
+								<h:graphicImage value="eliminar" url="/resources/img/tacho.gif" />
+							</a4j:commandLink>
+						</rich:column>
+					</rich:dataTable>
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="width:100%;text-align:center;"
+						rendered="#{fn:length(servicioAgenteMBean.detalleServicio.listaPasajeros) != 0}">
+						<br />
+						<a4j:commandButton render="idPnPasajeros,idPnCantidad"
+							value="Aceptar" styleClass="estiloBoton1"
+							action="#{servicioAgenteMBean.aceptarPasajeros()}"
+							oncomplete="#{rich:component('idModalpasajeros')}.hide(); return false;"></a4j:commandButton>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

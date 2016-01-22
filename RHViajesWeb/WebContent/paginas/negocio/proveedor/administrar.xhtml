@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+
+<h:head></h:head>
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+
+		<h:form id="idformadmproveedor">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				width="100%;text-align:center;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Administrar Proveedor" style="height: 100px"
+							styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					style="width:100%;text-align:center;">
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;text-align:center;">
+						<f:facet name="header">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;">
+								<h:outputText value="Filtro de Busqueda" style="Color:#5885BE;" />
+								<hr style="width: 100%;" />
+							</h:panelGrid>
+						</f:facet>
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0" style="width:80%;text-align:center;">
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Tipo documento" />
+								<h:selectOneMenu
+									value="#{proveedorMBean.proveedorBusqueda.documentoIdentidad.tipoDocumento.codigoEntero}">
+									<f:selectItem itemLabel="-Seleccione-" />
+									<f:selectItems value="#{catalogoMBean.catalogoTipoDocumento}" />
+								</h:selectOneMenu>
+								<h:outputText value="Numero documento" />
+								<h:inputText maxlength="11"
+									value="#{proveedorMBean.proveedorBusqueda.documentoIdentidad.numeroDocumento}" />
+							</h:panelGrid>
+							<h:panelGrid columns="2" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Nombres" />
+								<h:inputText value="#{proveedorMBean.proveedorBusqueda.nombres}"
+									size="100" maxlength="100" styleClass="estilocampo1" />
+							</h:panelGrid>
+						</h:panelGrid>
+						<f:facet name="footer">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:center;">
+								<a4j:commandButton value="Buscar" render="idTabla"
+									action="#{proveedorMBean.buscarProveedor()}"
+									style="height:20px; width:150px" />
+							</h:panelGrid>
+						</f:facet>
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" border="0" style="width:100%;">
+						<rich:dataTable var="row" id="idTabla" rows="10"
+							value="#{proveedorMBean.listaProveedores}" style="width:100%;">
+							<f:facet name="noData">
+								<h:outputText value="No se encontraron registros" />
+							</f:facet>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Documento" />
+								</f:facet>
+								<h:outputText
+									value="#{row.documentoIdentidad.tipoDocumento.nombre} - #{row.documentoIdentidad.numeroDocumento}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Nombre" />
+								</f:facet>
+								<h:outputText value="#{row.nombreCompleto}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Rubro" />
+								</f:facet>
+								<h:outputText value="#{row.rubro.nombre}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Dirección" />
+								</f:facet>
+								<h:outputText value="#{row.direccion.direccion}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Teléfono" />
+								</f:facet>
+								<h:outputText
+									value="#{row.direccion.telefonos[0].numeroTelefono}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Opciones" />
+								</f:facet>
+								<a4j:commandLink
+									action="#{proveedorMBean.consultarProveedor(row.codigoEntero)}"
+									render="idTabPanelFormProveedor, idNomModal"
+									oncomplete="#{rich:component('idModalformproveedor')}.show();">
+									<h:graphicImage height="25" width="20"
+										url="/resources/img/editar2.png" style="border:0" />
+								</a4j:commandLink>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:dataScroller for="idTabla" />
+							</f:facet>
+
+						</rich:dataTable>
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGroup style="text-align:center;">
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="height: 50px" width="100%">
+								<a4j:commandButton value="NUEVO PROVEEDOR"
+									action="#{proveedorMBean.nuevoProveedor()}"
+									style="height:20px; width:150px"
+									render="idTabPanelFormProveedor, idNomModal"
+									oncomplete="#{rich:component('idModalformproveedor')}.show();">
+								</a4j:commandButton>
+								<a4j:commandButton id="idBotonModalCorrecto"
+									style="display:none;" type="button"
+									oncomplete="#{rich:component('idModalcorrecto')}.show();" />
+								<a4j:commandButton id="idBotonModalError" style="display:none;"
+									type="button"
+									oncomplete="#{rich:component('idModalError')}.show();" />
+							</h:panelGrid>
+						</h:panelGroup>
+					</f:facet>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+		<ui:include src="/paginas/negocio/proveedor/formproveedor.xhtml" />
+		<ui:include src="/paginas/negocio/proveedor/formdireccion.xhtml" />
+		<ui:include src="/paginas/negocio/proveedor/formcontacto.xhtml" />
+		<ui:include src="/resources/includes/includemensaje.xhtml">
+			<ui:param name="backBean" value="#{proveedorMBean}" />
+			<ui:param name="idModalForm" value="idModalformproveedor" />
+			<ui:param name="idrender" value="idTabla" />
+		</ui:include>
+		<script type="text/javascript">
+		mostrarModal('idformadmproveedor');
+		</script>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalfrcomprobante" modal="true" width="1100"
+		height="500">
+		<f:facet name="header">
+			<h:outputText id="idNomModal" value="Detalle Comprobante" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalfrcomprobante')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form>
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;">
+				<rich:tabPanel switchType="client" id="idTabPnComprobante">
+
+					<rich:tab>
+						<f:facet name="header">
+							<h:outputText value="Cabecera" />
+						</f:facet>
+
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							style="width:100%;" columns="1">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;" columns="2"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Id Comprobante" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.codigoEntero}" />
+							</h:panelGrid>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;" columns="4"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Tipo Comprobante" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.tipoComprobante.nombre}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:outputText value="Número Comprobante" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.numeroComprobante}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</h:panelGrid>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;" columns="2"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Adquiriente" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.titular.nombreCompleto}" />
+							</h:panelGrid>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;" columns="4"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Fecha Comprobante" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.fechaComprobante}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:outputText value="Total Comprobante" />
+								<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+									columns="2">
+									<h:outputText
+										value="#{comprobanteMBean.comprobanteDetalle.moneda.abreviatura}" />
+									<h:outputText
+										value="#{comprobanteMBean.comprobanteDetalle.totalComprobante}">
+										<f:convertNumber pattern="###,##0.00" locale="en_US" />
+									</h:outputText>
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;" columns="4"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Tiene Detraccion" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.tieneDetraccion?'SI':'NO'}" />
+								<h:outputText value="Tiene Retencion" />
+								<h:outputText
+									value="#{comprobanteMBean.comprobanteDetalle.tieneRetencion ?'SI':'NO'}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+					</rich:tab>
+					<rich:tab>
+						<f:facet name="header">
+							<h:outputText value="Detalle" />
+						</f:facet>
+
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							style="width:100%;" columns="1">
+
+							<rich:dataTable style="width:100%;"
+								value="#{comprobanteMBean.comprobanteDetalle.detalleComprobante}"
+								var="fila">
+
+								<rich:column style="width:10%;text-align:right;">
+									<f:facet name="header">
+										<h:outputText value="Cantidad" />
+									</f:facet>
+									<h:outputText value="#{fila.cantidad}" />
+								</rich:column>
+								<rich:column style="width:50%;">
+									<f:facet name="header">
+										<h:outputText value="Concepto" />
+									</f:facet>
+									<h:outputText value="#{fila.concepto}" />
+								</rich:column>
+								<rich:column style="width:20%;text-align:right;">
+									<f:facet name="header">
+										<h:outputText value="Precio Unitario" />
+									</f:facet>
+									<h:outputText value="#{fila.precioUnitario}">
+										<f:convertNumber pattern="###,##0.00" locale="en_US" />
+									</h:outputText>
+								</rich:column>
+								<rich:column style="width:20%;text-align:right;">
+									<f:facet name="header">
+										<h:outputText value="Total Detalle" />
+									</f:facet>
+									<h:outputText value="#{fila.totalDetalle}">
+										<f:convertNumber pattern="###,##0.00" locale="en_US" />
+									</h:outputText>
+								</rich:column>
+
+							</rich:dataTable>
+						</h:panelGrid>
+					</rich:tab>
+				</rich:tabPanel>
+
+
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="width:100%;text-align:center">
+						<a4j:commandButton value="Generar Comprobante" type="button"
+							styleClass="estiloBoton1"
+							oncomplete="clicBoton('idformconsultacomp:idBtnGeneraComprobante')"></a4j:commandButton>
+					</h:panelGrid>
+				</f:facet>
+
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

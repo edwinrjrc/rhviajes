@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<h:head></h:head>
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+		<h:form id="idfradmtipocambio">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				style="width:100%;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Administrar Tipo de Cambio"
+							style="height: 100px" styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<table border="0" cellpadding="0" cellspacing="0" align="center"
+					width="80%">
+					<tr>
+						<td align="center"><rich:dataTable var="row" id="idTabla"
+								rows="10" value="#{tipoCambioMBean.listaTipoCambio}"
+								style="width:100%;">
+								<f:facet name="noData">
+									<h:outputText value="No se encontraron registros" />
+								</f:facet>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Fecha" />
+									</f:facet>
+									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+										style="width:100%;text-align:center;" columns="1">
+										<h:outputText value="#{row.fechaTipoCambio}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</h:panelGrid>
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Moneda Origen" />
+									</f:facet>
+									<h:outputText value="#{row.monedaOrigen.nombre}" />
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Moneda Destino" />
+									</f:facet>
+									<h:outputText value="#{row.monedaDestino.nombre}" />
+								</rich:column>
+
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Monto Tipo Cambio" />
+									</f:facet>
+									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+										style="width:100%;text-align:right;" columns="1">
+										<h:outputText value="#{row.montoCambio}">
+											<f:convertNumber pattern="##0.000000" locale="en_US" />
+										</h:outputText>
+									</h:panelGrid>
+
+								</rich:column>
+								<f:facet name="footer">
+									<rich:dataScroller for="idTabla" />
+								</f:facet>
+							</rich:dataTable></td>
+					</tr>
+				</table>
+
+				<f:facet name="footer">
+					<h:panelGroup style="text-align:center;">
+						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+							style="height: 50px" width="100%">
+							<a4j:commandButton value="NUEVO TIPO CAMBIO"
+								action="#{tipoCambioMBean.nuevoTipoCambio()}"
+								style="height:20px; width:150px"
+								render="idGridFormTipoCambio, idNomModal"
+								oncomplete="#{rich:component('idModalformtipocambio')}.show()">
+							</a4j:commandButton>
+							<a4j:commandButton id="idBotonModalCorrecto"
+								style="display:none;" type="button"
+								oncomplete="#{rich:component('idModalcorrecto')}.show();" />
+							<a4j:commandButton id="idBotonModalError" style="display:none;"
+								type="button"
+								oncomplete="#{rich:component('idModalError')}.show();" />
+						</h:panelGrid>
+					</h:panelGroup>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+		<ui:include src="/paginas/negocio/tipocambio/formtipocambio.xhtml" />
+		<ui:include src="/resources/includes/includemensaje.xhtml">
+			<ui:param name="backBean" value="#{tipoCambioMBean}" />
+			<ui:param name="idModalForm" value="idModalformtipocambio" />
+			<ui:param name="idrender" value="idTabla" />
+		</ui:include>
+		<script type="text/javascript">
+		mostrarModal('idfradmtipocambio');
+		</script>
+	</ui:define>
+</ui:composition>
+</html>

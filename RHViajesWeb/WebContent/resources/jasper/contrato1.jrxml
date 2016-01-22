@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4dace80b-d95c-4592-9ede-a222efe24105">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="15" uuid="e9d5427f-0b88-4c1a-89ec-50b7bc5c73d0"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE AFILIACION – CLUB DE NOVIOS TERRANOVA 2014 – DESPACHO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="555" height="15" uuid="3e0bc5f3-deb4-496b-9049-7302cc889015"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1. ASPECTO GENERALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="35" width="519" height="34" uuid="0ed65d62-d276-402a-8efe-be4b783422d8"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[El programa CLUB DE NOVIOS TERRANOVA (en adelante el  “PROGRAMA”) es un programa  promocional que otorga a las parejas de novios que se afilien (en adelante “NOVIOS”), acceso a servicios y beneficios bajo los términos y condiciones que se describen en este documento (en adelante “CONTRATO”).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="35" width="23" height="15" uuid="359e8ae4-50f6-4e64-adb4-ede2ff8d2da2"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="69" width="519" height="25" uuid="06f6429e-3b8f-4196-a674-80e783c31268"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Para tener derecho a los servicios y beneficios del PROGRAMA,  la afiliación deberá realizarse con una anticipación no mayor a 12 meses de la fecha de matrimonio declarada en el momento de la inscripción.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="69" width="23" height="15" uuid="a37bf4f1-54ec-4aea-af72-54eb6a76e1ed"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="94" width="519" height="39" uuid="b92d4873-aa95-46bb-8a46-e5371194a564"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[El plazo de vigencia del CONTRATO se computa  a partir de la fecha de suscripción del presente documento hasta un plazo máximo de 90 días posteriores a la fecha de matrimonio declarada en el momento de inscripción. Una vez cumplido el mencionado plazo los beneficios y servicios caducarán automáticamente, de manera que GRUPO MARAL S.A. no tendrá ninguna obligación con los NOVIOS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="94" width="23" height="15" uuid="adf75c14-7891-4bf6-98bb-92203522f419"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="133" width="519" height="21" uuid="c7991901-0c83-46c7-90e2-5d33ca58117b"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS NO podrán tener vigente más de una membresía al PROGRAMA en simultáneo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="133" width="23" height="15" uuid="4924ccb7-d94d-4342-a9fd-57dfb81d8ed4"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.4.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="154" width="519" height="30" uuid="3846a5b1-1f78-4066-81d2-a8f39d9d122f"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[GRUPO MARAL S.A. se reserva el derecho de cancelar o modificar, en cualquier momento y sin previo aviso, cualquier beneficio, servicio o promoción adicional a los mencionados en este documento que hubiese sido ofrecido a los NOVIOS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="154" width="23" height="15" uuid="b8e3bf94-7de0-4bcf-b3ec-2660e8d0ea1a"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.5.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="184" width="519" height="21" uuid="684d163d-0b95-423f-a600-eb737e07f311"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los beneficios otorgados a los NOVIOS son estrictamente personales e intransferibles.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="184" width="23" height="15" uuid="7ab7bd4b-8203-471f-b960-eed5eca30290"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.6.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="205" width="519" height="20" uuid="fce79bb4-01fd-4976-af3c-4f6c6873c3f1"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS autorizan que sus nombres sean publicados en el “Listín de Bodas Mensual”, en caso que el PROGRAMA decida publicarlos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="205" width="23" height="15" uuid="3ac057c9-a345-40a3-a2aa-efd1b23e1a93"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.7.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="225" width="519" height="25" uuid="99c31016-047d-46ba-b12b-ca22c56f8683"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS autorizan el envío de publicidad y promociones a su dirección de domicilio y de correo electrónico registrados al nombre de la inscripción.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="225" width="23" height="15" uuid="e4130099-cb1d-4df0-ad50-4218bc2a212c"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[1.8.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="250" width="555" height="15" uuid="7d38f824-a3aa-4622-b07a-acd5ac080850"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2. AFILIACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="265" width="23" height="15" uuid="e4f2ca3e-c6e3-43bd-a37a-f6250ad8a7ef"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="265" width="519" height="18" uuid="3d8d9f9a-c979-4bce-b51b-1457609fc793"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[La afiliación al PROGRAMA  debe efectuarse con una anticipación no mayores a 12 meses de la fecha programadas para el matrimonio.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="288" width="23" height="15" uuid="266d0269-2d7c-4a32-9fd4-754e77a3e1ce"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="288" width="519" height="35" uuid="94698b0a-0548-4782-98cd-e84459451020"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[En caso solo uno de los NOVIOS, o un tercero enviados por los mismos, se acerque a realizar la inscripción, procederemos a generar el código de evento para facilitar la acumulación; sin embargo los beneficios y premios que se presentan en este documento sólo podrán reclamarse  a partir de que el contrato cuente con la firma de ambos NOVIOS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="326" width="23" height="15" uuid="9fdd2956-5e25-48bd-be67-6d878caad2f0"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2.3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="326" width="519" height="35" uuid="e6649075-12eb-4fe9-bdf9-ee8b8785c1a4"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Al momento de la afiliación los novios deberán cancelar US$ 50.00 (cincuenta y 00/100 dólares americanos), con lo cual se le otorgara 50 puntos y se genera el código de novios de la pareja, el cual debe incluirse al momento de  la compra en la agencia de viajes para la acumulación de puntos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="366" width="23" height="15" uuid="aed00cf2-bf8e-47d2-a80e-a258741b04d2"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2.4.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="366" width="519" height="35" uuid="d993a048-e0f5-4050-8533-bf43acad4b44"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Si los NOVIOS quisieran desafiliarse del programa, esto es posible, con la presentación de una carta donde al menos uno de ellos libere a GRUPO MARAL S.A de sus obligaciones en este contrato. Los montos acumulados hasta la fecha de la renuncia no otorgan beneficio alguno y son intransferibles.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="405" width="23" height="15" uuid="5a050ad0-4b21-4823-b976-f234293c6f04"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2.5.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="405" width="519" height="44" uuid="fff43751-fe60-4c3c-b12b-f3afe24204a6"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[En caso los NOVIOS deseen realizar un cambio de fecha de matrimonio o números telefónicos de contacto; deberán comunicarlo a las asesoras de CLUB DE NOVIOS TERRANOVA en nuestra oficina, en un plazo no menor de 30 días, anteriores a la modificación. Al realizar el cambio de fecha solo se reconocerán los puntos acumulados mediante compras realizadas dentro de los 12 meses anteriores a la nueva fecha de matrimonio, eliminándose cualquier puntaje adquirido fuera de este periodo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="450" width="23" height="15" uuid="468c45a9-90ec-4017-8e20-671c86a73a35"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[2.6.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="450" width="519" height="25" uuid="371acc8c-8fd3-44bf-8d5b-7087998ea2e5"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[GRUPO MARAL S.A. podrá entregar a los NOVIOS material de información de proveedores de servicio  de bodas, siendo de entera responsabilidad de los NOVIOS la elección de os proveedores que contraten.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="479" width="555" height="15" uuid="9a3c9f6a-962f-4e3a-845a-6fa3e32de14e"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3. ACUMULACIÓN DE PUNTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="494" width="23" height="15" uuid="f6d2ccb6-b339-4ceb-a7e1-86561ee4da92"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="494" width="519" height="25" uuid="d364abef-6083-43ee-b5ea-d2bfe8f1db90"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Para efectos de acumulación de puntos en el PROGRAMA, se entiende que un PUNTO es equivalente a US$ 1.00 (un dólar americano y 00/100) incluido IGV pagado por compras en VIAJES TERRANOVA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="522" width="23" height="15" uuid="e505e263-f322-450c-bc73-8a25e0ab9e4a"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="522" width="519" height="22" uuid="e9393e57-653f-45fe-a313-56cb3d1651e6"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS podrán acumular puntos, hasta 90 días posteriores  a su fecha de matrimonio, con las compras que cumplan con las condiciones siguientes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="548" width="27" height="15" uuid="d4ab749e-a02f-4548-9f50-deaf4c7e767c"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.2.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="548" width="492" height="25" uuid="f4c19b9a-8b4c-4b71-a395-65987aa0e927"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Las compras deben ser realizadas por los NOVIOS o por un tercero que mantenga  con los NOVIOS una relación de amistad o parentesco (en adelante AMIGOS Y/O FAMILIARES).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="576" width="27" height="15" uuid="ad04d724-7e3b-47da-a635-565dcb3e63ec"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.2.2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="576" width="492" height="25" uuid="330dd95b-424a-4e84-a032-3ac4c7fab865"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Los NOVIOS, AMIGOS Y/O FAMILIRES son los responsables de brindar en caja, antes de concretada la venta, el código de NOVIOS para que la compra quede registrada en la cuenta de NOVIOS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="606" width="27" height="15" uuid="899d400a-21d2-4924-bec9-7d2ca58ebf27"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.2.3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="606" width="492" height="15" uuid="f8101eb1-04c2-4200-85bd-89b2d4675083"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Solo se acumularan las compras realizadas en el periodo fijado de conformidad con lo previsto en este Contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="633" width="23" height="15" uuid="287779ab-4e69-465e-990c-45999431be87"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="633" width="519" height="20" uuid="86dc91f0-89d3-4607-954b-1939bc7fbc68"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[GRUPO MARAL S.A. podrá eliminar del acumulado de los NOVIOS las compras sujetas a exclusión que por error hayan sido acumuladas.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="665" width="23" height="15" uuid="3a2eb53e-cf6c-48e1-9aad-54d9c4926c08"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.4.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="665" width="519" height="35" uuid="8feecd41-49a2-43a3-85fb-1eea244c44d6"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[En ningún caso podrán ser registrados puntos posteriormente a una compra. Los NOVIOS eximen de toda responsabilidad a GRUPO MARAL S.A. si el código de novios no fue ingresado antes de hacerse efectiva la compra. Es responsabilidad de los NOVIOS, AMIGOS Y/O FAMILIARES verificar la correcta acumulación finalizada la compra.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="710" width="23" height="15" uuid="4be6c0f5-14a6-4599-98d8-25f462843f88"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.5.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="710" width="519" height="43" uuid="cf7f5d12-f2a8-4960-84fb-4324612c18e3"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[GRUPO MARAL S.A. se reserva el derecho de revisar el registro de compras de los NOVIOS si así estimase conveniente. En el caso de detectar irregularidades, según la gravedad y reincidencia de la irregularidad, se procederá a la inmediata resolución del contrato perdiendo los NOVIOS todo beneficio y/o eliminación de puntos que sean considerados como acumulación irregular de manera unilateral como consecuencia de las siguientes situaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="758" width="27" height="15" uuid="3404db23-0d6f-4c5f-8bf6-e4f35a89ae17"/>
+				<textElement>
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[3.5.1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="758" width="492" height="26" uuid="f482cc05-d6de-4067-87fb-a982dd88b0f6"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Que los NOVIOS o vendedores de entreguen el código  a terceros que no estén dentro de la categoría Familiares y/o Amigos definida en el numeral 3.2.1 aunque estos lo hayan autorizado al momento de la compra.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

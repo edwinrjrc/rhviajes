@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<!-- la ventana modal -->
+	<rich:popupPanel id="idCredencialVencida" width="400" height="300"
+		resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Mensaje" />
+		</f:facet>
+
+		<h:form>
+			<h:panelGrid style="width:100%;" cellpadding="0" cellspacing="0"
+				border="0" columns="1">
+				<f:facet name="header">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						style="text-align: left;vertical-align: top; width: 100%;">
+						<h:outputText id="idNomSubtitulo" value="Credenciales Vencidas"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid style="width:100%;" cellpadding="0" cellspacing="0"
+					border="0" columns="2">
+					<h:outputText value="Usuario" />
+					<h:outputText value="#{usuarioMBean.usuario.usuario}" />
+
+					<h:outputText value="Contraseña Vencida" />
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+						<h:inputSecret id="idCredenVencida"
+							value="#{usuarioMBean.usuario.credencial}" required="true"
+							requiredMessage="Ingrese la contraseña nueva" />
+						<rich:message for="idCredenVencida" showSummary="true"
+							showDetail="false" ajaxRendered="true" />
+					</h:panelGrid>
+
+					<h:outputText value="Contraseña nueva" />
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+						<h:inputSecret id="idCredenNueva"
+							value="#{usuarioMBean.credencialNueva}" required="true"
+							requiredMessage="Ingrese la contraseña nueva" />
+						<rich:message for="idCredenNueva" showSummary="true"
+							showDetail="false" ajaxRendered="true" />
+					</h:panelGrid>
+
+					<h:outputText value="Re Contraseña nueva" />
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
+						<h:inputSecret id="idReCredenNueva"
+							value="#{usuarioMBean.usuario.credencialNueva}" required="true"
+							requiredMessage="Ingrese la contraseña nueva" />
+						<rich:message for="idReCredenNueva" showSummary="true"
+							showDetail="false" ajaxRendered="true" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<a4j:commandButton value="Grabar"
+						action="#{usuarioMBean.cambiarClaveVencida()}"
+						render="idGridFormUsuario,idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+						oncomplete="mostrarModal('idFrInicio')"></a4j:commandButton>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+
+</ui:composition>

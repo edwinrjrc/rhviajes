@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalrutaservicio" modal="true" width="1100"
+		height="350">
+
+		<f:facet name="header">
+			<h:outputText value="Detalle Ruta Servicio" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalrutaservicio')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form>
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+				style="width:100%" columns="4" id="idPnRutaServicio">
+				<rich:dataTable style="width:100%;" id="idTabTramos"
+					value="#{servicioAgenteMBean.listaTramos}" var="tramo">
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Origen" />
+						</f:facet>
+						<rich:autocomplete id="idTxtOrigen" mode="client"
+							value="#{tramo.origen.codigoCadena}"
+							autocompleteList="#{servicioAgenteMBean.listaDestinosBusqueda}"
+							var="origen" layout="div"
+							fetchValue="#{origen.descripcion}(#{origen.codigoIATA})">
+							<b>#{origen.descripcion}</b> - <i>(#{origen.codigoIATA}) </i>
+						</rich:autocomplete>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Fecha Salida" />
+						</f:facet>
+						<rich:calendar datePattern="dd/MM/yyyy HH:mm"
+							enableManualInput="true" showApplyButton="true"
+							value="#{tramo.fechaSalida}"></rich:calendar>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Destino" />
+						</f:facet>
+						<rich:autocomplete id="idTxtDestino" mode="client"
+							value="#{tramo.destino.codigoCadena}"
+							autocompleteList="#{servicioAgenteMBean.listaDestinosBusqueda}"
+							var="destino" layout="div"
+							onselectitem="clicBoton('idFormVentaServi:idbtncalculacomision')"
+							fetchValue="#{destino.descripcion}(#{destino.codigoIATA})">
+							<b>#{destino.descripcion}</b> - <i>(#{destino.codigoIATA}) </i>
+						</rich:autocomplete>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Fecha Llegada" />
+						</f:facet>
+						<rich:calendar datePattern="dd/MM/yyyy HH:mm"
+							enableManualInput="true" showApplyButton="true"
+							value="#{tramo.fechaLlegada}"></rich:calendar>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Precio Tramo" />
+						</f:facet>
+						<h:inputText onkeypress="return js_soloDecimal(event)"
+							style="text-align:right;" value="#{tramo.precio}" size="10"
+							maxlength="8" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Aerolinea" />
+						</f:facet>
+						<h:selectOneMenu id="idSelAerolineaRuta" style="width:100px;"
+							value="#{tramo.aerolinea.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione la aerolinea-" />
+							<f:selectItems value="#{catalogoMBean.catalogoAerolineas}" />
+						</h:selectOneMenu>
+					</rich:column>
+					<rich:column>
+						<a4j:commandButton value=" - " render="idTabTramos"
+							action="#{servicioAgenteMBean.eliminarTramo(tramo)}"></a4j:commandButton>
+					</rich:column>
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="2">
+							<a4j:commandButton value="Agregar Tramo"
+								render="idPnRutaServicio" oncomplete="mostrarMensajeModal2('idModalrutaservicio')"
+								action="#{servicioAgenteMBean.agregarTramo()}"></a4j:commandButton>
+							<a4j:commandButton value="Agregar Tramos Regreso"
+								render="idPnRutaServicio" oncomplete="mostrarMensajeModal2('idModalrutaservicio')"
+								action="#{servicioAgenteMBean.agregarTramoRegreso()}"></a4j:commandButton>
+						</h:panelGrid>
+					</f:facet>
+				</rich:dataTable>
+
+				<f:facet name="footer">
+					<h:panelGrid style="width:100%;text-align:center;">
+						<a4j:commandButton value="Aceptar"
+							action="#{servicioAgenteMBean.aceptarRuta()}"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrRegisVenServicio,idPnRutaServicioTexto,idPnPrecio"
+							oncomplete="mostrarMensajeModal('idModalrutaservicio')"></a4j:commandButton>
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

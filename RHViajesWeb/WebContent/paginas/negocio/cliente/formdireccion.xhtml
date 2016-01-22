@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalFormDireccion" modal="true" width="900"
+		height="600" style="background-color: #FFFFFF">
+		<f:facet name="header">
+			<h:outputText id="idNomModalDireccion"
+				value="#{clienteMBean.nombreFormularioDireccion}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalFormDireccion')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFDPr">
+			<h:panelGrid columns="1" style="width:100%;" cellpadding="0"
+				cellspacing="0" border="0" id="idGrdFDir">
+				<rich:tabPanel style="width:100%;" switchType="client"
+					activeItem="#{clienteMBean.pestanaActiva}">
+					<rich:tab header="Direccion" id="idFD01">
+						<h:panelGrid columns="1" style="width:100%;" cellpadding="0"
+							cellspacing="0" border="0" id="idGrdFormDireccion">
+							<h:panelGrid columns="4" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Via" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:selectOneMenu id="idFDSelTipoVia"
+										value="#{clienteMBean.direccion.via.codigoEntero}"
+										style="width:123px;">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoVias}" />
+									</h:selectOneMenu>
+									<rich:message for="idFDSelTipoVia" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText value="Nombre Via" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:inputText id="idFDInNomVia" styleClass="estilocampo1"
+										value="#{clienteMBean.direccion.nombreVia}" maxlength="40" />
+									<rich:message for="idFDInNomVia" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid columns="4" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Número" style="width:100px;" />
+								<h:inputText value="#{clienteMBean.direccion.numero}"
+									maxlength="5" size="10" />
+								<h:outputText value="Interior" style="width:100px;" />
+								<h:inputText value="#{clienteMBean.direccion.interior}"
+									maxlength="5" size="10" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="4" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Manzana" style="width:100px;" />
+								<h:inputText value="#{clienteMBean.direccion.manzana}"
+									styleClass="estilocampo1" maxlength="5" size="10" />
+								<h:outputText value="Lote" style="width:100px;" />
+								<h:inputText value="#{clienteMBean.direccion.lote}"
+									styleClass="estilocampo1" maxlength="5" size="10" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="4" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Departamento" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:selectOneMenu id="idDepartamentoDireccion"
+										value="#{clienteMBean.direccion.ubigeo.departamento.codigoCadena}"
+										valueChangeListener="#{clienteMBean.buscarProvincias}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoDepartamento}" />
+										<a4j:ajax event="valueChange"
+											render="idSelProvDir,idProvinciaDireccion" immediate="true" />
+									</h:selectOneMenu>
+									<rich:message for="idDepartamentoDireccion" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText value="Provincia" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1" id="idSelProvDir">
+									<h:selectOneMenu id="idProvinciaDireccion"
+										value="#{clienteMBean.direccion.ubigeo.provincia.codigoCadena}"
+										valueChangeListener="#{clienteMBean.buscarDistrito}">
+										<f:selectItem itemLabel="-Seleccione-" itemValue="" />
+										<f:selectItems value="#{clienteMBean.listaProvincia}" />
+										<a4j:ajax event="valueChange" render="idDistritoDireccion"
+											execute="@this" immediate="true" />
+									</h:selectOneMenu>
+									<rich:message for="idProvinciaDireccion" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Distrito" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:selectOneMenu id="idDistritoDireccion"
+										value="#{clienteMBean.direccion.ubigeo.distrito.codigoCadena}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{clienteMBean.listaDistrito}" />
+									</h:selectOneMenu>
+									<rich:message for="idDistritoDireccion" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Es oficina principal" />
+								<h:selectBooleanCheckbox
+									value="#{clienteMBean.direccion.principal}"
+									title="Es Principal" label="Es Principal" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0">
+								<h:outputText value="Referencia" />
+								<h:inputTextarea id="idTARefere" value="#{clienteMBean.direccion.referencia}"
+									cols="120" rows="5" styleClass="estilocampo1" />
+								<rich:message for="idTARefere" showDetail="false" showSummary="true" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0">
+								<h:outputText value="Observaciones" />
+								<h:inputTextarea styleClass="estilocampo1" id="idTAObser"
+									value="#{clienteMBean.direccion.observaciones}" cols="120"
+									rows="5" />
+								<rich:message for="idTAObser" showDetail="false" showSummary="true" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+					</rich:tab>
+					<rich:tab header="Telefonos" id="idFD02">
+						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+							style="width:100%;text-align:center;">
+							<rich:dataTable value="#{clienteMBean.direccion.telefonos}"
+								style="width:100%;" var="fila" id="idTablaTelDir">
+								<rich:column>
+									<h:outputText value="#{fila.id}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Número" />
+									</f:facet>
+									<h:inputText value="#{fila.numeroTelefono}" maxlength="9"
+										onkeypress="return js_soloEntero(event)">
+									</h:inputText>
+								</rich:column>
+								<rich:column>
+									<a4j:commandButton render="idTablaTelDir" value="Eliminar"
+										action="#{clienteMBean.eliminarTelefono(fila)}" />
+								</rich:column>
+								<f:facet name="header">
+									<h:panelGrid columns="1" border="0" cellpadding="0"
+										cellspacing="0" style="width:100%;text-align:right;">
+										<a4j:commandButton render="idTablaTelDir" value="Agregar"
+											action="#{clienteMBean.agregarTelefonoDireccion}" />
+									</h:panelGrid>
+								</f:facet>
+							</rich:dataTable>
+							<rich:message for="idTablaTelDir" ajaxRendered="true"
+								showSummary="true" />
+						</h:panelGrid>
+					</rich:tab>
+				</rich:tabPanel>
+
+				<f:facet name="footer">
+					<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;text-align:center;" id="idGrdBtnes">
+
+						<br />
+
+						<a4j:commandButton value="Agregar"
+							actionListener="#{clienteMBean.agregarDireccion}"
+							style="height:20px; width:150px;"
+							rendered="#{clienteMBean.nuevaDireccion}"
+							oncomplete="cerrarModalBoton('idFDPr','idCerrarModal','idHdDirAgr')"
+							render="idGrdFormDireccion,idGrdBtnes,idGrdFDir" />
+
+						<a4j:commandButton value="Actualizar"
+							actionListener="#{clienteMBean.agregarDireccion}"
+							style="height:20px; width:150px;"
+							rendered="#{clienteMBean.editarDireccion}"
+							oncomplete="cerrarModalBoton('idFDPr','idCerrarModal','idHdDirAgr')"
+							render="idGrdFormDireccion,idGrdBtnes,idGrdFDir" />
+
+						<a4j:commandButton id="idCerrarModal" style="display:none;"
+							oncomplete="#{rich:component('idModalFormDireccion')}.hide(); return false;"
+							render="idTablaDirecciones" />
+
+						<h:inputHidden id="idHdDirAgr"
+							value="#{clienteMBean.direccionAgregada}" />
+
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

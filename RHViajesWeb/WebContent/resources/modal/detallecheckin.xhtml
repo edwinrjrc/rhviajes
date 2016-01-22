@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModaldetallecheckin" modal="true" width="1000"
+		height="250">
+
+		<f:facet name="header">
+			<h:outputText value="Detalle Servicio" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModaldetallecheckin')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+			style="width:100%;" columns="1" id="idPnDetalleCheckin">
+
+			<rich:tabPanel switchType="client" style="width:100%;">
+				<rich:tab>
+					<f:facet name="header">
+						<h:outputText value="Informacion" />
+					</f:facet>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;" columns="4"
+						columnClasses="detaServicio1Col,detaServicio2Col,detaServicio1Col,detaServicio2Col">
+						<h:outputText value="Id Servicio" />
+						<h:outputText value="#{inicioMBean.checkIn.idServicio}" />
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<h:outputText value="Origen" />
+						<h:outputText value="#{inicioMBean.checkIn.origen.nombre}" />
+						<h:outputText value="Destino" />
+						<h:outputText value="#{inicioMBean.checkIn.destino.nombre}" />
+						<h:outputText value="Fecha Salida" />
+						<h:outputText
+							value="#{inicioMBean.detalleServicioAgencia.ruta.tramo.fechaSalida}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-05" />
+						</h:outputText>
+						<h:outputText value="Fecha Llegada" />
+						<h:outputText
+							value="#{inicioMBean.detalleServicioAgencia.ruta.tramo.fechaLlegada}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-05" />
+						</h:outputText>
+						<h:outputText value="Proveedor" />
+						<h:outputText
+							value="#{inicioMBean.detalleServicioAgencia.servicioProveedor.nombreProveedor}" />
+						<h:outputText value="Aerolinea" />
+						<h:outputText
+							value="#{inicioMBean.detalleServicioAgencia.aerolinea.nombre}" />
+
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab>
+					<f:facet name="header">
+						<h:outputText value="Pasajeros" />
+					</f:facet>
+
+					<rich:dataTable style="width:100%;"
+						value="#{inicioMBean.detalleServicioAgencia.listaPasajeros}"
+						var="pax">
+						<f:facet name="noData">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;text-align:center;" columns="1">
+								<h:outputText value=" No se encontraron pasajeros" />
+							</h:panelGrid>
+						</f:facet>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Documento Identidad" />
+							</f:facet>
+							<h:outputText
+								value="#{pax.documentoIdentidad.tipoDocumento.nombre} - #{pax.documentoIdentidad.numeroDocumento}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Nombres" />
+							</f:facet>
+							<h:outputText value="#{pax.nombres}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Apellido Paterno" />
+							</f:facet>
+							<h:outputText value="#{pax.apellidoPaterno}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Apellido Materno" />
+							</f:facet>
+							<h:outputText value="#{pax.apellidoMaterno}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Correo Electronico" />
+							</f:facet>
+							<h:outputText value="#{pax.correoElectronico}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Relación" />
+							</f:facet>
+							<h:outputText value="#{pax.relacion.nombre}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Pasajero Frecuente" />
+							</f:facet>
+							<h:outputText value="#{pax.numeroPasajeroFrecuente}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Aerolinea" />
+							</f:facet>
+							<h:outputText value="#{pax.aerolinea.nombre}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Código Reserva" />
+							</f:facet>
+							<h:outputText value="#{pax.codigoReserva}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Número Boleto" />
+							</f:facet>
+							<h:outputText value="#{pax.numeroBoleto}" />
+						</rich:column>
+					</rich:dataTable>
+				</rich:tab>
+			</rich:tabPanel>
+
+		</h:panelGrid>
+
+	</rich:popupPanel>
+</ui:composition>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalMaeServicio" modal="true" width="600"
+		height="500">
+		<f:facet name="header">
+			<h:outputText id="idNomModal"
+				value="#{maeServiciosMBean.nombreFormulario}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalMaeServicio')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFrMaeServicio">
+			<h:panelGrid id="idGrFrMaeServicio" cellpadding="0" cellspacing="0"
+				border="0" style="width:100%;" columns="1">
+				<f:facet name="header">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;text-align:left;" columns="1">
+						<h:outputText id="idNomSubtitulo"
+							value="#{maeServiciosMBean.nombreFormulario}"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Nombre" style="width: 100px; text-align:left" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<h:inputText id="idNomServicio" styleClass="estilocampo1"
+							value="#{maeServiciosMBean.maestroServicio.nombre}"
+							maxlength="50" />
+						<rich:message for="idNomServicio" showDetail="false"
+							showSummary="true" />
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Descripcion Corta"
+						style="width: 100px; text-align:left" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<h:inputTextarea id="idDescServicioCorta"
+							styleClass="estilocampo1"
+							value="#{maeServiciosMBean.maestroServicio.descripcionCorta}"
+							cols="50" rows="3" />
+						<rich:message for="idDescServicioCorta" showDetail="false"
+							showSummary="true" />
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Descripcion Larga"
+						style="width: 100px; text-align:left" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<h:inputTextarea id="idDescServicioLarga"
+							styleClass="estilocampo1"
+							value="#{maeServiciosMBean.maestroServicio.descripcion}"
+							cols="50" rows="3" />
+						<rich:message for="idDescServicioLarga" showDetail="false"
+							showSummary="true" />
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Requiere FEE"
+						style="width: 100px; text-align:left" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
+						id="idGrFee">
+						<h:selectBooleanCheckbox
+							value="#{maeServiciosMBean.maestroServicio.requiereFee}">
+							<a4j:ajax event="valueChange" render="idGrFee, idSelSerFee"></a4j:ajax>
+						</h:selectBooleanCheckbox>
+						<h:outputText value=""
+							rendered="#{!maeServiciosMBean.maestroServicio.requiereFee}" />
+						<h:selectOneMenu id="idSelSerFee"
+							rendered="#{maeServiciosMBean.maestroServicio.requiereFee}"
+							value="#{maeServiciosMBean.maestroServicio.servicioFee.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItems value="#{catalogoMBean.catalogoTipoServicioFee}"></f:selectItems>
+						</h:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Paga Impuesto"
+						style="width: 100px; text-align:left" />
+					<h:selectBooleanCheckbox
+						value="#{maeServiciosMBean.maestroServicio.pagaImpto}">
+						<a4j:ajax event="valueChange" render="idGrPagaImpto, idTabImpto"></a4j:ajax>
+					</h:selectBooleanCheckbox>
+					<h:outputText value=""
+						rendered="#{!maeServiciosMBean.maestroServicio.pagaImpto}" />
+					<h:outputText value=""
+						rendered="#{!maeServiciosMBean.maestroServicio.pagaImpto}" />
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Carga Comision"
+						style="width: 100px; text-align:left" />
+					<h:selectBooleanCheckbox
+						value="#{maeServiciosMBean.maestroServicio.cargaComision}" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Parametro Asociado"
+						style="width: 100px; text-align:left" />
+					<h:selectOneMenu id="idSelParAso"
+						value="#{maeServiciosMBean.maestroServicio.parametroAsociado.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoParametros}"></f:selectItems>
+					</h:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Es Impuesto"
+						rendered="#{maeServiciosMBean.editarMaestroServicio}"
+						style="width: 100px; text-align:left" />
+					<h:selectBooleanCheckbox
+						rendered="#{maeServiciosMBean.editarMaestroServicio}"
+						value="#{maeServiciosMBean.maestroServicio.esImpuesto}" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Es Fee"
+						rendered="#{maeServiciosMBean.editarMaestroServicio}"
+						style="width: 100px; text-align:left" />
+					<h:selectBooleanCheckbox
+						rendered="#{maeServiciosMBean.editarMaestroServicio}"
+						value="#{maeServiciosMBean.maestroServicio.esFee}" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+				</h:panelGrid>
+				
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio" rendered="#{maeServiciosMBean.editarMaestroServicio}">
+					<h:outputLabel value="Visible"
+						rendered="#{maeServiciosMBean.editarMaestroServicio}"
+						style="width: 100px; text-align:left" />
+					<h:selectBooleanCheckbox
+						rendered="#{maeServiciosMBean.editarMaestroServicio}"
+						value="#{maeServiciosMBean.maestroServicio.visible}" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+				</h:panelGrid>
+				
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="2"
+					columnClasses="col1servicio,col2servicio">
+					<h:outputLabel value="Servicio Padre"
+						style="width: 100px; text-align:left" />
+					<h:selectBooleanCheckbox
+						value="#{maeServiciosMBean.maestroServicio.servicioPadre}" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width: 100%;" id="idGrPagaImpto">
+
+					<rich:dataTable id="idTabImpto"
+						rendered="#{maeServiciosMBean.maestroServicio.pagaImpto}"
+						value="#{maeServiciosMBean.listaMaeServicioImpto}" var="fila"
+						style="width: 100%;">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Servicio Impuesto" />
+							</f:facet>
+							<h:selectOneMenu id="idSelSerFee" value="#{fila.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems
+									value="#{catalogoMBean.catalogoTipoServicioImpto}"></f:selectItems>
+							</h:selectOneMenu>
+						</rich:column>
+
+						<rich:column>
+							<a4j:commandButton value="Eliminar" render="idGrPagaImpto"
+								action="#{maeServiciosMBean.eliminarServicioImpto(fila)}"></a4j:commandButton>
+						</rich:column>
+
+						<f:facet name="header">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width: 100%; text-align: right;" columns="1">
+								<a4j:commandButton value="Agregar" render="idGrPagaImpto"
+									action="#{maeServiciosMBean.agregarServicioImpto()}"></a4j:commandButton>
+							</h:panelGrid>
+						</f:facet>
+					</rich:dataTable>
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;text-align:center;height:100px;" columns="1">
+
+						<a4j:commandButton value="Grabar" style="width:100px;"
+							action="#{maeServiciosMBean.ejecutarMetodo}"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+							oncomplete="mostrarModal('idfradmmaeservicios')" />
+
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

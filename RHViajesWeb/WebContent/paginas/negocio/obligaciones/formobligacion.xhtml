@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalformobligacion" modal="true" width="1000"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText id="idNomModal"
+				value="#{obligacionPorPagarMBean.nombreFormulario}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalformobligacion')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFormObligacion">
+			<h:panelGrid id="idGridFormObligacion" border="0" cellpadding="0"
+				cellspacing="0" style="width:100%;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText id="idNomSubtitulo"
+							value="#{obligacionPorPagarMBean.nombreFormulario}"
+							style="height: 100px" styleClass="subtitulo2" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+					style="width:100%;" id="idGr2FrObligacion">
+					<h:panelGrid columns="4" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;"
+						columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+						<h:outputText value="Tipo Comprobante" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+							<h:selectOneMenu id="idSelTipComprobante" required="true"
+								requiredMessage="Seleccione el tipo de comprobante"
+								value="#{obligacionPorPagarMBean.comprobante.tipoComprobante.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoTipoComprobante}"></f:selectItems>
+							</h:selectOneMenu>
+							<rich:message for="idSelTipComprobante" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+
+						<h:outputText value="Número Comprobante" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+							<h:inputText id="idTxtNumComprobante" required="true"
+								requiredMessage="Ingrese el número de comprobante"
+								value="#{obligacionPorPagarMBean.comprobante.numeroComprobante}"
+								maxlength="10" onkeypress="return js_soloEntero(event);" />
+							<rich:message for="idTxtNumComprobante" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;"
+						columnClasses="col1fil2proveedor,col2fil2proveedor">
+						<h:outputText value="Proveedor" />
+						<h:panelGrid columns="2" border="0" cellpadding="0"
+							cellspacing="0" id="idGrFrProveedor"
+							columnClasses="col1iconoformulario,col1iconoformulario">
+							<h:inputText readonly="true" size="100" id="idTxtProveedor"
+								requiredMessage="Seleccione el proveedor" required="true"
+								value="#{obligacionPorPagarMBean.comprobante.proveedor.nombres}" />
+							<a4j:commandLink oncomplete="mostrarModal3('idModalbusqproveedor')" immediate="true">
+								<h:graphicImage style="border:0px;" 
+									value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
+							</a4j:commandLink>
+							<rich:message for="idTxtProveedor" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid columns="4" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;"
+						columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+						<h:outputText value="Fecha Comprobante" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+							<rich:calendar datePattern="dd/MM/yyyy" id="idFecComprobante"
+								required="true"
+								requiredMessage="Seleccione la fecha de comprobante"
+								value="#{obligacionPorPagarMBean.comprobante.fechaComprobante}"></rich:calendar>
+							<rich:message for="idFecComprobante" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+
+						<h:outputText value="Fecha Pago" />
+						<h:panelGrid cellpadding="0" cellspacing="0"
+							border="0">
+							<rich:calendar datePattern="dd/MM/yyyy" id="idFecPago"
+								required="true" requiredMessage="Seleccione la fecha de pago"
+								value="#{obligacionPorPagarMBean.comprobante.fechaPago}"></rich:calendar>
+							<rich:message for="idFecPago" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;"
+						columnClasses="col1fil2proveedor,col2fil2proveedor">
+						<h:outputText value="Detalle Comprobante" />
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0">
+							<h:inputTextarea rows="10" cols="105" required="true"
+								id="idTxtDetalleComprobante"
+								requiredMessage="Ingrese el detalle del comprobante"
+								value="#{obligacionPorPagarMBean.comprobante.detalleTextoComprobante}" />
+							<rich:message for="idTxtDetalleComprobante" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGrid columns="4" border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;"
+						columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+						<h:outputText value="Tiene Detracción" />
+						<h:selectBooleanCheckbox value="#{obligacionPorPagarMBean.comprobante.tieneDetraccion}" />
+						
+						<h:outputText value="Tiene Detracción" />
+						<h:selectBooleanCheckbox value="#{obligacionPorPagarMBean.comprobante.tieneRetencion}" />
+						
+						<h:outputText value="Total IGV" />
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0">
+							<h:inputText id="idTotalIGV"
+								value="#{obligacionPorPagarMBean.comprobante.totalIGV}" onkeypress="return js_soloDecimal(event);" />
+							<rich:message for="idTotalIGV" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+
+						<h:outputText value="Total Comprobante" />
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0">
+							<h:inputText id="idTotalComprobante" required="true" requiredMessage="Ingrese el total comprobante"
+								value="#{obligacionPorPagarMBean.comprobante.totalComprobante}" onkeypress="return js_soloDecimal(event);" />
+							<rich:message for="idTotalComprobante" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+						style="width:100%;text-align:center;">
+						<a4j:commandButton value="Grabar"
+							action="#{obligacionPorPagarMBean.ejecutarMetodo()}"
+							render="idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGr2FrObligacion"
+							oncomplete="mostrarModal('idformadmobligatorios');" />
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

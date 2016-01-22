@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalbusqorigen" modal="true" width="800"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText value="Busqueda Origen" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalbusqorigen')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form>
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;" id="idGrFrBusqOrigen">
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;">
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:left;">
+							<h:outputText value="Busqueda Origen" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
+						style="width:100%;"
+						columnClasses="col1fil2formulario,col2fil2formulario">
+						<h:outputText value="Origen" />
+						<h:inputText value="#{noviosMBean.origenBusqueda.descripcion}" maxlength="100"
+							size="100" styleClass="estilocampo1" />
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%; text-align:center;">
+							<a4j:commandButton value="Buscar"
+								action="#{noviosMBean.buscarOrigen()}" />
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;">
+
+					<f:facet name="header">
+						<h:panelGrid style="width:100%;text-align:left;" cellpadding="0"
+							cellspacing="0" border="0" columns="1">
+							<h:outputText value="Resultado Busqueda" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+					<rich:dataTable id="idTablaOrigens" var="row" rows="10"
+						value="#{noviosMBean.listaOrigenesBusqueda}" style="width:100%;">
+						<f:facet name="noData">
+							<h:outputText value="No se encontraron Origenes" />
+						</f:facet>
+						<rich:column style="width:30%;">
+							<f:facet name="header">
+								<h:outputText value="Pais" />
+							</f:facet>
+							<h:outputText value="#{row.pais.descripcion}(#{row.pais.abreviado})" />
+						</rich:column>
+						<rich:column style="width:30%;">
+							<f:facet name="header">
+								<h:outputText value="Nombres" />
+							</f:facet>
+							<h:outputText value="#{row.descripcion}" />
+						</rich:column>
+						<rich:column style="width:20%;">
+							<f:facet name="header">
+								<h:outputText value="Iata" />
+							</f:facet>
+							<h:outputText value="#{row.codigoIATA}" />
+						</rich:column>
+						<rich:column style="text-align:center;width:20%;">
+							<f:facet name="header">
+								<h:outputText value="Seleccionar" />
+							</f:facet>
+							<h:selectOneRadio id="idRadioDestino" value="#{row.codigoSeleccionado}" >
+								<f:selectItem itemValue="#{row.codigoEntero}" />
+							</h:selectOneRadio>
+						</rich:column>
+						<f:facet name="footer">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								columns="1" style="width:100%;">
+								<rich:dataScroller for="idTablaOrigens" boundaryControls="auto" />
+							</h:panelGrid>
+						</f:facet>
+					</rich:dataTable>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="height: 50px; width:100%;text-align:center;">
+
+						<a4j:commandButton value="Seleccionar"
+							action="#{noviosMBean.seleccionarOrigen()}"
+							render="idSelOrigen"
+							oncomplete="#{rich:component('idModalbusqorigen')}.hide(); return false;" />
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

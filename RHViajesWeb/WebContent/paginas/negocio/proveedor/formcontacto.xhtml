@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalFormContacto" modal="true" width="800"
+		height="500" style="background-color: #FFFFFF">
+		<f:facet name="header">
+			<h:outputText id="idNomModalContacto"
+				value="#{proveedorMBean.nombreFormularioContacto}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalFormContacto')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idFCPr">
+			<h:panelGrid border="0" cellpadding="0" cellspacing="0" columns="1"
+				id="idGrdFCon" style="width:100%;">
+				<rich:tabPanel style="width:100%;" switchType="client"
+					activeItem="#{proveedorMBean.pestanaActiva}">
+					<rich:tab id="idFC01">
+						<f:facet name="header">
+							<h:outputText value="Contacto" />
+						</f:facet>
+						<h:panelGrid columns="1" style="width:100%;" border="0"
+							cellpadding="0" cellspacing="0">
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="width:100%;" columns="4"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Tipo Documento" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:selectOneMenu id="idSelTipDoc"
+										value="#{proveedorMBean.contacto.documentoIdentidad.tipoDocumento.codigoEntero}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoTipoDocumento}" />
+									</h:selectOneMenu>
+									<rich:message for="idSelTipDoc" ajaxRendered="true"
+										showSummary="true" />
+								</h:panelGrid>
+								<h:outputText value="Numero Documento" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:inputText id="idNumDoc" maxlength="12"
+										styleClass="estilocampo1"
+										value="#{proveedorMBean.contacto.documentoIdentidad.numeroDocumento}" />
+									<rich:message for="idNumDoc" ajaxRendered="true"
+										showSummary="true" />
+								</h:panelGrid>
+								<h:outputText value="Apellido Paterno" />
+								<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
+									border="0">
+									<h:inputText id="idApePat" maxlength="20"
+										styleClass="estilocampo1"
+										value="#{proveedorMBean.contacto.apellidoPaterno}" />
+									<rich:message for="idApePat" ajaxRendered="true"
+										showSummary="true" />
+								</h:panelGrid>
+								<h:outputText value="Apellido Materno" />
+								<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
+									border="0">
+									<h:inputText id="idApeMat" maxlength="20"
+										styleClass="estilocampo1"
+										value="#{proveedorMBean.contacto.apellidoMaterno}" />
+									<rich:message for="idApeMat" ajaxRendered="true"
+										showSummary="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="width:100%;" columns="2"
+								columnClasses="col1fil2proveedor,col2fil2proveedor">
+								<h:outputText value="Nombres" for="idForProNom" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:inputText id="idForProNom" size="100" maxlength="20"
+										value="#{proveedorMBean.contacto.nombres}"
+										styleClass="estilocampo1" />
+									<rich:message for="idForProNom" ajaxRendered="true"
+										showSummary="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="width:100%;" columns="4"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col1fil1proveedor,col2fil1proveedor">
+								<h:outputText value="Area" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:selectOneMenu id="idSelAreCon"
+										value="#{proveedorMBean.contacto.area.codigoEntero}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoArea}" />
+									</h:selectOneMenu>
+									<rich:message for="idSelAreCon" ajaxRendered="true"
+										showSummary="true" />
+								</h:panelGrid>
+
+								<h:outputText value="Anexo" />
+								<h:inputText id="idForAnexo" maxlength="5" size="10"
+									value="#{proveedorMBean.contacto.anexo}" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+					</rich:tab>
+					<rich:tab id="idFC02">
+						<f:facet name="header">
+							<h:outputText value="Telefonos Movil" />
+						</f:facet>
+						<rich:dataTable value="#{proveedorMBean.contacto.listaTelefonos}"
+							style="width:100%;" var="fila" id="idTablaTelefonosContacto">
+							<rich:column>
+								<h:outputText value="#{fila.id}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Operadora" />
+								</f:facet>
+								<h:selectOneMenu value="#{fila.empresaOperadora.codigoEntero}">
+									<f:selectItem itemLabel="-Seleccione-" />
+									<f:selectItems value="#{catalogoMBean.catalogoOperadoraMovil}" />
+								</h:selectOneMenu>
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Número" />
+								</f:facet>
+								<h:inputText value="#{fila.numeroTelefono}"
+									onkeypress="return js_soloEntero(event)" maxlength="9">
+								</h:inputText>
+							</rich:column>
+							<rich:column>
+								<a4j:commandButton render="idTablaTelefonosContacto"
+									value="Eliminar"
+									action="#{proveedorMBean.eliminarTelefonoContacto(fila)}" />
+							</rich:column>
+							<f:facet name="header">
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<a4j:commandButton render="idTablaTelefonosContacto"
+										value="Agregar"
+										action="#{proveedorMBean.agregarTelefonoContacto()}" />
+								</h:panelGrid>
+							</f:facet>
+						</rich:dataTable>
+						<rich:message for="idTablaTelefonosContacto" ajaxRendered="true"
+							showSummary="true" />
+					</rich:tab>
+					<rich:tab id="idFC03">
+						<f:facet name="header">
+							<h:outputText value="Correo Electronico" />
+						</f:facet>
+						<rich:dataTable value="#{proveedorMBean.contacto.listaCorreos}"
+							style="width:100%;" iterationStatusVar="idx" var="fila"
+							id="idTablaCorreoContacto">
+							<rich:column>
+								<h:outputText value="#{idx.index+1}" />
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="Correo Electronico" />
+								</f:facet>
+								<h:inputText value="#{fila.direccion}" size="50" maxlength="30"
+									styleClass="estilocampo1">
+								</h:inputText>
+							</rich:column>
+							<rich:column>
+								<a4j:commandButton render="idTablaCorreoContacto"
+									value="Eliminar"
+									action="#{proveedorMBean.eliminarCorreoContacto(fila)}" />
+							</rich:column>
+							<f:facet name="header">
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0" style="width:100%;">
+									<a4j:commandButton render="idTablaCorreoContacto"
+										value="Agregar"
+										action="#{proveedorMBean.agregarCorreoContacto()}" />
+								</h:panelGrid>
+							</f:facet>
+						</rich:dataTable>
+						<rich:message for="idTablaCorreoContacto" ajaxRendered="true"
+							showSummary="true" />
+					</rich:tab>
+				</rich:tabPanel>
+
+				<f:facet name="footer">
+					<h:panelGrid columns="1" style="width:100%;text-align:center;"
+						id="idGrdBtnesCont">
+						<a4j:commandButton value="Agregar"
+							actionListener="#{proveedorMBean.agregarContacto}"
+							rendered="#{proveedorMBean.nuevoContacto}"
+							oncomplete="cerrarModalBoton('idFCPr','idCerrModCon','idHdConAgr')"
+							render="idTablaContactos,idGrdBtnesCont,idGrdFCon" />
+
+						<a4j:commandButton value="Actualizar"
+							actionListener="#{proveedorMBean.agregarContacto}"
+							rendered="#{proveedorMBean.editarContacto}"
+							oncomplete="cerrarModalBoton('idFCPr','idCerrModCon','idHdConAgr')"
+							render="idTablaContactos,idGrdBtnesCont,idGrdFCon" />
+
+						<a4j:commandButton id="idCerrModCon" style="display:none;"
+							oncomplete="#{rich:component('idModalFormContacto')}.hide(); return false;" />
+
+						<h:inputHidden id="idHdConAgr"
+							value="#{proveedorMBean.contactoAgregada}" />
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

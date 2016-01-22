@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalbusqproveedor" modal="true" width="800"
+		height="500">
+
+		<f:facet name="header">
+			<h:outputText value="Busqueda Proveedores" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalbusqproveedor')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form>
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;">
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;" id="idPgBusqProv">
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:left;">
+							<h:outputText value="Busqueda Proveedor" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="4"
+						style="width:100%;"
+						columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
+						<h:outputText value="Tipo documento" />
+						<h:selectOneMenu
+							value="#{comprobanteMBean.proveedor.documentoIdentidad.tipoDocumento.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItems value="#{catalogoMBean.catalogoTipoDocumento}" />
+						</h:selectOneMenu>
+						<h:outputText value="Numero documento" />
+						<h:inputText onkeypress="return js_soloEntero(event);" maxlength="11"
+							value="#{comprobanteMBean.proveedor.documentoIdentidad.numeroDocumento}" />
+					</h:panelGrid>
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
+						style="width:100%;"
+						columnClasses="col1fil2formulario,col2fil2formulario">
+						<h:outputText value="Nombres" />
+						<h:inputText value="#{comprobanteMBean.proveedor.nombres}"
+							size="100" styleClass="estilocampo1" />
+					</h:panelGrid>
+
+					<f:facet name="footer">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%; text-align:center;">
+							<a4j:commandButton value="Buscar" render="idTablaProveedores"
+								action="#{comprobanteMBean.buscarProveedor()}" />
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+					style="width:100%;">
+
+					<f:facet name="header">
+						<h:panelGrid style="width:100%;text-align:left;" cellpadding="0"
+							cellspacing="0" border="0" columns="1">
+							<h:outputText value="Resultado Busqueda" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+					<rich:dataTable id="idTablaProveedores" var="row" rows="5"
+						value="#{comprobanteMBean.listadoProveedores}" style="width:100%;">
+						<f:facet name="noData">
+							<h:outputText value="No se encontraron proveedores" />
+						</f:facet>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Documento" />
+							</f:facet>
+							<h:outputText
+								value="#{row.documentoIdentidad.tipoDocumento.nombre} - #{row.documentoIdentidad.numeroDocumento}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Nombres" />
+							</f:facet>
+							<h:outputText value="#{row.nombres}" />
+						</rich:column>
+						<rich:column style="text-align:center;">
+							<f:facet name="header">
+								<h:outputText value="Seleccionar" />
+							</f:facet>
+							<h:selectOneRadio value="#{row.codigoSeleccionado}" onclick="dataTableSelectOneRadio(this);" >
+								<f:selectItem itemValue="#{row.codigoEntero}" />
+							</h:selectOneRadio>
+						</rich:column>
+						<f:facet name="footer">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								columns="1" style="width:100%;">
+								<rich:dataScroller for="idTablaProveedores" boundaryControls="auto" />
+							</h:panelGrid>
+						</f:facet>
+					</rich:dataTable>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="height: 50px; width:100%;text-align:center;">
+
+						<a4j:commandButton value="Seleccionar"
+							action="#{comprobanteMBean.seleccionarProveedor()}"
+							render="idGrFrProveedor,idGrBusqProveedor"
+							oncomplete="#{rich:component('idModalbusqproveedor')}.hide(); return false;" />
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>

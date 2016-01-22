@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="RHViajesNegocioEAR">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="RHViajesLib.jar" deploy-path="/lib" handle="module:/resource/RHViajesLib/RHViajesLib">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="RHViajesNegocio.jar" deploy-path="/" handle="module:/resource/RHViajesNegocio/RHViajesNegocio">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="RHViajesNegocioClient.jar" deploy-path="/" handle="module:/resource/RHViajesNegocioClient/RHViajesNegocioClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

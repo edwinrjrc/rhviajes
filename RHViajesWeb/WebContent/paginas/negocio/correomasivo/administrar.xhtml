@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
+
+<h:head></h:head>
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+
+		<h:form id="idformenviocorreo">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				width="100%;text-align:center;">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Envio Correo Masivo" style="height: 100px"
+							styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<f:facet name="footer">
+					<h:panelGroup style="text-align:center;">
+						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+							style="height: 50px" width="100%">
+							<a4j:commandButton value="ENVIAR MASIVO"
+								action="#{correoMasivoMBean.nuevoEnvio()}"
+								style="height:20px; width:150px"
+								render="idGrRegisVenServicio, idNomModal"
+								oncomplete="#{rich:component('idModalfrenviomasivo')}.show();">
+							</a4j:commandButton>
+							<a4j:commandButton id="idBotonModalCorrecto"
+								style="display:none;" type="button"
+								oncomplete="#{rich:component('idModalcorrecto')}.show();" />
+							<a4j:commandButton id="idBotonModalError" style="display:none;"
+								type="button"
+								oncomplete="#{rich:component('idModalError')}.show();" />
+						</h:panelGrid>
+					</h:panelGroup>
+				</f:facet>
+			</h:panelGrid>
+
+		</h:form>
+
+		<ui:include src="/paginas/negocio/correomasivo/enviomasivo.xhtml" />
+		<ui:include src="/paginas/negocio/correomasivo/adjuntararchivo.xhtml" />
+		<ui:include src="/resources/includes/includemensaje.xhtml">
+			<ui:param name="backBean" value="#{correoMasivoMBean}" />
+			<ui:param name="idModalForm" value="idModalfrenviomasivo" />
+		</ui:include>
+		<h:panelGrid id="idConfirm">
+			<ui:include src="/resources/modal/modalconfirmacion.xhtml">
+				<ui:param name="pregunta" value="#{correoMasivoMBean.pregunta}" />
+				<ui:param name="idBotonEjecutar"
+					value="idFormEnviomasivo:idBtnEnviarCorreo" />
+				<ui:param name="renderizar" value="" />
+			</ui:include>
+		</h:panelGrid>
+
+		<rich:popupPanel modal="true" width="375" height="100"
+			resizeable="false" id="idModalEspera">
+			<f:facet name="header">
+				<h:outputText value="Procesando" />
+			</f:facet>
+
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+				style="width:100%;text-align:center; height:50px;" columns="1">
+
+				<h:graphicImage
+					value="#{facesContext.externalContext.requestContextPath}/../resources/img/loading.gif"></h:graphicImage>
+				<h:outputText value="Por favor, espere..."
+					style="font-weight: bold;" />
+
+			</h:panelGrid>
+
+		</rich:popupPanel>
+
+	</ui:define>
+</ui:composition>
+
+</html>

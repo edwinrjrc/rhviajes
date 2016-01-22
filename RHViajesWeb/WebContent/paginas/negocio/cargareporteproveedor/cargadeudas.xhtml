@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalCargaDeuda" modal="true" width="1200"
+		height="700">
+		<f:facet name="header">
+			<h:outputText id="idNomModal" value="Cargar Archivo" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalCargaDeuda')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idformcargadeuda">
+			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
+				style="width:100%;" id="idPgrCargaDeudas">
+				<f:facet name="header">
+					<h:panelGrid width="100%" border="0" cellpadding="0"
+						cellspacing="0" style="text-align: left;vertical-align: top; ">
+						<h:outputText value="Carga Deudas Clientes" style="height: 100px"
+							styleClass="subtitulo" />
+						<hr width="100%" />
+					</h:panelGrid>
+				</f:facet>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="1">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;" columns="4">
+						<f:facet name="header">
+							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+								style="text-align: left;vertical-align: top; width: 100%;">
+								<h:outputText value="Carga Excel"
+									style="height: 100px;Color:#5885BE;" />
+								<hr width="100%" />
+							</h:panelGrid>
+						</f:facet>
+						<h:outputText value="Fila Inicial" />
+						<h:inputText value="#{cargaReporteProveedorMBean.filaInicial}" />
+						<h:outputText value="Columna Inicial" />
+						<h:inputText value="#{cargaReporteProveedorMBean.columnaInicial}" />
+						<h:outputText value="Numero Columnas"></h:outputText>
+						<h:inputText value="#{cargaReporteProveedorMBean.nroColumnas}" />
+						<h:outputText value="Nombre Reporte"></h:outputText>
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1">
+							<h:inputText id="idNomReporte" required="true"
+								requiredMessage="Ingrese el nombre del reporte"
+								value="#{cargaReporteProveedorMBean.reporteArchivo.nombreReporte}" />
+							<rich:message for="idNomReporte" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Proveedor"></h:outputText>
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1">
+							<h:selectOneMenu id="idSelProveedor" required="true"
+								requiredMessage="Seleccione el proveedor del reporte"
+								value="#{cargaReporteProveedorMBean.reporteArchivo.proveedor.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoProveedores}" />
+							</h:selectOneMenu>
+							<rich:message for="idSelProveedor" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+						<h:outputText value="Moneda Reporte" />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1">
+							<h:selectOneMenu id="idSelMoneda" required="true"
+								requiredMessage="Seleccione la moneda del reporte"
+								value="#{cargaReporteProveedorMBean.reporteArchivo.moneda.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+							</h:selectOneMenu>
+							<rich:message for="idSelMoneda" showDetail="false"
+								showSummary="true" ajaxRendered="true"></rich:message>
+						</h:panelGrid>
+
+						<h:outputText value="Tipo Comprobante" />
+						<h:selectOneMenu
+							value="#{cargaReporteProveedorMBean.reporteArchivo.tipoComprobante.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItems value="#{catalogoMBean.catalogoTipoComprobante}"></f:selectItems>
+						</h:selectOneMenu>
+						<h:outputText value="Numero Comprobante" />
+						<h:inputText
+							value="#{cargaReporteProveedorMBean.reporteArchivo.numeroComprobante}" />
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;" columns="3" id="idPgUpload"
+						columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
+						<h:outputText value="" />
+						<rich:fileUpload style="width:100%; height:90px;"
+							clearLabel="Limpiar" clearAllLabel="Limpiar Todo"
+							deleteLabel="Borrar" addLabel="Agregar Archivo"
+							uploadLabel="Cargar Archivo"
+							fileUploadListener="#{cargaReporteProveedorMBean.listenerExcel}"
+							id="idUploadExcel" acceptedTypes="xls, XLS, xlsx, XLSX"
+							ontyperejected="alert('Solo Archivos Excel son permitidos');"
+							maxFilesQuantity="1" render="idBtnCargaArchivo"
+							sizeExceededLabel="Tamaño de Archivo mayor al permitido"
+							doneLabel="Archivo Cargado Satisfactoriamente" noDuplicate="true">
+							<a4j:ajax event="uploadcomplete" execute="@none"
+								oncomplete="clicBoton('idformcargadeuda:idBtnCargaArchivo')"
+								render="idPgTable" />
+						</rich:fileUpload>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<a4j:commandButton value="Cargar Archivo" render="idTableExcel"
+							id="idBtnCargaArchivo" style="display:none;"
+							action="#{cargaReporteProveedorMBean.cargarArchivoExcel()}"></a4j:commandButton>
+						<h:outputText value="" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="3" id="idPgTable"
+					columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
+					<f:facet name="header">
+						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+							style="text-align: left;vertical-align: top; width: 100%;">
+							<h:outputText value="Información de Archivo"
+								style="height: 100px; Color:#5885BE;" />
+							<hr width="100%" />
+						</h:panelGrid>
+					</f:facet>
+					<h:outputText value="" />
+					<rich:dataTable value="#{cargaReporteProveedorMBean.dataExcel}"
+						id="idTableExcel" var="fila" style="width:100%;"
+						iterationStatusVar="it"
+						rendered="#{cargaReporteProveedorMBean.tablaLlena}">
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Nro" />
+							</f:facet>
+						#{it.index + 1}
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna1.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna1.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna1.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna2.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna2.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna2.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna3.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna3.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna3.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna4.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna4.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna4.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna5.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna5.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna5.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna6.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna6.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna6.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna7.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna7.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna7.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna8.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna8.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna8.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna9.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna9.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna9.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna10.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna10.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna10.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna11.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna11.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna11.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna12.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna12.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna12.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna13.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna13.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna13.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna14.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna14.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna14.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna15.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna15.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna15.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna16.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna16.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna16.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna17.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna17.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna17.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna18.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna18.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna18.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna19.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna19.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna19.valorCadena}" />
+						</rich:column>
+						<rich:column
+							rendered="#{cargaReporteProveedorMBean.columnasExcel.columna20.mostrar}">
+							<f:facet name="header">
+								<h:outputText
+									value="#{cargaReporteProveedorMBean.columnasExcel.columna20.nombreColumna}" />
+							</f:facet>
+							<h:outputText value="#{fila.columna20.valorCadena}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Tipo Comprobante" />
+							</f:facet>
+							<h:selectOneMenu value="#{fila.tipoComprobante.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoTipoComprobante}"></f:selectItems>
+							</h:selectOneMenu>
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Número Comprobante" />
+							</f:facet>
+							<h:inputText value="#{fila.numeroComprobante}" />
+						</rich:column>
+						<rich:column>
+							<h:selectBooleanCheckbox value="#{fila.seleccionar}" />
+						</rich:column>
+					</rich:dataTable>
+					<h:outputText value="" />
+					<f:facet name="footer">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:center;">
+							<br />
+							<a4j:commandButton value="Grabar Reporte"
+								styleClass="estiloBoton1"
+								render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+								action="#{cargaReporteProveedorMBean.grabarReporteProveedor()}"
+								oncomplete="mostrarModal('idformadmcargaarchivo')"></a4j:commandButton>
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+
+	</rich:popupPanel>
+</ui:composition>
