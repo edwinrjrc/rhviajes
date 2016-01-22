@@ -37,7 +37,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{? = call seguridad.fn_ingresarusuario(?,?,?,?,?,?,?,?,?)}";
+		String sql = "{? = call seguridad.fn_ingresarusuario(?,?,?,?,?,?,?,?,?,?,?)}";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -57,6 +57,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(usuario
 					.getFechaNacimiento()));
 			cs.setBoolean(i++, usuario.isVendedor());
+			cs.setInt(i++, usuario.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, usuario.getUsuarioCreacion().getIpCreacion());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);
@@ -543,7 +545,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{? = call seguridad.fn_actualizarcredencialvencida(?,?,?)}";
+		String sql = "{? = call seguridad.fn_actualizarcredencialvencida(?,?,?,?,?)}";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -554,6 +556,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			cs.setInt(i++, usuario.getCodigoEntero());
 			cs.setString(i++,
 					UtilEncripta.encriptaCadena(usuario.getCredencialNueva()));
+			cs.setInt(i++, usuario.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, usuario.getIpCreacion());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);

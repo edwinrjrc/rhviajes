@@ -190,6 +190,16 @@ public class UsuarioMBean extends BaseMBean {
 	public void cambiarClave() {
 		try {
 			if (validarClave()) {
+				getUsuario().setUsuarioCreacion(
+						usuario);
+				getUsuario().setIpCreacion(
+						obtenerRequest().getRemoteAddr());
+				getUsuario().setUsuarioModificacion(
+						usuario);
+				getUsuario().setIpModificacion(
+						obtenerRequest().getRemoteAddr());
+				getUsuario().setEmpresa(usuario.getEmpresa());
+				
 				this.seguridadServicio.cambiarClaveUsuario(getUsuario());
 
 				this.setShowModal(true);
@@ -213,6 +223,16 @@ public class UsuarioMBean extends BaseMBean {
 	public void cambiarClaveVencida() {
 		try {
 			if (validarClave()) {
+				getUsuario().setUsuarioCreacion(
+						usuario);
+				getUsuario().setIpCreacion(
+						obtenerRequest().getRemoteAddr());
+				getUsuario().setUsuarioModificacion(
+						usuario);
+				getUsuario().setIpModificacion(
+						obtenerRequest().getRemoteAddr());
+				getUsuario().setEmpresa(usuario.getEmpresa());
+				
 				if (getUsuario().getCredencial().equals(
 						getUsuario().getCredencialNueva())) {
 					throw new ValidacionException(

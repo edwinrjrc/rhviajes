@@ -1159,6 +1159,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 				"aplicacionDatosEjb");
 		hijoMaestro.setCodigoMaestro(valorMaestro);
 		hijoMaestro.setCodigoEntero(direccion.getVia().getCodigoEntero());
+		hijoMaestro.setEmpresa(direccion.getEmpresa());
 		hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 		String direccionCompleta = "" + hijoMaestro.getAbreviatura() + " "
 				+ direccion.getNombreVia();

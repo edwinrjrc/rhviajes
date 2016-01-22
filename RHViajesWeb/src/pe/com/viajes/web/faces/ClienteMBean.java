@@ -117,6 +117,9 @@ public class ClienteMBean extends BaseMBean {
 	public void buscarCliente() {
 		try {
 			this.setShowModal(false);
+			
+			getClienteBusqueda().setEmpresa(this.obtenerEmpresa());
+			
 			this.setListaClientes(this.consultaNegocioServicio
 					.consultarCliente2(getClienteBusqueda()));
 			this.setBusquedaRealizada(true);
@@ -370,6 +373,7 @@ public class ClienteMBean extends BaseMBean {
 		this.setEditarCliente(false);
 		this.setCliente(null);
 		this.setNombreFormulario("Nuevo Cliente");
+		this.getCliente().setEmpresa(this.obtenerEmpresa());
 	}
 
 	public void nuevaDireccion() {
@@ -380,6 +384,7 @@ public class ClienteMBean extends BaseMBean {
 		this.setListaProvincia(null);
 		this.setDireccion(null);
 		this.setDireccionAgregada(false);
+		this.getDireccion().setEmpresa(this.obtenerEmpresa());
 	}
 
 	public void agregarDireccion(ActionEvent e) {
@@ -532,6 +537,7 @@ public class ClienteMBean extends BaseMBean {
 		this.setNuevoContacto(true);
 		this.setEditarContacto(false);
 		this.setContactoAgregada(false);
+		this.getContacto().setEmpresa(this.obtenerEmpresa());
 
 		if (this.getCliente().getListaContactos().isEmpty()
 				&& StringUtils.isNotBlank(this.getCliente()
@@ -1049,6 +1055,9 @@ public class ClienteMBean extends BaseMBean {
 		try {
 			this.setShowModal(false);
 			if (!this.isBusquedaRealizada()) {
+				
+				getClienteBusqueda().setEmpresa(this.obtenerEmpresa());
+				
 				this.setListaClientes(this.consultaNegocioServicio
 						.consultarCliente2(getClienteBusqueda()));
 			}

@@ -37,7 +37,7 @@
 				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
 					<h:inputText id="idUsuario" value="#{usuarioMBean.usuario.usuario}"
 						required="true" requiredMessage="Ingrese el usuario"
-						rendered="#{usuarioMBean.nuevoUsuario}" maxlength="10" />
+						rendered="#{usuarioMBean.nuevoUsuario}" maxlength="100" />
 					<h:outputText value="#{usuarioMBean.usuario.usuario}"
 						rendered="#{usuarioMBean.editarUsuario}" />
 					<rich:message for="idUsuario" showDetail="false" showSummary="true"
