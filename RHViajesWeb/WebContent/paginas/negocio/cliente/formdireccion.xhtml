@@ -74,6 +74,25 @@
 								<h:inputText value="#{clienteMBean.direccion.lote}"
 									styleClass="estilocampo1" maxlength="5" size="10" />
 							</h:panelGrid>
+							
+							<h:panelGrid columns="4" style="width:100%;" cellpadding="0"
+								cellspacing="0" border="0"
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
+								<h:outputText value="Pais" />
+								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
+									columns="1">
+									<h:selectOneMenu id="idPaisDireccion"
+										value="#{clienteMBean.direccion.pais.codigoEntero}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoPais}" />
+									</h:selectOneMenu>
+									<rich:message for="idPaisDireccion" showSummary="true"
+										showDetail="false" ajaxRendered="true" />
+								</h:panelGrid>
+								<h:outputText value="" />
+								<h:outputText value="" />
+								
+							</h:panelGrid>
 
 							<h:panelGrid columns="4" style="width:100%;" cellpadding="0"
 								cellspacing="0" border="0"

@@ -32,6 +32,10 @@
 					<h:outputText value="Inicio" style="width:50px;" />
 				</f:facet>
 				<rich:menuGroup label="Seguridad" style="text-align:left">
+					<f:facet name="icon">
+						<h:graphicImage
+							value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconos/seguridadicon.gif" />
+					</f:facet>
 					<rich:menuItem action="irAdministrarUsuarios"
 						label="Administrar Usuarios" style="text-align:left" />
 				</rich:menuGroup>
@@ -143,7 +147,8 @@
 					<rich:menuGroup label="Tesoreria" style="text-align:left">
 						<rich:menuItem action="irAdministrarCuentaBancaria"
 							label="Administrar Cuentas Bancarias" style="text-align:left"></rich:menuItem>
-						<rich:menuItem action="irAdmTipoCambio" actionListener="#{tipoCambioMBean.listarTipoCambio}"
+						<rich:menuItem action="irAdmTipoCambio"
+							actionListener="#{tipoCambioMBean.listarTipoCambio}"
 							label="Administrar Tipo Cambio" style="text-align:left"></rich:menuItem>
 					</rich:menuGroup>
 				</rich:menuGroup>
@@ -173,7 +178,7 @@
 					<h:outputText value="Recursos Humanos" style="width:50px;" />
 				</f:facet>
 				<rich:menuGroup label="Control Asistencia" style="text-align:left">
-					<rich:menuItem action="#{usuarioMBean.consultarAsistencia()}" 
+					<rich:menuItem action="#{usuarioMBean.consultarAsistencia()}"
 						label="Consulta Asistencia" style="text-align:left" />
 				</rich:menuGroup>
 			</rich:dropDownMenu>

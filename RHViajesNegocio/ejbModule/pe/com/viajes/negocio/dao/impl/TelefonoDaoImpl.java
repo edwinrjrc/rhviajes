@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import pe.com.viajes.bean.base.Persona;
+import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Telefono;
 import pe.com.viajes.negocio.dao.TelefonoDao;
 import pe.com.viajes.negocio.util.UtilConexion;
@@ -65,7 +67,7 @@ public class TelefonoDaoImpl implements TelefonoDao {
 			if (telefono.getUsuarioCreacion().getCodigoEntero() != null) {
 				cs.setInt(i++, telefono.getUsuarioCreacion().getCodigoEntero().intValue());
 			} else {
-				cs.setNull(i++, Types.VARCHAR);
+				cs.setNull(i++, Types.INTEGER);
 			}
 			if (StringUtils.isNotBlank(telefono.getIpCreacion())) {
 				cs.setString(i++, telefono.getIpCreacion());
@@ -91,18 +93,20 @@ public class TelefonoDaoImpl implements TelefonoDao {
 	}
 
 	@Override
-	public void registrarTelefonoDireccion(int idTelefono, int idDireccion,
+	public void registrarTelefonoDireccion(Telefono telefono, Direccion direccion,
 			Connection conexion) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresartelefonodireccion(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresartelefonodireccion(?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, idEmpresa.intValue());
-			cs.setInt(i++, idTelefono);
-			cs.setInt(i++, idDireccion);
+			cs.setInt(i++, telefono.getCodigoEntero().intValue());
+			cs.setInt(i++, direccion.getCodigoEntero().intValue());
+			cs.setInt(i++, direccion.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, direccion.getIpCreacion());
 
 			cs.execute();
 		} catch (SQLException e) {
@@ -119,18 +123,20 @@ public class TelefonoDaoImpl implements TelefonoDao {
 	}
 
 	@Override
-	public void registrarTelefonoPersona(int idTelefono, int idPersona,
+	public void registrarTelefonoPersona(Telefono telefono, Persona persona,
 			Connection conexion) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresartelefonopersona(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresartelefonopersona(?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, idEmpresa.intValue());
-			cs.setInt(i++, idTelefono);
-			cs.setInt(i++, idPersona);
+			cs.setInt(i++, telefono.getCodigoEntero().intValue());
+			cs.setInt(i++, persona.getCodigoEntero().intValue());
+			cs.setInt(i++, persona.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, persona.getIpCreacion());
 
 			cs.execute();
 		} catch (SQLException e) {

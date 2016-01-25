@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import pe.com.viajes.bean.base.Persona;
+import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Telefono;
 
 /**
@@ -20,12 +22,6 @@ public interface TelefonoDao {
 
 	public int actualizarTelefono(Telefono telefono, Connection conexion)
 			throws SQLException;
-
-	void registrarTelefonoDireccion(int idTelefono, int idDireccion,
-			Connection conexion) throws SQLException;
-
-	void registrarTelefonoPersona(int idTelefono, int idPersona,
-			Connection conexion) throws SQLException;
 
 	List<Telefono> consultarTelefonoDireccion(int idDireccion, Connection conn)
 			throws SQLException;
@@ -44,4 +40,10 @@ public interface TelefonoDao {
 
 	List<Telefono> consultarTelefonosXPersona(int idPersona, Connection conn)
 			throws SQLException;
+
+	void registrarTelefonoDireccion(Telefono telefono, Direccion direccion,
+			Connection conexion) throws SQLException;
+
+	void registrarTelefonoPersona(Telefono telefono, Persona persona,
+			Connection conexion) throws SQLException;
 }

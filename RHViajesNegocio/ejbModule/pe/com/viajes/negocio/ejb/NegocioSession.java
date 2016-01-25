@@ -146,14 +146,14 @@ public class NegocioSession implements NegocioSessionRemote,
 								throw new ResultadoCeroDaoException(
 										"No se pudo completar el registro del telefono");
 							}
-							telefonoDao.registrarTelefonoDireccion(idTelefono,
-									idDireccion, conexion);
+							telefono.setCodigoEntero(idTelefono);
+							telefonoDao.registrarTelefonoDireccion(telefono,
+									direccion, conexion);
 						}
 					}
 
-					direccionDao.registrarPersonaDireccion(
-							proveedor.getCodigoEntero(),
-							proveedor.getTipoPersona(), idDireccion, proveedor.getEmpresa().getCodigoEntero(), conexion);
+					direccion.setCodigoEntero(idDireccion);
+					direccionDao.registrarPersonaDireccion(proveedor, direccion, conexion);
 				}
 			}
 
@@ -172,8 +172,9 @@ public class NegocioSession implements NegocioSessionRemote,
 								throw new ResultadoCeroDaoException(
 										"No se pudo completar el registro del telefono");
 							}
-							telefonoDao.registrarTelefonoPersona(idTelefono,
-									idContacto, conexion);
+							telefono.setCodigoEntero(idTelefono);
+							telefonoDao.registrarTelefonoPersona(telefono,
+									contacto, conexion);
 						}
 					}
 					contactoDao.registrarContactoProveedor(idPersona, contacto,
@@ -270,15 +271,15 @@ public class NegocioSession implements NegocioSessionRemote,
 									throw new ResultadoCeroDaoException(
 											"No se pudo completar el registro del teléfono de direccion");
 								}
+								telefono.setCodigoEntero(idTelefono);
 								telefonoDao.registrarTelefonoDireccion(
-										idTelefono, idDireccion, conexion);
+										telefono, direccion, conexion);
 							}
 						}
 					}
 
-					direccionDao.registrarPersonaDireccion(
-							proveedor.getCodigoEntero(),
-							proveedor.getTipoPersona(), idDireccion, proveedor.getEmpresa().getCodigoEntero(), conexion);
+					direccion.setCodigoEntero(idDireccion);
+					direccionDao.registrarPersonaDireccion(proveedor, direccion, conexion);
 				}
 			}
 
@@ -300,8 +301,9 @@ public class NegocioSession implements NegocioSessionRemote,
 								throw new ResultadoCeroDaoException(
 										"No se pudo completar el registro del teléfono de contacto");
 							}
-							telefonoDao.registrarTelefonoPersona(idTelefono,
-									idContacto, conexion);
+							telefono.setCodigoEntero(idTelefono);
+							telefonoDao.registrarTelefonoPersona(telefono,
+									contacto, conexion);
 						}
 					}
 					contactoDao.registrarContactoProveedor(idPersona, contacto,
@@ -412,14 +414,14 @@ public class NegocioSession implements NegocioSessionRemote,
 								throw new ResultadoCeroDaoException(
 										"No se pudo completar el registro del telefono");
 							}
-							telefonoDao.registrarTelefonoDireccion(idTelefono,
-									idDireccion, conexion);
+							telefono.setCodigoEntero(idTelefono);
+							telefonoDao.registrarTelefonoDireccion(telefono,
+									direccion, conexion);
 						}
 					}
 
-					direccionDao.registrarPersonaDireccion(
-							cliente.getCodigoEntero(),
-							cliente.getTipoPersona(), idDireccion, cliente.getEmpresa().getCodigoEntero(), conexion);
+					
+					direccionDao.registrarPersonaDireccion(cliente, direccion, conexion);
 				}
 			}
 
@@ -438,8 +440,9 @@ public class NegocioSession implements NegocioSessionRemote,
 								throw new ResultadoCeroDaoException(
 										"No se pudo completar el registro del telefono");
 							}
-							telefonoDao.registrarTelefonoPersona(idTelefono,
-									idContacto, conexion);
+							telefono.setCodigoEntero(idTelefono);
+							telefonoDao.registrarTelefonoPersona(telefono,
+									contacto, conexion);
 						}
 					}
 					contactoDao.registrarContactoProveedor(idPersona, contacto,
@@ -511,15 +514,15 @@ public class NegocioSession implements NegocioSessionRemote,
 									throw new ResultadoCeroDaoException(
 											"No se pudo completar el registro del teléfono de direccion");
 								}
+								telefono.setCodigoEntero(idTelefono);
 								telefonoDao.registrarTelefonoDireccion(
-										idTelefono, idDireccion, conexion);
+										telefono, direccion, conexion);
 							}
 						}
 					}
-
-					direccionDao.registrarPersonaDireccion(
-							cliente.getCodigoEntero(),
-							cliente.getTipoPersona(), idDireccion, cliente.getEmpresa().getCodigoEntero(), conexion);
+					
+					direccion.setCodigoEntero(idDireccion);
+					direccionDao.registrarPersonaDireccion(cliente, direccion, conexion);
 				}
 			}
 
@@ -541,8 +544,9 @@ public class NegocioSession implements NegocioSessionRemote,
 								throw new ResultadoCeroDaoException(
 										"No se pudo completar el registro del teléfono de contacto");
 							}
-							telefonoDao.registrarTelefonoPersona(idTelefono,
-									idContacto, conexion);
+							telefono.setCodigoEntero(idTelefono);
+							telefonoDao.registrarTelefonoPersona(telefono,
+									contacto, conexion);
 						}
 					}
 					contactoDao.registrarContactoProveedor(idPersona, contacto,

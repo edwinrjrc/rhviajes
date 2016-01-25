@@ -1141,6 +1141,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			int valorMaestro = UtilEjb.obtenerEnteroPropertieMaestro(
 					"maestroAreas", "aplicacionDatosEjb");
 			hijoMaestro.setCodigoMaestro(valorMaestro);
+			hijoMaestro.setEmpresa(contacto.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 			contacto.getArea().setNombre(hijoMaestro.getNombre());
 		} catch (Exception e) {

@@ -243,7 +243,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	public void registroCliente(Cliente cliente, Connection conexion)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarpersonaproveedor(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresarpersonaproveedor(?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
@@ -252,6 +252,8 @@ public class ClienteDaoImpl implements ClienteDao {
 			cs.setInt(i++, cliente.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(i++, cliente.getCodigoEntero());
 			cs.setInt(i++, cliente.getRubro().getCodigoEntero());
+			cs.setInt(i++, cliente.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, cliente.getIpCreacion());
 
 			cs.execute();
 		} catch (SQLException e) {
@@ -717,6 +719,7 @@ public class ClienteDaoImpl implements ClienteDao {
 						UtilJdbc.obtenerNumero(rs, "idestadocivil"));
 				cliente.getEstadoCivil().setNombre(
 						UtilJdbc.obtenerCadena(rs, "nombre"));
+				cliente.setEmpresa(persona.getEmpresa());
 				resultado.add(cliente);
 			}
 

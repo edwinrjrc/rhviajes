@@ -121,19 +121,21 @@ public class DireccionDaoImpl implements DireccionDao {
 	}
 
 	@Override
-	public void registrarPersonaDireccion(int idPersona, int idTipoPersona,
-			int idDireccion, int idEmpresa, Connection conexion) throws SQLException {
+	public void registrarPersonaDireccion(Persona persona,
+			Direccion direccion, Connection conexion) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarpersonadireccion(?,?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresarpersonadireccion(?,?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, idEmpresa);
-			cs.setInt(i++, idPersona);
-			cs.setInt(i++, idTipoPersona);
-			cs.setInt(i++, idDireccion);
+			cs.setInt(i++, persona.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(i++, persona.getCodigoEntero().intValue());
+			cs.setInt(i++, persona.getTipoPersona());
+			cs.setInt(i++, direccion.getCodigoEntero().intValue());
+			cs.setInt(i++, persona.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, persona.getIpCreacion());
 
 			cs.execute();
 		} catch (SQLException e) {
@@ -565,18 +567,13 @@ public class DireccionDaoImpl implements DireccionDao {
 								UtilJdbc.obtenerCadena(rs, "iddistrito"));
 				direccion.getUbigeo().getDistrito()
 						.setNombre(UtilJdbc.obtenerCadena(rs, "distrito"));
-				direccion.getUsuarioCreacion().setCodigoEntero(UtilJdbc.obtenerNumero(rs,
-						"usuariocreacion"));
-				direccion.setFechaCreacion(UtilJdbc.obtenerFecha(rs,
-						"fechacreacion"));
-				direccion.setIpCreacion(UtilJdbc
-						.obtenerCadena(rs, "ipcreacion"));
 				direccion.setObservaciones(UtilJdbc.obtenerCadena(rs,
 						"observacion"));
 				direccion.setReferencia(UtilJdbc
 						.obtenerCadena(rs, "referencia"));
 				direccion.setTelefonos(telefonoDao.consultarTelefonoDireccion(
 						direccion.getCodigoEntero().intValue(), conn));
+				direccion.getEmpresa().setCodigoEntero(idEmpresa);
 				resultado.add(direccion);
 			}
 

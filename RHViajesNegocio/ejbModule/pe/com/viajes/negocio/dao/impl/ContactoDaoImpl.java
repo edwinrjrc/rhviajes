@@ -45,7 +45,7 @@ public class ContactoDaoImpl implements ContactoDao {
 	public void registrarContactoProveedor(int idproveedor, Contacto contacto,
 			Connection conexion) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarcontactoproveedor(?;?,?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresarcontactoproveedor(?,?,?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
@@ -73,6 +73,8 @@ public class ContactoDaoImpl implements ContactoDao {
 			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
+			cs.setInt(i++, contacto.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, contacto.getIpCreacion());
 
 			cs.execute();
 

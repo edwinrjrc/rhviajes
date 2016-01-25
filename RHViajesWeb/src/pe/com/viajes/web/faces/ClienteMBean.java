@@ -377,7 +377,7 @@ public class ClienteMBean extends BaseMBean {
 	}
 
 	public void nuevaDireccion() {
-		this.setNombreFormularioDireccion("Nueva DirecciÃ³n");
+		this.setNombreFormularioDireccion("Nueva Dirección");
 		this.setNuevaDireccion(true);
 		this.setEditarDireccion(false);
 		this.setListaDistrito(null);
@@ -385,11 +385,20 @@ public class ClienteMBean extends BaseMBean {
 		this.setDireccion(null);
 		this.setDireccionAgregada(false);
 		this.getDireccion().setEmpresa(this.obtenerEmpresa());
+		
+		this.getDireccion().setPais(this.getCliente().getNacionalidad());
 	}
 
 	public void agregarDireccion(ActionEvent e) {
 		try {
 			this.setDireccionAgregada(false);
+			
+			this.getDireccion().setNacional((this.getDireccion().getPais().getCodigoEntero().intValue() == UtilWeb.obtenerEnteroPropertieMaestro("codigoPaisPeru", "aplicacionDatos")));
+			
+			this.getDireccion().setUsuarioCreacion(this.obtenerUsuarioSession());
+			this.getDireccion().setIpCreacion(this.obtenerIpMaquina());
+			this.getDireccion().setEmpresa(this.obtenerEmpresa());
+			
 			if (this.validarDireccion(e)) {
 				if (this.isNuevaDireccion()) {
 					this.getCliente()
@@ -517,6 +526,8 @@ public class ClienteMBean extends BaseMBean {
 	public void agregarTelefonoDireccion() {
 		Telefono telefono = new Telefono();
 		telefono.setId(this.getDireccion().getTelefonos().size() + 1);
+		telefono.setUsuarioCreacion(this.obtenerUsuarioSession());
+		telefono.setIpCreacion(this.obtenerIpMaquina());
 		this.getDireccion().getTelefonos().add(telefono);
 	}
 
@@ -721,6 +732,8 @@ public class ClienteMBean extends BaseMBean {
 	public void agregarTelefonoContacto() {
 		Telefono telefono = new Telefono();
 		telefono.setId(this.getContacto().getListaTelefonos().size() + 1);
+		telefono.setUsuarioCreacion(this.obtenerUsuarioSession());
+		telefono.setIpCreacion(this.obtenerIpMaquina());
 		this.getContacto().getListaTelefonos().add(telefono);
 	}
 

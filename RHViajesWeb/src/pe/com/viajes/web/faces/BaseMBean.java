@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.negocio.Usuario;
 
 /**
  * @author Edwin
@@ -195,5 +196,16 @@ public class BaseMBean implements Serializable {
 		BaseVO empresa = (BaseVO)this.obtenerSession(false).getAttribute(EMPRESA_USUARIO_SESSION);
 		
 		return empresa;
+	}
+	
+	public Usuario obtenerUsuarioSession(){
+		HttpSession session = obtenerSession(false);
+		Usuario usuario = (Usuario) session
+				.getAttribute(USUARIO_SESSION);
+		return usuario;
+	}
+	
+	public String obtenerIpMaquina(){
+		return obtenerRequest().getRemoteAddr();
 	}
 }
