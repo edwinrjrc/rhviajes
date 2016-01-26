@@ -674,8 +674,10 @@ public class CatalogoMBean extends BaseMBean {
 	 */
 	public List<SelectItem> getCatalogoProveedores() {
 		try {
+			Proveedor prov = new Proveedor();
+			prov.setEmpresa(this.obtenerEmpresa());
 			List<Proveedor> lista = this.consultaNegocioServicio
-					.listarProveedor(new Proveedor());
+					.listarProveedor(prov);
 			SelectItem si = null;
 			catalogoProveedores = new ArrayList<SelectItem>();
 			for (Proveedor proveedor : lista) {

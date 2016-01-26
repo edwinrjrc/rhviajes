@@ -340,7 +340,7 @@ public class ClienteDaoImpl implements ClienteDao {
 				resultado.getRubro().setCodigoEntero(
 						UtilJdbc.obtenerNumero(rs, "idrubro"));
 				resultado.getUsuarioCreacion().setCodigoEntero(UtilJdbc.obtenerNumero(rs,
-						"usuariocreacion"));
+						"idusuariocreacion"));
 				resultado.setFechaCreacion(UtilJdbc.obtenerFecha(rs,
 						"fechacreacion"));
 				resultado.setIpCreacion(UtilJdbc

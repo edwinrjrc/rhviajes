@@ -251,6 +251,8 @@ public class NegocioSession implements NegocioSessionRemote,
 			if (proveedor.getListaDirecciones() != null) {
 				int idDireccion = 0;
 				for (Direccion direccion : proveedor.getListaDirecciones()) {
+					direccion.setUsuarioModificacion(proveedor.getUsuarioModificacion());
+					direccion.setIpModificacion(proveedor.getIpModificacion());
 					idDireccion = direccionDao.actualizarDireccion(direccion,
 							conexion);
 					int idTelefono = 0;
@@ -288,13 +290,17 @@ public class NegocioSession implements NegocioSessionRemote,
 				int idContacto = 0;
 				for (Contacto contacto : proveedor.getListaContactos()) {
 					contacto.setTipoPersona(3);
-
+					contacto.setUsuarioModificacion(proveedor.getUsuarioModificacion());
+					contacto.setIpModificacion(proveedor.getIpModificacion());
+					contacto.setEmpresa(proveedor.getEmpresa());
 					idContacto = personaDao
 							.registrarPersona(contacto, conexion);
 					contacto.setCodigoEntero(idContacto);
 
 					if (!contacto.getListaTelefonos().isEmpty()) {
 						for (Telefono telefono : contacto.getListaTelefonos()) {
+							telefono.setUsuarioCreacion(proveedor.getUsuarioModificacion());
+							telefono.setIpModificacion(proveedor.getIpModificacion());
 							int idTelefono = telefonoDao.registrarTelefono(
 									telefono, conexion);
 							if (idTelefono == 0) {
@@ -321,6 +327,7 @@ public class NegocioSession implements NegocioSessionRemote,
 			if (proveedor.getListaServicioProveedor() != null) {
 				for (ServicioProveedor servicio : proveedor
 						.getListaServicioProveedor()) {
+					servicio.setEmpresa(proveedor.getEmpresa());
 					boolean resultado = proveedorDao
 							.actualizarServicioProveedor(idPersona, servicio,
 									conexion);

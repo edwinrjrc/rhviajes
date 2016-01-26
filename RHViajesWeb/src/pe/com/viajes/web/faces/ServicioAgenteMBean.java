@@ -1279,6 +1279,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.getDetalleServicio().getServicioProveedor().getProveedor()
 						.setCodigoEntero(UtilWeb.convertirCadenaEntero(valor));
 
+				getDetalleServicio().setEmpresa(this.obtenerEmpresa());
 				this.getDetalleServicio()
 						.getServicioProveedor()
 						.setPorcentajeComision(
@@ -2242,6 +2243,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.getPasajero().setIpCreacion(
 						obtenerRequest().getRemoteAddr());
 				this.getPasajero().setUsuarioCreacion(usuario);
+				this.getPasajero().setEmpresa(this.obtenerEmpresa());
 
 				this.getDetalleServicio()
 						.getListaPasajeros()

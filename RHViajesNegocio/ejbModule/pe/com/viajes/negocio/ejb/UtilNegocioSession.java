@@ -1328,6 +1328,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			hijoMaestro.setCodigoMaestro(valorMaestro);
 			hijoMaestro.setCodigoEntero(pasajero.getRelacion()
 					.getCodigoEntero());
+			hijoMaestro.setEmpresa(pasajero.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 
 			pasajero.getRelacion().setNombre(hijoMaestro.getNombre());

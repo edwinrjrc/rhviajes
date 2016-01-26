@@ -331,6 +331,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 						UtilJdbc.obtenerNumero(rs, "idtipoproveedor"));
 				resultado.getNacionalidad().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idnacionalidad"));
 				resultado.getNacionalidad().setDescripcion(UtilJdbc.obtenerCadena(rs, "descnacionalidad"));
+				resultado.getEmpresa().setCodigoEntero(idEmpresa);
 			}
 		} catch (SQLException e) {
 			resultado = null;
@@ -443,7 +444,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 	public void actualizarProveedor(Proveedor proveedor, Connection conexion)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_actualizarpersonaproveedor(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_actualizarpersonaproveedor(?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
@@ -452,6 +453,8 @@ public class ProveedorDaoImpl implements ProveedorDao {
 			cs.setInt(i++, proveedor.getEmpresa().getCodigoEntero());
 			cs.setInt(i++, proveedor.getCodigoEntero());
 			cs.setInt(i++, proveedor.getRubro().getCodigoEntero());
+			cs.setInt(i++, proveedor.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(i++, proveedor.getIpModificacion());
 
 			cs.execute();
 		} catch (SQLException e) {

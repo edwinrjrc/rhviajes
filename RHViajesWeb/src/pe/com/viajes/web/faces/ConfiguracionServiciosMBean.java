@@ -68,8 +68,9 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 				for (ConfiguracionTipoServicio config : this.listaConfigServicios) {
 					config.setUsuarioCreacion(usuario);
 					config.setIpCreacion(obtenerRequest().getRemoteAddr());
-					config.setUsuarioCreacion(usuario);
-					config.setIpCreacion(obtenerRequest().getRemoteAddr());
+					config.setUsuarioModificacion(usuario);
+					config.setIpModificacion(obtenerRequest().getRemoteAddr());
+					config.setEmpresa(this.obtenerEmpresa());
 				}
 
 				this.soporteServicio

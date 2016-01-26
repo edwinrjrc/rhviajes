@@ -240,6 +240,7 @@ public class SoporteSession implements SoporteRemote, SoporteLocal {
 			throw new ErrorConsultaDataException(
 					"Error al grabar configuracion");
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ErrorConsultaDataException(
 					"Error al grabar configuracion");
 		} finally {
