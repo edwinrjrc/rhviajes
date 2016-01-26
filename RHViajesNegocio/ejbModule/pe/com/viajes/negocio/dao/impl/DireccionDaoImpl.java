@@ -164,8 +164,8 @@ public class DireccionDaoImpl implements DireccionDao {
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			cs.setInt(1, idEmpresa);
 			cs.setInt(1, idProveedor);
+			cs.setInt(2, idEmpresa);
 			rs = cs.executeQuery();
 
 			resultado = new ArrayList<Direccion>();
@@ -208,7 +208,7 @@ public class DireccionDaoImpl implements DireccionDao {
 				direccion.getUbigeo().getDistrito()
 						.setNombre(UtilJdbc.obtenerCadena(rs, "distrito"));
 				direccion.getUsuarioCreacion().setCodigoEntero(UtilJdbc.obtenerNumero(rs,
-						"usuariocreacion"));
+						"idusuariocreacion"));
 				direccion.setFechaCreacion(UtilJdbc.obtenerFecha(rs,
 						"fechacreacion"));
 				direccion.setIpCreacion(UtilJdbc
@@ -219,6 +219,7 @@ public class DireccionDaoImpl implements DireccionDao {
 						.obtenerCadena(rs, "referencia"));
 				direccion.setTelefonos(telefonoDao.consultarTelefonoDireccion(
 						direccion.getCodigoEntero().intValue(), conn));
+				direccion.getEmpresa().setCodigoEntero(idEmpresa);
 				resultado.add(direccion);
 			}
 

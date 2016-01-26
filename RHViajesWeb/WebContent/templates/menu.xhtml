@@ -31,13 +31,14 @@
 				<f:facet name="label">
 					<h:outputText value="Inicio" style="width:50px;" />
 				</f:facet>
-				<rich:menuGroup label="Seguridad" style="text-align:left">
-					<f:facet name="icon">
-						<h:graphicImage
-							value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconos/seguridadicon.gif" />
-					</f:facet>
+				<rich:menuGroup label="Seguridad" style="text-align:left" icon="#{facesContext.externalContext.requestContextPath}/resources/img/iconos/seguridadicon.gif" >
 					<rich:menuItem action="irAdministrarUsuarios"
-						label="Administrar Usuarios" style="text-align:left" />
+						label="Administrar Usuarios" style="text-align:left">
+						<f:facet name="icon">
+							<h:graphicImage
+								value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconos/seguridadicon.gif" />
+						</f:facet>
+					</rich:menuItem>
 				</rich:menuGroup>
 				<rich:menuGroup label="Soporte" style="text-align:left">
 					<rich:menuItem action="irAdministrarParametros"

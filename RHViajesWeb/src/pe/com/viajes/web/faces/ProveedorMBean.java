@@ -118,6 +118,10 @@ public class ProveedorMBean extends BaseMBean {
 		this.setNombreFormulario("Nuevo Proveedor");
 		
 		this.getProveedor().getNacionalidad().setCodigoEntero(UtilWeb.obtenerEnteroPropertieMaestro("codigoPaisPeru", "aplicacionDatos"));
+		
+		this.getProveedor().setEmpresa(this.obtenerEmpresa());
+		this.getProveedor().setUsuarioCreacion(this.obtenerUsuarioSession());
+		this.getProveedor().setIpCreacion(this.obtenerIpMaquina());
 	}
 
 	public void nuevaDireccion() {
@@ -130,6 +134,9 @@ public class ProveedorMBean extends BaseMBean {
 		this.setDireccionAgregada(false);
 		
 		this.getDireccion().setPais(this.getProveedor().getNacionalidad());
+		this.getDireccion().setEmpresa(this.obtenerEmpresa());
+		this.getDireccion().setUsuarioCreacion(this.obtenerUsuarioSession());
+		this.getDireccion().setIpCreacion(this.obtenerIpMaquina());
 	}
 
 	public void nuevoContacto() {
@@ -138,6 +145,10 @@ public class ProveedorMBean extends BaseMBean {
 		this.setNuevoContacto(true);
 		this.setEditarContacto(false);
 		this.setContactoAgregada(false);
+		
+		this.getContacto().setEmpresa(this.obtenerEmpresa());
+		this.getContacto().setUsuarioCreacion(this.obtenerUsuarioSession());
+		this.getContacto().setIpCreacion(this.obtenerIpMaquina());
 	}
 
 	public void agregarContacto(ActionEvent e) {
@@ -180,6 +191,7 @@ public class ProveedorMBean extends BaseMBean {
 
 	public void buscarProveedor() {
 		try {
+			this.getProveedorBusqueda().setEmpresa(this.obtenerEmpresa());
 			this.setListaProveedores(this.consultaNegocioServicio
 					.buscarProveedor(getProveedorBusqueda()));
 		} catch (Exception ex) {
@@ -495,12 +507,18 @@ public class ProveedorMBean extends BaseMBean {
 	public void agregarTelefonoDireccion() {
 		Telefono telefono = new Telefono();
 		telefono.setId(this.getDireccion().getTelefonos().size() + 1);
+		telefono.setEmpresa(this.obtenerEmpresa());
+		telefono.setUsuarioCreacion(this.obtenerUsuarioSession());
+		telefono.setIpCreacion(this.obtenerIpMaquina());
 		this.getDireccion().getTelefonos().add(telefono);
 	}
 
 	public void agregarTelefonoContacto() {
 		Telefono telefono = new Telefono();
 		telefono.setId(this.getContacto().getListaTelefonos().size() + 1);
+		telefono.setEmpresa(this.obtenerEmpresa());
+		telefono.setUsuarioCreacion(this.obtenerUsuarioSession());
+		telefono.setIpCreacion(this.obtenerIpMaquina());
 		this.getContacto().getListaTelefonos().add(telefono);
 	}
 
@@ -777,6 +795,7 @@ public class ProveedorMBean extends BaseMBean {
 		this.setShowModal(false);
 		try {
 			if (listaProveedores == null || listaProveedores.isEmpty()) {
+				this.getProveedor().setEmpresa(this.obtenerEmpresa());
 				listaProveedores = this.consultaNegocioServicio
 						.listarProveedor(getProveedor());
 			}

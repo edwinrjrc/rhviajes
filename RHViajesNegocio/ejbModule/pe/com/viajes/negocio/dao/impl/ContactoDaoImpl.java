@@ -131,7 +131,7 @@ public class ContactoDaoImpl implements ContactoDao {
 				contacto.getDocumentoIdentidad().setNumeroDocumento(
 						UtilJdbc.obtenerCadena(rs, "numerodocumento"));
 				contacto.getUsuarioCreacion().setCodigoEntero(UtilJdbc.obtenerNumero(rs,
-						"usuariocreacion"));
+						"idusuariocreacion"));
 				contacto.setFechaCreacion(UtilJdbc.obtenerFecha(rs,
 						"fechacreacion"));
 				contacto.setIpCreacion(UtilJdbc.obtenerCadena(rs, "ipcreacion"));

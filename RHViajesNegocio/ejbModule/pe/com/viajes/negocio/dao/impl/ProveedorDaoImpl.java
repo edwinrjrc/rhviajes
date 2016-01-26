@@ -46,7 +46,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 	public void registroProveedor(Proveedor proveedor, Connection conexion)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarpersonaproveedor(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresarpersonaproveedor(?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
@@ -55,6 +55,8 @@ public class ProveedorDaoImpl implements ProveedorDao {
 			cs.setInt(i++, proveedor.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(i++, proveedor.getCodigoEntero());
 			cs.setInt(i++, proveedor.getRubro().getCodigoEntero());
+			cs.setInt(i++, proveedor.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, proveedor.getIpCreacion());
 
 			cs.execute();
 		} catch (SQLException e) {
@@ -320,7 +322,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 				resultado.getRubro().setCodigoEntero(
 						UtilJdbc.obtenerNumero(rs, "idrubro"));
 				resultado.getUsuarioCreacion().setCodigoEntero(UtilJdbc.obtenerNumero(rs,
-						"usuariocreacion"));
+						"idusuariocreacion"));
 				resultado.setFechaCreacion(UtilJdbc.obtenerFecha(rs,
 						"fechacreacion"));
 				resultado.setIpCreacion(UtilJdbc
@@ -575,7 +577,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idEmpresa);
-			cs.setInt(2, idProveedor);
+			cs.setInt(3, idProveedor);
 			cs.execute();
 
 			rs = (ResultSet) cs.getObject(1);

@@ -111,6 +111,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			hijoMaestro.setCodigoMaestro(valorMaestro);
 			hijoMaestro.setCodigoEntero(proveedor2.getDireccion().getVia()
 					.getCodigoEntero());
+			hijoMaestro.setEmpresa(proveedor.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 			proveedor2.getDireccion().setDireccion(
 					UtilDatos.obtenerDireccionCompleta(
@@ -160,6 +161,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			hijoMaestro.setCodigoMaestro(valorMaestro);
 			hijoMaestro.setCodigoEntero(proveedor2.getDireccion().getVia()
 					.getCodigoEntero());
+			hijoMaestro.setEmpresa(proveedor.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 			proveedor2.getDireccion().setDireccion(
 					UtilDatos.obtenerDireccionCompleta(
