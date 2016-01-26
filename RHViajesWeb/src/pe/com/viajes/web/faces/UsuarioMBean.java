@@ -171,17 +171,17 @@ public class UsuarioMBean extends BaseMBean {
 		} catch (InicioSesionException e) {
 			this.mostrarMensajeError(e.getMessage());
 			obtenerRequest().setAttribute("msjeError", e.getMessage());
-			logger.error(e.getMessage(), e);
+			logger.error(e.getMessage());
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
 			obtenerRequest().setAttribute("msjeError",
 					"No se pudo iniciar sesion");
-			logger.error(e.getMessage(), e);
+			logger.error(e.getMessage());
 		} catch (Exception e) {
 			this.mostrarMensajeError(e.getMessage());
 			obtenerRequest().setAttribute("msjeError",
 					"No se pudo iniciar sesion");
-			logger.error(e.getMessage(), e);
+			logger.error(e.getMessage());
 		}
 
 		return "";

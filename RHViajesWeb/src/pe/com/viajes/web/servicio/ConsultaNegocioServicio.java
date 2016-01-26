@@ -44,8 +44,6 @@ public interface ConsultaNegocioServicio {
 
 	List<Proveedor> buscarProveedor(Proveedor proveedor) throws SQLException;
 
-	List<Cliente> listarCliente() throws SQLException;
-
 	List<Cliente> buscarCliente(Cliente cliente) throws SQLException;
 
 	List<ProgramaNovios> consultarNovios(ProgramaNovios programaNovios)
@@ -61,7 +59,7 @@ public interface ConsultaNegocioServicio {
 	List<Cliente> consultarCliente2(Cliente cliente) throws SQLException,
 			Exception;
 
-	List<ServicioProveedor> proveedoresXServicio(int idServicio)
+	List<ServicioProveedor> proveedoresXServicio(int idServicio, int idEmpresa)
 			throws SQLException, Exception;
 
 	List<Consolidador> listarConsolidador() throws SQLException, Exception;
@@ -179,4 +177,6 @@ public interface ConsultaNegocioServicio {
 
 	List<ImpresionArchivoCargado> consultaImpresionArchivoCargado(
 			Integer idArchivoCargado, Integer idEmpresa) throws SQLException;
+
+	List<Cliente> listarCliente(Cliente cliente) throws SQLException;
 }

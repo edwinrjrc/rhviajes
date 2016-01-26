@@ -123,8 +123,8 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	 * @see pe.com.viajes.web.servicio.ConsultaNegocioServicio#listarCliente()
 	 */
 	@Override
-	public List<Cliente> listarCliente() throws SQLException {
-		return ejbSession.listarCliente();
+	public List<Cliente> listarCliente(Cliente cliente) throws SQLException {
+		return ejbSession.listarCliente(cliente);
 	}
 
 	/*
@@ -194,9 +194,10 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	}
 
 	@Override
-	public List<ServicioProveedor> proveedoresXServicio(int idServicio)
+	public List<ServicioProveedor> proveedoresXServicio(int idServicio, int idEmpresa)
 			throws SQLException, Exception {
 		BaseVO servicio = new BaseVO(idServicio);
+		servicio.getEmpresa().setCodigoEntero(idEmpresa);
 
 		return ejbSession.proveedoresXServicio(servicio);
 	}

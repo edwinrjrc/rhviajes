@@ -705,6 +705,7 @@ public class CatalogoMBean extends BaseMBean {
 		try {
 			BaseVO tipoProveedor = new BaseVO();
 			tipoProveedor.setCodigoEntero(1);
+			tipoProveedor.setEmpresa(this.obtenerEmpresa());
 			List<Proveedor> lista = this.soporteServicio
 					.listarComboProveedorTipo(tipoProveedor);
 			SelectItem si = null;

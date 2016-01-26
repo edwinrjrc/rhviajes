@@ -465,7 +465,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_consultarservicio(?) }";
+		String sql = "{ ? = call negocio.fn_consultarservicio(?,?) }";
 		ResultSet rs = null;
 		MaestroServicio resultado = null;
 

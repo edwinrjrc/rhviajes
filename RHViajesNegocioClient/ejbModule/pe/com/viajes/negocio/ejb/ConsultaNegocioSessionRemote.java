@@ -41,7 +41,7 @@ public interface ConsultaNegocioSessionRemote {
 
 	List<Proveedor> buscarProveedor(Proveedor proveedor) throws SQLException;
 
-	List<Cliente> listarCliente() throws SQLException;
+	List<Cliente> listarCliente(Cliente cliente) throws SQLException;
 
 	List<Cliente> buscarCliente(Cliente cliente) throws SQLException;
 

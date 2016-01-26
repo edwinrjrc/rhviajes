@@ -173,9 +173,9 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 	}
 
 	@Override
-	public List<Cliente> listarCliente() throws SQLException {
+	public List<Cliente> listarCliente(Cliente cliente) throws SQLException {
 		ClienteDao clienteDao = new ClienteDaoImpl();
-		List<Cliente> listaClientes = clienteDao.consultarPersona(null);
+		List<Cliente> listaClientes = clienteDao.consultarPersona(cliente);
 
 		MaestroDao maestroDao = new MaestroDaoImpl();
 
@@ -185,6 +185,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			hijoMaestro.setCodigoMaestro(valorMaestro);
 			hijoMaestro.setCodigoEntero(cliente2.getDireccion().getVia()
 					.getCodigoEntero());
+			hijoMaestro.setEmpresa(cliente.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 			cliente2.getDireccion().setDireccion(
 					UtilDatos.obtenerDireccionCompleta(cliente2.getDireccion(),

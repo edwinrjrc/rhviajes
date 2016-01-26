@@ -187,8 +187,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 		try {
 			this.setClienteBusqueda(null);
 
+			Cliente cliente = new Cliente();
+			cliente.setEmpresa(this.obtenerEmpresa());
 			this.setListadoClientes(this.consultaNegocioServicio
-					.listarCliente());
+					.listarCliente(cliente));
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
@@ -1180,7 +1182,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	private void cargarEmpresas(Integer valor) throws SQLException, Exception {
 		listaProveedores = this.consultaNegocioServicio
-				.proveedoresXServicio(valor);
+				.proveedoresXServicio(valor, this.obtenerIdEmpresa());
 		setListadoEmpresas(null);
 
 		SelectItem si = null;
@@ -1543,6 +1545,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 					getServicioAgenciaBusqueda().getVendedor().setCodigoEntero(
 							usuario.getCodigoEntero());
 				}
+				
+				getServicioAgenciaBusqueda().setEmpresa(this.obtenerEmpresa());
 
 				listadoServicioAgencia = this.consultaNegocioServicio
 						.listarVentaServicio(getServicioAgenciaBusqueda());

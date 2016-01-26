@@ -316,7 +316,7 @@ public class NoviosMBean extends BaseMBean {
 				if (!this.isServicioFee()) {
 					listaProveedores = this.consultaNegocioServicio
 							.proveedoresXServicio(UtilWeb
-									.convertirCadenaEntero(valor));
+									.convertirCadenaEntero(valor), this.obtenerIdEmpresa());
 					setListadoEmpresas(null);
 
 					SelectItem si = null;
@@ -1055,7 +1055,7 @@ public class NoviosMBean extends BaseMBean {
 				if (!this.isServicioFee()) {
 					listaProveedores = this.consultaNegocioServicio
 							.proveedoresXServicio(UtilWeb
-									.convertirCadenaEntero(valor));
+									.convertirCadenaEntero(valor), this.obtenerIdEmpresa());
 					setListadoEmpresas(null);
 
 					SelectItem si = null;

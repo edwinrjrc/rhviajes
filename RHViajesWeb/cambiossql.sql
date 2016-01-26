@@ -117,3 +117,152 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+  
+-- Function: negocio.fn_consultarservicioventa(integer, integer, character varying, character varying, integer)
+
+-- DROP FUNCTION negocio.fn_consultarservicioventa(integer, integer, character varying, character varying, integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_consultarservicioventa(p_idempresa integer, p_tipodocumento integer, p_numerodocumento character varying, p_nombres character varying, p_idvendedor integer)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+open micursor for
+select sercab.id, sercab.idcliente1, cli1.nombres as nombres1, cli1.apellidopaterno as apellidopaterno1, cli1.apellidomaterno as apellidomaterno1, 
+       sercab.idcliente2, cli2.nombres as nombres2, cli2.apellidopaterno as apellidopaterno2, cli2.apellidomaterno as apellidomaterno2, 
+       sercab.fechacompra, sercab.montototal, 
+       sercab.idformapago, maemp.nombre as nommediopago, maemp.descripcion as descmediopago,
+       sercab.idestadopago, maeep.nombre as nomestpago, maeep.descripcion as descestpago, sercab.idestadoservicio, maest.nombre as nomestservicio,
+       sercab.nrocuotas, sercab.tea, sercab.valorcuota, sercab.fechaprimercuota, sercab.fechaultcuota,
+       sercab.idusuariocreacion, sercab.fechacreacion, sercab.ipcreacion, 
+       sercab.idusuariomodificacion, sercab.fechamodificacion, sercab.ipmodificacion,
+       (select count(1) from negocio."ProgramaNovios" where idservicio = sercab.id) as cantidadNovios
+  from negocio."ServicioCabecera" sercab 
+ inner join negocio.vw_clientesnova cli1 on sercab.idcliente1 = cli1.id
+ inner join soporte."Tablamaestra" maemp on maemp.estado = 'A' and maemp.idempresa = p_idempresa and maemp.idmaestro = fn_maestroformapago()      and maemp.id = sercab.idformapago
+ inner join soporte."Tablamaestra" maeep on maeep.estado = 'A' and maeep.idempresa = p_idempresa and maeep.idmaestro = fn_maestroestadopago()     and maeep.id = sercab.idestadopago
+ inner join soporte."Tablamaestra" maest on maest.estado = 'A' and maest.idempresa = p_idempresa and maest.idmaestro = fn_maestroestadoservicio() and maest.id = sercab.idestadoservicio
+  left join negocio.vw_clientesnova cli2 on sercab.idcliente2 = cli2.id and cli2.idempresa = p_idempresa
+ where sercab.idestadoregistro = 1
+   and (select count(1) from negocio."ServicioDetalle" det where det.idservicio = sercab.id and det.idempresa = p_idempresa) > 0
+   and sercab.idempresa        = p_idempresa
+   and cli1.idtipodocumento    = COALESCE(p_tipodocumento,cli1.idtipodocumento)
+   and cli1.numerodocumento    = COALESCE(p_numerodocumento,cli1.numerodocumento)
+   and UPPER(CONCAT(replace(cli1.nombres,' ',''),trim(cli1.apellidopaterno),trim(cli1.apellidomaterno))) like UPPER('%'||COALESCE(p_nombres,CONCAT(trim(replace(cli1.nombres,' ','')),trim(cli1.apellidopaterno),trim(cli1.apellidomaterno)))||'%')
+   and sercab.idvendedor       = COALESCE(p_idvendedor,sercab.idvendedor);
+	
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+  
+-- Function: negocio.fn_consultarservicioventa(integer, integer, character varying, character varying, integer, integer, date, date)
+
+-- DROP FUNCTION negocio.fn_consultarservicioventa(integer, integer, character varying, character varying, integer, integer, date, date);
+
+CREATE OR REPLACE FUNCTION negocio.fn_consultarservicioventa(p_idempresa integer, p_tipodocumento integer, p_numerodocumento character varying, p_nombres character varying, p_idvendedor integer, p_idservicio integer, p_fechadesde date, p_fechahasta date)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+if p_idservicio is not null then
+open micursor for
+select sercab.id, sercab.idcliente1, cli1.nombres as nombres1, cli1.apellidopaterno as apellidopaterno1, cli1.apellidomaterno as apellidomaterno1, 
+       sercab.idcliente2, cli2.nombres as nombres2, cli2.apellidopaterno as apellidopaterno2, cli2.apellidomaterno as apellidomaterno2, 
+       sercab.fechacompra, sercab.montototal, 
+       sercab.idestadopago, maeep.nombre as nomestpago, maeep.descripcion as descestpago, sercab.idestadoservicio, maest.nombre as nomestservicio,
+       sercab.nrocuotas, sercab.tea, sercab.valorcuota, sercab.fechaprimercuota, sercab.fechaultcuota,
+       sercab.idusuariocreacion, sercab.fechacreacion, sercab.ipcreacion, 
+       sercab.idusuariomodificacion, sercab.fechamodificacion, sercab.ipmodificacion,
+       (select count(1) from negocio."ProgramaNovios" pn where pn.idservicio = sercab.id and pn.idempresa = p_idempresa) as cantidadNovios, sercab.idvendedor
+  from negocio."ServicioCabecera" sercab 
+ inner join negocio.vw_clientesnova cli1 on sercab.idcliente1 = cli1.id and sercab.idempresa = p_idempresa
+ inner join soporte."Tablamaestra" maeep on maeep.estado      = 'A'     and maeep.idempresa  = p_idempresa and maeep.idmaestro  = fn_maestroestadopago()     and maeep.id = sercab.idestadopago
+ inner join soporte."Tablamaestra" maest on maest.estado      = 'A'     and maest.idempresa  = p_idempresa and maest.idmaestro  = fn_maestroestadoservicio() and maest.id = sercab.idestadoservicio
+  left join negocio.vw_clientesnova cli2 on sercab.idcliente2 = cli2.id and cli2.idempresa   = p_idempresa
+ where sercab.idestadoregistro = 1
+   and sercab.idempresa        = p_idempresa
+   and (select count(1) from negocio."ServicioDetalle" det where det.idservicio = sercab.id and det.idempresa = p_idempresa) > 0
+   and sercab.id               = COALESCE(p_idservicio,sercab.id);
+else
+open micursor for
+select sercab.id, sercab.idcliente1, cli1.nombres as nombres1, cli1.apellidopaterno as apellidopaterno1, cli1.apellidomaterno as apellidomaterno1, 
+       sercab.idcliente2, cli2.nombres as nombres2, cli2.apellidopaterno as apellidopaterno2, cli2.apellidomaterno as apellidomaterno2, 
+       sercab.fechacompra, sercab.montototal, sercab.idestadopago, maeep.nombre as nomestpago, maeep.descripcion as descestpago, sercab.idestadoservicio, maest.nombre as nomestservicio,
+       sercab.nrocuotas, sercab.tea, sercab.valorcuota, sercab.fechaprimercuota, sercab.fechaultcuota,
+       sercab.idusuariocreacion, sercab.fechacreacion, sercab.ipcreacion, 
+       sercab.idusuariomodificacion, sercab.fechamodificacion, sercab.ipmodificacion,
+       (select count(1) from negocio."ProgramaNovios" pn where pn.idservicio = sercab.id and pn.idempresa = p_idempresa) as cantidadNovios, sercab.idvendedor
+  from negocio."ServicioCabecera" sercab 
+ inner join negocio.vw_clientesnova cli1 on sercab.idcliente1 = cli1.id
+ inner join soporte."Tablamaestra" maeep on maeep.estado = 'A' and maeep.idempresa = p_idempresa and maeep.idmaestro = fn_maestroestadopago()     and maeep.id = sercab.idestadopago
+ inner join soporte."Tablamaestra" maest on maest.estado = 'A' and maest.idempresa = p_idempresa and maest.idmaestro = fn_maestroestadoservicio() and maest.id = sercab.idestadoservicio
+  left join negocio.vw_clientesnova cli2 on sercab.idcliente2 = cli2.id and cli2.idempresa = p_idempresa
+ where sercab.idestadoregistro = 1
+   and sercab.idempresa        = p_idempresa
+   and sercab.fechacompra between p_fechadesde and p_fechahasta
+   and (select count(1) from negocio."ServicioDetalle" det where det.idservicio = sercab.id) > 0
+   and cli1.idtipodocumento    = COALESCE(p_tipodocumento,cli1.idtipodocumento)
+   and cli1.numerodocumento    = COALESCE(p_numerodocumento,cli1.numerodocumento)
+   and UPPER(CONCAT(replace(cli1.nombres,' ',''),trim(cli1.apellidopaterno),trim(cli1.apellidomaterno))) like UPPER('%'||COALESCE(p_nombres,CONCAT(trim(replace(cli1.nombres,' ','')),trim(cli1.apellidopaterno),trim(cli1.apellidomaterno)))||'%')
+   and sercab.idvendedor       = COALESCE(p_idvendedor,sercab.idvendedor)
+   and sercab.id               = COALESCE(p_idservicio,sercab.id);
+end if;
+	
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- Function: soporte.fn_listardestinos(integer)
+
+-- DROP FUNCTION soporte.fn_listardestinos(integer);
+
+CREATE OR REPLACE FUNCTION soporte.fn_listardestinos(p_idempresa integer)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT des.id, des.idcontinente, cont.nombre as nombrecontinente, des.idpais, pai.descripcion as nombrepais, codigoiata, idtipodestino, tipdes.nombre as nombretipdestino, des.descripcion, 
+       des.idusuariocreacion, des.fechacreacion, des.ipcreacion, des.idusuariomodificacion, 
+       des.fechamodificacion, des.ipmodificacion, des.idestadoregistro, pai.abreviado
+  FROM soporte.destino des,
+       soporte."Tablamaestra" cont,
+       soporte."Tablamaestra" tipdes,
+       soporte.pais pai       
+ WHERE des.idestadoregistro = 1
+   AND cont.idmaestro       = fn_maestrocontinente()
+   AND cont.estado          = 'A'
+   AND cont.id              = des.idcontinente
+   AND cont.idempresa       = des.idempresa
+   AND pai.idestadoregistro = 1
+   AND pai.id               = des.idpais
+   AND pai.idempresa        = des.idempresa
+   AND tipdes.idmaestro     = fn_maestrotipodestino()
+   AND tipdes.estado        = 'A'
+   AND tipdes.id            = des.idtipodestino
+   AND tipdes.idempresa     = des.idempresa
+   AND des.idempresa        = p_idempresa
+ ORDER BY des.descripcion ASC;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION soporte.fn_listardestinos(integer)
+  OWNER TO postgres;
