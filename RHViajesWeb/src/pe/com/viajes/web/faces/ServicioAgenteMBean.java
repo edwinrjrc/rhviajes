@@ -387,6 +387,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 
+				this.getServicioAgencia().setEmpresa(this.obtenerEmpresa());
+				getDetalleServicio().setEmpresa(this.obtenerEmpresa());
 				this.setListadoDetalleServicio(this.utilNegocioServicio
 						.agregarServicioVenta(this.getServicioAgencia()
 								.getMoneda().getCodigoEntero(),

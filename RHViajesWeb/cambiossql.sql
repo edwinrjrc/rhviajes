@@ -450,3 +450,97 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+-- Function: soporte.fn_consultardestinoiata(integer, character varying)
+
+-- DROP FUNCTION soporte.fn_consultardestinoiata(integer, character varying);
+
+CREATE OR REPLACE FUNCTION soporte.fn_consultardestinoiata(p_idempresa integer, p_codigoiata character varying)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT d.id, d.idcontinente, d.idpais, p.descripcion as descpais, d.codigoiata, d.idtipodestino, d.descripcion as descdestino, 
+       p.abreviado
+  FROM soporte.destino d,
+       soporte.pais p
+ WHERE d.idestadoregistro = 1
+   AND d.codigoiata       = p_codigoIATA
+   AND d.idpais           = p.id
+   AND d.idempresa        = p.idempresa
+   AND p.idestadoregistro = 1;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+  
+-- Function: negocio.fn_listartipocambio(integer, date)
+
+-- DROP FUNCTION negocio.fn_listartipocambio(integer, date);
+
+CREATE OR REPLACE FUNCTION negocio.fn_listartipocambio(p_idempresa integer, p_fecha date)
+  RETURNS refcursor AS
+$BODY$
+
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT tc.id, fechatipocambio, 
+       idmonedaorigen, tmmo.nombre as nombreMonOrigen, 
+       idmonedadestino, tmmd.nombre as nombreMonDestino, 
+       montocambio
+  FROM negocio."TipoCambio" tc
+ INNER JOIN soporte."Tablamaestra" tmmo ON tmmo.idmaestro = fn_maestrotipomoneda() AND tmmo.id = idmonedaorigen  AND tmmo.idempresa = p_idempresa
+ INNER JOIN soporte."Tablamaestra" tmmd ON tmmd.idmaestro = fn_maestrotipomoneda() AND tmmd.id = idmonedadestino AND tmmd.idempresa = p_idempresa
+ WHERE fechatipocambio = COALESCE(p_fecha,fechatipocambio)
+   AND tc.idempresa    = p_idempresa
+ ORDER BY tc.id DESC;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+  
+-- Function: soporte.fn_consultardestino(integer, integer)
+
+-- DROP FUNCTION soporte.fn_consultardestino(integer, integer);
+
+CREATE OR REPLACE FUNCTION soporte.fn_consultardestino(p_idempresa integer, p_iddestino integer)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT d.id, d.idcontinente, d.idpais, p.descripcion as descpais, d.codigoiata, d.idtipodestino, d.descripcion as descdestino, 
+       d.idusuariocreacion, d.fechacreacion, d.ipcreacion, d.idusuariomodificacion, 
+       d.fechamodificacion, d.ipmodificacion, p.abreviado
+  FROM soporte.destino d,
+       soporte.pais p
+ WHERE d.idestadoregistro = 1
+   AND d.id               = p_iddestino
+   AND d.idpais           = p.id
+   AND d.idempresa        = p.idempresa
+   AND d.idempresa        = p_idempresa
+   AND p.idestadoregistro = 1;
+
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

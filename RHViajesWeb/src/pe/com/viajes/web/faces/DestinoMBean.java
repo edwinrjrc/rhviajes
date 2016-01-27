@@ -79,6 +79,7 @@ public class DestinoMBean extends BaseMBean {
 						.getAttribute("usuarioSession");
 				getDestino().setUsuarioCreacion(usuario);
 				getDestino().setIpCreacion(obtenerRequest().getRemoteAddr());
+				getDestino().setEmpresa(this.obtenerEmpresa());
 				this.soporteServicio.ingresarDestino(getDestino());
 
 				this.mostrarMensajeExito("Destino registrado Satisfactoriamente");

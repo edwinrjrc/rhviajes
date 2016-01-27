@@ -72,6 +72,7 @@ public class TipoCambioMBean extends BaseMBean {
 						.getAttribute("usuarioSession");
 				getTipoCambio().setUsuarioCreacion(usuario);
 				getTipoCambio().setIpCreacion(obtenerRequest().getRemoteAddr());
+				getTipoCambio().setEmpresa(this.obtenerEmpresa());
 
 				this.negocioServicio.registrarTipoCambio(getTipoCambio());
 
