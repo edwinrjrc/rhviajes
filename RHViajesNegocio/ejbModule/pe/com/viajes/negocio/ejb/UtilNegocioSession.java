@@ -623,6 +623,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			Maestro hijoMaestro = new Maestro();
 			hijoMaestro.setCodigoMaestro(UtilEjb.obtenerEnteroPropertieMaestro("maestroMonedas", "aplicacionDatosEjb"));
 			hijoMaestro.setCodigoEntero(idMonedaServicio);
+			hijoMaestro.setEmpresa(detalleServicio.getEmpresa());
 			Maestro hijoMoneda = maestroDao.consultarHijoMaestro(hijoMaestro);
 			detalleServicio.setMonedaFacturacion(hijoMoneda);
 

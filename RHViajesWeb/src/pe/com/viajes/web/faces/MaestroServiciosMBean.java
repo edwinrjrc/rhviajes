@@ -83,6 +83,7 @@ public class MaestroServiciosMBean extends BaseMBean {
 						usuario);
 				getMaestroServicio().setIpModificacion(
 						obtenerRequest().getRemoteAddr());
+				getMaestroServicio().setEmpresa(this.obtenerEmpresa());
 				if (this.isNuevoMaestroServicio()) {
 					this.negocioServicio
 							.ingresarMaestroServicio(getMaestroServicio());
@@ -104,14 +105,17 @@ public class MaestroServiciosMBean extends BaseMBean {
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
 			this.setTipoModal(TIPO_MODAL_ERROR);
+			logger.error(e.getMensajeError(), e);
 		} catch (SQLException e) {
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
 			this.setTipoModal(TIPO_MODAL_ERROR);
+			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
 			this.setTipoModal(TIPO_MODAL_ERROR);
+			logger.error(e.getMessage(), e);
 		}
 
 	}

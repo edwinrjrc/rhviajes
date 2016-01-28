@@ -945,9 +945,7 @@ public class NegocioSession implements NegocioSessionRemote,
 
 			if (servicio.getListaServicioDepende() != null
 					&& !servicio.getListaServicioDepende().isEmpty()) {
-				maestroServicioDao.ingresarServicioMaestroServicio(
-						servicio.getCodigoEntero(),
-						servicio.getListaServicioDepende(), servicio.getEmpresa().getCodigoEntero(), conn);
+				maestroServicioDao.ingresarServicioMaestroServicio(servicio, conn);
 			}
 			userTransaction.commit();
 			return true;

@@ -43,14 +43,13 @@ public interface MaestroServicioDao {
 	List<MaestroServicio> listarMaestroServiciosIgv(int idEmpresa)
 			throws SQLException;
 
-	void ingresarServicioMaestroServicio(Integer idServicio,
-			List<BaseVO> listaMaeServicioImpto, int idEmpresa, Connection conn)
-			throws SQLException, Exception;
-
 	List<BaseVO> consultarServicioDependientes(Integer idServicio, int idEmpresa)
 			throws SQLException;
 
 	List<MaestroServicio> consultarServiciosInvisibles(Integer idServicio,
 			int idEmpresa) throws SQLException, Exception;
+
+	void ingresarServicioMaestroServicio(MaestroServicio servicio,
+			Connection conn) throws SQLException, Exception;
 
 }

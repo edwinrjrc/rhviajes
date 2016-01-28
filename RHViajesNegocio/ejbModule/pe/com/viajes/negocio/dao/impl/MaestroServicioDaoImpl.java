@@ -662,18 +662,19 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 	}
 
 	@Override
-	public void ingresarServicioMaestroServicio(Integer idServicio,
-			List<BaseVO> listaMaeServicioImpto, int idEmpresa, Connection conn) throws SQLException, Exception {
+	public void ingresarServicioMaestroServicio(MaestroServicio servicio, Connection conn) throws SQLException, Exception {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarserviciomaestroservicio(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresarserviciomaestroservicio(?,?,?,?,?) }";
 
 		try {
-			for (BaseVO idServicioDepende : listaMaeServicioImpto) {
+			for (BaseVO idServicioDepende : servicio.getListaServicioDepende()) {
 				cs = conn.prepareCall(sql);
 				cs.registerOutParameter(1, Types.BOOLEAN);
-				cs.setInt(2, idEmpresa);
-				cs.setInt(3, idServicio);
+				cs.setInt(2, servicio.getEmpresa().getCodigoEntero().intValue());
+				cs.setInt(3, servicio.getCodigoEntero().intValue());
 				cs.setInt(4, idServicioDepende.getCodigoEntero());
+				cs.setInt(5, servicio.getUsuarioModificacion().getCodigoEntero().intValue());
+				cs.setString(6, servicio.getIpModificacion());
 
 				cs.execute();
 				if (cs != null) {
@@ -709,8 +710,9 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
-			cs.setInt(2, idServicio);
-			cs.setInt(3, idEmpresa);
+			cs.setInt(2, idEmpresa);
+			cs.setInt(3, idServicio);
+			
 			cs.execute();
 
 			rs = (ResultSet) cs.getObject(1);
@@ -722,6 +724,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 						"idserviciodepende"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
 				bean.setValorBoolean(UtilJdbc.obtenerBoolean(rs, "visible"));
+				bean.getEmpresa().setCodigoEntero(idEmpresa);
 
 				resultado.add(bean);
 			}
