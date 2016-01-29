@@ -1084,7 +1084,7 @@ public class NegocioSession implements NegocioSessionRemote,
 	}
 
 	@Override
-	public void registrarPago(PagoServicio pago) throws SQLException, Exception {
+	public void registrarPago(PagoServicio pago) throws ErrorRegistroDataException, Exception {
 		try {
 			userTransaction.begin();
 			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(pago.getEmpresa().getCodigoEntero());
@@ -1092,9 +1092,12 @@ public class NegocioSession implements NegocioSessionRemote,
 			servicioNovaViajesDao.registrarPagoServicio(pago);
 			
 			userTransaction.commit();
+		} catch (SQLException e){
+			userTransaction.rollback();
+			throw new ErrorRegistroDataException("No se pudo registrar el pago", e);
 		} catch (Exception e) {
 			userTransaction.rollback();
-			e.printStackTrace();
+			throw new ErrorRegistroDataException("No se pudo registrar el pago", e);
 		}
 	}
 

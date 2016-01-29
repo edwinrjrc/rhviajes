@@ -70,7 +70,7 @@ public interface NegocioServicio {
 	public boolean actualizarConsolidador(Consolidador consolidador)
 			throws SQLException, Exception;
 
-	public void registrarPago(PagoServicio pago) throws SQLException, Exception;
+	public void registrarPago(PagoServicio pago) throws ErrorRegistroDataException, Exception;
 
 	void cerrarVenta(ServicioAgencia servicioAgencia) throws SQLException,
 			Exception;

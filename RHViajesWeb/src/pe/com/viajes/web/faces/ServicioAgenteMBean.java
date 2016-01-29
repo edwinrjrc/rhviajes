@@ -1440,7 +1440,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 						usuario);
 				this.getPagoServicio().setIpModificacion(
 						obtenerRequest().getRemoteAddr());
-
+				this.getPagoServicio().setEmpresa(this.obtenerEmpresa());
+				
 				this.negocioServicio.registrarPago(getPagoServicio());
 
 				this.setListaPagosServicios(this.consultaNegocioServicio
@@ -1450,7 +1451,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.mostrarMensajeExito("Pago Registrado Satisfactoriamente");
 			}
 
-		} catch (SQLException e) {
+		} catch (ErrorRegistroDataException e) {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {

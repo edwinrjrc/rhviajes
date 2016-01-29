@@ -91,9 +91,10 @@
 								<h:outputText value="Importe" />
 							</f:facet>
 							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-								style="width:100%;text-align:right;" columns="1">
+								style="width:100%;text-align:right;" columns="2">
+								<h:outputText value="#{fila.moneda.abreviatura}" />
 								<h:outputText value="#{fila.montoPago}">
-									<f:convertNumber pattern="$ #,###,##0.00" locale="en_US" />
+									<f:convertNumber pattern="#,###,##0.00" locale="en_US" />
 								</h:outputText>
 							</h:panelGrid>
 						</rich:column>

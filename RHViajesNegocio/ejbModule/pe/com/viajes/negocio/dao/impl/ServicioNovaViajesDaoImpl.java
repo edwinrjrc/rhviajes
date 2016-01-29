@@ -1891,8 +1891,9 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoServicio(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = UtilEjb.generaSentenciaFuncion(
-				"negocio.fn_registrarpagoservicio", 21);
+		/*String sql = UtilEjb.generaSentenciaFuncion(
+				"negocio.fn_registrarpagoservicio", 21);*/
+		String sql = "{ ? = call negocio.fn_registrarpagoservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -2042,6 +2043,9 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				pago.getFormaPago().setNombre(
 						UtilJdbc.obtenerCadena(rs, "nombreformapago"));
 				pago.setFechaPago(UtilJdbc.obtenerFecha(rs, "fechapago"));
+				pago.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
+				pago.getMoneda().setNombre(UtilJdbc.obtenerCadena(rs, "nombremoneda"));
+				pago.getMoneda().setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
 				pago.setMontoPago(UtilJdbc.obtenerBigDecimal(rs, "montopagado"));
 				byte[] sustento = rs.getBytes("sustentopago");
 				pago.setSustentoPagoByte(sustento);

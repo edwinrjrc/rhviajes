@@ -155,7 +155,7 @@ public class NegocioServicioImpl implements NegocioServicio {
 	}
 
 	@Override
-	public void registrarPago(PagoServicio pago) throws SQLException, Exception {
+	public void registrarPago(PagoServicio pago) throws ErrorRegistroDataException, Exception {
 		ejbSession.registrarPago(pago);
 	}
 
