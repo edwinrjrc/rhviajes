@@ -416,15 +416,7 @@ public class CatalogoMBean extends BaseMBean {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		/*
-		 * int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
-		 * "maestroTipoServicios", "aplicacionDatos");
-		 * 
-		 * try { List<BaseVO> lista = soporteServicio
-		 * .listarCatalogoMaestro(idmaestro); catalogoTipoServicio =
-		 * UtilWeb.convertirSelectItem(lista); } catch (Exception e) {
-		 * logger.error(e.getMessage(), e); }
-		 */
+		
 		return catalogoTipoServicio;
 	}
 

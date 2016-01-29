@@ -93,7 +93,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{? = call seguridad.fn_actualizarusuario(?,?,?,?,?,?)}";
+		String sql = "{? = call seguridad.fn_actualizarusuario(?,?,?,?,?,?,?,?)}";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -108,6 +108,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 					UtilJdbc.convertirMayuscula(usuario.getApellidoPaterno()));
 			cs.setString(i++,
 					UtilJdbc.convertirMayuscula(usuario.getApellidoMaterno()));
+			cs.setInt(i++, usuario.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(i++, usuario.getIpModificacion());
 
 			cs.execute();
 
