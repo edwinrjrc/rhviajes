@@ -22,6 +22,7 @@ import javax.transaction.UserTransaction;
 
 import org.apache.commons.lang3.StringUtils;
 
+import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.cargaexcel.ColumnasExcel;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivo;
 import pe.com.viajes.bean.negocio.Cliente;
@@ -1526,6 +1527,17 @@ public class NegocioSession implements NegocioSessionRemote,
 	public boolean registrarTipoCambio(TipoCambio tipoCambio)
 			throws SQLException {
 		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl(tipoCambio.getEmpresa().getCodigoEntero());
+
+		tipoCambioDao.registrarTipoCambio(tipoCambio);
+
+		BigDecimal tipoCambioReversa = BigDecimal.ONE.divide(
+				tipoCambio.getMontoCambio(), 6, RoundingMode.HALF_UP);
+
+		BaseVO monedaOrigen = new BaseVO(tipoCambio.getMonedaDestino()
+				.getCodigoEntero());
+		tipoCambio.setMontoCambio(tipoCambioReversa);
+		tipoCambio.setMonedaDestino(tipoCambio.getMonedaOrigen());
+		tipoCambio.setMonedaOrigen(monedaOrigen);
 
 		return tipoCambioDao.registrarTipoCambio(tipoCambio);
 	}

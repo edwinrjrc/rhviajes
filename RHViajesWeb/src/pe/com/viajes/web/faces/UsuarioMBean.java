@@ -251,6 +251,7 @@ public class UsuarioMBean extends BaseMBean {
 			this.setTipoModal("2");
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
+			logger.error(e.getMessage(),e);
 		} catch (SQLException e) {
 			this.setTipoModal("2");
 			this.setShowModal(true);
