@@ -179,4 +179,7 @@ public interface ConsultaNegocioServicio {
 			Integer idArchivoCargado, Integer idEmpresa) throws SQLException;
 
 	List<Cliente> listarCliente(Cliente cliente) throws SQLException;
+	
+	List<Comprobante> consultarObligacionesPendientes(int idEmpresa)
+			throws ErrorConsultaDataException;
 }

@@ -406,4 +406,9 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	public List<Pasajero> consultarPasajeroHistorico(Pasajero pasajero) throws ErrorConsultaDataException{
 		return ejbSession.consultarPasajeroHistorico(pasajero);
 	}
+	
+	@Override
+	public List<Comprobante> consultarObligacionesPendientes(int idEmpresa) throws ErrorConsultaDataException{
+		return ejbSession.consultarObligacionesPendientes(idEmpresa);
+	}
 }

@@ -177,4 +177,7 @@ public interface ConsultaNegocioSessionRemote {
 
 	List<ImpresionArchivoCargado> consultaImpresionArchivoCargado(
 			Integer idArchivoCargado, Integer idEmpresa) throws SQLException;
+
+	List<Comprobante> consultarObligacionesPendientes(int idEmpresa)
+			throws ErrorConsultaDataException;
 }

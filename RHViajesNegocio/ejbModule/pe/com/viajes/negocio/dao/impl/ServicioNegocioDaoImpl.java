@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.jasper.DetalleServicio;
+import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.ServicioProveedor;
@@ -221,12 +222,12 @@ public class ServicioNegocioDaoImpl implements ServicioNegocioDao {
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idEmpresa);
-			cs.setTimestamp(2, UtilJdbc.convertirUtilDateTimeStamp(fechaHasta));
+			cs.setTimestamp(3, UtilJdbc.convertirUtilDateTimeStamp(fechaHasta));
 			if (idVendedor != null && idVendedor.intValue() != 0){
-				cs.setInt(3, idVendedor.intValue());
+				cs.setInt(4, idVendedor.intValue());
 			}
 			else{
-				cs.setNull(3, Types.INTEGER);
+				cs.setNull(4, Types.INTEGER);
 			}
 			cs.execute();
 
@@ -505,6 +506,65 @@ public class ServicioNegocioDaoImpl implements ServicioNegocioDao {
 				cs.close();
 			}
 			if (conn != null){
+				conn.close();
+			}
+		}
+	}
+
+	@Override
+	public List<Comprobante> consultarObligacionesPendientes(int idEmpresa, Date fechaHasta)
+			throws SQLException {
+		List<Comprobante> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		try {
+			sql = "{ ? = call negocio.fn_consultarobligacionespendientespago(?,?) }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa);
+			cs.setDate(3, UtilJdbc.convertirUtilDateSQLDate(fechaHasta));
+			
+			cs.execute();
+
+			rs = (ResultSet) cs.getObject(1);
+			Comprobante bean = null;
+			resultado = new ArrayList<Comprobante>();
+			
+			while (rs.next()) {
+				bean = new Comprobante();
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				bean.getTipoComprobante().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocomprobante"));
+				bean.setNumeroComprobante(UtilJdbc.obtenerCadena(rs, "numerocomprobante"));
+				bean.getProveedor().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idproveedor"));
+				bean.getProveedor().setNombres(UtilJdbc.obtenerCadena(rs, "nombreproveedor"));
+				bean.setFechaComprobante(UtilJdbc.obtenerFecha(rs, "fechacomprobante"));
+				bean.setFechaPago(UtilJdbc.obtenerFecha(rs, "fechapago"));
+				bean.setDetalleTextoComprobante(UtilJdbc.obtenerCadena(rs, "detallecomprobante"));
+				bean.setTotalIGV(UtilJdbc.obtenerBigDecimal(rs, "totaligv"));
+				bean.setTotalComprobante(UtilJdbc.obtenerBigDecimal(rs, "totalcomprobante"));
+				bean.setSaldoComprobante(UtilJdbc.obtenerBigDecimal(rs, "saldocomprobante"));
+				bean.setTieneDetraccion(UtilJdbc.obtenerBoolean(rs, "tienedetraccion"));
+				bean.setTieneRetencion(UtilJdbc.obtenerBoolean(rs, "tieneretencion"));
+				bean.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
+				
+				resultado.add(bean);
+			}
+
+			return resultado;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SQLException(e);
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
+			}
+			if (conn != null) {
 				conn.close();
 			}
 		}

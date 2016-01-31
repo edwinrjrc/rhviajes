@@ -3002,7 +3002,6 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs = conn.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, idEmpresa);
 			cs.setInt(i++, comprobante.getTipoComprobante().getCodigoEntero()
 					.intValue());
 			cs.setString(i++, comprobante.getNumeroComprobante());
@@ -3019,6 +3018,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setBoolean(i++, comprobante.isTieneRetencion());
 			cs.setInt(i++, comprobante.getUsuarioCreacion().getCodigoEntero().intValue());
 			cs.setString(i++, comprobante.getIpCreacion());
+			cs.setInt(i++, comprobante.getMoneda().getCodigoEntero().intValue());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);

@@ -15,11 +15,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.Tramo;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.bean.reportes.CheckIn;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
 import pe.com.viajes.web.servicio.impl.ConsultaNegocioServicioImpl;
 
@@ -41,6 +43,7 @@ public class InicioMBean extends BaseMBean {
 	private ConsultaNegocioServicio consultaNegocioServicio;
 
 	private List<CheckIn> checkInPendientes;
+	private List<Comprobante> obligacionesPendientes;
 
 	public InicioMBean() {
 		try {
@@ -155,6 +158,28 @@ public class InicioMBean extends BaseMBean {
 	 */
 	public void setCheckIn(CheckIn checkIn) {
 		this.checkIn = checkIn;
+	}
+	
+	/**
+	 * @return the obligacionesPendientes
+	 */
+	public List<Comprobante> getObligacionesPendientes() {
+		try {
+			
+			obligacionesPendientes = this.consultaNegocioServicio.consultarObligacionesPendientes(this.obtenerIdEmpresa());
+			
+		} catch (ErrorConsultaDataException e) {
+			e.printStackTrace();
+		}
+		
+		return obligacionesPendientes;
+	}
+
+	/**
+	 * @param obligacionesPendientes the obligacionesPendientes to set
+	 */
+	public void setObligacionesPendientes(List<Comprobante> obligacionesPendientes) {
+		this.obligacionesPendientes = obligacionesPendientes;
 	}
 
 }
