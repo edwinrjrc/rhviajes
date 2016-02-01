@@ -191,7 +191,8 @@
 				<f:facet name="label">
 					<h:outputText value="Inicio" style="width:50px;" />
 				</f:facet>
-				<rich:menuGroup label="Seguridad" style="text-align:left" icon="#{facesContext.externalContext.requestContextPath}/resources/img/iconos/seguridadicon.gif">
+				<rich:menuGroup label="Seguridad" style="text-align:left"
+					icon="#{facesContext.externalContext.requestContextPath}/resources/img/iconos/seguridadicon.gif">
 					<rich:menuItem action="irAdministrarUsuarios"
 						label="Administrar Usuarios" style="text-align:left">
 						<f:facet name="icon">
@@ -232,6 +233,25 @@
 				<rich:menuSeparator />
 				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
 					style="text-align:left" />
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 5}">
+				<f:facet name="label">
+					<h:outputText value="Inicio" style="width:50px;" />
+				</f:facet>
+				<rich:menuItem label="Inicio Sistema" style="text-align:left" />
+				<rich:menuGroup label="Empresas" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Administrar Empresas" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Contratos" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Administrar Contratos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Soporte" style="text-align:left">
+					<rich:menuItem action="irAdministrarPaises"
+						label="Ejecutar Sentencias SQL" style="text-align:left" />
+				</rich:menuGroup>
 			</rich:dropDownMenu>
 		</rich:toolbar>
 	</h:form>
