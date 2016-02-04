@@ -137,15 +137,20 @@ public class MaestroMBean extends BaseMBean {
 	public void ejecutarMetodoHijo() {
 		try {
 			if (this.isNuevoMaestro()) {
+				this.getHijoMaestro().setUsuarioCreacion(this.obtenerUsuarioSession());
+				this.getHijoMaestro().setIpCreacion(this.obtenerIpMaquina());
+				this.getHijoMaestro().setEmpresa(this.obtenerEmpresa());
 				soporteServicio.ingresarHijoMaestro(this.getHijoMaestro());
-				this.setShowModal(true);
-				this.setTipoModal("1");
-				this.setMensajeModal("Hijo Maestro registrado Satisfactoriamente");
+				this.mostrarMensajeExito("Hijo Maestro registrado Satisfactoriamente");
 			} else if (this.isEditarMaestro()) {
+				this.getHijoMaestro().setUsuarioCreacion(this.obtenerUsuarioSession());
+				this.getHijoMaestro().setIpCreacion(this.obtenerIpMaquina());
+				this.getHijoMaestro().setUsuarioModificacion(this.obtenerUsuarioSession());
+				this.getHijoMaestro().setIpModificacion(this.obtenerIpMaquina());
+				this.getHijoMaestro().setEmpresa(this.obtenerEmpresa());
 				this.setShowModal(soporteServicio.actualizarMaestro(this
 						.getHijoMaestro()));
-				this.setTipoModal("1");
-				this.setMensajeModal("Hijo Maestro actualizado Satisfactoriamente");
+				this.mostrarMensajeExito("Hijo Maestro actualizado Satisfactoriamente");
 			}
 		} catch (Exception e) {
 			this.setShowModal(true);

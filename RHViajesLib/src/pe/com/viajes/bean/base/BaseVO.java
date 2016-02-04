@@ -7,7 +7,7 @@ package pe.com.viajes.bean.base;
  * @author Edwin
  * 
  */
-public class BaseVO extends Base {
+public class BaseVO extends BaseNegocio {
 
 	private static final long serialVersionUID = 6210620262453450979L;
 	private String nombre;

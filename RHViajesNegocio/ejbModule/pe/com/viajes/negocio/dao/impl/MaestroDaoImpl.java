@@ -270,7 +270,7 @@ public class MaestroDaoImpl implements MaestroDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{ ? = call soporte.fn_ingresarhijomaestro(?,?,?,?,?) }";
+		String sql = "{ ? = call soporte.fn_ingresarhijomaestro(?,?,?,?,?,?,?) }";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -284,6 +284,8 @@ public class MaestroDaoImpl implements MaestroDao {
 					UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
 			cs.setString(i++,
 					UtilJdbc.convertirMayuscula(maestro.getAbreviatura()));
+			cs.setInt(i++, maestro.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, maestro.getIpCreacion());
 
 			cs.execute();
 
@@ -377,7 +379,7 @@ public class MaestroDaoImpl implements MaestroDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{? = call soporte.fn_actualizarmaestro(?,?,?,?,?,?,?,?)}";
+		String sql = "{? = call soporte.fn_actualizarmaestro(?,?,?,?,?,?,?,?,?,?)}";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -408,6 +410,9 @@ public class MaestroDaoImpl implements MaestroDao {
 			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
+			cs.setInt(i++, maestro.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(i++, maestro.getIpModificacion());
+			
 			cs.execute();
 
 			resultado = cs.getBoolean(1);

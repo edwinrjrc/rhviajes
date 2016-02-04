@@ -123,7 +123,7 @@ public class SoporteSession implements SoporteRemote, SoporteLocal {
 		List<Maestro> listaContinentes = maestroDao
 				.listarHijosMaestro(idmaestro, idEmpresa);
 		for (Maestro maestro : listaContinentes) {
-			lista.add((BaseVO) maestro);
+			lista.add((BaseVO)maestro);
 		}
 
 		return lista;
