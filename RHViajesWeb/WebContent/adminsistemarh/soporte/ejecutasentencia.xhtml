@@ -1,18 +1,54 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:my="http://java.sun.com/jsf/composite/components">
 
-<h:head></h:head> 
-<body>
-    <rich:panel>
-        <f:facet name="header">
-        Write your own custom rich components with built-in AJAX support
-        </f:facet>
-		<h:outputText value="Panel Body" /> 
-	</rich:panel>
-</body> 
+<h:head></h:head>
+<ui:composition template="/templates/plantillainicio.xhtml">
+	<ui:define name="cuerpo">
+		<h:form id="idFrEjecutaSentencia">
+			<h:panelGrid style="width:100%;text-align:center;">
+				<f:facet name="header">
+					<h:panelGrid style="width:100%;text-align:left;" cellpadding="0"
+						cellspacing="0" border="0" columns="1">
+						<h:outputText styleClass="subtitulo" value="Ejecutar Sentencia SQL" />
+						<hr />
+					</h:panelGrid>
+				</f:facet>
+				
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+							<h:outputText style="Color:#5885BE;" value="Sentencia SQL" />
+							<hr />
+						</h:panelGrid>
+						
+						<h:outputText value="Script" />
+						<h:inputTextarea rows="20" cols="200"></h:inputTextarea>
+					</f:facet>
+					<f:facet name="footer">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="text-align:center;">
+							<a4j:commandButton value="Ejecutar Sentencia"></a4j:commandButton>
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+				
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+							<h:outputText style="Color:#5885BE;" value="Resultado Ejecución Sentencia" />
+							<hr />
+						</h:panelGrid>
+					</f:facet>
+				</h:panelGrid>
+
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>

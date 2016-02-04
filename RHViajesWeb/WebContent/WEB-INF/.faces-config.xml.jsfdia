@@ -5,7 +5,6 @@
    <PROCESS-ITEM-OUTPUT
     ID="irAdministrarUsuarios::#paginas#seguridad#usuario#administrar.xhtml"
     NAME="output" PATH="/paginas/seguridad/usuario/administrar.xhtml"
-    SHAPE="-1,16"
     TARGET="rules:#paginas#seguridad#usuario#administrar.xhtml"
     TITLE="irAdministrarUsuarios" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
@@ -69,60 +68,65 @@
    <PROCESS-ITEM-OUTPUT
     ID="irAdministrarPlantillaCorreo::#paginas#soporte#correomasivo#administrar.xhtml"
     NAME="output12"
-    PATH="/paginas/soporte/correomasivo/administrar.xhtml"
+    PATH="/paginas/soporte/correomasivo/administrar.xhtml" SHAPE="-1,88"
     TARGET="rules:#paginas#soporte#correomasivo#administrar.xhtml"
     TITLE="irAdministrarPlantillaCorreo" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irAdministrarMaeServicios::#paginas#negocio#maestroservicios#administrar.xhtml"
     NAME="output13"
     PATH="/paginas/negocio/maestroservicios/administrar.xhtml"
+    SHAPE="-1,80"
     TARGET="rules:#paginas#negocio#maestroservicios#administrar.xhtml"
     TITLE="irAdministrarMaeServicios" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irEnvioMasivoCorreo::#paginas#negocio#correomasivo#administrar.xhtml"
     NAME="output14"
-    PATH="/paginas/negocio/correomasivo/administrar.xhtml"
+    PATH="/paginas/negocio/correomasivo/administrar.xhtml" SHAPE="-1,72"
     TARGET="rules:#paginas#negocio#correomasivo#administrar.xhtml"
     TITLE="irEnvioMasivoCorreo" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irAdministrarConsolidador::#paginas#negocio#consolidador#administrar.xhtml"
     NAME="output15"
-    PATH="/paginas/negocio/consolidador/administrar.xhtml"
+    PATH="/paginas/negocio/consolidador/administrar.xhtml" SHAPE="-1,64"
     TARGET="rules:#paginas#negocio#consolidador#administrar.xhtml"
     TITLE="irAdministrarConsolidador" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irConfigurarServicios::#paginas#soporte#servicios#configurar.xhtml"
     NAME="output16" PATH="/paginas/soporte/servicios/configurar.xhtml"
+    SHAPE="-1,88"
     TARGET="rules:#paginas#soporte#servicios#configurar.xhtml"
     TITLE="irConfigurarServicios" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irAdministracionObliXPagar::#paginas#negocio#obligaciones#administrar.xhtml"
     NAME="output17"
-    PATH="/paginas/negocio/obligaciones/administrar.xhtml"
+    PATH="/paginas/negocio/obligaciones/administrar.xhtml" SHAPE="-1,80"
     TARGET="rules:#paginas#negocio#obligaciones#administrar.xhtml"
     TITLE="irAdministracionObliXPagar" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irReporteGeneralVentas::#paginas#reportes#ventas#reportegeneralventas.xhtml"
     NAME="output18"
     PATH="/paginas/reportes/ventas/reportegeneralventas.xhtml"
+    SHAPE="-1,48"
     TARGET="rules:#paginas#reportes#ventas#reportegeneralventas.xhtml"
     TITLE="irReporteGeneralVentas" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irCargaDeudaClientes::#paginas#negocio#cargareporteproveedor#cargadeudas.xhtml"
     NAME="output19"
     PATH="/paginas/negocio/cargareporteproveedor/cargadeudas.xhtml"
+    SHAPE="-1,72"
     TARGET="rules:#paginas#negocio#cargareporteproveedor#cargadeudas.xhtml"
     TITLE="irCargaDeudaClientes" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irConsultaComprobantesGenerados::#paginas#negocio#comprobante#administrar.xhtml"
     NAME="output20"
-    PATH="/paginas/negocio/comprobante/administrar.xhtml"
+    PATH="/paginas/negocio/comprobante/administrar.xhtml" SHAPE="-1,40"
     TARGET="rules:#paginas#negocio#comprobante#administrar.xhtml"
     TITLE="irConsultaComprobantesGenerados" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="irAdministrarCargaArchivo::#paginas#negocio#cargareporteproveedor#administrar.xhtml"
     NAME="output21"
     PATH="/paginas/negocio/cargareporteproveedor/administrar.xhtml"
+    SHAPE="-1,64"
     TARGET="rules:#paginas#negocio#cargareporteproveedor#administrar.xhtml"
     TITLE="irAdministrarCargaArchivo" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
@@ -140,18 +144,25 @@
     ID="irConsultaAsistencia::#paginas#recursoshumanos#controlasistencia#consultaasistencia.xhtml"
     NAME="output24"
     PATH="/paginas/recursoshumanos/controlasistencia/consultaasistencia.xhtml"
+    SHAPE="-1,16"
     TARGET="rules:#paginas#recursoshumanos#controlasistencia#consultaasistencia.xhtml"
     TITLE="irConsultaAsistencia" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irEjecucionSQL::#adminsistemarh#soporte#ejecutasentencia.xhtml"
+    NAME="output25"
+    PATH="/adminsistemarh/soporte/ejecutasentencia.xhtml"
+    TARGET="rules:#adminsistemarh#soporte#ejecutasentencia.xhtml"
+    TITLE="irEjecucionSQL" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#seguridad#usuario#administrar.xhtml"
   PATH="/paginas/seguridad/usuario/administrar.xhtml"
-  SHAPE="304,24,50,25" model-entity="JSFProcessGroup"/>
+  SHAPE="472,280,50,25" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#paginas#soporte#parametro#administrar.xhtml"
   PATH="/paginas/soporte/parametro/administrar.xhtml"
-  SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="304,913,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#paginas#soporte#maestro#administrar.xhtml"
-  PATH="/paginas/soporte/maestro/administrar.xhtml" SHAPE="304,609,0,0"
+  PATH="/paginas/soporte/maestro/administrar.xhtml" SHAPE="304,1025,0,0"
   model-entity="JSFProcessGroup" persistent="true">
   <PROCESS-ITEM ID="rules:#paginas#soporte#maestro#administrar.xhtml:0"
    NAME="item" PATH="/paginas/soporte/maestro/administrar.xhtml" model-entity="JSFProcessItem">
@@ -166,12 +177,12 @@
  <PROCESS-ITEM
   NAME="rules:#paginas#soporte#maestro#hijo#administrar.xhtml"
   PATH="/paginas/soporte/maestro/hijo/administrar.xhtml"
-  SHAPE="528,593,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="528,1009,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#paginas#negocio#proveedor#administrar.xhtml"
   PATH="/paginas/negocio/proveedor/administrar.xhtml"
-  SHAPE="304,721,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,1137,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
-  SHAPE="304,945,0,0" model-entity="JSFProcessGroup">
+  SHAPE="304,1361,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#index.xhtml:0" NAME="item"
    PATH="/index.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="irInicio::#paginas#inicio.xhtml"
@@ -180,15 +191,15 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#inicio.xhtml"
-  PATH="/paginas/inicio.xhtml" SHAPE="528,929,0,0"
+  PATH="/paginas/inicio.xhtml" SHAPE="528,1345,0,0"
   model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#paginas#negocio#cliente#administrar.xhtml"
-  PATH="/paginas/negocio/cliente/administrar.xhtml" SHAPE="304,833,0,0"
+  PATH="/paginas/negocio/cliente/administrar.xhtml" SHAPE="304,1249,0,0"
   model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#soporte#destino#pais#listacontinentes.xhtml"
   PATH="/paginas/soporte/destino/pais/listacontinentes.xhtml"
-  SHAPE="304,1057,0,0" model-entity="JSFProcessGroup">
+  SHAPE="304,1473,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM
    ID="rules:#paginas#soporte#destino#pais#listacontinentes.xhtml:0"
    NAME="item"
@@ -204,16 +215,16 @@
  <PROCESS-ITEM
   NAME="rules:#paginas#soporte#destino#pais#administrar.xhtml"
   PATH="/paginas/soporte/destino/pais/administrar.xhtml"
-  SHAPE="528,1041,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="528,1457,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#paginas#soporte#destino#administrar.xhtml"
-  PATH="/paginas/soporte/destino/administrar.xhtml" SHAPE="304,1169,0,0"
+  PATH="/paginas/soporte/destino/administrar.xhtml" SHAPE="304,1585,0,0"
   model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#paginas#negocio#novios#administrar.xhtml"
-  PATH="/paginas/negocio/novios/administrar.xhtml" SHAPE="304,1281,0,0"
+  PATH="/paginas/negocio/novios/administrar.xhtml" SHAPE="304,1697,0,0"
   model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#paginas#negocio#servicios#administrar.xhtml"
   PATH="/paginas/negocio/servicios/administrar.xhtml"
-  SHAPE="304,1393,0,0" model-entity="JSFProcessGroup">
+  SHAPE="304,1809,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM
    ID="rules:#paginas#negocio#servicios#administrar.xhtml:0" NAME="item"
    PATH="/paginas/negocio/servicios/administrar.xhtml" model-entity="JSFProcessItem">
@@ -221,6 +232,7 @@
     ID="irRegistroVentaServicio::#paginas#negocio#servicios#registroventaservicio2.xhtml"
     NAME="output"
     PATH="/paginas/negocio/servicios/registroventaservicio2.xhtml"
+    SHAPE="-1,16"
     TARGET="rules:#paginas#negocio#servicios#registroventaservicio2.xhtml"
     TITLE="irRegistroVentaServicio" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
@@ -228,56 +240,60 @@
  <PROCESS-ITEM
   NAME="rules:#paginas#soporte#correomasivo#administrar.xhtml"
   PATH="/paginas/soporte/correomasivo/administrar.xhtml"
-  SHAPE="487,177,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,1921,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#maestroservicios#administrar.xhtml"
   PATH="/paginas/negocio/maestroservicios/administrar.xhtml"
-  SHAPE="525,292,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,2033,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#correomasivo#administrar.xhtml"
   PATH="/paginas/negocio/correomasivo/administrar.xhtml"
-  SHAPE="524,407,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,2145,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#consolidador#administrar.xhtml"
   PATH="/paginas/negocio/consolidador/administrar.xhtml"
-  SHAPE="674,67,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,2257,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#servicios#registroventaservicio2.xhtml"
   PATH="/paginas/negocio/servicios/registroventaservicio2.xhtml"
-  SHAPE="777,1375,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="528,1793,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#paginas#soporte#servicios#configurar.xhtml"
   PATH="/paginas/soporte/servicios/configurar.xhtml"
-  SHAPE="592,-96,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,2369,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#obligaciones#administrar.xhtml"
   PATH="/paginas/negocio/obligaciones/administrar.xhtml"
-  SHAPE="680,-288,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="304,2481,0,0" model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#reportes#ventas#reportegeneralventas.xhtml"
   PATH="/paginas/reportes/ventas/reportegeneralventas.xhtml"
-  SHAPE="392,768,50,25" model-entity="JSFProcessGroup"/>
+  SHAPE="304,2593,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#cargareporteproveedor#cargadeudas.xhtml"
   PATH="/paginas/negocio/cargareporteproveedor/cargadeudas.xhtml"
-  SHAPE="304,753,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="304,2705,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#comprobante#administrar.xhtml"
   PATH="/paginas/negocio/comprobante/administrar.xhtml"
-  SHAPE="304,785,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="304,2817,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#cargareporteproveedor#administrar.xhtml"
   PATH="/paginas/negocio/cargareporteproveedor/administrar.xhtml"
-  SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="304,2929,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#cuentabancaria#administrar.xhtml"
   PATH="/paginas/negocio/cuentabancaria/administrar.xhtml"
-  SHAPE="304,849,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="472,224,50,25" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#negocio#tipocambio#administrar.xhtml"
   PATH="/paginas/negocio/tipocambio/administrar.xhtml"
-  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="456,144,50,25" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#paginas#recursoshumanos#controlasistencia#consultaasistencia.xhtml"
   PATH="/paginas/recursoshumanos/controlasistencia/consultaasistencia.xhtml"
-  SHAPE="304,913,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="440,88,50,25" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#adminsistemarh#soporte#ejecutasentencia.xhtml"
+  PATH="/adminsistemarh/soporte/ejecutasentencia.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
