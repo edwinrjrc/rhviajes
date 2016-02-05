@@ -16,33 +16,40 @@
 				<f:facet name="header">
 					<h:panelGrid style="width:100%;text-align:left;" cellpadding="0"
 						cellspacing="0" border="0" columns="1">
-						<h:outputText styleClass="subtitulo" value="Ejecutar Sentencia SQL" />
-						<hr />
+						<h:outputText styleClass="subtitulo"
+							value="Ejecutar Sentencia SQL" />
+						<hr style="width:100%;" />
 					</h:panelGrid>
 				</f:facet>
-				
-				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="width:100%;text-align:left;">
 					<f:facet name="header">
-						<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-							<h:outputText style="Color:#5885BE;" value="Sentencia SQL" />
-							<hr />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;">
+							<h:outputText style="Color:#5885BE;text-align:left;" value="Sentencia SQL" />
+							<hr style="width:100%;" />
 						</h:panelGrid>
-						
-						<h:outputText value="Script" />
-						<h:inputTextarea rows="20" cols="200"></h:inputTextarea>
 					</f:facet>
+
+					<h:outputText value="Script" />
+					<h:inputTextarea rows="20" cols="200"></h:inputTextarea>
+
 					<f:facet name="footer">
-						<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="text-align:center;">
-							<a4j:commandButton value="Ejecutar Sentencia"></a4j:commandButton>
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="text-align:center;width:100%;">
+							<br></br>
+							<a4j:commandButton value="Ejecutar Sentencia" styleClass="estiloBoton1"></a4j:commandButton>
 						</h:panelGrid>
 					</f:facet>
 				</h:panelGrid>
-				
-				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="width:100%;text-align:center;">
 					<f:facet name="header">
-						<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-							<h:outputText style="Color:#5885BE;" value="Resultado Ejecución Sentencia" />
-							<hr />
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:left;">
+							<h:outputText style="Color:#5885BE;text-align:left;"
+								value="Resultado Ejecución Sentencia" />
+							<hr style="width:100%;" />
 						</h:panelGrid>
 					</f:facet>
 				</h:panelGrid>

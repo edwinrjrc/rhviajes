@@ -69,25 +69,31 @@ public class SeguridadSession implements SeguridadRemote, SeguridadLocal {
 		EmpresaLicenciaDao empresaLicenciaDao = new EmpresaLicenciaDaoImpl();
 		String nombreDominio = StringUtils.trim(usuario.getUsuario());
 		
-		nombreDominio = nombreDominio.split("@")[1];
-		usuario.setEmpresa(empresaLicenciaDao.consultarEmpresaLicencia(nombreDominio));
-				
-		usuarioDao = new UsuarioDaoImpl(usuario.getEmpresa().getCodigoEntero());
-		usuario = usuarioDao.inicioSesion2(usuario);
-		
-		if (!usuario.isEncontrado()) {
+		if (StringUtils.contains(nombreDominio, "@")){
+			nombreDominio = nombreDominio.split("@")[1];
+			usuario.setEmpresa(empresaLicenciaDao.consultarEmpresaLicencia(nombreDominio));
+			
+			usuarioDao = new UsuarioDaoImpl(usuario.getEmpresa().getCodigoEntero());
+			usuario = usuarioDao.inicioSesion2(usuario);
+			
+			if (!usuario.isEncontrado()) {
+				throw new InicioSesionException(
+						"El usuario y la contraseña son incorrectas");
+			}
+
+			try {
+				usuario.setUsuarioCreacion(usuario);
+				usuario.setUsuarioModificacion(usuario);
+				auditoriaSessionLocal.registrarEventoInicioSession(usuario);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else{
 			throw new InicioSesionException(
-					"El usuario y la contraseña son incorrectas");
+					"El usuario incorrecto");
 		}
-
-		try {
-			usuario.setUsuarioCreacion(usuario);
-			usuario.setUsuarioModificacion(usuario);
-			auditoriaSessionLocal.registrarEventoInicioSession(usuario);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+				
 		return usuario;
 	}
 

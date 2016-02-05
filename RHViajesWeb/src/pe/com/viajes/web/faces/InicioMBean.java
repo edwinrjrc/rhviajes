@@ -82,13 +82,13 @@ public class InicioMBean extends BaseMBean {
 	public List<CheckIn> getCheckInPendientes() {
 		try {
 			
-			HttpSession session = obtenerSession(false);
-			Usuario usuario = (Usuario) session
-					.getAttribute("usuarioSession");
-					usuario.getUsuario();
-					
-			checkInPendientes = consultaNegocioServicio
-					.consultarCheckInPendiente(usuario);
+			Usuario usuario = this.obtenerUsuarioSession();
+			
+			if (usuario.getRol().getCodigoEntero().intValue() == 2 || usuario.getRol().getCodigoEntero().intValue() == 4){
+				checkInPendientes = consultaNegocioServicio
+						.consultarCheckInPendiente(this.obtenerUsuarioSession());
+			}
+			
 
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
