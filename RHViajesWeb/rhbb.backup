@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.2.3
 -- Dumped by pg_dump version 9.2.3
--- Started on 2016-02-01 08:27:55
+-- Started on 2016-02-05 08:12:13
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -9593,6 +9593,12 @@ INSERT INTO eventosesionsistema VALUES (60, 2, 'admin@innovaviajes.pe', '2016-01
 INSERT INTO eventosesionsistema VALUES (61, 2, 'admin@innovaviajes.pe', '2016-01-30 22:17:07.216-05', 1, 1, 2, '2016-01-30 22:17:07.216-05', '127.0.0.1', 2, '2016-01-30 22:17:07.216-05', '127.0.0.1', 1);
 INSERT INTO eventosesionsistema VALUES (62, 2, 'admin@innovaviajes.pe', '2016-01-30 22:37:47.116-05', 1, 1, 2, '2016-01-30 22:37:47.116-05', '127.0.0.1', 2, '2016-01-30 22:37:47.116-05', '127.0.0.1', 1);
 INSERT INTO eventosesionsistema VALUES (63, 2, 'admin@innovaviajes.pe', '2016-01-30 23:22:18.441-05', 1, 1, 2, '2016-01-30 23:22:18.441-05', '127.0.0.1', 2, '2016-01-30 23:22:18.441-05', '127.0.0.1', 1);
+INSERT INTO eventosesionsistema VALUES (64, 1, 'administrador@rhsistemas.pe', '2016-02-04 20:55:08.585-05', 1, 100, 1, '2016-02-04 20:55:08.585-05', '127.0.0.1', 1, '2016-02-04 20:55:08.585-05', '127.0.0.1', 1);
+INSERT INTO eventosesionsistema VALUES (65, 1, 'administrador@rhsistemas.pe', '2016-02-04 21:37:23.831-05', 1, 100, 1, '2016-02-04 21:37:23.831-05', '127.0.0.1', 1, '2016-02-04 21:37:23.831-05', '127.0.0.1', 1);
+INSERT INTO eventosesionsistema VALUES (66, 1, 'administrador@rhsistemas.pe', '2016-02-04 21:58:14.436-05', 1, 100, 1, '2016-02-04 21:58:14.436-05', '127.0.0.1', 1, '2016-02-04 21:58:14.436-05', '127.0.0.1', 1);
+INSERT INTO eventosesionsistema VALUES (67, 1, 'administrador@rhsistemas.pe', '2016-02-04 22:03:21.736-05', 1, 100, 1, '2016-02-04 22:03:21.736-05', '127.0.0.1', 1, '2016-02-04 22:03:21.736-05', '127.0.0.1', 1);
+INSERT INTO eventosesionsistema VALUES (68, 1, 'administrador@rhsistemas.pe', '2016-02-05 07:34:01.75-05', 1, 100, 1, '2016-02-05 07:34:01.75-05', '127.0.0.1', 1, '2016-02-05 07:34:01.75-05', '127.0.0.1', 1);
+INSERT INTO eventosesionsistema VALUES (69, 1, 'administrador@rhsistemas.pe', '2016-02-05 07:35:57.125-05', 1, 100, 1, '2016-02-05 07:35:57.125-05', '127.0.0.1', 1, '2016-02-05 07:35:57.125-05', '127.0.0.1', 1);
 
 
 --
@@ -9601,7 +9607,7 @@ INSERT INTO eventosesionsistema VALUES (63, 2, 'admin@innovaviajes.pe', '2016-01
 -- Name: seq_eventosesionsistema; Type: SEQUENCE SET; Schema: auditoria; Owner: postgres
 --
 
-SELECT pg_catalog.setval('seq_eventosesionsistema', 63, true);
+SELECT pg_catalog.setval('seq_eventosesionsistema', 69, true);
 
 
 SET search_path = licencia, pg_catalog;
@@ -9623,6 +9629,7 @@ INSERT INTO "Contrato" VALUES (1, '2016-01-01', '2016-12-31', 5.00, 10, 'HXQHO5D
 
 INSERT INTO "Empresa" VALUES (1, 'Innova Viajes RH', 'Innova Viajes', 'innovaviajes.pe', 1, '20600866151', 'Paola Huarachi');
 INSERT INTO "Empresa" VALUES (2, 'Grupo Maral', 'Viajes Terra Nova', 'viajesterranova.com.pe', 1, '20123456789', 'Liliam Quispe');
+INSERT INTO "Empresa" VALUES (100, 'RH Sistemas SAC', 'RH Sistemas', 'rhsistemas.pe', 1, '20123456789', 'Edwin Rebaza Cerpa');
 
 
 SET search_path = negocio, pg_catalog;
@@ -10271,6 +10278,7 @@ INSERT INTO rol VALUES (1, 'Administrador', 1, 2, '2016-01-01 00:00:00-05', '0.0
 INSERT INTO rol VALUES (2, 'vendedor', 1, 2, '2016-01-22 17:26:24.023-05', '0.0.0.0', 2, '2016-01-22 17:26:24.023-05', '0.0.0.0', 1);
 INSERT INTO rol VALUES (3, 'Supervisor Administrativo', 1, 2, '2016-01-22 17:26:24.023-05', '0.0.0.0', 2, '2016-01-22 17:26:24.023-05', '0.0.0.0', 1);
 INSERT INTO rol VALUES (4, 'Supervisor Ventas', 1, 2, '2016-01-22 17:26:24.023-05', '0.0.0.0', 2, '2016-01-22 17:26:24.023-05', '0.0.0.0', 1);
+INSERT INTO rol VALUES (5, 'Administrador Sistema', 100, 1, '2016-01-01 00:00:00-05', '0.0.0.0', 1, '2016-01-01 00:00:00-05', '0.0.0.0.', 1);
 
 
 --
@@ -10282,6 +10290,7 @@ INSERT INTO rol VALUES (4, 'Supervisor Ventas', 1, 2, '2016-01-22 17:26:24.023-0
 INSERT INTO usuario VALUES (2, 'admin@innovaviajes.pe', 'F9jP2jxpZxi1Pi9dPuNQeA==', 1, 'Administrador', 'Innova Viajes', NULL, '2016-01-20', false, false, '2017-01-01', 1, 2, '2016-01-01 00:00:00-05', '0.0.0.0', 2, '2016-01-01 00:00:00-05', '0.0.0.0', 1);
 INSERT INTO usuario VALUES (4, 'edwin.rebaza@innovaviajes.pe', 'lTWx84S1UEGdaLnnFIlkeQ==', 3, 'EDWIN', 'REBAZA', 'CERPA', '1982-05-30', false, false, '2016-03-14', 1, 2, '2016-01-29 00:19:10.455-05', '127.0.0.1', 4, '2016-01-29 00:24:21.917-05', '127.0.0.1', 1);
 INSERT INTO usuario VALUES (3, 'paola.huarachi@innovaviajes.pe', '0m/hFwdSaDdN3Hw6Z2Vbow==', 4, 'PAOLA', 'HUARACHI', 'PFLÜCKER', '1983-09-02', true, false, '2016-04-21', 1, 2, '2016-01-22 17:32:07.173-05', '127.0.0.1', 3, '2016-01-30 14:33:10.318-05', '127.0.0.1', 1);
+INSERT INTO usuario VALUES (1, 'administrador@rhsistemas.pe', 'F9jP2jxpZxi1Pi9dPuNQeA==', 5, 'Administrador', 'RH Viajes', NULL, '1980-01-20', false, false, '2017-01-01', 100, 1, '2016-01-01 00:00:00-05', '0.0.0.0', 1, '2016-01-01 00:00:00-05', '0.0.0.0', 1);
 
 
 SET search_path = soporte, pg_catalog;
@@ -13262,7 +13271,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-02-01 08:27:58
+-- Completed on 2016-02-05 08:12:15
 
 --
 -- PostgreSQL database dump complete
