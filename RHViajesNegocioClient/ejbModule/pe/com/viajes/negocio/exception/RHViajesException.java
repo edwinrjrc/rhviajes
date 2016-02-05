@@ -7,7 +7,7 @@ package pe.com.viajes.negocio.exception;
  * @author Edwin
  *
  */
-public class LogisticaNegocioException extends Exception {
+public class RHViajesException extends Exception {
 
 	private String codigoError = "";
 	private String mensajeError = "";
@@ -19,20 +19,20 @@ public class LogisticaNegocioException extends Exception {
 	/**
 	 * 
 	 */
-	public LogisticaNegocioException() {
+	public RHViajesException() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param arg0
 	 */
-	public LogisticaNegocioException(String arg0) {
+	public RHViajesException(String arg0) {
 		super(arg0);
 		mensajeError = arg0;
 		// TODO Auto-generated constructor stub
 	}
 
-	public LogisticaNegocioException(String arg0, String arg1) {
+	public RHViajesException(String arg0, String arg1) {
 		super(arg1);
 		codigoError = arg0;
 		mensajeError = arg1;
@@ -42,7 +42,7 @@ public class LogisticaNegocioException extends Exception {
 	/**
 	 * @param arg0
 	 */
-	public LogisticaNegocioException(Throwable arg0) {
+	public RHViajesException(Throwable arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
@@ -51,7 +51,7 @@ public class LogisticaNegocioException extends Exception {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public LogisticaNegocioException(String arg0, Throwable arg1) {
+	public RHViajesException(String arg0, Throwable arg1) {
 		super(arg0, arg1);
 		mensajeError = arg0;
 		// TODO Auto-generated constructor stub
@@ -61,7 +61,7 @@ public class LogisticaNegocioException extends Exception {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public LogisticaNegocioException(String codigo, String mensaje,
+	public RHViajesException(String codigo, String mensaje,
 			Throwable arg1) {
 		super(mensaje, arg1);
 		mensajeError = mensaje;
@@ -75,7 +75,7 @@ public class LogisticaNegocioException extends Exception {
 	 * @param arg2
 	 * @param arg3
 	 */
-	public LogisticaNegocioException(String arg0, Throwable arg1, boolean arg2,
+	public RHViajesException(String arg0, Throwable arg1, boolean arg2,
 			boolean arg3) {
 		super(arg0, arg1, arg2, arg3);
 		mensajeError = arg0;

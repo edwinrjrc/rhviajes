@@ -8,3 +8,5 @@
 /NoEnvioDatoException.class
 /ResultadoCeroDaoException.class
 /ValidacionException.class
+/EjecucionSQLException.class
+/RHViajesException.class

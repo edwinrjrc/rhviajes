@@ -7,7 +7,7 @@ package pe.com.viajes.negocio.exception;
  * @author Edwin
  *
  */
-public class ConnectionException extends LogisticaNegocioException {
+public class ConnectionException extends RHViajesException {
 
 	/**
 	 * 

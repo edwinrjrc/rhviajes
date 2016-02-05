@@ -4,27 +4,24 @@
 package pe.com.viajes.negocio.exception;
 
 /**
- * @author Edwin
+ * @author EDWREB
  *
  */
-public class ValidacionException extends RHViajesException {
+public class EjecucionSQLException extends RHViajesException {
+
+	private static final long serialVersionUID = 4120398851674954736L;
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4231497084374204989L;
-
-	/**
-	 * 
-	 */
-	public ValidacionException() {
+	public EjecucionSQLException() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param arg0
 	 */
-	public ValidacionException(String arg0) {
+	public EjecucionSQLException(String arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
@@ -33,7 +30,7 @@ public class ValidacionException extends RHViajesException {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public ValidacionException(String arg0, String arg1) {
+	public EjecucionSQLException(String arg0, String arg1) {
 		super(arg0, arg1);
 		// TODO Auto-generated constructor stub
 	}
@@ -41,7 +38,7 @@ public class ValidacionException extends RHViajesException {
 	/**
 	 * @param arg0
 	 */
-	public ValidacionException(Throwable arg0) {
+	public EjecucionSQLException(Throwable arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
@@ -50,7 +47,7 @@ public class ValidacionException extends RHViajesException {
 	 * @param arg0
 	 * @param arg1
 	 */
-	public ValidacionException(String arg0, Throwable arg1) {
+	public EjecucionSQLException(String arg0, Throwable arg1) {
 		super(arg0, arg1);
 		// TODO Auto-generated constructor stub
 	}
@@ -60,7 +57,7 @@ public class ValidacionException extends RHViajesException {
 	 * @param mensaje
 	 * @param arg1
 	 */
-	public ValidacionException(String codigo, String mensaje, Throwable arg1) {
+	public EjecucionSQLException(String codigo, String mensaje, Throwable arg1) {
 		super(codigo, mensaje, arg1);
 		// TODO Auto-generated constructor stub
 	}
@@ -71,7 +68,7 @@ public class ValidacionException extends RHViajesException {
 	 * @param arg2
 	 * @param arg3
 	 */
-	public ValidacionException(String arg0, Throwable arg1, boolean arg2,
+	public EjecucionSQLException(String arg0, Throwable arg1, boolean arg2,
 			boolean arg3) {
 		super(arg0, arg1, arg2, arg3);
 		// TODO Auto-generated constructor stub
