@@ -3,6 +3,9 @@
  */
 package pe.com.viajes.bean.administracion;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import pe.com.viajes.bean.base.Base;
 
 /**
@@ -18,6 +21,9 @@ public class SentenciaSQL extends Base{
 	private boolean insercion;
 	private boolean actualizacion;
 	private boolean eliminacion;
+	
+	private String msjeTransaccion;
+	private Map<String, Object> resultadoConsulta;
 	
 
 	public SentenciaSQL() {
@@ -102,5 +108,40 @@ public class SentenciaSQL extends Base{
 	 */
 	public void setEliminacion(boolean eliminacion) {
 		this.eliminacion = eliminacion;
+	}
+
+
+	/**
+	 * @return the msjeTransaccion
+	 */
+	public String getMsjeTransaccion() {
+		return msjeTransaccion;
+	}
+
+
+	/**
+	 * @param msjeTransaccion the msjeTransaccion to set
+	 */
+	public void setMsjeTransaccion(String msjeTransaccion) {
+		this.msjeTransaccion = msjeTransaccion;
+	}
+
+
+	/**
+	 * @return the resultadoConsulta
+	 */
+	public Map<String, Object> getResultadoConsulta() {
+		if (resultadoConsulta == null){
+			resultadoConsulta = new HashMap<String, Object>();
+		}
+		return resultadoConsulta;
+	}
+
+
+	/**
+	 * @param resultadoConsulta the resultadoConsulta to set
+	 */
+	public void setResultadoConsulta(Map<String, Object> resultadoConsulta) {
+		this.resultadoConsulta = resultadoConsulta;
 	}
 }

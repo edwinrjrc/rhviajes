@@ -43,7 +43,8 @@ public class EjecutaSentenciaSQLDaoImpl implements EjecutaSentenciaSQLDao {
 	 * @see pe.com.viajes.negocio.dao.impl.EjecutaSentenciaSQLDao#ejecutarConsulta(java.lang.String, java.sql.Connection)
 	 */
 	@Override
-	public Object ejecutarConsulta(String sql, Connection conn) throws SQLException{
+	public Map<String, Object> ejecutarConsulta(String sql, Connection conn) throws SQLException{
+		Map<String, Object> resultado = new HashMap<String, Object>();
 		List<Map<String, Object>> resultadoSelect = new ArrayList<Map<String, Object>>();
 		CallableStatement cs = null;
 		ResultSet rs = null;
@@ -56,15 +57,20 @@ public class EjecutaSentenciaSQLDaoImpl implements EjecutaSentenciaSQLDao {
 			
 			String[] columnas = new String[rsmd.getColumnCount()];
 			for (int i=0; i<columnas.length; i++){
-				columnas[i] = rsmd.getColumnName(i);
+				columnas[i] = rsmd.getColumnName(i+1);
 			}
 			
 			Map<String, Object> bean = null;
 			while(rs.next()){
-				int i=0;
 				bean = new HashMap<String, Object>();
-				bean.put(columnas[i], rs.getObject(columnas[i]));
+				for (int j=0; j<columnas.length; j++){
+					bean.put(columnas[j], rs.getObject(columnas[j]));
+				}
+				resultadoSelect.add(bean);
 			}
+			
+			resultado.put("cabecera", columnas);
+			resultado.put("data", resultadoSelect);
 			
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -77,6 +83,6 @@ public class EjecutaSentenciaSQLDaoImpl implements EjecutaSentenciaSQLDao {
 			}
 		}
 		
-		return null;
+		return resultado;
 	}
 }

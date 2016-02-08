@@ -53,9 +53,6 @@ public class ClienteMBean extends BaseMBean {
 
 	private final static Logger logger = Logger.getLogger(ClienteMBean.class);
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3161805888946994195L;
 
 	private List<Cliente> listaClientes;

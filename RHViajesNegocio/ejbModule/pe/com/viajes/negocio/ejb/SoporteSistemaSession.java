@@ -2,6 +2,8 @@ package pe.com.viajes.negocio.ejb;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -47,7 +49,7 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
 			if (StringUtils.isNotBlank(sql)){
 				sql = StringUtils.normalizeSpace(sql);
 				int i = StringUtils.indexOf(sql, " ");
-				String sql_1 = StringUtils.substring(sql, i);
+				String sql_1 = StringUtils.substring(sql, 0, i);
 				sql_1 = StringUtils.trim(sql_1);
 				sentenciaSQL.setConsulta("SELECT".equals(StringUtils.upperCase(sql_1)));
 				sentenciaSQL.setEliminacion("DELETE".equals(StringUtils.upperCase(sql_1)));
@@ -61,17 +63,19 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
 				userTransaction.begin();
 				conn = UtilConexion.obtenerConexion();
 				
-				
 				EjecutaSentenciaSQLDao ejecutaSentenciaSQLDao = new EjecutaSentenciaSQLDaoImpl();
 				if (sentenciaSQL.isConsulta()){
-					ejecutaSentenciaSQLDao.ejecutarConsulta(sql, conn);
+					Map<String, Object> resultado = ejecutaSentenciaSQLDao.ejecutarConsulta(sql, conn);
+					
+					sentenciaSQL.setResultadoConsulta(resultado);
 				}
 				else {
 					ejecutaSentenciaSQLDao.ejecutarSentencia(sql, conn);
 					
-					userTransaction.commit();
+					
 				}
 				
+				userTransaction.commit();
 			} catch (SQLException e) {
 				userTransaction.rollback();
 				throw new EjecucionSQLException("Error en ejecucion de sentencia SQL", e);
@@ -90,12 +94,18 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
 			} catch (HeuristicRollbackException e) {
 				userTransaction.rollback();
 				throw new EjecucionSQLException("Error en ejecucion de sentencia SQL", e);
+			} finally{
+				if ( conn != null ){
+					conn.close();
+				}
 			}
 		} catch (IllegalStateException e) {
 			throw new RHViajesException(e);
 		} catch (SecurityException e) {
 			throw new RHViajesException(e);
 		} catch (SystemException e) {
+			throw new RHViajesException(e);
+		} catch (SQLException e){
 			throw new RHViajesException(e);
 		}
     	
