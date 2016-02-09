@@ -166,6 +166,7 @@ public class ProveedorMBean extends BaseMBean {
 					this.getProveedor().getListaContactos()
 							.remove(getContacto());
 				}
+				getContacto().setEmpresa(this.obtenerEmpresa());
 				this.getProveedor()
 						.getListaContactos()
 						.add(utilNegocioServicio.agregarContacto(getContacto()));

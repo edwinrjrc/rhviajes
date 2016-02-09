@@ -56,295 +56,337 @@
 							<h:outputText style="Color:#5885BE;text-align:left;"
 								value="Resultado Ejecución Sentencia" />
 							<hr style="width: 100%;" />
-						</h:panelGrid>	
+						</h:panelGrid>
 					</f:facet>
 
-					<rich:extendedDataTable value="#{soporteSistemaMBean.listaResultado}" 
-						var="fila" frozenColumns="2" selectionMode="none" style="height:300px; width:1200px;"  >
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>1}">
-							<f:facet name="header">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="overflow: auto; overflow-y: scroll; overflow-x: scroll; width: 100px;">
+						<rich:dataTable value="#{soporteSistemaMBean.listaResultado}"
+							var="fila" frozenColumns="2" selectionMode="none">
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>1}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[0]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[0]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[0])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>2}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[0])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>2}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[1]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[1]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[1])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>3}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[1])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>3}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[2]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[2]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[2])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>4}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[2])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>4}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[3]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[3]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[3])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>5}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[3])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>5}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[4]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[4]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[4])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>6}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[4])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>6}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[5]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[5]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[5])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>7}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[5])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>7}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[6]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[6]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[6])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>8}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[6])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>8}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[7]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[7]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[7])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>9}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[7])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>9}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[8]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[8]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[8])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>10}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[8])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>10}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[9]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[9]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[9])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>11}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[9])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>11}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[10]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[10]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[10])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>12}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[10])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>12}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[11]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[11]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[11])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>13}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[11])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>13}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[12]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[12]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[12])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>14}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[12])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>14}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[13]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[13]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[13])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>15}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[13])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>15}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[14]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[14]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[14])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>16}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[14])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>16}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[15]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[15]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[15])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>17}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[15])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>17}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[16]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[16]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[16])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>18}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[16])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>18}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[17]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[17]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[17])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>19}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[17])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>19}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[18]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[18]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[18])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>20}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[18])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>20}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[19]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[19]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[19])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>21}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[19])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>21}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[20]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[20]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[20])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>22}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[20])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>22}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[21]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[21]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[21])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>23}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[21])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>23}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[22]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[22]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[22])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>24}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[22])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>24}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[23]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[23]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[23])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>25}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[23])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>25}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[24]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[24]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[24])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>26}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[24])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>26}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[25]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[25]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[25])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>27}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[25])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>27}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[26]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[26]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[26])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>28}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[26])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>28}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[27]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[27]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[27])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>29}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[27])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>29}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[28]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[28]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[28])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>30}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[28])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>30}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[29]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[29]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[29])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>31}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[29])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>31}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[30]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[30]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[30])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>32}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[30])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>32}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[31]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[31]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[31])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>33}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[31])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>33}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[32]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[32]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[32])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>34}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[32])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>34}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[33]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[33]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[33])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>35}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[33])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>35}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[34]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[34]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[34])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>36}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[34])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>36}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[35]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[35]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[35])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>37}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[35])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>37}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[36]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[36]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[36])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>38}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[36])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>38}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[37]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[37]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[37])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>39}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[37])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>39}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[38]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[38]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[38])}" />
-						</rich:column>
-						<rich:column rendered="#{soporteSistemaMBean.tamanioLista>40}">
-							<f:facet name="header">
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[38])}" />
+							</rich:column>
+							<rich:column rendered="#{soporteSistemaMBean.tamanioLista>40}">
+								<f:facet name="header">
+									<h:outputText
+										value="#{soporteSistemaMBean.cabeceraResultado[39]}" />
+								</f:facet>
 								<h:outputText
-									value="#{soporteSistemaMBean.cabeceraResultado[39]}" />
-							</f:facet>
-							<h:outputText value="#{fila.get(soporteSistemaMBean.cabeceraResultado[39])}" />
-						</rich:column>
-					</rich:extendedDataTable>
+									value="#{fila.get(soporteSistemaMBean.cabeceraResultado[39])}" />
+							</rich:column>
+						</rich:dataTable>
+					</h:panelGrid>
 
 				</h:panelGrid>
-
 			</h:panelGrid>
 		</h:form>
 	</ui:define>
