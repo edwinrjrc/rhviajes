@@ -69,10 +69,11 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
 					
 					sentenciaSQL.setResultadoConsulta(resultado);
 				}
-				else {
-					ejecutaSentenciaSQLDao.ejecutarSentencia(sql, conn);
-					
-					
+				else if (sentenciaSQL.isActualizacion() || sentenciaSQL.isEliminacion() || sentenciaSQL.isInsercion()) {
+					sentenciaSQL.setMsjeTransaccion(ejecutaSentenciaSQLDao.ejecutarSentencia(sql, conn));
+				}
+				else{
+					sentenciaSQL.setMsjeTransaccion("Sentencia SQL incorrecta");
 				}
 				
 				userTransaction.commit();

@@ -25,11 +25,15 @@ public class EjecutaSentenciaSQLDaoImpl implements EjecutaSentenciaSQLDao {
 	 * @see pe.com.viajes.negocio.dao.impl.EjecutaSentenciaSQLDao#ejecutarSentencia(java.lang.String, java.sql.Connection)
 	 */
 	@Override
-	public void ejecutarSentencia(String sql, Connection conn) throws SQLException{
+	public String ejecutarSentencia(String sql, Connection conn) throws SQLException{
 		CallableStatement cs = null; 
 		try {
 			cs = conn.prepareCall(sql);
 			cs.execute();
+			
+			int filasAfectada = cs.getUpdateCount();
+			
+			return filasAfectada + "filas afectadas";
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally{

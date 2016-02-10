@@ -23,9 +23,7 @@ public class AuthorizationListener implements PhaseListener {
 	private final static Logger logger = Logger
 			.getLogger(AuthorizationListener.class);
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 2355404062399271061L;
 
 	/**

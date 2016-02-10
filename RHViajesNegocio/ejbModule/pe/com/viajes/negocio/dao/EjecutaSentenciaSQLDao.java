@@ -6,8 +6,8 @@ import java.util.Map;
 
 public interface EjecutaSentenciaSQLDao {
 
-	public abstract void ejecutarSentencia(String sql, Connection conn) throws SQLException;
+	public String ejecutarSentencia(String sql, Connection conn) throws SQLException;
 
-	public abstract Map<String, Object> ejecutarConsulta(String sql, Connection conn) throws SQLException;
+	public Map<String, Object> ejecutarConsulta(String sql, Connection conn) throws SQLException;
 
 }

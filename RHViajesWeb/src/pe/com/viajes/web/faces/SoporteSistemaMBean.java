@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
@@ -53,16 +54,27 @@ public class SoporteSistemaMBean extends BaseMBean {
 	
 	public void ejecutarSentencia(){
 		try {
-			this.setSentenciaSQL(soporteSistemaServicio.ejecutarSentenciaSQL(getSentenciaSQL()));
-			
-			this.setCabeceraResultado((String[]) this.getSentenciaSQL().getResultadoConsulta().get("cabecera"));
-			this.setListaResultado((List<Map<String, Object>>) this.getSentenciaSQL().getResultadoConsulta().get("data"));
-			
-			this.setTamanioLista(this.getCabeceraResultado().length);
+			if (StringUtils.isNotBlank(getSentenciaSQL().getScript())){
+				this.setSentenciaSQL(soporteSistemaServicio.ejecutarSentenciaSQL(getSentenciaSQL()));
+				
+				if (this.getSentenciaSQL().isConsulta()){
+					this.setCabeceraResultado((String[]) this.getSentenciaSQL().getResultadoConsulta().get("cabecera"));
+					this.setListaResultado((List<Map<String, Object>>) this.getSentenciaSQL().getResultadoConsulta().get("data"));
+					
+					this.setTamanioLista(this.getCabeceraResultado().length);
+				}
+			}
+			else {
+				getSentenciaSQL().setMsjeTransaccion("No se ingreso script");
+			}
 			
 		} catch (EjecucionSQLException e) {
+			getSentenciaSQL().setResultadoConsulta(null);
+			getSentenciaSQL().setMsjeTransaccion(e.getMessage());
 			logger.error(e.getMessage(), e);
 		} catch (RHViajesException e) {
+			getSentenciaSQL().setResultadoConsulta(null);
+			getSentenciaSQL().setMsjeTransaccion(e.getMessage());
 			logger.error(e.getMessage(), e);
 		}
 	}
