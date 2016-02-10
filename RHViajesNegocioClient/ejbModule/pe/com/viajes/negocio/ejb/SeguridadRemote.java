@@ -8,6 +8,7 @@ import javax.ejb.Remote;
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.negocio.exception.ConnectionException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
 import pe.com.viajes.negocio.exception.InicioSesionException;
 
@@ -37,4 +38,7 @@ public interface SeguridadRemote {
 			Exception;
 
 	List<Usuario> listarUsuarios(Integer idEmpresa) throws SQLException;
+
+	boolean validaAgregarUsuario(int idEmpresa)
+			throws ErrorConsultaDataException;
 }

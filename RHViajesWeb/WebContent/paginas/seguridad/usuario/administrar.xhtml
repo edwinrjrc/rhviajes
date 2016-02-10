@@ -114,7 +114,8 @@
 								action="#{usuarioMBean.nuevoUsuario()}"
 								style="height:20px; width:150px"
 								render="idGridFormUsuario, idNomModal"
-								oncomplete="#{rich:component('idModalformusuario')}.show()">
+								oncomplete="#{rich:component('idModalformusuario')}.show()"
+								disabled="#{!usuarioMBean.validaAgregarUsuario()}">
 							</a4j:commandButton>
 							<a4j:commandButton id="idBotonModalCorrecto"
 								style="display:none;" type="button"

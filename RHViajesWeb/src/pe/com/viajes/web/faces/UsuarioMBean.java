@@ -39,9 +39,7 @@ import pe.com.viajes.web.servicio.impl.SeguridadServicioImpl;
 public class UsuarioMBean extends BaseMBean {
 
 	private final static Logger logger = Logger.getLogger(UsuarioMBean.class);
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 6495326572788019729L;
 
 	private List<Usuario> listaUsuarios;
@@ -64,9 +62,7 @@ public class UsuarioMBean extends BaseMBean {
 	private SeguridadServicio seguridadServicio;
 	private AuditoriaServicio auditoriaServicio;
 
-	/**
-	 * 
-	 */
+	
 	public UsuarioMBean() {
 		try {
 			ServletContext servletContext = (ServletContext) FacesContext
@@ -343,6 +339,17 @@ public class UsuarioMBean extends BaseMBean {
 		this.consultaAsistenciaXDia();
 
 		return "irConsultaAsistencia";
+	}
+	
+	public boolean validaAgregarUsuario(){
+		boolean valida = false;
+		try {
+			valida = seguridadServicio.validarAgregarUsuario(this.obtenerIdEmpresa());
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+		}
+		
+		return valida;
 	}
 
 	/**

@@ -588,4 +588,46 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 		return resultado;
 	}
+	
+	@Override
+	public boolean validarAgregarUsuario()
+			throws SQLException {
+		boolean resultado = false;
+		Connection conn = null;
+		CallableStatement cs = null;
+		String sql = "{? = call seguridad.fn_puedeagregarusuario(?)}";
+
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.execute();
+
+			resultado = cs.getBoolean(1);
+		} catch (SQLException e) {
+			resultado = false;
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+					throw new SQLException(e);
+				} catch (SQLException e1) {
+					throw new SQLException(e);
+				}
+			}
+		}
+
+		return resultado;
+	}
 }

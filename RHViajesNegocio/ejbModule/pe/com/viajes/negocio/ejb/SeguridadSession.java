@@ -17,6 +17,7 @@ import pe.com.viajes.negocio.dao.impl.CatalogoDaoImpl;
 import pe.com.viajes.negocio.dao.impl.EmpresaLicenciaDaoImpl;
 import pe.com.viajes.negocio.dao.impl.UsuarioDaoImpl;
 import pe.com.viajes.negocio.exception.ConnectionException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
 import pe.com.viajes.negocio.exception.InicioSesionException;
 
@@ -137,5 +138,16 @@ public class SeguridadSession implements SeguridadRemote, SeguridadLocal {
 		}
 
 		return usuarioDao.actualizarCredencialVencida(usuario);
+	}
+	
+	@Override
+	public boolean validaAgregarUsuario(int idEmpresa) throws ErrorConsultaDataException{
+		try {
+			usuarioDao = new UsuarioDaoImpl(idEmpresa);
+			
+			return usuarioDao.validarAgregarUsuario();
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException("Error en validar para agregar usuario", e);
+		}
 	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.negocio.exception.ConnectionException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
 import pe.com.viajes.negocio.exception.InicioSesionException;
 
@@ -42,4 +43,7 @@ public interface SeguridadServicio {
 	Usuario consultarUsuario(int id, Integer idEmpresa) throws SQLException;
 
 	List<Usuario> listarVendedores(Integer idEmpresa) throws SQLException;
+
+	boolean validarAgregarUsuario(int idEmpresa)
+			throws ErrorConsultaDataException;
 }

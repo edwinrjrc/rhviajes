@@ -41,4 +41,6 @@ public interface UsuarioDao {
 	boolean actualizarCredencialVencida(Usuario usuario) throws SQLException,
 			ErrorEncriptacionException;
 
+	boolean validarAgregarUsuario() throws SQLException;
+
 }
