@@ -54,6 +54,12 @@ public class SoporteSistemaMBean extends BaseMBean {
 	
 	public void ejecutarSentencia(){
 		try {
+			this.setCabeceraResultado(null);
+			this.setListaResultado(null);
+			this.getSentenciaSQL().setConsulta(false);
+			this.getSentenciaSQL().setInsercion(false);
+			this.getSentenciaSQL().setEliminacion(false);
+			this.getSentenciaSQL().setActualizacion(false);
 			if (StringUtils.isNotBlank(getSentenciaSQL().getScript())){
 				this.setSentenciaSQL(soporteSistemaServicio.ejecutarSentenciaSQL(getSentenciaSQL()));
 				
