@@ -29,3 +29,27 @@ $BODY$
   COST 100;
 ALTER FUNCTION seguridad.fn_puedeagregarusuario(integer)
   OWNER TO postgres;
+
+  
+
+
+CREATE OR REPLACE FUNCTION licencia.fn_ingresarcontrato(p_fechainicio date, p_fechafin date, p_precioxusuario decimal, p_nrousuarios integer, p_idempresa integer, p_idestado integer)
+  RETURNS integer AS
+$BODY$
+
+declare maxid integer;
+
+begin
+
+maxid = nextval('licencia.seq_contrato');
+
+INSERT INTO licencia."Contrato"(
+            id, fechainicio, fechafin, precioxusuario, nrousuarios, idempresa, idestado)
+    VALUES (maxid, p_fechainicio, p_fechafin, p_precioxusuario, p_nrousuarios, p_idempresa, p_idestado);
+
+return maxid;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

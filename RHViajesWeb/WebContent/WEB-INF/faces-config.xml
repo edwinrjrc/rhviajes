@@ -144,6 +144,16 @@
    <to-view-id>/adminsistemarh/soporte/ejecutasentencia.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>irAdministrarContrato</from-outcome>
+   <to-view-id>/adminsistemarh/contrato/administrar.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>irAdministrarEmpresa</from-outcome>
+   <to-view-id>/adminsistemarh/empresa/administrar.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
  </navigation-rule>
  <navigation-rule>
   <from-view-id>/paginas/soporte/maestro/administrar.xhtml</from-view-id>

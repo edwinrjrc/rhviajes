@@ -153,6 +153,16 @@
     PATH="/adminsistemarh/soporte/ejecutasentencia.xhtml"
     TARGET="rules:#adminsistemarh#soporte#ejecutasentencia.xhtml"
     TITLE="irEjecucionSQL" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irAdministrarContrato::#adminsistemarh#contrato#administrar.xhtml"
+    NAME="output26" PATH="/adminsistemarh/contrato/administrar.xhtml"
+    TARGET="rules:#adminsistemarh#contrato#administrar.xhtml"
+    TITLE="irAdministrarContrato" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irAdministrarEmpresa::#adminsistemarh#empresa#administrar.xhtml"
+    NAME="output27" PATH="/adminsistemarh/empresa/administrar.xhtml"
+    TARGET="rules:#adminsistemarh#empresa#administrar.xhtml"
+    TITLE="irAdministrarEmpresa" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#seguridad#usuario#administrar.xhtml"
@@ -296,4 +306,8 @@
   NAME="rules:#adminsistemarh#soporte#ejecutasentencia.xhtml"
   PATH="/adminsistemarh/soporte/ejecutasentencia.xhtml"
   SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#adminsistemarh#contrato#administrar.xhtml"
+  PATH="/adminsistemarh/contrato/administrar.xhtml" SHAPE="304,977,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#adminsistemarh#empresa#administrar.xhtml"
+  PATH="/adminsistemarh/empresa/administrar.xhtml" SHAPE="304,1009,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

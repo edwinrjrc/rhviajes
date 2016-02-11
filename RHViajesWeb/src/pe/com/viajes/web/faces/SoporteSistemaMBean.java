@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.negocio.EmpresaAgenciaViajes;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.web.servicio.SoporteSistemaServicio;
@@ -34,11 +35,13 @@ public class SoporteSistemaMBean extends BaseMBean {
 	private static final long serialVersionUID = 31300859656846100L;
 
 	private SentenciaSQL sentenciaSQL;
+	private EmpresaAgenciaViajes empresa;
 	
 	private SoporteSistemaServicio soporteSistemaServicio;
 	
 	private String[] cabeceraResultado;
 	private List<Map<String, Object>> listaResultado;
+	private List<EmpresaAgenciaViajes> listaEmpresas;
 	
 	private int tamanioLista;
 	
@@ -145,5 +148,39 @@ public class SoporteSistemaMBean extends BaseMBean {
 	 */
 	public void setCabeceraResultado(String[] cabeceraResultado) {
 		this.cabeceraResultado = cabeceraResultado;
+	}
+
+	/**
+	 * @return the empresa
+	 */
+	public EmpresaAgenciaViajes getEmpresa() {
+		if (empresa == null){
+			empresa = new EmpresaAgenciaViajes();
+		}
+		return empresa;
+	}
+
+	/**
+	 * @param empresa the empresa to set
+	 */
+	public void setEmpresa(EmpresaAgenciaViajes empresa) {
+		this.empresa = empresa;
+	}
+
+	/**
+	 * @return the listaEmpresas
+	 */
+	public List<EmpresaAgenciaViajes> getListaEmpresas() {
+		if (listaEmpresas == null){
+			listaEmpresas = new ArrayList<EmpresaAgenciaViajes>();
+		}
+		return listaEmpresas;
+	}
+
+	/**
+	 * @param listaEmpresas the listaEmpresas to set
+	 */
+	public void setListaEmpresas(List<EmpresaAgenciaViajes> listaEmpresas) {
+		this.listaEmpresas = listaEmpresas;
 	}
 }
