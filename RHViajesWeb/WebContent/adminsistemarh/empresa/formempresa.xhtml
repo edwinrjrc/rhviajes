@@ -43,7 +43,7 @@
 						<f:selectItems
 							value="#{catalogoMBean.catalogoTipoDocumentoEmpresa}"></f:selectItems>
 					</h:selectOneMenu>
-					<rich:message for="idseltipdocumento" showDetail="true"
+					<rich:message for="idseltipdocumento" showDetail="false"
 						showSummary="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Número Documento" />
@@ -51,44 +51,44 @@
 					<h:inputText id="idnumdocumento"
 						value="#{soporteSistemaMBean.empresa.documentoIdentidad.numeroDocumento}"
 						maxlength="11" />
-					<rich:message for="idnumdocumento" showDetail="true"
-						showSummary="false"></rich:message>
+					<rich:message for="idnumdocumento" showDetail="false"
+						showSummary="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Razon Social" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 					<h:inputText id="idRazSocial" value="#{soporteSistemaMBean.empresa.razonSocial}"
 						maxlength="100" />
-					<rich:message for="idRazSocial" showDetail="true"
-						showSummary="false"></rich:message>
+					<rich:message for="idRazSocial" showDetail="false"
+						showSummary="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Nombre Comercial" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 					<h:inputText id="idNomComercial"
 						value="#{soporteSistemaMBean.empresa.nombreComercial}"
 						maxlength="100" />
-					<rich:message for="idNomComercial" showDetail="true"
-						showSummary="false" ajaxRendered="true"></rich:message>
+					<rich:message for="idNomComercial" showDetail="false"
+						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Nombre Dominio" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 					<h:inputText id="idNomDominio" value="#{soporteSistemaMBean.empresa.nombreDominio}"
 						maxlength="100" />
-					<rich:message for="idNomDominio" showDetail="true"
-						showSummary="false" ajaxRendered="true"></rich:message>
+					<rich:message for="idNomDominio" showDetail="false"
+						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Nombre Contacto" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 					<h:inputText id="idNomContacto" value="#{soporteSistemaMBean.empresa.nombreContacto}"
 						maxlength="200" />
-					<rich:message for="idNomContacto" showDetail="true"
-						showSummary="false" ajaxRendered="true"></rich:message>
+					<rich:message for="idNomContacto" showDetail="false"
+						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Correo Contacto" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 					<h:inputText id="idCorreoContacto" value="#{soporteSistemaMBean.empresa.correoContacto}"
 						maxlength="200" />
-					<rich:message for="idCorreoContacto" showDetail="true"
-						showSummary="false" ajaxRendered="true"></rich:message>
+					<rich:message for="idCorreoContacto" showDetail="false"
+						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 
 				<f:facet name="footer">
