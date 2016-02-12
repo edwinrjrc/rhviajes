@@ -180,5 +180,39 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
     	
     	return resultado;
     }
+    
+    
+    @Override
+    public List<EmpresaAgenciaViajes> listarEmpresas() throws ErrorConsultaDataException, RHViajesException {
+    	List<EmpresaAgenciaViajes> lista = null;
+    	try {
+			try {
+				userTransaction.begin();
+				SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+				
+				lista = soporteSistema.listarEmpresas();
+				userTransaction.commit();
+			} catch (SQLException e) {
+				userTransaction.rollback();
+				throw new ErrorConsultaDataException("Error al consultar empresas", e);
+			}
+		} catch (SecurityException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (IllegalStateException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (NotSupportedException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (SystemException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (RollbackException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (HeuristicMixedException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (HeuristicRollbackException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		}
+    	
+    	return lista;
+    }
 
 }

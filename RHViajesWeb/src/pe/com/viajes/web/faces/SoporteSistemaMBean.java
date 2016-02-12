@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import pe.com.viajes.bean.administracion.SentenciaSQL;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.web.servicio.SoporteSistemaServicio;
@@ -192,8 +193,12 @@ public class SoporteSistemaMBean extends BaseMBean {
 	 * @return the listaEmpresas
 	 */
 	public List<EmpresaAgenciaViajes> getListaEmpresas() {
-		if (listaEmpresas == null){
-			listaEmpresas = new ArrayList<EmpresaAgenciaViajes>();
+		try {
+			listaEmpresas = this.soporteSistemaServicio.listarEmpresas();
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+		} catch (RHViajesException e) {
+			logger.error(e.getMessage(), e);
 		}
 		return listaEmpresas;
 	}

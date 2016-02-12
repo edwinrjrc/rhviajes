@@ -12,7 +12,6 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
-import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.ejb.SoporteSistemaSessionRemote;
@@ -75,8 +74,21 @@ public class SoporteSistemaServicioImpl implements SoporteSistemaServicio {
 		return ejbSession.listarMaestro(idMaestro);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see pe.com.viajes.web.servicio.SoporteSistemaServicio#grabarEmpresa(pe.com.viajes.bean.licencia.EmpresaAgenciaViajes)
+	 */
 	@Override
 	public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException, RHViajesException{
 		return ejbSession.grabarEmpresa(empresa);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see pe.com.viajes.web.servicio.SoporteSistemaServicio#listarEmpresas()
+	 */
+	@Override
+	public List<EmpresaAgenciaViajes> listarEmpresas() throws ErrorConsultaDataException, RHViajesException{
+		return ejbSession.listarEmpresas();
 	}
 }

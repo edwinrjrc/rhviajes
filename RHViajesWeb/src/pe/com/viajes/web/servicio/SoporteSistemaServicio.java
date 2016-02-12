@@ -19,12 +19,42 @@ import pe.com.viajes.negocio.exception.RHViajesException;
  */
 public interface SoporteSistemaServicio {
 
+	/**
+	 * 
+	 * @param sentenciaSQL
+	 * @return
+	 * @throws EjecucionSQLException
+	 * @throws RHViajesException
+	 */
 	public SentenciaSQL ejecutarSentenciaSQL(SentenciaSQL sentenciaSQL)
 			throws EjecucionSQLException, RHViajesException;
 
+	/**
+	 * 
+	 * @param idMaestro
+	 * @return
+	 * @throws ErrorConsultaDataException
+	 * @throws RHViajesException
+	 */
 	List<Maestro> listarMaestro(int idMaestro)
 			throws ErrorConsultaDataException, RHViajesException;
 
+	/**
+	 * 
+	 * @param empresa
+	 * @return
+	 * @throws ErrorRegistroDataException
+	 * @throws RHViajesException
+	 */
 	boolean grabarEmpresa(EmpresaAgenciaViajes empresa)
 			throws ErrorRegistroDataException, RHViajesException;
+
+	/**
+	 * 
+	 * @return
+	 * @throws ErrorConsultaDataException
+	 * @throws RHViajesException
+	 */
+	List<EmpresaAgenciaViajes> listarEmpresas()
+			throws ErrorConsultaDataException, RHViajesException;
 }

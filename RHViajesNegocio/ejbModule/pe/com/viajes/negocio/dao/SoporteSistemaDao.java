@@ -15,7 +15,26 @@ import pe.com.viajes.bean.negocio.Maestro;
  */
 public interface SoporteSistemaDao {
 
+	/**
+	 * 
+	 * @param idMaestro
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Maestro> listarMaestro(int idMaestro) throws SQLException;
 	
+	/**
+	 * 
+	 * @param empresa
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws SQLException;
+
+	/**
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EmpresaAgenciaViajes> listarEmpresas() throws SQLException;
 }

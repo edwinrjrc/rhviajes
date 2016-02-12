@@ -15,11 +15,43 @@ import pe.com.viajes.negocio.exception.RHViajesException;
 @Remote
 public interface SoporteSistemaSessionRemote {
 
-	SentenciaSQL ejecutarSentenciaSQL(SentenciaSQL sentenciaSQL) throws EjecucionSQLException, RHViajesException;
+	/**
+	 * 
+	 * @param sentenciaSQL
+	 * @return
+	 * @throws EjecucionSQLException
+	 * @throws RHViajesException
+	 */
+	SentenciaSQL ejecutarSentenciaSQL(SentenciaSQL sentenciaSQL)
+			throws EjecucionSQLException, RHViajesException;
 
-	List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException, RHViajesException;
+	/**
+	 * 
+	 * @param idMaestro
+	 * @return
+	 * @throws ErrorConsultaDataException
+	 * @throws RHViajesException
+	 */
+	List<Maestro> listarMaestro(int idMaestro)
+			throws ErrorConsultaDataException, RHViajesException;
 
+	/**
+	 * 
+	 * @param empresa
+	 * @return
+	 * @throws ErrorRegistroDataException
+	 * @throws RHViajesException
+	 */
 	boolean grabarEmpresa(EmpresaAgenciaViajes empresa)
 			throws ErrorRegistroDataException, RHViajesException;
+
+	/**
+	 * 
+	 * @return
+	 * @throws ErrorConsultaDataException
+	 * @throws RHViajesException
+	 */
+	List<EmpresaAgenciaViajes> listarEmpresas()
+			throws ErrorConsultaDataException, RHViajesException;
 
 }

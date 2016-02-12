@@ -64,6 +64,7 @@
 						style="width:100%;text-align:center;" columns="1">
 						<a4j:commandButton action="#{soporteSistemaMBean.grabarEmpresa()}"
 							value="Grabar" styleClass="estiloBoton1"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
 							oncomplete="mostrarModal('idFradmempresa')"></a4j:commandButton>
 					</h:panelGrid>
 				</f:facet>

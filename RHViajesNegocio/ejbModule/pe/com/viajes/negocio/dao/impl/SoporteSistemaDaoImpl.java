@@ -71,6 +71,10 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 		return resultado;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see pe.com.viajes.negocio.dao.SoporteSistemaDao#grabarEmpresa(pe.com.viajes.bean.licencia.EmpresaAgenciaViajes)
+	 */
 	@Override
 	public boolean grabarEmpresa(EmpresaAgenciaViajes empresa)
 			throws SQLException {
@@ -103,6 +107,58 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 				conn.close();
 			}
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see pe.com.viajes.negocio.dao.SoporteSistemaDao#listarEmpresas()
+	 */
+	@Override
+	public List<EmpresaAgenciaViajes> listarEmpresas() throws SQLException {
+		List<EmpresaAgenciaViajes> resultado = new ArrayList<EmpresaAgenciaViajes>();
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call licencia.fn_listarempresas() }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.execute();
+			
+			rs = (ResultSet) cs.getObject(1);
+			
+			EmpresaAgenciaViajes bean = null;
+			while (rs.next()){
+				bean = new EmpresaAgenciaViajes();
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				bean.setRazonSocial(UtilJdbc.obtenerCadena(rs, "razonsocial"));
+				bean.setNombreComercial(UtilJdbc.obtenerCadena(rs, "nombrecomercial"));
+				bean.setNombreDominio(UtilJdbc.obtenerCadena(rs, "nombredominio"));
+				bean.getDocumentoIdentidad().getTipoDocumento().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodocumento"));
+				bean.getDocumentoIdentidad().getTipoDocumento().setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
+				bean.getDocumentoIdentidad().getTipoDocumento().setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
+				bean.getDocumentoIdentidad().setNumeroDocumento(UtilJdbc.obtenerCadena(rs, "numerodocumento"));
+				bean.setNombreContacto(UtilJdbc.obtenerCadena(rs, "nombrecontacto"));
+				resultado.add(bean);
+			}
+			
+			return resultado;
+		}
+		finally{
+			if (rs != null){
+				rs.close();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
 	}
 
 }

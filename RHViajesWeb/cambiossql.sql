@@ -1,60 +1,8 @@
--- Function: seguridad.fn_puedeagregarusuario(integer)
+-- Function: licencia.fn_listarmaestro(integer)
 
--- DROP FUNCTION seguridad.fn_puedeagregarusuario(integer);
+-- DROP FUNCTION licencia.fn_listarmaestro(integer);
 
-CREATE OR REPLACE FUNCTION seguridad.fn_puedeagregarusuario(p_idempresa integer)
-  RETURNS boolean AS
-$BODY$
-
-declare v_cantidadusuarios integer;
-declare v_cantidadusuarioslicencia integer;
-
-begin
-
-select count(1)
-  into v_cantidadusuarios 
-  from seguridad.usuario u
- where u.idempresa = p_idempresa;
-
-select nrousuarios
-  into v_cantidadusuarioslicencia
-  from licencia."Contrato"
- where idempresa = p_idempresa;
- 
-return (v_cantidadusuarios < v_cantidadusuarioslicencia);
-
-end;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-ALTER FUNCTION seguridad.fn_puedeagregarusuario(integer)
-  OWNER TO postgres;
-
-  
-
-
-CREATE OR REPLACE FUNCTION licencia.fn_ingresarcontrato(p_fechainicio date, p_fechafin date, p_precioxusuario decimal, p_nrousuarios integer, p_idempresa integer, p_idestado integer)
-  RETURNS integer AS
-$BODY$
-
-declare maxid integer;
-
-begin
-
-maxid = nextval('licencia.seq_contrato');
-
-INSERT INTO licencia."Contrato"(
-            id, fechainicio, fechafin, precioxusuario, nrousuarios, idempresa, idestado)
-    VALUES (maxid, p_fechainicio, p_fechafin, p_precioxusuario, p_nrousuarios, p_idempresa, p_idestado);
-
-return maxid;
-
-end;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-
-CREATE OR REPLACE FUNCTION soporte.fn_listarmaestro(p_idmaestro integer)
+CREATE OR REPLACE FUNCTION licencia.fn_listarempresas()
   RETURNS refcursor AS
 $BODY$
 declare micursor refcursor;
@@ -62,13 +10,29 @@ declare micursor refcursor;
 begin
 
 open micursor for
-SELECT id, idmaestro, nombre, descripcion, orden, estado, abreviatura, 
-       idestadoregistro
-  FROM licencia."Tablamaestra"
- WHERE idmaestro = p_idmaestro;
+SELECT emp.id, emp.razonsocial, emp.nombrecomercial, emp.nombredominio, emp.idtipodocumento, tmtd.nombre, tmtd.descripcion, tmtd.abreviatura,
+       emp.numerodocumento, emp.nombrecontacto
+  FROM licencia."Empresa" emp
+ INNER JOIN licencia."Tablamaestra" tmtd ON tmtd.idmaestro = fn_maestrotipodocumentolicencia() AND tmtd.id = idtipodocumento;
+
 
 return micursor;
 
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+
+
+  
+CREATE OR REPLACE FUNCTION fn_maestrotipodocumentolicencia()
+  RETURNS integer AS
+$BODY$
+
+begin
+
+return 1;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
