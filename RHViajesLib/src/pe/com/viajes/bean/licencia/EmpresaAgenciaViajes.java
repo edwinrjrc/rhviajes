@@ -19,6 +19,7 @@ public class EmpresaAgenciaViajes extends Base {
 	private String nombreDominio;
 	private DocumentoIdentidad documentoIdentidad;
 	private String nombreContacto;
+	private String correoContacto;
 
 
 	/**
@@ -92,6 +93,20 @@ public class EmpresaAgenciaViajes extends Base {
 	 */
 	public void setNombreContacto(String nombreContacto) {
 		this.nombreContacto = nombreContacto;
+	}
+
+	/**
+	 * @return the correocontacto
+	 */
+	public String getCorreoContacto() {
+		return correoContacto;
+	}
+
+	/**
+	 * @param correocontacto the correocontacto to set
+	 */
+	public void setCorreoContacto(String correocontacto) {
+		this.correoContacto = correocontacto;
 	}
 	
 	

@@ -83,7 +83,7 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 		String sql = "";
 		
 		try{
-			sql = "{ ? = call licencia.fn_ingresarempresa (?,?,?,?,?,?)}";
+			sql = "{ ? = call licencia.fn_ingresarempresa (?,?,?,?,?,?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.INTEGER);
@@ -93,6 +93,7 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 			cs.setInt(5, empresa.getDocumentoIdentidad().getTipoDocumento().getCodigoEntero().intValue());
 			cs.setString(6, empresa.getDocumentoIdentidad().getNumeroDocumento());
 			cs.setString(7, empresa.getNombreContacto());
+			cs.setString(8, empresa.getCorreoContacto());
 			cs.execute();
 			
 			int r = cs.getInt(1);
@@ -142,6 +143,7 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 				bean.getDocumentoIdentidad().getTipoDocumento().setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
 				bean.getDocumentoIdentidad().setNumeroDocumento(UtilJdbc.obtenerCadena(rs, "numerodocumento"));
 				bean.setNombreContacto(UtilJdbc.obtenerCadena(rs, "nombrecontacto"));
+				bean.setCorreoContacto(UtilJdbc.obtenerCadena(rs, "correocontacto"));
 				resultado.add(bean);
 			}
 			

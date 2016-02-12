@@ -282,6 +282,7 @@ public class ClienteMBean extends BaseMBean {
 			this.agregarMensaje(idFormulario + ":idFPInNumDoc",
 					"Seleccione el tipo de documento", "",
 					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
 		}
 		if (getCliente().getDocumentoIdentidad().getTipoDocumento()
 				.getCodigoEntero() == null
@@ -290,6 +291,7 @@ public class ClienteMBean extends BaseMBean {
 			this.agregarMensaje(idFormulario + ":idFPSelTipoDoc",
 					"Seleccione el tipo de documento", "",
 					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
 		} else {
 			if (tipoDocDNI == getCliente().getDocumentoIdentidad()
 					.getTipoDocumento().getCodigoEntero().intValue()

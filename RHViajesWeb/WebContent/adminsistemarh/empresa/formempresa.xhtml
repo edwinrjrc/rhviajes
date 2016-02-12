@@ -22,7 +22,7 @@
 			</h:outputLink>
 		</f:facet>
 
-		<h:form>
+		<h:form id="idfrempresa">
 			<h:panelGrid id="idGridFormEmpresa" border="0" cellpadding="0"
 				cellspacing="0" style="width:100%;" columns="2">
 				<f:facet name="header">
@@ -36,35 +36,67 @@
 				</f:facet>
 
 				<h:outputText value="Tipo Documento" />
-				<h:selectOneMenu
-					value="#{soporteSistemaMBean.empresa.documentoIdentidad.tipoDocumento.codigoEntero}">
-					<f:selectItem itemLabel="-Seleccione-" />
-					<f:selectItems
-						value="#{catalogoMBean.catalogoTipoDocumentoEmpresa}"></f:selectItems>
-				</h:selectOneMenu>
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:selectOneMenu id="idseltipdocumento"
+						value="#{soporteSistemaMBean.empresa.documentoIdentidad.tipoDocumento.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{catalogoMBean.catalogoTipoDocumentoEmpresa}"></f:selectItems>
+					</h:selectOneMenu>
+					<rich:message for="idseltipdocumento" showDetail="true"
+						showSummary="true"></rich:message>
+				</h:panelGrid>
 				<h:outputText value="Número Documento" />
-				<h:inputText
-					value="#{soporteSistemaMBean.empresa.documentoIdentidad.numeroDocumento}"
-					maxlength="11" />
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:inputText id="idnumdocumento"
+						value="#{soporteSistemaMBean.empresa.documentoIdentidad.numeroDocumento}"
+						maxlength="11" />
+					<rich:message for="idnumdocumento" showDetail="true"
+						showSummary="false"></rich:message>
+				</h:panelGrid>
 				<h:outputText value="Razon Social" />
-				<h:inputText value="#{soporteSistemaMBean.empresa.razonSocial}"
-					maxlength="100" />
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:inputText id="idRazSocial" value="#{soporteSistemaMBean.empresa.razonSocial}"
+						maxlength="100" />
+					<rich:message for="idRazSocial" showDetail="true"
+						showSummary="false"></rich:message>
+				</h:panelGrid>
 				<h:outputText value="Nombre Comercial" />
-				<h:inputText value="#{soporteSistemaMBean.empresa.nombreComercial}"
-					maxlength="100" />
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:inputText id="idNomComercial"
+						value="#{soporteSistemaMBean.empresa.nombreComercial}"
+						maxlength="100" />
+					<rich:message for="idNomComercial" showDetail="true"
+						showSummary="false" ajaxRendered="true"></rich:message>
+				</h:panelGrid>
 				<h:outputText value="Nombre Dominio" />
-				<h:inputText value="#{soporteSistemaMBean.empresa.nombreDominio}"
-					maxlength="100" />
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:inputText id="idNomDominio" value="#{soporteSistemaMBean.empresa.nombreDominio}"
+						maxlength="100" />
+					<rich:message for="idNomDominio" showDetail="true"
+						showSummary="false" ajaxRendered="true"></rich:message>
+				</h:panelGrid>
 				<h:outputText value="Nombre Contacto" />
-				<h:inputText value="#{soporteSistemaMBean.empresa.nombreContacto}"
-					maxlength="200" />
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:inputText id="idNomContacto" value="#{soporteSistemaMBean.empresa.nombreContacto}"
+						maxlength="200" />
+					<rich:message for="idNomContacto" showDetail="true"
+						showSummary="false" ajaxRendered="true"></rich:message>
+				</h:panelGrid>
+				<h:outputText value="Correo Contacto" />
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+					<h:inputText id="idCorreoContacto" value="#{soporteSistemaMBean.empresa.correoContacto}"
+						maxlength="200" />
+					<rich:message for="idCorreoContacto" showDetail="true"
+						showSummary="false" ajaxRendered="true"></rich:message>
+				</h:panelGrid>
 
 				<f:facet name="footer">
 					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 						style="width:100%;text-align:center;" columns="1">
 						<a4j:commandButton action="#{soporteSistemaMBean.grabarEmpresa()}"
 							value="Grabar" styleClass="estiloBoton1"
-							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError, idGridFormEmpresa"
 							oncomplete="mostrarModal('idFradmempresa')"></a4j:commandButton>
 					</h:panelGrid>
 				</f:facet>

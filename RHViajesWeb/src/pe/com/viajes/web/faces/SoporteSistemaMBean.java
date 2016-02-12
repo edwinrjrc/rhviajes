@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -24,6 +25,7 @@ import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.web.servicio.SoporteSistemaServicio;
 import pe.com.viajes.web.servicio.impl.SoporteSistemaServicioImpl;
+import pe.com.viajes.web.util.UtilWeb;
 
 /**
  * @author Edwin
@@ -32,32 +34,34 @@ import pe.com.viajes.web.servicio.impl.SoporteSistemaServicioImpl;
 @ManagedBean(name = "soporteSistemaMBean")
 @SessionScoped()
 public class SoporteSistemaMBean extends BaseMBean {
-	private final static Logger logger = Logger.getLogger(SoporteSistemaMBean.class);
-	
+	private final static Logger logger = Logger
+			.getLogger(SoporteSistemaMBean.class);
+
 	private static final long serialVersionUID = 31300859656846100L;
 
 	private SentenciaSQL sentenciaSQL;
 	private EmpresaAgenciaViajes empresa;
-	
+
 	private SoporteSistemaServicio soporteSistemaServicio;
-	
+
 	private String[] cabeceraResultado;
 	private List<Map<String, Object>> listaResultado;
 	private List<EmpresaAgenciaViajes> listaEmpresas;
-	
+
 	private int tamanioLista;
-	
+
 	public SoporteSistemaMBean() {
 		try {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
-			soporteSistemaServicio = new SoporteSistemaServicioImpl(servletContext);
+			soporteSistemaServicio = new SoporteSistemaServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void ejecutarSentencia(){
+
+	public void ejecutarSentencia() {
 		try {
 			this.setCabeceraResultado(null);
 			this.setListaResultado(null);
@@ -65,20 +69,23 @@ public class SoporteSistemaMBean extends BaseMBean {
 			this.getSentenciaSQL().setInsercion(false);
 			this.getSentenciaSQL().setEliminacion(false);
 			this.getSentenciaSQL().setActualizacion(false);
-			if (StringUtils.isNotBlank(getSentenciaSQL().getScript())){
-				this.setSentenciaSQL(soporteSistemaServicio.ejecutarSentenciaSQL(getSentenciaSQL()));
-				
-				if (this.getSentenciaSQL().isConsulta()){
-					this.setCabeceraResultado((String[]) this.getSentenciaSQL().getResultadoConsulta().get("cabecera"));
-					this.setListaResultado((List<Map<String, Object>>) this.getSentenciaSQL().getResultadoConsulta().get("data"));
-					
+			if (StringUtils.isNotBlank(getSentenciaSQL().getScript())) {
+				this.setSentenciaSQL(soporteSistemaServicio
+						.ejecutarSentenciaSQL(getSentenciaSQL()));
+
+				if (this.getSentenciaSQL().isConsulta()) {
+					this.setCabeceraResultado((String[]) this.getSentenciaSQL()
+							.getResultadoConsulta().get("cabecera"));
+					this.setListaResultado((List<Map<String, Object>>) this
+							.getSentenciaSQL().getResultadoConsulta()
+							.get("data"));
+
 					this.setTamanioLista(this.getCabeceraResultado().length);
 				}
-			}
-			else {
+			} else {
 				getSentenciaSQL().setMsjeTransaccion("No se ingreso script");
 			}
-			
+
 		} catch (EjecucionSQLException e) {
 			getSentenciaSQL().setResultadoConsulta(null);
 			getSentenciaSQL().setMsjeTransaccion(e.getMessage());
@@ -89,18 +96,20 @@ public class SoporteSistemaMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void nuevaEmpresa(){
+
+	public void nuevaEmpresa() {
 		this.setNombreFormulario("Nueva Empresa");
 		this.setEmpresa(null);
 	}
-	
-	public void grabarEmpresa(){
+
+	public void grabarEmpresa() {
 		try {
-			if (this.soporteSistemaServicio.grabarEmpresa(getEmpresa())){
-				this.mostrarMensajeExito("Se registro la empresa satisfactoriamente");
+			if (validarEmpresa()) {
+				if (this.soporteSistemaServicio.grabarEmpresa(getEmpresa())) {
+					this.mostrarMensajeExito("Se registro la empresa satisfactoriamente");
+				}
 			}
-			
+
 		} catch (ErrorRegistroDataException e) {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
@@ -110,18 +119,80 @@ public class SoporteSistemaMBean extends BaseMBean {
 		}
 	}
 
+	private boolean validarEmpresa() {
+		String idFormulario = "idfrempresa";
+		boolean resultado = true;
+
+		if (this.getEmpresa().getDocumentoIdentidad().getTipoDocumento()
+				.getCodigoEntero() == null
+				|| this.getEmpresa().getDocumentoIdentidad().getTipoDocumento()
+						.getCodigoEntero().intValue() == 0) {
+			this.agregarMensaje(idFormulario + ":idseltipdocumento",
+					"Seleccione el tipo de documento", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (StringUtils.isBlank(this.getEmpresa().getDocumentoIdentidad().getNumeroDocumento())) {
+			this.agregarMensaje(idFormulario + ":idnumdocumento",
+					"Ingrese el número de documento", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (StringUtils.isBlank(this.getEmpresa().getRazonSocial())) {
+			this.agregarMensaje(idFormulario + ":idRazSocial",
+					"Ingrese la razon social", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (StringUtils.isBlank(this.getEmpresa().getNombreComercial())) {
+			this.agregarMensaje(idFormulario + ":idNomComercial",
+					"Ingrese el nombre comercial", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (StringUtils.isBlank(this.getEmpresa().getNombreDominio())) {
+			this.agregarMensaje(idFormulario + ":idNomDominio",
+					"Ingrese el nombre de dominio", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (StringUtils.isBlank(this.getEmpresa().getNombreContacto())) {
+			this.agregarMensaje(idFormulario + ":idNomContacto",
+					"Ingrese el nombre de contacto", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (StringUtils.isBlank(this.getEmpresa().getCorreoContacto())) {
+			this.agregarMensaje(idFormulario + ":idCorreoContacto",
+					"Ingrese el correo de contacto", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		else{
+			if (!UtilWeb.validarCorreo(this.getEmpresa().getCorreoContacto())){
+				this.agregarMensaje(idFormulario + ":idCorreoContacto",
+						"Ingrese el correo de contacto valido", "",
+						FacesMessage.SEVERITY_ERROR);
+				resultado = false;
+			}
+		}
+
+		return resultado;
+	}
+
 	/**
 	 * @return the sentenciaSQL
 	 */
 	public SentenciaSQL getSentenciaSQL() {
-		if (sentenciaSQL == null){
+		if (sentenciaSQL == null) {
 			sentenciaSQL = new SentenciaSQL();
 		}
 		return sentenciaSQL;
 	}
 
 	/**
-	 * @param sentenciaSQL the sentenciaSQL to set
+	 * @param sentenciaSQL
+	 *            the sentenciaSQL to set
 	 */
 	public void setSentenciaSQL(SentenciaSQL sentenciaSQL) {
 		this.sentenciaSQL = sentenciaSQL;
@@ -131,14 +202,15 @@ public class SoporteSistemaMBean extends BaseMBean {
 	 * @return the listaResultado
 	 */
 	public List<Map<String, Object>> getListaResultado() {
-		if (listaResultado == null){
-			listaResultado = new ArrayList<Map<String,Object>>();
+		if (listaResultado == null) {
+			listaResultado = new ArrayList<Map<String, Object>>();
 		}
 		return listaResultado;
 	}
 
 	/**
-	 * @param listaResultado the listaResultado to set
+	 * @param listaResultado
+	 *            the listaResultado to set
 	 */
 	public void setListaResultado(List<Map<String, Object>> listaResultado) {
 		this.listaResultado = listaResultado;
@@ -152,7 +224,8 @@ public class SoporteSistemaMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param tamanioLista the tamanioLista to set
+	 * @param tamanioLista
+	 *            the tamanioLista to set
 	 */
 	public void setTamanioLista(int tamanioLista) {
 		this.tamanioLista = tamanioLista;
@@ -166,7 +239,8 @@ public class SoporteSistemaMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param cabeceraResultado the cabeceraResultado to set
+	 * @param cabeceraResultado
+	 *            the cabeceraResultado to set
 	 */
 	public void setCabeceraResultado(String[] cabeceraResultado) {
 		this.cabeceraResultado = cabeceraResultado;
@@ -176,14 +250,15 @@ public class SoporteSistemaMBean extends BaseMBean {
 	 * @return the empresa
 	 */
 	public EmpresaAgenciaViajes getEmpresa() {
-		if (empresa == null){
+		if (empresa == null) {
 			empresa = new EmpresaAgenciaViajes();
 		}
 		return empresa;
 	}
 
 	/**
-	 * @param empresa the empresa to set
+	 * @param empresa
+	 *            the empresa to set
 	 */
 	public void setEmpresa(EmpresaAgenciaViajes empresa) {
 		this.empresa = empresa;
@@ -204,7 +279,8 @@ public class SoporteSistemaMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listaEmpresas the listaEmpresas to set
+	 * @param listaEmpresas
+	 *            the listaEmpresas to set
 	 */
 	public void setListaEmpresas(List<EmpresaAgenciaViajes> listaEmpresas) {
 		this.listaEmpresas = listaEmpresas;
