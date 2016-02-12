@@ -254,7 +254,6 @@ public class SoporteSession implements SoporteRemote, SoporteLocal {
 	@Override
 	public List<Destino> buscarDestinos(String descripcion, Integer idEmpresa)
 			throws SQLException, Exception {
-
 		destinoDao = new DestinoDaoImpl();
 
 		return destinoDao.buscarDestinos(descripcion, idEmpresa);

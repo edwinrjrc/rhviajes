@@ -19,11 +19,16 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
+import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.dao.EjecutaSentenciaSQLDao;
+import pe.com.viajes.negocio.dao.SoporteSistemaDao;
 import pe.com.viajes.negocio.dao.impl.EjecutaSentenciaSQLDaoImpl;
-import pe.com.viajes.negocio.ejb.SoporteSistemaSessionLocal;
-import pe.com.viajes.negocio.ejb.SoporteSistemaSessionRemote;
+import pe.com.viajes.negocio.dao.impl.SoporteSistemaDaoImpl;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
+import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.negocio.util.UtilConexion;
 
@@ -37,10 +42,6 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
 	@Resource
 	private UserTransaction userTransaction;
 	
-    public SoporteSistemaSession() {
-        // TODO Auto-generated constructor stub
-    }
-    
     @Override
     public SentenciaSQL ejecutarSentenciaSQL(SentenciaSQL sentenciaSQL) throws EjecucionSQLException, RHViajesException{
     	try {
@@ -112,6 +113,28 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
     	
     	
     	return sentenciaSQL;
+    }
+    
+    @Override
+    public List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException{
+    	try {
+			SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+			
+			return soporteSistema.listarMaestro(idMaestro);
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException("Error al consultar maestro", e);
+		}
+    }
+    
+    @Override
+    public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException{
+    	try {
+			SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+			
+			return soporteSistema.grabarEmpresa(empresa);
+		} catch (SQLException e) {
+			throw new ErrorRegistroDataException("Error en registro de empresa", e);
+		}
     }
 
 }

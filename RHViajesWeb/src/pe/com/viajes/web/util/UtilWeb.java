@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.Tramo;
 
@@ -34,6 +35,20 @@ public class UtilWeb {
 	private final static Logger logger = Logger.getLogger(UtilWeb.class);
 
 	public static List<SelectItem> convertirSelectItem(List<BaseVO> lista) {
+		List<SelectItem> listaCombo = new ArrayList<SelectItem>();
+		SelectItem si = null;
+		if (lista != null) {
+			for (BaseVO baseVO : lista) {
+				si = new SelectItem(obtenerObjetoCadena(baseVO),
+						baseVO.getNombre());
+				listaCombo.add(si);
+			}
+		}
+
+		return listaCombo;
+	}
+	
+	public static List<SelectItem> convertirSelectItem2(List<Maestro> lista) {
 		List<SelectItem> listaCombo = new ArrayList<SelectItem>();
 		SelectItem si = null;
 		if (lista != null) {

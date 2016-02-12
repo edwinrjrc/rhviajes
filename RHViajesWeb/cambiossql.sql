@@ -53,3 +53,23 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+CREATE OR REPLACE FUNCTION soporte.fn_listarmaestro(p_idmaestro integer)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT id, idmaestro, nombre, descripcion, orden, estado, abreviatura, 
+       idestadoregistro
+  FROM licencia."Tablamaestra"
+ WHERE idmaestro = p_idmaestro;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

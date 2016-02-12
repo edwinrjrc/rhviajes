@@ -17,8 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
-import pe.com.viajes.bean.negocio.EmpresaAgenciaViajes;
+import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
+import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.web.servicio.SoporteSistemaServicio;
 import pe.com.viajes.web.servicio.impl.SoporteSistemaServicioImpl;
@@ -84,6 +85,23 @@ public class SoporteSistemaMBean extends BaseMBean {
 		} catch (RHViajesException e) {
 			getSentenciaSQL().setResultadoConsulta(null);
 			getSentenciaSQL().setMsjeTransaccion(e.getMessage());
+			logger.error(e.getMessage(), e);
+		}
+	}
+	
+	public void nuevaEmpresa(){
+		this.setNombreFormulario("Nueva Empresa");
+		this.setEmpresa(null);
+	}
+	
+	public void grabarEmpresa(){
+		try {
+			if (this.soporteSistemaServicio.grabarEmpresa(getEmpresa())){
+				this.mostrarMensajeExito("Se registro la empresa satisfactoriamente");
+			}
+			
+		} catch (ErrorRegistroDataException e) {
+			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
 		}
 	}

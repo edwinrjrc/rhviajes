@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.web.servicio.impl;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -11,8 +12,13 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
+import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.ejb.SoporteSistemaSessionRemote;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
+import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.web.servicio.SoporteSistemaServicio;
 
@@ -60,4 +66,17 @@ public class SoporteSistemaServicioImpl implements SoporteSistemaServicio {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see pe.com.viajes.web.servicio.SoporteSistemaServicio#listarMaestro(int)
+	 */
+	@Override
+	public List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException{
+		return ejbSession.listarMaestro(idMaestro);
+	}
+	
+	@Override
+	public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException{
+		return ejbSession.grabarEmpresa(empresa);
+	}
 }

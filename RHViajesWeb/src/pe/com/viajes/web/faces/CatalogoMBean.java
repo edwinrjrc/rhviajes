@@ -25,14 +25,17 @@ import pe.com.viajes.bean.negocio.Parametro;
 import pe.com.viajes.bean.negocio.Proveedor;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.negocio.exception.ConnectionException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
 import pe.com.viajes.web.servicio.ParametroServicio;
 import pe.com.viajes.web.servicio.SeguridadServicio;
 import pe.com.viajes.web.servicio.SoporteServicio;
+import pe.com.viajes.web.servicio.SoporteSistemaServicio;
 import pe.com.viajes.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.viajes.web.servicio.impl.ParametroServicioImpl;
 import pe.com.viajes.web.servicio.impl.SeguridadServicioImpl;
 import pe.com.viajes.web.servicio.impl.SoporteServicioImpl;
+import pe.com.viajes.web.servicio.impl.SoporteSistemaServicioImpl;
 import pe.com.viajes.web.util.UtilWeb;
 
 /**
@@ -52,6 +55,7 @@ public class CatalogoMBean extends BaseMBean {
 
 	private List<SelectItem> catalogoRoles;
 	private List<SelectItem> catalogoTipoDocumento;
+	private List<SelectItem> catalogoTipoDocumentoEmpresa;
 	private List<SelectItem> catalogoRubro;
 	private List<SelectItem> catalogoArea;
 	private List<SelectItem> catalogoVias;
@@ -88,6 +92,7 @@ public class CatalogoMBean extends BaseMBean {
 	private SoporteServicio soporteServicio;
 	private ConsultaNegocioServicio consultaNegocioServicio;
 	private ParametroServicio parametroServicio;
+	private SoporteSistemaServicio soporteSistemaServicio;
 
 	public CatalogoMBean() {
 		try {
@@ -98,6 +103,7 @@ public class CatalogoMBean extends BaseMBean {
 			parametroServicio = new ParametroServicioImpl(servletContext);
 			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
 					servletContext);
+			soporteSistemaServicio = new SoporteSistemaServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -983,6 +989,28 @@ public class CatalogoMBean extends BaseMBean {
 	 */
 	public void setCatalogoPais(List<SelectItem> catalogoPais) {
 		this.catalogoPais = catalogoPais;
+	}
+
+	/**
+	 * @return the catalogoTipoDocumentoEmpresa
+	 */
+	public List<SelectItem> getCatalogoTipoDocumentoEmpresa() {
+		int idMaestro = 1;
+		try {
+			catalogoTipoDocumentoEmpresa = UtilWeb.convertirSelectItem2(this.soporteSistemaServicio.listarMaestro(idMaestro));
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+		}
+		
+		return catalogoTipoDocumentoEmpresa;
+	}
+
+	/**
+	 * @param catalogoTipoDocumentoEmpresa the catalogoTipoDocumentoEmpresa to set
+	 */
+	public void setCatalogoTipoDocumentoEmpresa(
+			List<SelectItem> catalogoTipoDocumentoEmpresa) {
+		this.catalogoTipoDocumentoEmpresa = catalogoTipoDocumentoEmpresa;
 	}
 
 }

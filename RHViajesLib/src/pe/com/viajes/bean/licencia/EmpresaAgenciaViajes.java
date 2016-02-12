@@ -1,9 +1,10 @@
 /**
  * 
  */
-package pe.com.viajes.bean.negocio;
+package pe.com.viajes.bean.licencia;
 
 import pe.com.viajes.bean.base.Base;
+import pe.com.viajes.bean.negocio.DocumentoIdentidad;
 
 /**
  * @author EDWREB
@@ -19,9 +20,6 @@ public class EmpresaAgenciaViajes extends Base {
 	private DocumentoIdentidad documentoIdentidad;
 	private String nombreContacto;
 
-	public EmpresaAgenciaViajes() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @return the razonSocial
