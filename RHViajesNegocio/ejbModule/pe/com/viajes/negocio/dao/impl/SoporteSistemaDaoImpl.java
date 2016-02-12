@@ -37,9 +37,12 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 		try{
 			sql = "{ ? = call licencia.fn_listarmaestro(?) }";
 			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idMaestro);
 			cs.execute();
+			
+			rs = (ResultSet) cs.getObject(1);
 			
 			Maestro bean = null;
 			while (rs.next()){

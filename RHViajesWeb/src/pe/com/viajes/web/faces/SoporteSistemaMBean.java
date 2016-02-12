@@ -103,6 +103,9 @@ public class SoporteSistemaMBean extends BaseMBean {
 		} catch (ErrorRegistroDataException e) {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
+		} catch (RHViajesException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
 		}
 	}
 

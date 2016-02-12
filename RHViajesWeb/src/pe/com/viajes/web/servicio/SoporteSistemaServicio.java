@@ -23,8 +23,8 @@ public interface SoporteSistemaServicio {
 			throws EjecucionSQLException, RHViajesException;
 
 	List<Maestro> listarMaestro(int idMaestro)
-			throws ErrorConsultaDataException;
+			throws ErrorConsultaDataException, RHViajesException;
 
 	boolean grabarEmpresa(EmpresaAgenciaViajes empresa)
-			throws ErrorRegistroDataException;
+			throws ErrorRegistroDataException, RHViajesException;
 }

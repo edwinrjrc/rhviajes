@@ -19,7 +19,6 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
-import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.dao.EjecutaSentenciaSQLDao;
@@ -116,25 +115,70 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
     }
     
     @Override
-    public List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException{
+    public List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException, RHViajesException{
+    	List<Maestro> lista = null;
     	try {
-			SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
-			
-			return soporteSistema.listarMaestro(idMaestro);
-		} catch (SQLException e) {
-			throw new ErrorConsultaDataException("Error al consultar maestro", e);
+			try {
+				userTransaction.begin();
+				SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+				
+				lista = soporteSistema.listarMaestro(idMaestro);
+				userTransaction.commit();
+			} catch (SQLException e) {
+				userTransaction.rollback();
+				throw new ErrorConsultaDataException("Error al consultar maestro", e);
+			}
+		} catch (SecurityException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
+		} catch (IllegalStateException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
+		} catch (NotSupportedException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
+		} catch (SystemException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
+		} catch (RollbackException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
+		} catch (HeuristicMixedException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
+		} catch (HeuristicRollbackException e) {
+			throw new RHViajesException("Error al consultar maestro", e);
 		}
+    	
+    	return lista;
     }
     
     @Override
-    public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException{
+    public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException, RHViajesException{
+    	boolean resultado = false;
+    		
     	try {
-			SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
-			
-			return soporteSistema.grabarEmpresa(empresa);
-		} catch (SQLException e) {
-			throw new ErrorRegistroDataException("Error en registro de empresa", e);
+			try {
+				userTransaction.begin();
+				SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+				
+				resultado = soporteSistema.grabarEmpresa(empresa);
+				userTransaction.commit();
+			} catch (SQLException e) {
+				userTransaction.rollback();
+				throw new ErrorRegistroDataException("Error en registro de empresa", e);
+			}
+		} catch (SecurityException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (IllegalStateException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (NotSupportedException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (SystemException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (RollbackException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (HeuristicMixedException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (HeuristicRollbackException e) {
+			throw new RHViajesException("Error en transaccion", e);
 		}
+    	
+    	return resultado;
     }
 
 }

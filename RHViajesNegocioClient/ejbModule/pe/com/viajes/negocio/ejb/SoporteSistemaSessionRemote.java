@@ -17,9 +17,9 @@ public interface SoporteSistemaSessionRemote {
 
 	SentenciaSQL ejecutarSentenciaSQL(SentenciaSQL sentenciaSQL) throws EjecucionSQLException, RHViajesException;
 
-	List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException;
+	List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException, RHViajesException;
 
 	boolean grabarEmpresa(EmpresaAgenciaViajes empresa)
-			throws ErrorRegistroDataException;
+			throws ErrorRegistroDataException, RHViajesException;
 
 }

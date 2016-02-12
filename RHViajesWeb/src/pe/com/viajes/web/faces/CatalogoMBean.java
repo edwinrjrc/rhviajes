@@ -26,6 +26,7 @@ import pe.com.viajes.bean.negocio.Proveedor;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.negocio.exception.ConnectionException;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
+import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
 import pe.com.viajes.web.servicio.ParametroServicio;
 import pe.com.viajes.web.servicio.SeguridadServicio;
@@ -999,6 +1000,8 @@ public class CatalogoMBean extends BaseMBean {
 		try {
 			catalogoTipoDocumentoEmpresa = UtilWeb.convertirSelectItem2(this.soporteSistemaServicio.listarMaestro(idMaestro));
 		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+		} catch (RHViajesException e) {
 			logger.error(e.getMessage(), e);
 		}
 		

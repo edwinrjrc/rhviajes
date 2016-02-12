@@ -71,12 +71,12 @@ public class SoporteSistemaServicioImpl implements SoporteSistemaServicio {
 	 * @see pe.com.viajes.web.servicio.SoporteSistemaServicio#listarMaestro(int)
 	 */
 	@Override
-	public List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException{
+	public List<Maestro> listarMaestro(int idMaestro) throws ErrorConsultaDataException, RHViajesException{
 		return ejbSession.listarMaestro(idMaestro);
 	}
 	
 	@Override
-	public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException{
+	public boolean grabarEmpresa(EmpresaAgenciaViajes empresa) throws ErrorRegistroDataException, RHViajesException{
 		return ejbSession.grabarEmpresa(empresa);
 	}
 }
