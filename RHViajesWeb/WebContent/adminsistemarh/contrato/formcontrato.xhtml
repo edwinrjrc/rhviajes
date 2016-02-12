@@ -7,7 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<rich:popupPanel id="idModalformempresa" modal="true" width="500"
+	<rich:popupPanel id="idModalformcontrato" modal="true" width="500"
 		height="500">
 
 		<f:facet name="header">
@@ -22,8 +22,8 @@
 			</h:outputLink>
 		</f:facet>
 
-		<h:form id="idfrempresa">
-			<h:panelGrid id="idGridFormEmpresa" border="0" cellpadding="0"
+		<h:form id="idfrcontrato">
+			<h:panelGrid id="idGridFormContrato" border="0" cellpadding="0"
 				cellspacing="0" style="width:100%;" columns="2">
 				<f:facet name="header">
 					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
@@ -56,8 +56,8 @@
 				</h:panelGrid>
 				<h:outputText value="Razon Social" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idRazSocial" value="#{soporteSistemaMBean.empresa.razonSocial}"
-						maxlength="100" />
+					<h:inputText id="idRazSocial"
+						value="#{soporteSistemaMBean.empresa.razonSocial}" maxlength="100" />
 					<rich:message for="idRazSocial" showDetail="false"
 						showSummary="true"></rich:message>
 				</h:panelGrid>
@@ -71,21 +71,24 @@
 				</h:panelGrid>
 				<h:outputText value="Nombre Dominio" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idNomDominio" value="#{soporteSistemaMBean.empresa.nombreDominio}"
+					<h:inputText id="idNomDominio"
+						value="#{soporteSistemaMBean.empresa.nombreDominio}"
 						maxlength="100" />
 					<rich:message for="idNomDominio" showDetail="false"
 						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Nombre Contacto" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idNomContacto" value="#{soporteSistemaMBean.empresa.nombreContacto}"
+					<h:inputText id="idNomContacto"
+						value="#{soporteSistemaMBean.empresa.nombreContacto}"
 						maxlength="200" />
 					<rich:message for="idNomContacto" showDetail="false"
 						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 				<h:outputText value="Correo Contacto" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idCorreoContacto" value="#{soporteSistemaMBean.empresa.correoContacto}"
+					<h:inputText id="idCorreoContacto"
+						value="#{soporteSistemaMBean.empresa.correoContacto}"
 						maxlength="200" />
 					<rich:message for="idCorreoContacto" showDetail="false"
 						showSummary="true" ajaxRendered="true"></rich:message>
@@ -103,6 +106,5 @@
 			</h:panelGrid>
 
 		</h:form>
-
 	</rich:popupPanel>
 </ui:composition>

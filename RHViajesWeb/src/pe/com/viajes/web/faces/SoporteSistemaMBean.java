@@ -101,6 +101,10 @@ public class SoporteSistemaMBean extends BaseMBean {
 		this.setNombreFormulario("Nueva Empresa");
 		this.setEmpresa(null);
 	}
+	
+	public void nuevoContrato(){
+		
+	}
 
 	public void grabarEmpresa() {
 		try {
