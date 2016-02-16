@@ -1,7 +1,11 @@
 package pe.com.viajes.negocio.ejb;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +13,9 @@ import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.internet.AddressException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -19,6 +26,7 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.licencia.ContratoLicencia;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.dao.EjecutaSentenciaSQLDao;
@@ -27,9 +35,12 @@ import pe.com.viajes.negocio.dao.impl.EjecutaSentenciaSQLDaoImpl;
 import pe.com.viajes.negocio.dao.impl.SoporteSistemaDaoImpl;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
+import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 import pe.com.viajes.negocio.util.UtilConexion;
+import pe.com.viajes.negocio.util.UtilCorreo;
+import pe.com.viajes.negocio.util.UtilEncripta;
 
 /**
  * Session Bean implementation class SoporteSistemaSession
@@ -215,4 +226,119 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
     	return lista;
     }
 
+    @Override
+    public List<ContratoLicencia> listarContratos() throws ErrorConsultaDataException, RHViajesException {
+    	List<ContratoLicencia> lista = null;
+    	try {
+			try {
+				userTransaction.begin();
+				SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+				
+				lista = soporteSistema.listarContratos();
+				userTransaction.commit();
+			} catch (SQLException e) {
+				userTransaction.rollback();
+				throw new ErrorConsultaDataException("Error al consultar empresas", e);
+			}
+		} catch (SecurityException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (IllegalStateException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (NotSupportedException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (SystemException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (RollbackException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (HeuristicMixedException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		} catch (HeuristicRollbackException e) {
+			throw new RHViajesException("Error al consultar empresas", e);
+		}
+    	
+    	return lista;
+    }
+    
+    
+    @Override
+    public boolean grabarContrato(ContratoLicencia contrato) throws ErrorRegistroDataException, RHViajesException{
+    	boolean resultado = false;
+    		
+    	try {
+			try {
+				userTransaction.begin();
+				SoporteSistemaDao soporteSistema = new SoporteSistemaDaoImpl();
+				
+				contrato.getEstado().setCodigoEntero(1);
+				resultado = soporteSistema.grabarContrato(contrato);
+				
+				EmpresaAgenciaViajes empresa = null;
+				String serial = this.generaSerialContrato(contrato);
+				String mensaje = "";
+				enviarCorreoSerialContrato(empresa, mensaje);
+				
+				userTransaction.commit();
+			} catch (SQLException e) {
+				userTransaction.rollback();
+				throw new ErrorRegistroDataException("Error en registro de empresa", e);
+			}
+		} catch (SecurityException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (IllegalStateException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (NotSupportedException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (SystemException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (RollbackException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (HeuristicMixedException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		} catch (HeuristicRollbackException e) {
+			throw new RHViajesException("Error en transaccion", e);
+		}
+    	
+    	return resultado;
+    }
+    
+    private void enviarCorreoSerialContrato(EmpresaAgenciaViajes empresa, String mensaje) throws RHViajesException {
+		try {
+			UtilCorreo utilCorreo = new UtilCorreo();
+			utilCorreo.enviarCorreo(empresa.getCorreoContacto(), "Clave Serial de contrato", mensaje);
+		} catch (AddressException e) {
+			throw new RHViajesException(e);
+		} catch (FileNotFoundException e) {
+			throw new RHViajesException(e);
+		} catch (ErrorEncriptacionException e) {
+			throw new RHViajesException(e);
+		} catch (NoSuchProviderException e) {
+			throw new RHViajesException(e);
+		} catch (UnsupportedEncodingException e) {
+			throw new RHViajesException(e);
+		} catch (IOException e) {
+			throw new RHViajesException(e);
+		} catch (MessagingException e) {
+			throw new RHViajesException(e);
+		}
+	}
+
+	@Override
+    public String generaSerialContrato(ContratoLicencia contrato) throws ErrorEncriptacionException, RHViajesException {
+    	try {
+			String llave = "";
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+			llave = llave + "|"+contrato.getEmpresaAgencia().getDocumentoIdentidad().getNumeroDocumento();
+			llave = llave + "|" + contrato.getEmpresaAgencia().getRazonSocial();
+			llave = llave + "|" + contrato.getNumeroUsuarios();
+			llave = llave + "|" + sdf.format(contrato.getFechaInicio());
+			llave = llave + "|" + sdf.format(contrato.getFechaFin()) + "|";
+			
+			return UtilEncripta.encriptaCadena(llave);
+		} catch (ErrorEncriptacionException e) {
+			throw new ErrorEncriptacionException(e);
+		} catch (Exception e){
+			throw new RHViajesException(e);
+		}
+    }
 }

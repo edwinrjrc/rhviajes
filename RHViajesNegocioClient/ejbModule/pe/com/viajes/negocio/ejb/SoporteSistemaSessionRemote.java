@@ -5,10 +5,12 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.licencia.ContratoLicencia;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
+import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.RHViajesException;
 
@@ -53,5 +55,34 @@ public interface SoporteSistemaSessionRemote {
 	 */
 	List<EmpresaAgenciaViajes> listarEmpresas()
 			throws ErrorConsultaDataException, RHViajesException;
+
+	/**
+	 * 
+	 * @return
+	 * @throws ErrorConsultaDataException
+	 * @throws RHViajesException
+	 */
+	List<ContratoLicencia> listarContratos() throws ErrorConsultaDataException,
+			RHViajesException;
+
+	/**
+	 * 
+	 * @param contrato
+	 * @return
+	 * @throws ErrorRegistroDataException
+	 * @throws RHViajesException
+	 */
+	boolean grabarContrato(ContratoLicencia contrato)
+			throws ErrorRegistroDataException, RHViajesException;
+
+	/**
+	 * 
+	 * @param contrato
+	 * @return
+	 * @throws ErrorEncriptacionException
+	 * @throws RHViajesException
+	 */
+	String generaSerialContrato(ContratoLicencia contrato)
+			throws ErrorEncriptacionException, RHViajesException;
 
 }

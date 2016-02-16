@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
+import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -188,6 +189,31 @@ public class UtilCorreo {
 		multipart.addBodyPart(attachPart);
 
 		message.setContent(multipart);
+		Transport t = session.getTransport("smtp");
+		t.connect((String) properties.get("mail.smtp.user"),
+				(String) properties.get("mail.smtp.password"));
+		t.sendMessage(message, message.getAllRecipients());
+		t.close();
+	}
+	
+	public void enviarCorreo(String correoDestino, String asunto, String mensaje, String correoRespuesta)
+			throws AddressException, NoSuchProviderException,
+			MessagingException, UnsupportedEncodingException {
+
+		MimeMessage message = new MimeMessage(session);
+
+		InternetAddress internetAdd = new InternetAddress(
+				(String) properties.get("mail.smtp.mail.sender"),
+				(String) properties.get("mail.smtp.mail.senderName"));
+		message.setFrom(internetAdd);
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+				correoDestino));
+		message.setSubject(asunto);
+		
+		Address[] correosReplay = new Address[1];
+		correosReplay[0] = new InternetAddress(correoRespuesta);
+		message.setReplyTo(correosReplay);
+		message.setContent(mensaje, "text/html");
 		Transport t = session.getTransport("smtp");
 		t.connect((String) properties.get("mail.smtp.user"),
 				(String) properties.get("mail.smtp.password"));

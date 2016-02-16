@@ -16,25 +16,13 @@ public class ContratoLicencia extends Base {
 
 	private static final long serialVersionUID = 3465369279878500725L;
 	
-	private Integer idEmpresa;
 	private Date fechaInicio;
 	private Date fechaFin;
 	private int numeroUsuarios;
 	private BigDecimal precioUsuario;
+	private EmpresaAgenciaViajes empresaAgencia;
 	
 	
-	/**
-	 * @return the idEmpresa
-	 */
-	public Integer getIdEmpresa() {
-		return idEmpresa;
-	}
-	/**
-	 * @param idEmpresa the idEmpresa to set
-	 */
-	public void setIdEmpresa(Integer idEmpresa) {
-		this.idEmpresa = idEmpresa;
-	}
 	/**
 	 * @return the fechaInicio
 	 */
@@ -83,6 +71,20 @@ public class ContratoLicencia extends Base {
 	public void setPrecioUsuario(BigDecimal precioUsuario) {
 		this.precioUsuario = precioUsuario;
 	}
-	
+	/**
+	 * @return the empresaAgencia
+	 */
+	public EmpresaAgenciaViajes getEmpresaAgencia() {
+		if (empresaAgencia == null){
+			empresaAgencia = new EmpresaAgenciaViajes();
+		}
+		return empresaAgencia;
+	}
+	/**
+	 * @param empresaAgencia the empresaAgencia to set
+	 */
+	public void setEmpresaAgencia(EmpresaAgenciaViajes empresaAgencia) {
+		this.empresaAgencia = empresaAgencia;
+	}
 	
 }

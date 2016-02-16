@@ -6,6 +6,7 @@ package pe.com.viajes.web.servicio;
 import java.util.List;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.licencia.ContratoLicencia;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
@@ -57,4 +58,23 @@ public interface SoporteSistemaServicio {
 	 */
 	List<EmpresaAgenciaViajes> listarEmpresas()
 			throws ErrorConsultaDataException, RHViajesException;
+
+	/**
+	 * 
+	 * @return
+	 * @throws ErrorConsultaDataException
+	 * @throws RHViajesException
+	 */
+	List<ContratoLicencia> listarContratos() throws ErrorConsultaDataException,
+			RHViajesException;
+
+	/**
+	 * 
+	 * @param contrato
+	 * @return
+	 * @throws ErrorRegistroDataException
+	 * @throws RHViajesException
+	 */
+	boolean grabarContrato(ContratoLicencia contrato)
+			throws ErrorRegistroDataException, RHViajesException;
 }

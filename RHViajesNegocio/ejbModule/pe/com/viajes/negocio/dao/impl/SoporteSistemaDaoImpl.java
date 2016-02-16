@@ -11,6 +11,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import pe.com.viajes.bean.licencia.ContratoLicencia;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.negocio.dao.SoporteSistemaDao;
@@ -163,4 +164,87 @@ public class SoporteSistemaDaoImpl implements SoporteSistemaDao {
 		
 	}
 
+	
+	@Override
+	public List<ContratoLicencia> listarContratos() throws SQLException {
+		List<ContratoLicencia> resultado = new ArrayList<ContratoLicencia>();
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call licencia.fn_listarcontratos() }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.execute();
+			
+			rs = (ResultSet) cs.getObject(1);
+			
+			ContratoLicencia bean = null;
+			while (rs.next()){
+				bean = new ContratoLicencia();
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				bean.setFechaInicio(UtilJdbc.obtenerFecha(rs, "fechainicio"));
+				bean.setFechaFin(UtilJdbc.obtenerFecha(rs, "fechafin"));
+				bean.setPrecioUsuario(UtilJdbc.obtenerBigDecimal(rs, "precioxusuario"));
+				bean.setNumeroUsuarios(UtilJdbc.obtenerNumero(rs, "nrousuarios"));
+				bean.getEmpresa().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idempresa"));
+				bean.getEmpresa().setNombre(UtilJdbc.obtenerCadena(rs, "nombrecomercial"));
+				bean.getEstado().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idestado"));
+				bean.getEstado().setNombre(UtilJdbc.obtenerCadena(rs, "estadocontrato"));
+				resultado.add(bean);
+			}
+			
+			return resultado;
+		}
+		finally{
+			if (rs != null){
+				rs.close();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
+	}
+	
+	
+	@Override
+	public boolean grabarContrato(ContratoLicencia contrato)
+			throws SQLException {
+		Connection conn = null;
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call licencia.fn_ingresarcontrato (?,?,?,?,?,?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setDate(2, UtilJdbc.convertirUtilDateSQLDate(contrato.getFechaInicio()));
+			cs.setDate(3, UtilJdbc.convertirUtilDateSQLDate(contrato.getFechaFin()));
+			cs.setBigDecimal(4, contrato.getPrecioUsuario());
+			cs.setInt(5, contrato.getNumeroUsuarios());
+			cs.setInt(6, contrato.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(7, contrato.getEstado().getCodigoEntero().intValue());
+			cs.execute();
+			
+			int r = cs.getInt(1);
+			
+			return (r != 0);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+	}
 }

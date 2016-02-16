@@ -8,7 +8,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 	<rich:popupPanel id="idModalformcontrato" modal="true" width="500"
-		height="500">
+		height="300">
 
 		<f:facet name="header">
 			<h:outputText id="idNomModal"
@@ -16,7 +16,7 @@
 		</f:facet>
 		<f:facet name="controls">
 			<h:outputLink value="#" style="border:0"
-				onclick="#{rich:component('idModalformempresa')}.hide(); return false;">
+				onclick="#{rich:component('idModalformcontrato')}.hide(); return false;">
 				<h:graphicImage height="18" width="18"
 					url="/resources/img/close.png" style="border:0" />
 			</h:outputLink>
@@ -35,72 +35,60 @@
 					</h:panelGrid>
 				</f:facet>
 
-				<h:outputText value="Tipo Documento" />
+				<h:outputText value="Empresa" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:selectOneMenu id="idseltipdocumento"
-						value="#{soporteSistemaMBean.empresa.documentoIdentidad.tipoDocumento.codigoEntero}">
+					<h:selectOneMenu id="idselempresa" required="true"
+						requiredMessage="Selecionne la empresa"
+						value="#{soporteSistemaMBean.contrato.empresa.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
-						<f:selectItems
-							value="#{catalogoMBean.catalogoTipoDocumentoEmpresa}"></f:selectItems>
+						<f:selectItems value="#{soporteSistemaMBean.comboEmpresas}"></f:selectItems>
 					</h:selectOneMenu>
 					<rich:message for="idseltipdocumento" showDetail="false"
 						showSummary="true"></rich:message>
 				</h:panelGrid>
-				<h:outputText value="Número Documento" />
+				<h:outputText value="Fecha Inicio" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idnumdocumento"
-						value="#{soporteSistemaMBean.empresa.documentoIdentidad.numeroDocumento}"
-						maxlength="11" />
-					<rich:message for="idnumdocumento" showDetail="false"
+					<rich:calendar id="idfechainicio" datePattern="dd/MM/yyyy"
+						required="true" requiredMessage="Selecionne la fecha de inicio"
+						value="#{soporteSistemaMBean.contrato.fechaInicio}"></rich:calendar>
+					<rich:message for="idfechainicio" showDetail="false"
 						showSummary="true"></rich:message>
 				</h:panelGrid>
-				<h:outputText value="Razon Social" />
+				<h:outputText value="Fecha Fin" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idRazSocial"
-						value="#{soporteSistemaMBean.empresa.razonSocial}" maxlength="100" />
-					<rich:message for="idRazSocial" showDetail="false"
+					<rich:calendar id="idfechafin" datePattern="dd/MM/yyyy"
+						required="true" requiredMessage="Selecionne la fecha de fin"
+						value="#{soporteSistemaMBean.contrato.fechaFin}"></rich:calendar>
+					<rich:message for="idfechafin" showDetail="false"
 						showSummary="true"></rich:message>
 				</h:panelGrid>
-				<h:outputText value="Nombre Comercial" />
+				<h:outputText value="Precio x Usuario" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idNomComercial"
-						value="#{soporteSistemaMBean.empresa.nombreComercial}"
-						maxlength="100" />
-					<rich:message for="idNomComercial" showDetail="false"
+					<h:inputText id="idPrecioUsuario" required="true"
+						requiredMessage="Ingrese el precio"
+						value="#{soporteSistemaMBean.contrato.precioUsuario}"
+						maxlength="5" style="text-align:right;" />
+					<rich:message for="idPrecioUsuario" showDetail="false"
 						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
-				<h:outputText value="Nombre Dominio" />
+				<h:outputText value="Número Usuarios" />
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idNomDominio"
-						value="#{soporteSistemaMBean.empresa.nombreDominio}"
-						maxlength="100" />
-					<rich:message for="idNomDominio" showDetail="false"
-						showSummary="true" ajaxRendered="true"></rich:message>
-				</h:panelGrid>
-				<h:outputText value="Nombre Contacto" />
-				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idNomContacto"
-						value="#{soporteSistemaMBean.empresa.nombreContacto}"
-						maxlength="200" />
-					<rich:message for="idNomContacto" showDetail="false"
-						showSummary="true" ajaxRendered="true"></rich:message>
-				</h:panelGrid>
-				<h:outputText value="Correo Contacto" />
-				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-					<h:inputText id="idCorreoContacto"
-						value="#{soporteSistemaMBean.empresa.correoContacto}"
-						maxlength="200" />
-					<rich:message for="idCorreoContacto" showDetail="false"
+					<h:inputText id="idNumUsuarios" required="true"
+						requiredMessage="Ingrese el número de usuarios"
+						value="#{soporteSistemaMBean.contrato.numeroUsuarios}"
+						maxlength="5" style="text-align:right;" />
+					<rich:message for="idNumUsuarios" showDetail="false"
 						showSummary="true" ajaxRendered="true"></rich:message>
 				</h:panelGrid>
 
 				<f:facet name="footer">
 					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 						style="width:100%;text-align:center;" columns="1">
-						<a4j:commandButton action="#{soporteSistemaMBean.grabarEmpresa()}"
-							value="Grabar" styleClass="estiloBoton1"
-							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError, idGridFormEmpresa"
-							oncomplete="mostrarModal('idFradmempresa')"></a4j:commandButton>
+						<a4j:commandButton
+							action="#{soporteSistemaMBean.grabarContrato()}" value="Grabar"
+							styleClass="estiloBoton1"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGridFormContrato"
+							oncomplete="mostrarModal('idFradmcontrato')"></a4j:commandButton>
 					</h:panelGrid>
 				</f:facet>
 			</h:panelGrid>

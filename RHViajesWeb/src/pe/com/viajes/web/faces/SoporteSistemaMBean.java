@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import pe.com.viajes.bean.administracion.SentenciaSQL;
+import pe.com.viajes.bean.licencia.ContratoLicencia;
 import pe.com.viajes.bean.licencia.EmpresaAgenciaViajes;
 import pe.com.viajes.negocio.exception.EjecucionSQLException;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
@@ -41,14 +43,20 @@ public class SoporteSistemaMBean extends BaseMBean {
 
 	private SentenciaSQL sentenciaSQL;
 	private EmpresaAgenciaViajes empresa;
+	private ContratoLicencia contrato;
 
 	private SoporteSistemaServicio soporteSistemaServicio;
 
 	private String[] cabeceraResultado;
 	private List<Map<String, Object>> listaResultado;
 	private List<EmpresaAgenciaViajes> listaEmpresas;
+	private List<ContratoLicencia> listaContratos;
+	private List<SelectItem> comboEmpresas;
 
 	private int tamanioLista;
+	
+	private boolean nuevoContrato;
+	private boolean editaContrato;
 
 	public SoporteSistemaMBean() {
 		try {
@@ -100,10 +108,6 @@ public class SoporteSistemaMBean extends BaseMBean {
 	public void nuevaEmpresa() {
 		this.setNombreFormulario("Nueva Empresa");
 		this.setEmpresa(null);
-	}
-	
-	public void nuevoContrato(){
-		
 	}
 
 	public void grabarEmpresa() {
@@ -182,6 +186,28 @@ public class SoporteSistemaMBean extends BaseMBean {
 		}
 
 		return resultado;
+	}
+	
+	public void nuevoContrato(){
+		this.setNombreFormulario("Nuevo Contrato");
+		this.setNuevoContrato(true);
+		this.setEditaContrato(false);
+	}
+	
+	public void grabarContrato(){
+		try {
+			if (this.isNuevoContrato()){
+				this.soporteSistemaServicio.grabarContrato(getContrato());
+				
+				this.mostrarMensajeExito("Se registro el contrato satisfactoriamente");
+			}
+		} catch (ErrorRegistroDataException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
+		} catch (RHViajesException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -288,5 +314,95 @@ public class SoporteSistemaMBean extends BaseMBean {
 	 */
 	public void setListaEmpresas(List<EmpresaAgenciaViajes> listaEmpresas) {
 		this.listaEmpresas = listaEmpresas;
+	}
+	
+	/**
+	 * @return the listaContratos
+	 */
+	public List<ContratoLicencia> getListaContratos() {
+		try {
+			listaContratos = this.soporteSistemaServicio.listarContratos();
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+		} catch (RHViajesException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return listaContratos;
+	}
+
+	/**
+	 * @param listaContratos the listaContratos to set
+	 */
+	public void setListaContratos(List<ContratoLicencia> listaContratos) {
+		this.listaContratos = listaContratos;
+	}
+
+	/**
+	 * @return the editaContrato
+	 */
+	public boolean isEditaContrato() {
+		return editaContrato;
+	}
+
+	/**
+	 * @param editaContrato the editaContrato to set
+	 */
+	public void setEditaContrato(boolean editaContrato) {
+		this.editaContrato = editaContrato;
+	}
+
+	/**
+	 * @return the nuevoContrato
+	 */
+	public boolean isNuevoContrato() {
+		return nuevoContrato;
+	}
+
+	/**
+	 * @param nuevoContrato the nuevoContrato to set
+	 */
+	public void setNuevoContrato(boolean nuevoContrato) {
+		this.nuevoContrato = nuevoContrato;
+	}
+
+	/**
+	 * @return the comboEmpresas
+	 */
+	public List<SelectItem> getComboEmpresas() {
+		SelectItem si = null;
+		comboEmpresas = null;
+		comboEmpresas = new ArrayList<SelectItem>();
+		for (EmpresaAgenciaViajes empresa : this.getListaEmpresas()){
+			si = new SelectItem();
+			si.setValue(empresa.getCodigoEntero());
+			si.setLabel(empresa.getNombreComercial());
+			comboEmpresas.add(si);
+		}
+		
+		return comboEmpresas;
+	}
+
+	/**
+	 * @param comboEmpresas the comboEmpresas to set
+	 */
+	public void setComboEmpresas(List<SelectItem> comboEmpresas) {
+		this.comboEmpresas = comboEmpresas;
+	}
+
+	/**
+	 * @return the contrato
+	 */
+	public ContratoLicencia getContrato() {
+		if (contrato == null){
+			contrato = new ContratoLicencia();
+		}
+		return contrato;
+	}
+
+	/**
+	 * @param contrato the contrato to set
+	 */
+	public void setContrato(ContratoLicencia contrato) {
+		this.contrato = contrato;
 	}
 }

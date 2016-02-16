@@ -24,8 +24,8 @@
 					style="width:100%;text-align:center;"
 					columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
 					<h:outputText value="" />
-					<rich:dataTable value="#{soporteSistemaMBean.listaEmpresas}"
-						var="fila" style="width:100%;" id="idTablaEmpresas" rows="10">
+					<rich:dataTable value="#{soporteSistemaMBean.listaContratos}"
+						var="fila" style="width:100%;" id="idTablaContratos" rows="10">
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Id" />
@@ -34,43 +34,43 @@
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Razón Social" />
+								<h:outputText value="Fecha Inicio" />
 							</f:facet>
-							<h:outputText value="#{fila.razonSocial}" />
+							<h:outputText value="#{fila.fechaInicio}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Nombre Comercial" />
+								<h:outputText value="Fecha Fin" />
 							</f:facet>
-							<h:outputText value="#{fila.nombreComercial}" />
+							<h:outputText value="#{fila.fechaFin}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Nombre Dominio" />
+								<h:outputText value="Precio x Usuario" />
 							</f:facet>
-							<h:outputText value="#{fila.nombreDominio}" />
+							<h:outputText value="#{fila.precioUsuario}" >
+								<f:convertNumber pattern="##0.00" locale="en_us"/>
+							</h:outputText>
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Documento Empresa" />
+								<h:outputText value="Empresa" />
 							</f:facet>
 							<h:outputText
-								value="#{fila.documentoIdentidad.tipoDocumento.abreviatura} - #{fila.documentoIdentidad.numeroDocumento}" />
+								value="#{fila.empresa.nombre}" />
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Nombre Contacto" />
+								<h:outputText value="Estado" />
 							</f:facet>
-							<h:outputText value="#{fila.nombreContacto}" />
-						</rich:column>
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="Correo Contacto" />
-							</f:facet>
-							<h:outputText value="#{fila.correoContacto}" />
+							<h:outputText value="#{fila.estado.nombre}" />
 						</rich:column>
 						<f:facet name="footer">
-							<rich:dataScroller for="idTablaEmpresas"></rich:dataScroller>
+							<rich:dataScroller for="idTablaContratos"></rich:dataScroller>
 						</f:facet>
 					</rich:dataTable>
 					<h:outputText value="" />
@@ -80,9 +80,9 @@
 							columns="1" style="width:100%;text-align:center;">
 							<br />
 							<a4j:commandButton value="Nuevo Contrato"
-								styleClass="estiloBoton1" render="idGridFormEmpresa, idNomModal"
+								styleClass="estiloBoton1" render="idGridFormContrato, idNomModal"
 								action="#{soporteSistemaMBean.nuevoContrato()}"
-								oncomplete="#{rich:component('idModalformempresa')}.show()"></a4j:commandButton>
+								oncomplete="#{rich:component('idModalformcontrato')}.show()"></a4j:commandButton>
 							<a4j:commandButton id="idBotonModalCorrecto"
 								style="display:none;" type="button"
 								oncomplete="#{rich:component('idModalcorrecto')}.show();" />
@@ -95,14 +95,14 @@
 
 			</h:panelGrid>
 		</h:form>
-		<ui:include src="/adminsistemarh/empresa/formempresa.xhtml" />
+		<ui:include src="/adminsistemarh/contrato/formcontrato.xhtml" />
 		<ui:include src="/resources/includes/includemensaje.xhtml">
 			<ui:param name="backBean" value="#{soporteSistemaMBean}" />
-			<ui:param name="idModalForm" value="idModalformempresa" />
-			<ui:param name="idrender" value="idTablaEmpresas" />
+			<ui:param name="idModalForm" value="idModalformcontrato" />
+			<ui:param name="idrender" value="idTablaContratos" />
 		</ui:include>
 		<script type="text/javascript">
-		mostrarModal('idFradmempresa');
+		mostrarModal('idFradmcontrato');
 		</script>
 	</ui:define>
 </ui:composition>
