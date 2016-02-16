@@ -43,7 +43,8 @@
 							<f:selectItems value="#{catalogoMBean.catalogoTipoDocumento}" />
 						</h:selectOneMenu>
 						<h:outputText value="Numero documento" />
-						<h:inputText onkeypress="return js_soloEntero(event);" maxlength="11"
+						<h:inputText onkeypress="return js_soloEntero(event);"
+							maxlength="11"
 							value="#{comprobanteMBean.proveedor.documentoIdentidad.numeroDocumento}" />
 					</h:panelGrid>
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
@@ -58,7 +59,8 @@
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							columns="1" style="width:100%; text-align:center;">
 							<a4j:commandButton value="Buscar" render="idTablaProveedores"
-								action="#{comprobanteMBean.buscarProveedor()}" />
+								action="#{comprobanteMBean.buscarProveedor()}"
+								styleClass="estiloBoton1" />
 						</h:panelGrid>
 					</f:facet>
 				</h:panelGrid>
@@ -94,14 +96,16 @@
 							<f:facet name="header">
 								<h:outputText value="Seleccionar" />
 							</f:facet>
-							<h:selectOneRadio value="#{row.codigoSeleccionado}" onclick="dataTableSelectOneRadio(this);" >
+							<h:selectOneRadio value="#{row.codigoSeleccionado}"
+								onclick="dataTableSelectOneRadio(this);">
 								<f:selectItem itemValue="#{row.codigoEntero}" />
 							</h:selectOneRadio>
 						</rich:column>
 						<f:facet name="footer">
 							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 								columns="1" style="width:100%;">
-								<rich:dataScroller for="idTablaProveedores" boundaryControls="auto" />
+								<rich:dataScroller for="idTablaProveedores"
+									boundaryControls="auto" />
 							</h:panelGrid>
 						</f:facet>
 					</rich:dataTable>

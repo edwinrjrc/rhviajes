@@ -603,13 +603,15 @@ public class DireccionDaoImpl implements DireccionDao {
 	public boolean eliminarPersonaDirecciones(Persona persona, Connection conn)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_eliminarpersonadirecciones(?,?) }";
+		String sql = "{ ? = call negocio.fn_eliminarpersonadirecciones(?,?,?,?) }";
 
 		try {
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.BOOLEAN);
 			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(3, persona.getCodigoEntero().intValue());
+			cs.setInt(4, persona.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(5, persona.getIpModificacion());
 
 			cs.execute();
 			return cs.getBoolean(1);

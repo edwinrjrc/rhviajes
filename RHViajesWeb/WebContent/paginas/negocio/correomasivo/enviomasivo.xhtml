@@ -93,7 +93,7 @@
 										cellspacing="0" columns="3" style="width:100%;">
 										<a4j:commandButton value="Enviar Correo"
 											action="#{correoMasivoMBean.confirmarEnvioCorreo()}"
-											style="width: 150px; height: 20px;" render="idConfirm"
+											styleClass="estiloBoton1" render="idConfirm"
 											oncomplete="#{rich:component('idModalConfirma')}.show(); return false;"
 											rendered="#{!correoMasivoMBean.correoEnviado}" />
 										<a4j:commandButton id="idBtnEnviarCorreo" status="ajaxCorreo"
@@ -103,7 +103,7 @@
 											oncomplete="mostrarModal('idformenviocorreo')" />
 										<a4j:commandButton value="Cancelar"
 											rendered="#{!correoMasivoMBean.correoEnviado}"
-											style="width: 150px; height: 20px;"
+											styleClass="estiloBoton1"
 											oncomplete="#{rich:component('idModalfrenviomasivo')}.hide(); return false;"></a4j:commandButton>
 									</h:panelGrid></td>
 							</tr>

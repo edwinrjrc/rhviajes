@@ -502,6 +502,8 @@ public class NegocioSession implements NegocioSessionRemote,
 							"No se pudo completar la actualización de direcciones de la persona");
 				}
 				for (Direccion direccion : cliente.getListaDirecciones()) {
+					direccion.setUsuarioModificacion(cliente.getUsuarioModificacion());
+					direccion.setIpModificacion(cliente.getIpModificacion());
 					idDireccion = direccionDao.actualizarDireccion(direccion,
 							conexion);
 					int idTelefono = 0;
@@ -516,6 +518,10 @@ public class NegocioSession implements NegocioSessionRemote,
 							for (Telefono telefono : listTelefonos) {
 								telefono.getEmpresaOperadora().setCodigoEntero(
 										0);
+								telefono.setUsuarioCreacion(cliente.getUsuarioCreacion());
+								telefono.setIpCreacion(cliente.getIpCreacion());
+								telefono.setUsuarioModificacion(cliente.getUsuarioModificacion());
+								telefono.setIpModificacion(cliente.getIpModificacion());
 								idTelefono = telefonoDao.registrarTelefono(
 										telefono, conexion);
 								if (idTelefono == 0) {
@@ -539,13 +545,17 @@ public class NegocioSession implements NegocioSessionRemote,
 				int idContacto = 0;
 				for (Contacto contacto : cliente.getListaContactos()) {
 					contacto.setTipoPersona(3);
-
+					contacto.setEmpresa(cliente.getEmpresa());
 					idContacto = personaDao
 							.registrarPersona(contacto, conexion);
 					contacto.setCodigoEntero(idContacto);
 
 					if (!contacto.getListaTelefonos().isEmpty()) {
 						for (Telefono telefono : contacto.getListaTelefonos()) {
+							telefono.setUsuarioCreacion(cliente.getUsuarioCreacion());
+							telefono.setIpCreacion(cliente.getIpCreacion());
+							telefono.setUsuarioModificacion(cliente.getUsuarioModificacion());
+							telefono.setIpModificacion(cliente.getIpModificacion());
 							int idTelefono = telefonoDao.registrarTelefono(
 									telefono, conexion);
 							if (idTelefono == 0) {
@@ -557,9 +567,12 @@ public class NegocioSession implements NegocioSessionRemote,
 									contacto, conexion);
 						}
 					}
+					contacto.setUsuarioCreacion(cliente.getUsuarioCreacion());
+					contacto.setIpCreacion(cliente.getIpCreacion());
+					contacto.setUsuarioModificacion(cliente.getUsuarioModificacion());
+					contacto.setIpModificacion(cliente.getIpModificacion());
 					contactoDao.registrarContactoProveedor(idPersona, contacto,
 							conexion);
-
 					contactoDao.eliminarCorreosContacto(contacto, conexion);
 
 					contactoDao.ingresarCorreoElectronico(contacto, conexion);

@@ -159,13 +159,10 @@ public class ClienteMBean extends BaseMBean {
 								this.setTipoModal("1");
 								this.setMensajeModal("Cliente registrado Satisfactoriamente");
 							} else if (this.isEditarCliente()) {
-								HttpSession session = obtenerSession(false);
-								Usuario usuario = (Usuario) session
-										.getAttribute("usuarioSession");
-								getCliente().setUsuarioModificacion(
-										usuario);
-								getCliente().setIpModificacion(
-										obtenerRequest().getRemoteAddr());
+								getCliente().setUsuarioCreacion(this.obtenerUsuarioSession());
+								getCliente().setIpCreacion(this.obtenerIpMaquina());
+								getCliente().setUsuarioModificacion(this.obtenerUsuarioSession());
+								getCliente().setIpModificacion(this.obtenerIpMaquina());
 								if (tipoDocRUC == getCliente()
 										.getDocumentoIdentidad()
 										.getTipoDocumento().getCodigoEntero()
@@ -173,6 +170,8 @@ public class ClienteMBean extends BaseMBean {
 									getCliente().setNombres(
 											getCliente().getRazonSocial());
 								}
+								
+								this.negocioServicio.actualizarCliente(getCliente());
 
 								this.mostrarMensajeExito("Cliente actualizado Satisfactoriamente");
 							}
@@ -359,6 +358,7 @@ public class ClienteMBean extends BaseMBean {
 	public void consultarCliente(int idcliente) {
 		try {
 			this.setCliente(consultaNegocioServicio.consultarCliente(idcliente, this.obtenerIdEmpresa()));
+			this.defineTipoPersona(this.getCliente().getDocumentoIdentidad().getTipoDocumento().getCodigoEntero());
 			this.setNuevoCliente(false);
 			this.setEditarCliente(true);
 			this.setNombreFormulario("Editar Cliente");
@@ -750,18 +750,22 @@ public class ClienteMBean extends BaseMBean {
 	
 	public void cambiarTipoDocumento(ValueChangeEvent e){
 		Object valor = e.getNewValue();
-		this.setPersonaNatural(false);
 		if (valor instanceof Integer){
 			Integer tipoDocumento = (Integer) valor;
-			if (tipoDocumento.intValue() == 1 ){
-				this.setPersonaNatural(true);
-			}
-			else if (tipoDocumento.intValue() == 2){
-				this.setPersonaNatural(true);
-			}
-			else if (tipoDocumento.intValue() == 4){
-				this.setPersonaNatural(true);
-			}
+			defineTipoPersona(tipoDocumento);
+		}
+	}
+	
+	public void defineTipoPersona(Integer tipoDocumento){
+		this.setPersonaNatural(false);
+		if (tipoDocumento.intValue() == 1 ){
+			this.setPersonaNatural(true);
+		}
+		else if (tipoDocumento.intValue() == 2){
+			this.setPersonaNatural(true);
+		}
+		else if (tipoDocumento.intValue() == 4){
+			this.setPersonaNatural(true);
 		}
 	}
 

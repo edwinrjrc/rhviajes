@@ -199,13 +199,13 @@
 						id="idGrdBtnesCont">
 						<a4j:commandButton value="Agregar"
 							actionListener="#{clienteMBean.agregarContacto}"
-							rendered="#{clienteMBean.nuevoContacto}"
+							rendered="#{clienteMBean.nuevoContacto}" styleClass="estiloBoton1"
 							oncomplete="cerrarModalBoton('idFCPr','idCerrModCon','idHdConAgr')"
 							render="idTablaContactos,idGrdBtnesCont,idGrdFCon" />
 
 						<a4j:commandButton value="Actualizar"
 							actionListener="#{clienteMBean.agregarContacto}"
-							rendered="#{clienteMBean.editarContacto}"
+							rendered="#{clienteMBean.editarContacto}" styleClass="estiloBoton1"
 							oncomplete="cerrarModalBoton('idFCPr','idCerrModCon','idHdConAgr')"
 							render="idTablaContactos,idGrdBtnesCont,idGrdFCon" />
 

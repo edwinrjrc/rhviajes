@@ -120,8 +120,8 @@ public class ContactoDaoImpl implements ContactoDao {
 						"apellidopaterno"));
 				contacto.setApellidoMaterno(UtilJdbc.obtenerCadena(rs,
 						"apellidomaterno"));
-				contacto.getGenero().setCodigoEntero(
-						UtilJdbc.obtenerNumero(rs, "idgenero"));
+				contacto.getGenero().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "idgenero"));
 				contacto.getEstadoCivil().setCodigoEntero(
 						UtilJdbc.obtenerNumero(rs, "idestadocivil"));
 				contacto.getDocumentoIdentidad()

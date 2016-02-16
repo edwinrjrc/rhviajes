@@ -63,7 +63,7 @@
 								cellspacing="0" style="width:100%;text-align:center;">
 								<a4j:commandButton value="Buscar" render="idTabla"
 									action="#{clienteMBean.buscarCliente()}"
-									style="height:20px; width:150px" />
+									styleClass="estiloBoton1" />
 							</h:panelGrid>
 						</f:facet>
 					</h:panelGrid>
@@ -134,7 +134,7 @@
 								style="height: 50px" width="100%">
 								<a4j:commandButton value="NUEVO CLIENTE"
 									action="#{clienteMBean.nuevoCliente()}"
-									style="height:20px; width:150px"
+									styleClass="estiloBoton1"
 									render="idTabPanelFormProveedor, idNomModal"
 									oncomplete="#{rich:component('idModalformcliente')}.show();">
 								</a4j:commandButton>

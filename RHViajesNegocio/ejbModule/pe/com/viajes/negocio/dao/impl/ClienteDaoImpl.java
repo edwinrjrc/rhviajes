@@ -273,7 +273,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	public void actualizarPersonaAdicional(Cliente cliente, Connection conexion)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_actualizarpersonaproveedor(?,?,?) }";
+		String sql = "{ ? = call negocio.fn_actualizarpersonaproveedor(?,?,?,?,?) }";
 
 		try {
 			cs = conexion.prepareCall(sql);
@@ -282,6 +282,8 @@ public class ClienteDaoImpl implements ClienteDao {
 			cs.setInt(i++, cliente.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(i++, cliente.getCodigoEntero());
 			cs.setInt(i++, cliente.getRubro().getCodigoEntero());
+			cs.setInt(i++, cliente.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(i++, cliente.getIpModificacion());
 
 			cs.execute();
 		} catch (SQLException e) {
@@ -350,6 +352,8 @@ public class ClienteDaoImpl implements ClienteDao {
 						"nropasaporte"));
 				resultado.setFechaVctoPasaporte(UtilJdbc.obtenerFecha(rs,
 						"fecvctopasaporte"));
+				resultado.getNacionalidad().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idnacionalidad"));
+				resultado.getEmpresa().setCodigoEntero(idEmpresa);
 			}
 
 		} catch (SQLException e) {

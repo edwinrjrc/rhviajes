@@ -91,3 +91,34 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+  
+-- Function: negocio.fn_consultarpersona(integer, integer, integer)
+
+-- DROP FUNCTION negocio.fn_consultarpersona(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_consultarpersona(p_idempresa integer, p_id integer, p_idtipopersona integer)
+  RETURNS refcursor AS
+$BODY$
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT pro.id, pro.nombres, pro.apellidopaterno, pro.apellidomaterno, 
+    pro.idgenero, pro.idestadocivil, pro.idtipodocumento, pro.numerodocumento, 
+    pro.idusuariocreacion, pro.fechacreacion, pro.ipcreacion, ppro.idrubro, pro.fecnacimiento,
+    pro.nropasaporte, pro.fecvctopasaporte, pro.idnacionalidad
+   FROM negocio."Persona" pro
+   left join negocio."PersonaAdicional" ppro on ppro.idpersona = pro.id AND ppro.idestadoregistro = 1
+  WHERE pro.idestadoregistro = 1 
+    AND pro.idempresa        = p_idempresa
+    AND pro.idtipopersona    = p_idtipopersona
+    AND pro.id = p_id;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

@@ -213,14 +213,14 @@
 
 						<a4j:commandButton value="Agregar"
 							actionListener="#{clienteMBean.agregarDireccion}"
-							style="height:20px; width:150px;"
+							styleClass="estiloBoton1"
 							rendered="#{clienteMBean.nuevaDireccion}"
 							oncomplete="cerrarModalBoton('idFDPr','idCerrarModal','idHdDirAgr')"
 							render="idGrdFormDireccion,idGrdBtnes,idGrdFDir" />
 
 						<a4j:commandButton value="Actualizar"
 							actionListener="#{clienteMBean.agregarDireccion}"
-							style="height:20px; width:150px;"
+							styleClass="estiloBoton1"
 							rendered="#{clienteMBean.editarDireccion}"
 							oncomplete="cerrarModalBoton('idFDPr','idCerrarModal','idHdDirAgr')"
 							render="idGrdFormDireccion,idGrdBtnes,idGrdFDir" />
