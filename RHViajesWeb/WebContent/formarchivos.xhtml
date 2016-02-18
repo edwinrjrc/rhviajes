@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalFormArchivos" modal="true" width="900"
+		height="600" style="background-color: #FFFFFF">
+		<f:facet name="header">
+			<h:outputText id="idNomModalDireccion"
+				value="#{clienteMBean.nombreFormularioDireccion}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalFormArchivos')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:form id="idfradmarchivoadjunto">
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+				style="width:100%;" id="idPnAdmArchivoAdjunto">
+				<f:facet name="header">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
+						style="width:100%;text-align:center">
+						<h:outputText value="Archivos Adjuntos" />
+						<hr style="width: 100%;" />
+					</h:panelGrid>
+				</f:facet>
+				<rich:dataTable value="#{clienteMBean.listaArchivos}" var="fila">
+					<f:facet name="noData">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:center">
+							<h:outputText value="No se adjutaron archivos" />
+						</h:panelGrid>
+					</f:facet>
+					<f:facet name="header">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;text-align:right;">
+							<a4j:commandButton value="Adjuntar Archivos"
+								oncomplete="mostrarModal3('idModalAdjuntarArchivos2')"></a4j:commandButton>
+						</h:panelGrid>
+					</f:facet>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Documento" />
+						</f:facet>
+						<h:selectOneMenu value="#{fila.documento.codigoEntero}"
+							rendered="#{fila.editarDocumento}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItems
+								value="#{catalogoMBean.catalogoDocumentosAdicionales}"></f:selectItems>
+						</h:selectOneMenu>
+						<h:outputText value="#{fila.documento.nombre}"
+							rendered="#{!fila.editarDocumento}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Descripción de Documento" />
+						</f:facet>
+						<h:outputText value="#{fila.descripcionArchivo}"
+							rendered="#{!fila.editarDocumento}" />
+						<h:inputText value="#{fila.descripcionArchivo}"
+							rendered="#{fila.editarDocumento}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Nombre de Archivo" />
+						</f:facet>
+						<h:outputText value="#{fila.archivo.nombreArchivo}" />
+					</rich:column>
+					<rich:column>
+						<a4j:commandButton value="Descargar"
+							rendered="#{fila.codigoEntero != null}"></a4j:commandButton>
+					</rich:column>
+				</rich:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

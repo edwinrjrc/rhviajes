@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -21,12 +22,15 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.richfaces.event.FileUploadEvent;
+import org.richfaces.model.UploadedFile;
 
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.base.CorreoElectronico;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Contacto;
 import pe.com.viajes.bean.negocio.Direccion;
+import pe.com.viajes.bean.negocio.DocumentoAdicional;
 import pe.com.viajes.bean.negocio.Telefono;
 import pe.com.viajes.bean.negocio.Ubigeo;
 import pe.com.viajes.bean.negocio.Usuario;
@@ -57,6 +61,7 @@ public class ClienteMBean extends BaseMBean {
 
 	private List<Cliente> listaClientes;
 	private List<Cliente> listaClientesCumples;
+	private List<DocumentoAdicional> listaArchivos;
 
 	private Cliente cliente;
 	private Cliente clienteBusqueda;
@@ -768,6 +773,27 @@ public class ClienteMBean extends BaseMBean {
 			this.setPersonaNatural(true);
 		}
 	}
+	
+	public void cargarArchivos(FileUploadEvent event){
+		UploadedFile item = event.getUploadedFile();
+
+		String nombre = item.getName();
+		StringTokenizer stk = new StringTokenizer(nombre, ".");
+		String archivoNombre = stk.nextToken();
+		if (stk.hasMoreTokens()) {
+			archivoNombre = stk.nextToken();
+		}
+		DocumentoAdicional documento = new DocumentoAdicional();
+
+		documento.getArchivo().setNombreArchivo(nombre);
+		documento.getArchivo().setExtensionArchivo(archivoNombre);
+		documento.getArchivo().setDatos(item.getData());
+		documento.getArchivo().setTipoContenido(item.getContentType());
+		documento.getArchivo().setContent(item.getContentType());
+		documento.setEditarDocumento(true);
+
+		this.getListaArchivos().add(documento);
+	}
 
 	/**
 	 * @return the cliente
@@ -1184,6 +1210,23 @@ public class ClienteMBean extends BaseMBean {
 	 */
 	public void setPersonaNatural(boolean personaNatural) {
 		this.personaNatural = personaNatural;
+	}
+
+	/**
+	 * @return the listaArchivos
+	 */
+	public List<DocumentoAdicional> getListaArchivos() {
+		if (listaArchivos == null){
+			listaArchivos = new ArrayList<DocumentoAdicional>();
+		}
+		return listaArchivos;
+	}
+
+	/**
+	 * @param listaArchivos the listaArchivos to set
+	 */
+	public void setListaArchivos(List<DocumentoAdicional> listaArchivos) {
+		this.listaArchivos = listaArchivos;
 	}
 
 }
