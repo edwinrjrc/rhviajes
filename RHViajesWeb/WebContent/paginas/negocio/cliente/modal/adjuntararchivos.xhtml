@@ -37,7 +37,7 @@
 					fileUploadListener="#{clienteMBean.cargarArchivos}"
 					acceptedTypes="jpg, gif, png, jpeg, pdf, JPG, GIF, PNG, JPEG, PDF"
 					ontyperejected="alert('Only JPG, GIF, PNG, PDF files are accepted');"
-					style="width:100%;" deleteLabel="Eliminar Archivos" >
+					style="width:100%;" deleteLabel="Eliminar Archivos">
 					<a4j:ajax event="uploadcomplete" execute="@none"
 						render="idPnAdmArchivoAdjunto" />
 				</rich:fileUpload>

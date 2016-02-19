@@ -61,8 +61,7 @@
 								<h:outputText value="Apellido Paterno"
 									rendered="#{clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
-									columns="1"
-									rendered="#{clienteMBean.personaNatural}">
+									columns="1" rendered="#{clienteMBean.personaNatural}">
 									<h:inputText id="idApePatPro"
 										value="#{clienteMBean.cliente.apellidoPaterno}" maxlength="40"
 										styleClass="estilocampo1" />
@@ -72,8 +71,7 @@
 								<h:outputText value="Apellido Materno"
 									rendered="#{clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
-									columns="1"
-									rendered="#{clienteMBean.personaNatural}">
+									columns="1" rendered="#{clienteMBean.personaNatural}">
 									<h:inputText id="idApeMatPro"
 										value="#{clienteMBean.cliente.apellidoMaterno}" maxlength="40"
 										styleClass="estilocampo1" />
@@ -87,8 +85,7 @@
 								<h:outputText value="Nombres"
 									rendered="#{clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
-									columns="1"
-									rendered="#{clienteMBean.personaNatural}">
+									columns="1" rendered="#{clienteMBean.personaNatural}">
 									<h:inputText id="idNomPro"
 										value="#{clienteMBean.cliente.nombres}" maxlength="80"
 										styleClass="estilocampo1" />
@@ -98,8 +95,7 @@
 								<h:outputText value="Razon Social"
 									rendered="#{!clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
-									columns="1"
-									rendered="#{!clienteMBean.personaNatural}">
+									columns="1" rendered="#{!clienteMBean.personaNatural}">
 									<h:inputText id="idRazSocPro"
 										value="#{clienteMBean.cliente.razonSocial}" maxlength="80"
 										styleClass="estilocampo1" />
@@ -162,7 +158,8 @@
 									<rich:calendar id="idFPFecVctoPass"
 										value="#{clienteMBean.cliente.fechaVctoPasaporte}"
 										datePattern="dd/MM/yyyy"
-										requiredMessage="Ingrese la fecha de Vencimiento Pasaporte" popup="true">
+										requiredMessage="Ingrese la fecha de Vencimiento Pasaporte"
+										popup="true">
 									</rich:calendar>
 									<rich:message for="idFPFecVctoPass" ajaxRendered="true"
 										showSummary="true" showDetail="false" />
@@ -191,7 +188,7 @@
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</h:outputText>
 								</h:panelGrid>
-								
+
 								<h:outputText value="Nacionalidad" />
 								<h:panelGrid cellpadding="0" cellspacing="0" border="0">
 									<h:selectOneMenu id="idSelNacionalidad"
@@ -318,6 +315,70 @@
 											render="idNomModalContacto,idGrdFCon" />
 									</h:panelGrid>
 								</f:facet>
+							</rich:dataTable>
+						</h:panelGrid>
+					</rich:tab>
+					<rich:tab>
+						<f:facet name="header">
+							<h:outputText value="Archivos Adjuntos" />
+						</f:facet>
+
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="1" style="width:100%;" id="idPnAdmArchivoAdjunto">
+							<f:facet name="header">
+								<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+									columns="1" style="width:100%;text-align:left;">
+									<h:outputText value="Archivos Adjuntos" />
+									<hr style="width: 100%;" />
+								</h:panelGrid>
+							</f:facet>
+							<rich:dataTable value="#{clienteMBean.listaArchivos}" var="fila"
+								style="width:100%;">
+								<f:facet name="noData">
+									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+										columns="1" style="width:100%;text-align:center">
+										<h:outputText value="No se adjutaron archivos" />
+									</h:panelGrid>
+								</f:facet>
+								<f:facet name="header">
+									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+										columns="1" style="width:100%;text-align:right;">
+										<a4j:commandButton value="Adjuntar Archivos"
+											oncomplete="mostrarModal3('idModalAdjuntarArchivos2')"></a4j:commandButton>
+									</h:panelGrid>
+								</f:facet>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Documento" />
+									</f:facet>
+									<h:selectOneMenu value="#{fila.documento.codigoEntero}"
+										rendered="#{fila.editarDocumento}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems
+											value="#{catalogoMBean.catalogoDocumentosAdicionales}"></f:selectItems>
+									</h:selectOneMenu>
+									<h:outputText value="#{fila.documento.nombre}"
+										rendered="#{!fila.editarDocumento}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Descripción de Documento" />
+									</f:facet>
+									<h:outputText value="#{fila.descripcionArchivo}"
+										rendered="#{!fila.editarDocumento}" />
+									<h:inputText value="#{fila.descripcionArchivo}"
+										rendered="#{fila.editarDocumento}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Nombre de Archivo" />
+									</f:facet>
+									<h:outputText value="#{fila.archivo.nombreArchivo}" />
+								</rich:column>
+								<rich:column>
+									<a4j:commandButton value="Descargar"
+										rendered="#{fila.codigoEntero != null}"></a4j:commandButton>
+								</rich:column>
 							</rich:dataTable>
 						</h:panelGrid>
 					</rich:tab>
