@@ -9,6 +9,7 @@ import java.util.List;
 
 import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.negocio.Cliente;
+import pe.com.viajes.bean.negocio.DocumentoAdicional;
 
 /**
  * @author Edwin
@@ -39,4 +40,16 @@ public interface ClienteDao {
 			throws SQLException;
 
 	List<Cliente> listarClienteCumpleanieros(int idEmpresa) throws SQLException;
+
+	boolean ingresarArchivosAdjuntos(DocumentoAdicional documento,
+			Persona persona, Connection conn) throws SQLException;
+
+	boolean actualizarArchivoAdjunto(DocumentoAdicional documento,
+			Persona persona, Connection conn) throws SQLException;
+
+	boolean eliminarArchivoAdjunto1(Persona persona, Connection conn)
+			throws SQLException;
+
+	boolean eliminarArchivoAdjunto2(Persona persona, Connection conn)
+			throws SQLException;
 }

@@ -19,6 +19,7 @@ public class Cliente extends Persona {
 	private String correoElectronico;
 	private List<Contacto> listaContactos;
 	private List<CuentaBancaria> listaCuentas;
+	private List<DocumentoAdicional> listaAdjuntos;
 
 	private String telefonoInvitadoNovios;
 	private Integer codigoSeleccionado;
@@ -27,10 +28,6 @@ public class Cliente extends Persona {
 
 	public Cliente() {
 
-	}
-
-	public void finalize() throws Throwable {
-		super.finalize();
 	}
 
 	/**
@@ -124,6 +121,23 @@ public class Cliente extends Persona {
 	 */
 	public void setInfoCliente(int infoCliente) {
 		this.infoCliente = infoCliente;
+	}
+
+	/**
+	 * @return the listaAdjuntos
+	 */
+	public List<DocumentoAdicional> getListaAdjuntos() {
+		if (listaAdjuntos == null){
+			listaAdjuntos = new ArrayList<DocumentoAdicional>();
+		}
+		return listaAdjuntos;
+	}
+
+	/**
+	 * @param listaAdjuntos the listaAdjuntos to set
+	 */
+	public void setListaAdjuntos(List<DocumentoAdicional> listaAdjuntos) {
+		this.listaAdjuntos = listaAdjuntos;
 	}
 
 }

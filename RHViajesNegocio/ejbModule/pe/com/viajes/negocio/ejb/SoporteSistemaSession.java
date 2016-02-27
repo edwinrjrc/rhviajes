@@ -66,6 +66,7 @@ public class SoporteSistemaSession implements SoporteSistemaSessionRemote, Sopor
 				sentenciaSQL.setEliminacion("DELETE".equals(StringUtils.upperCase(sql_1)));
 				sentenciaSQL.setInsercion("INSERT".equals(StringUtils.upperCase(sql_1)));
 				sentenciaSQL.setActualizacion("UPDATE".equals(StringUtils.upperCase(sql_1)));
+				sentenciaSQL.setInsercion("CREATE".equals(StringUtils.upperCase(sql_1)));
 			}
 			
 			Connection conn = null;

@@ -268,6 +268,10 @@ public class NegocioSession implements NegocioSessionRemote,
 							for (Telefono telefono : listTelefonos) {
 								telefono.getEmpresaOperadora().setCodigoEntero(
 										0);
+								telefono.setUsuarioCreacion(proveedor.getUsuarioCreacion());
+								telefono.setIpCreacion(proveedor.getIpCreacion());
+								telefono.setUsuarioModificacion(proveedor.getUsuarioModificacion());
+								telefono.setIpModificacion(proveedor.getIpModificacion());
 								idTelefono = telefonoDao.registrarTelefono(
 										telefono, conexion);
 								if (idTelefono == 0) {
@@ -461,6 +465,14 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			ClienteDao clienteDao = new ClienteDaoImpl();
 			clienteDao.registroCliente(cliente, conexion);
+			
+			for (DocumentoAdicional documento : cliente.getListaAdjuntos()){
+				boolean resultado = clienteDao.ingresarArchivosAdjuntos(documento, cliente, conexion);
+				if (resultado){
+					throw new ErrorRegistroDataException("Error registro documento adjunto");
+				}
+			}
+			
 			userTransaction.commit();
 			return true;
 		} catch (ResultadoCeroDaoException e) {
@@ -580,6 +592,15 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			ClienteDao clienteDao = new ClienteDaoImpl();
 			clienteDao.actualizarPersonaAdicional(cliente, conexion);
+			clienteDao.eliminarArchivoAdjunto1(cliente, conexion);
+			for (DocumentoAdicional documento : cliente.getListaAdjuntos()){
+				boolean resultado = clienteDao.actualizarArchivoAdjunto(documento, cliente, conexion);
+				if (resultado){
+					throw new ErrorRegistroDataException("Error actualizar documento adjunto");
+				}
+			}
+			clienteDao.eliminarArchivoAdjunto2(cliente, conexion);
+			
 			userTransaction.commit();
 			return true;
 		} catch (ResultadoCeroDaoException e) {

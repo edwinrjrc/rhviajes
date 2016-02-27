@@ -15,9 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.negocio.Cliente;
+import pe.com.viajes.bean.negocio.DocumentoAdicional;
 import pe.com.viajes.bean.negocio.Telefono;
 import pe.com.viajes.negocio.dao.ClienteDao;
 import pe.com.viajes.negocio.util.UtilConexion;
+import pe.com.viajes.negocio.util.UtilEjb;
 import pe.com.viajes.negocio.util.UtilJdbc;
 
 /**
@@ -808,5 +810,114 @@ public class ClienteDaoImpl implements ClienteDao {
 		}
 
 		return resultado;
+	}
+	
+	@Override
+	public boolean ingresarArchivosAdjuntos(DocumentoAdicional documento, Persona persona, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_ingresaradjuntopersona(?,?,?,?,?,?,?,?,?,?,?) }";
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, documento.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(3, persona.getCodigoEntero().intValue());
+			cs.setInt(4, persona.getTipoPersona());
+			cs.setInt(5, documento.getCodigoEntero().intValue());
+			cs.setString(6, documento.getDescripcionArchivo());
+			cs.setBinaryStream(7, UtilEjb.convertirByteArrayAInputStream(documento.getArchivo().getDatos()), documento.getArchivo().getDatos().length);
+			cs.setString(8, documento.getArchivo().getNombreArchivo());
+			cs.setString(9, documento.getArchivo().getExtensionArchivo());
+			cs.setString(10, documento.getArchivo().getTipoContenido());
+			cs.setInt(11, persona.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(12, persona.getIpCreacion());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
+	
+	@Override
+	public boolean actualizarArchivoAdjunto(DocumentoAdicional documento, Persona persona, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_actualizaradjuntopersona(?,?,?,?,?,?,?,?,?,?,?,?) }";
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, documento.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(3, documento.getCodigoEntero().intValue());
+			cs.setInt(4, persona.getCodigoEntero().intValue());
+			cs.setInt(5, persona.getTipoPersona());
+			cs.setInt(6, documento.getCodigoEntero().intValue());
+			cs.setString(7, documento.getDescripcionArchivo());
+			cs.setBinaryStream(8, UtilEjb.convertirByteArrayAInputStream(documento.getArchivo().getDatos()), documento.getArchivo().getDatos().length);
+			cs.setString(9, documento.getArchivo().getNombreArchivo());
+			cs.setString(10, documento.getArchivo().getExtensionArchivo());
+			cs.setString(11, documento.getArchivo().getTipoContenido());
+			cs.setInt(12, persona.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(13, persona.getIpCreacion());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
+	
+	@Override
+	public boolean eliminarArchivoAdjunto1(Persona persona, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_eliminaradjuntopersona1(?,?,?) }";
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(4, persona.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(5, persona.getIpModificacion());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
+	
+	@Override
+	public boolean eliminarArchivoAdjunto2(Persona persona, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_eliminaradjuntopersona2(?,?,?) }";
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(2, persona.getCodigoEntero().intValue());
+			cs.setInt(2, persona.getTipoPersona());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
 	}
 }

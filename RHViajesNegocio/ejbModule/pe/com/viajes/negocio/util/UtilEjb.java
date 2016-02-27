@@ -3,6 +3,8 @@
  */
 package pe.com.viajes.negocio.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -359,5 +361,11 @@ public class UtilEjb {
 			return cadenaNueva;
 		}
 		return cadena;
+	}
+	
+	public static InputStream convertirByteArrayAInputStream(byte[] arreglo){
+		ByteArrayInputStream bis = new ByteArrayInputStream(arreglo);
+		
+		return (InputStream)bis;
 	}
 }
