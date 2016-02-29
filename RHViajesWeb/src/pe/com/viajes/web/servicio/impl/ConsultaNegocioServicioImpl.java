@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Comprobante;
@@ -410,5 +411,10 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	@Override
 	public List<Comprobante> consultarObligacionesPendientes(int idEmpresa) throws ErrorConsultaDataException{
 		return ejbSession.consultarObligacionesPendientes(idEmpresa);
+	}
+	
+	@Override
+	public List<DocumentoAdicional> listarAdjuntosPersona(Persona persona) throws ErrorConsultaDataException{
+		return ejbSession.listarDocumentosAdicionales(persona);
 	}
 }

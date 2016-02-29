@@ -114,7 +114,7 @@
 								</f:facet>
 								<a4j:commandLink
 									action="#{clienteMBean.consultarCliente(row.codigoEntero)}"
-									render="idTabPanelFormProveedor, idNomModal"
+									render="idTabPanelFormProveedor, idNomModal, idGridFormProveedor"
 									oncomplete="#{rich:component('idModalformcliente')}.show();">
 									<h:graphicImage height="25" width="20"
 										url="/resources/img/editar2.png" style="border:0" />
@@ -140,7 +140,10 @@
 									oncomplete="#{rich:component('idModalcorrecto')}.show();" />
 								<a4j:commandButton id="idBotonModalError" style="display:none;"
 									type="button"
-									oncomplete="#{rich:component('idModalError')}.show();" />
+									oncomplete="#{rich:component('idModalError')}.show();" /> 
+								<h:commandButton value="Exportar" style="display:none"
+									id="idbtnExportarDocAdjunto"
+									action="#{clienteMBean.exportarArchivo()}" />
 							</h:panelGrid>
 						</h:panelGroup>
 					</f:facet>

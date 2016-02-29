@@ -594,12 +594,18 @@ public class NegocioSession implements NegocioSessionRemote,
 			clienteDao.actualizarPersonaAdicional(cliente, conexion);
 			clienteDao.eliminarArchivoAdjunto1(cliente, conexion);
 			for (DocumentoAdicional documento : cliente.getListaAdjuntos()){
-				boolean resultado = clienteDao.actualizarArchivoAdjunto(documento, cliente, conexion);
-				if (resultado){
+				boolean resultado = false;
+				if (documento.getCodigoEntero() == null || documento.getCodigoEntero().intValue() == 0){
+					resultado = clienteDao.ingresarArchivosAdjuntos(documento, cliente, conexion);
+				}
+				else{
+					resultado = clienteDao.actualizarArchivoAdjunto(documento, cliente, conexion);
+				}
+				if (!resultado){
 					throw new ErrorRegistroDataException("Error actualizar documento adjunto");
 				}
-			}
-			clienteDao.eliminarArchivoAdjunto2(cliente, conexion);
+			}	
+			//clienteDao.eliminarArchivoAdjunto2(cliente, conexion);
 			
 			userTransaction.commit();
 			return true;

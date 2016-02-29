@@ -13,9 +13,6 @@ import pe.com.viajes.bean.base.Base;
  */
 public class ArchivoAdjunto extends Base {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6843568135765114678L;
 
 	private InputStream stream;
@@ -24,6 +21,7 @@ public class ArchivoAdjunto extends Base {
 	private String content;
 	private byte[] datos;
 	private String extensionArchivo;
+	private long tamanioArchivo;
 
 	public ArchivoAdjunto() {
 		// TODO Auto-generated constructor stub
@@ -121,6 +119,20 @@ public class ArchivoAdjunto extends Base {
 	 */
 	public void setExtensionArchivo(String extensionArchivo) {
 		this.extensionArchivo = extensionArchivo;
+	}
+
+	/**
+	 * @return the tamanioArchivo
+	 */
+	public long getTamanioArchivo() {
+		return tamanioArchivo;
+	}
+
+	/**
+	 * @param tamanioArchivo the tamanioArchivo to set
+	 */
+	public void setTamanioArchivo(long tamanioArchivo) {
+		this.tamanioArchivo = tamanioArchivo;
 	}
 
 }

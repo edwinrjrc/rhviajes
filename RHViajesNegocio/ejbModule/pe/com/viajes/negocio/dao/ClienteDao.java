@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.negocio.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -51,5 +52,8 @@ public interface ClienteDao {
 			throws SQLException;
 
 	boolean eliminarArchivoAdjunto2(Persona persona, Connection conn)
+			throws SQLException;
+
+	List<DocumentoAdicional> listarAdjuntosPersona(Persona persona)
 			throws SQLException;
 }

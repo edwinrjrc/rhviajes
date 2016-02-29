@@ -209,3 +209,87 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+  
+  
+
+CREATE OR REPLACE FUNCTION negocio.fn_listaradjuntospersona(p_idempresa integer, p_idpersona integer, p_idtipopersona integer)
+  RETURNS refcursor AS
+$BODY$
+
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT id, idpersona, idtipopersona, idtipodocumento, descripciondocumento, 
+       archivo, nombrearchivo, tipocontenido, extensionarchivo, idusuariocreacion, 
+       fechacreacion, ipcreacion, idusuariomodificacion, fechamodificacion, 
+       ipmodificacion, idestadoregistro, idempresa
+  FROM negocio."PersonaAdjuntos"
+ WHERE idempresa     = p_idempresa
+   AND idpersona     = p_idpersona
+   AND idtipopersona = p_idtipopersona;
+
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+  
+  
+CREATE OR REPLACE FUNCTION negocio.fn_eliminaradjuntopersona1(p_idempresa integer, p_idpersona integer, p_idtipopersona integer, p_usuariocreacion integer, p_ipcreacion character varying)
+  RETURNS boolean AS
+$BODY$
+
+declare fechahoy timestamp with time zone;
+
+begin
+
+select current_timestamp AT TIME ZONE 'PET' into fechahoy;
+
+UPDATE negocio."PersonaAdjuntos"
+   SET idestadoregistro      = 0,
+       idusuariomodificacion = p_usuariocreacion, 
+       fechamodificacion     = fechahoy, 
+       ipmodificacion        = p_ipcreacion
+ WHERE idempresa             = p_idempresa
+   AND idpersona             = p_idpersona
+   AND idtipopersona         = p_idtipopersona;
+
+return true;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+  
+  
+-- Function: negocio.fn_listaradjuntospersona(integer, integer, integer)
+
+-- DROP FUNCTION negocio.fn_listaradjuntospersona(integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_listaradjuntospersona(p_idempresa integer, p_idpersona integer, p_idtipopersona integer)
+  RETURNS refcursor AS
+$BODY$
+
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT id, idpersona, idtipopersona, idtipodocumento, descripciondocumento, 
+       archivo, nombrearchivo, tipocontenido, extensionarchivo, idusuariocreacion, 
+       fechacreacion, ipcreacion, idusuariomodificacion, fechamodificacion, 
+       ipmodificacion, idestadoregistro, idempresa
+  FROM negocio."PersonaAdjuntos"
+ WHERE idempresa     = p_idempresa
+   AND idpersona     = p_idpersona
+   AND idtipopersona = p_idtipopersona;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+  

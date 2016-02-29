@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Comprobante;
@@ -237,6 +238,12 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 		cliente.setListaDirecciones(listaDirecciones);
 		cliente.setListaContactos(contactoDao
 				.consultarContactoProveedor(idcliente,idEmpresa));
+		
+		try {
+			cliente.setListaAdjuntos(clienteDao.listarAdjuntosPersona(cliente));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return cliente;
 	}
@@ -847,6 +854,20 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta");
 		}
 		
+	}
+	
+	@Override
+	public List<DocumentoAdicional> listarDocumentosAdicionales(Persona persona) throws ErrorConsultaDataException{
+		List documentosAdicionales = null;
+		try {
+			ClienteDao clienteDao = new ClienteDaoImpl();
+			documentosAdicionales = clienteDao.listarAdjuntosPersona(persona);
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e.getMessage(),e);
+		} catch (Exception e){
+			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta");
+		}
 		
+		return documentosAdicionales;
 	}
 }

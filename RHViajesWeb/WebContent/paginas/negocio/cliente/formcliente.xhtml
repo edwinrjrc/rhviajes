@@ -352,22 +352,22 @@
 										<h:outputText value="Documento" />
 									</f:facet>
 									<h:selectOneMenu value="#{fila.documento.codigoEntero}"
-										rendered="#{fila.editarDocumento}">
+										rendered="#{fila.codigoEntero == null}">
 										<f:selectItem itemLabel="-Seleccione-" />
 										<f:selectItems
 											value="#{catalogoMBean.catalogoDocumentosAdicionales}"></f:selectItems>
 									</h:selectOneMenu>
 									<h:outputText value="#{fila.documento.nombre}"
-										rendered="#{!fila.editarDocumento}" />
+										rendered="#{fila.codigoEntero != null}" />
 								</rich:column>
 								<rich:column>
 									<f:facet name="header">
 										<h:outputText value="Descripción de Documento" />
 									</f:facet>
 									<h:outputText value="#{fila.descripcionArchivo}"
-										rendered="#{!fila.editarDocumento}" />
+										rendered="#{fila.codigoEntero != null}" />
 									<h:inputText value="#{fila.descripcionArchivo}"
-										rendered="#{fila.editarDocumento}" />
+										rendered="#{fila.codigoEntero == null}" />
 								</rich:column>
 								<rich:column>
 									<f:facet name="header">
@@ -375,9 +375,23 @@
 									</f:facet>
 									<h:outputText value="#{fila.archivo.nombreArchivo}" />
 								</rich:column>
-								<rich:column>
-									<a4j:commandButton value="Descargar"
-										rendered="#{fila.codigoEntero != null}"></a4j:commandButton>
+								<rich:column style="text-align:center;" >
+									<h:panelGrid cellpadding="0" cellspacing="2" border="0"
+										columns="2">
+										<a4j:commandLink
+											action="#{clienteMBean.seleccionarArchivo(fila.codigoEntero)}"
+											rendered="#{fila.codigoEntero != null}"
+											oncomplete="clicBoton('idformadmcliente:idbtnExportarDocAdjunto')">
+											<h:graphicImage value="/resources/img/dowicon.png">
+											</h:graphicImage>
+										</a4j:commandLink>
+										<a4j:commandLink
+											action="#{clienteMBean.eliminarAdjunto(fila.codigoEntero)}"
+											render="idPnAdmArchivoAdjunto">
+											<h:graphicImage value="/resources/img/tacho.gif">
+											</h:graphicImage>
+										</a4j:commandLink>
+									</h:panelGrid>
 								</rich:column>
 							</rich:dataTable>
 						</h:panelGrid>

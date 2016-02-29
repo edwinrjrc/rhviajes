@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.web.faces;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +19,8 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +37,7 @@ import pe.com.viajes.bean.negocio.DocumentoAdicional;
 import pe.com.viajes.bean.negocio.Telefono;
 import pe.com.viajes.bean.negocio.Ubigeo;
 import pe.com.viajes.bean.negocio.Usuario;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.NoEnvioDatoException;
 import pe.com.viajes.negocio.exception.ValidacionException;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
@@ -67,6 +71,7 @@ public class ClienteMBean extends BaseMBean {
 	private Cliente clienteBusqueda;
 	private Direccion direccion;
 	private Contacto contacto;
+	private DocumentoAdicional documentoAdicional;
 
 	private boolean nuevoCliente;
 	private boolean editarCliente;
@@ -119,9 +124,9 @@ public class ClienteMBean extends BaseMBean {
 	public void buscarCliente() {
 		try {
 			this.setShowModal(false);
-			
+
 			getClienteBusqueda().setEmpresa(this.obtenerEmpresa());
-			
+
 			this.setListaClientes(this.consultaNegocioServicio
 					.consultarCliente2(getClienteBusqueda()));
 			this.setBusquedaRealizada(true);
@@ -144,13 +149,15 @@ public class ClienteMBean extends BaseMBean {
 					if (validarContactoCliente(e)) {
 						if (validarTelefonoCliente()) {
 							if (this.isNuevoCliente()) {
-								HttpSession session = obtenerSession(false);
-								Usuario usuario = (Usuario) session
-										.getAttribute("usuarioSession");
 								getCliente().setUsuarioCreacion(
-										usuario);
+										this.obtenerUsuarioSession());
 								getCliente().setIpCreacion(
 										obtenerRequest().getRemoteAddr());
+								getCliente().setUsuarioModificacion(
+										this.obtenerUsuarioSession());
+								getCliente().setIpModificacion(
+										obtenerRequest().getRemoteAddr());
+								getCliente().setListaAdjuntos(getListaArchivos());
 								if (tipoDocRUC == getCliente()
 										.getDocumentoIdentidad()
 										.getTipoDocumento().getCodigoEntero()
@@ -164,10 +171,15 @@ public class ClienteMBean extends BaseMBean {
 								this.setTipoModal("1");
 								this.setMensajeModal("Cliente registrado Satisfactoriamente");
 							} else if (this.isEditarCliente()) {
-								getCliente().setUsuarioCreacion(this.obtenerUsuarioSession());
-								getCliente().setIpCreacion(this.obtenerIpMaquina());
-								getCliente().setUsuarioModificacion(this.obtenerUsuarioSession());
-								getCliente().setIpModificacion(this.obtenerIpMaquina());
+								getCliente().setUsuarioCreacion(
+										this.obtenerUsuarioSession());
+								getCliente().setIpCreacion(
+										this.obtenerIpMaquina());
+								getCliente().setUsuarioModificacion(
+										this.obtenerUsuarioSession());
+								getCliente().setIpModificacion(
+										this.obtenerIpMaquina());
+								getCliente().setListaAdjuntos(getListaArchivos());
 								if (tipoDocRUC == getCliente()
 										.getDocumentoIdentidad()
 										.getTipoDocumento().getCodigoEntero()
@@ -175,11 +187,15 @@ public class ClienteMBean extends BaseMBean {
 									getCliente().setNombres(
 											getCliente().getRazonSocial());
 								}
-								
-								this.negocioServicio.actualizarCliente(getCliente());
+
+								this.negocioServicio
+										.actualizarCliente(getCliente());
 
 								this.mostrarMensajeExito("Cliente actualizado Satisfactoriamente");
 							}
+
+							consultarAdjuntosCliente();
+
 						} else {
 							this.mostrarMensajeError("Debe ingresar por lo menos un telefono, en la direccion o el contacto");
 						}
@@ -197,6 +213,16 @@ public class ClienteMBean extends BaseMBean {
 		} catch (Exception ex) {
 			this.mostrarMensajeError(ex.getMessage());
 			logger.error(ex.getMessage(), ex);
+		}
+	}
+
+	private void consultarAdjuntosCliente() {
+		try {
+			this.getCliente().setListaAdjuntos(
+					this.consultaNegocioServicio
+							.listarAdjuntosPersona(getCliente()));
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -280,7 +306,7 @@ public class ClienteMBean extends BaseMBean {
 				"tipoDocumentoCE", "aplicacionDatos");
 		int tipoDocRUC = UtilWeb.obtenerEnteroPropertieMaestro(
 				"tipoDocumentoRUC", "aplicacionDatos");
-		
+
 		if (StringUtils.isBlank(getCliente().getDocumentoIdentidad()
 				.getNumeroDocumento())) {
 			this.agregarMensaje(idFormulario + ":idFPInNumDoc",
@@ -362,13 +388,18 @@ public class ClienteMBean extends BaseMBean {
 
 	public void consultarCliente(int idcliente) {
 		try {
-			this.setCliente(consultaNegocioServicio.consultarCliente(idcliente, this.obtenerIdEmpresa()));
-			this.defineTipoPersona(this.getCliente().getDocumentoIdentidad().getTipoDocumento().getCodigoEntero());
+			this.setCliente(null);
+			this.setListaArchivos(null);
+			this.setCliente(consultaNegocioServicio.consultarCliente(idcliente,
+					this.obtenerIdEmpresa()));
+			this.defineTipoPersona(this.getCliente().getDocumentoIdentidad()
+					.getTipoDocumento().getCodigoEntero());
 			this.setNuevoCliente(false);
 			this.setEditarCliente(true);
+			this.setListaArchivos(cliente.getListaAdjuntos());
 			this.setNombreFormulario("Editar Cliente");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -376,6 +407,7 @@ public class ClienteMBean extends BaseMBean {
 		this.setNuevoCliente(true);
 		this.setEditarCliente(false);
 		this.setCliente(null);
+		this.setListaArchivos(null);
 		this.setNombreFormulario("Nuevo Cliente");
 		this.getCliente().setEmpresa(this.obtenerEmpresa());
 	}
@@ -389,20 +421,26 @@ public class ClienteMBean extends BaseMBean {
 		this.setDireccion(null);
 		this.setDireccionAgregada(false);
 		this.getDireccion().setEmpresa(this.obtenerEmpresa());
-		
+
 		this.getDireccion().setPais(this.getCliente().getNacionalidad());
 	}
 
 	public void agregarDireccion(ActionEvent e) {
 		try {
 			this.setDireccionAgregada(false);
-			
-			this.getDireccion().setNacional((this.getDireccion().getPais().getCodigoEntero().intValue() == UtilWeb.obtenerEnteroPropertieMaestro("codigoPaisPeru", "aplicacionDatos")));
-			
-			this.getDireccion().setUsuarioCreacion(this.obtenerUsuarioSession());
+
+			this.getDireccion()
+					.setNacional(
+							(this.getDireccion().getPais().getCodigoEntero()
+									.intValue() == UtilWeb
+									.obtenerEnteroPropertieMaestro(
+											"codigoPaisPeru", "aplicacionDatos")));
+
+			this.getDireccion()
+					.setUsuarioCreacion(this.obtenerUsuarioSession());
 			this.getDireccion().setIpCreacion(this.obtenerIpMaquina());
 			this.getDireccion().setEmpresa(this.obtenerEmpresa());
-			
+
 			if (this.validarDireccion(e)) {
 				if (this.isNuevaDireccion()) {
 					this.getCliente()
@@ -613,13 +651,12 @@ public class ClienteMBean extends BaseMBean {
 			resultado = false;
 			this.setPestanaActiva("idFC01");
 		}
-		/*if (StringUtils.isBlank(getContacto().getApellidoMaterno())) {
-			this.agregarMensaje(idFormulario + ":idApeMat",
-					"Ingrese el apellido materno", "",
-					FacesMessage.SEVERITY_ERROR);
-			resultado = false;
-			this.setPestanaActiva("idFC01");
-		}*/
+		/*
+		 * if (StringUtils.isBlank(getContacto().getApellidoMaterno())) {
+		 * this.agregarMensaje(idFormulario + ":idApeMat",
+		 * "Ingrese el apellido materno", "", FacesMessage.SEVERITY_ERROR);
+		 * resultado = false; this.setPestanaActiva("idFC01"); }
+		 */
 		if (StringUtils.isBlank(getContacto().getNombres())) {
 			this.agregarMensaje(idFormulario + ":idForProNom",
 					"Ingrese los nombres", "", FacesMessage.SEVERITY_ERROR);
@@ -705,8 +742,7 @@ public class ClienteMBean extends BaseMBean {
 						resultado = false;
 						this.setPestanaActiva("idFC03");
 						break;
-					}
-					else if (!UtilWeb.validarCorreo(correo.getDireccion())) {
+					} else if (!UtilWeb.validarCorreo(correo.getDireccion())) {
 						this.agregarMensaje(idFormulario
 								+ ":idTablaCorreoContacto",
 								"Error en el correo, por favor corrija", "",
@@ -752,29 +788,27 @@ public class ClienteMBean extends BaseMBean {
 	public void eliminarCorreoContacto(CorreoElectronico correo) {
 		this.getContacto().getListaCorreos().remove(correo);
 	}
-	
-	public void cambiarTipoDocumento(ValueChangeEvent e){
+
+	public void cambiarTipoDocumento(ValueChangeEvent e) {
 		Object valor = e.getNewValue();
-		if (valor instanceof Integer){
+		if (valor instanceof Integer) {
 			Integer tipoDocumento = (Integer) valor;
 			defineTipoPersona(tipoDocumento);
 		}
 	}
-	
-	public void defineTipoPersona(Integer tipoDocumento){
+
+	public void defineTipoPersona(Integer tipoDocumento) {
 		this.setPersonaNatural(false);
-		if (tipoDocumento.intValue() == 1 ){
+		if (tipoDocumento.intValue() == 1) {
 			this.setPersonaNatural(true);
-		}
-		else if (tipoDocumento.intValue() == 2){
+		} else if (tipoDocumento.intValue() == 2) {
 			this.setPersonaNatural(true);
-		}
-		else if (tipoDocumento.intValue() == 4){
+		} else if (tipoDocumento.intValue() == 4) {
 			this.setPersonaNatural(true);
 		}
 	}
-	
-	public void cargarArchivos(FileUploadEvent event){
+
+	public void cargarArchivos(FileUploadEvent event) {
 		UploadedFile item = event.getUploadedFile();
 
 		String nombre = item.getName();
@@ -790,9 +824,64 @@ public class ClienteMBean extends BaseMBean {
 		documento.getArchivo().setDatos(item.getData());
 		documento.getArchivo().setTipoContenido(item.getContentType());
 		documento.getArchivo().setContent(item.getContentType());
+		documento.getArchivo().setTamanioArchivo(item.getSize());
 		documento.setEditarDocumento(true);
 
 		this.getListaArchivos().add(documento);
+	}
+
+	public void seleccionarArchivo(Integer id) {
+		if (this.getCliente().getListaAdjuntos() != null) {
+			for (DocumentoAdicional docAdicional : this.getCliente()
+					.getListaAdjuntos()) {
+				if (id.equals(docAdicional.getCodigoEntero())) {
+					this.setDocumentoAdicional(docAdicional);
+					break;
+				}
+			}
+		}
+	}
+
+	public void exportarArchivo() {
+		try {
+			HttpServletResponse response = obtenerResponse();
+			response.setContentType(this.getDocumentoAdicional().getArchivo()
+					.getTipoContenido());
+			response.setHeader("Content-disposition", "attachment;filename="
+					+ this.getDocumentoAdicional().getArchivo()
+							.getNombreArchivo());
+			response.setHeader("Content-Transfer-Encoding", "binary");
+
+			FacesContext facesContext = obtenerContexto();
+
+			ServletOutputStream respuesta = response.getOutputStream();
+			if (this.getDocumentoAdicional() != null
+					&& this.getDocumentoAdicional().getArchivo() != null
+					&& this.getDocumentoAdicional().getArchivo().getDatos() != null) {
+				respuesta.write(this.getDocumentoAdicional().getArchivo()
+						.getDatos());
+			}
+
+			respuesta.close();
+			respuesta.flush();
+
+			facesContext.responseComplete();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void eliminarAdjunto(Integer idAdjunto){
+		int indice = 0;
+		for (int i=0; i<this.getListaArchivos().size(); i++) {
+			DocumentoAdicional documentoAdicional = this.getListaArchivos().get(i); 
+			if (documentoAdicional.getCodigoEntero().equals(idAdjunto)){
+				indice = i;
+				break;
+			}
+		}
+		
+		this.getListaArchivos().remove(indice);
 	}
 
 	/**
@@ -1035,9 +1124,8 @@ public class ClienteMBean extends BaseMBean {
 	public List<SelectItem> getListaProvincia() {
 		try {
 			if (listaProvincia == null || listaProvincia.isEmpty()) {
-				List<BaseVO> lista = soporteServicio
-						.listarCatalogoProvincia(this.getDireccion()
-								.getUbigeo().getDepartamento()
+				List<BaseVO> lista = soporteServicio.listarCatalogoProvincia(
+						this.getDireccion().getUbigeo().getDepartamento()
 								.getCodigoCadena(), this.obtenerIdEmpresa());
 				listaProvincia = UtilWeb.convertirSelectItem(lista);
 			}
@@ -1068,7 +1156,8 @@ public class ClienteMBean extends BaseMBean {
 				Ubigeo ubigeoLocal = this.getDireccion().getUbigeo();
 				List<BaseVO> lista = soporteServicio.listarCatalogoDistrito(
 						ubigeoLocal.getDepartamento().getCodigoCadena(),
-						ubigeoLocal.getProvincia().getCodigoCadena(), this.obtenerIdEmpresa());
+						ubigeoLocal.getProvincia().getCodigoCadena(),
+						this.obtenerIdEmpresa());
 				listaDistrito = UtilWeb.convertirSelectItem(lista);
 			}
 
@@ -1097,9 +1186,9 @@ public class ClienteMBean extends BaseMBean {
 		try {
 			this.setShowModal(false);
 			if (!this.isBusquedaRealizada()) {
-				
+
 				getClienteBusqueda().setEmpresa(this.obtenerEmpresa());
-				
+
 				this.setListaClientes(this.consultaNegocioServicio
 						.consultarCliente2(getClienteBusqueda()));
 			}
@@ -1206,7 +1295,8 @@ public class ClienteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param personaNatural the personaNatural to set
+	 * @param personaNatural
+	 *            the personaNatural to set
 	 */
 	public void setPersonaNatural(boolean personaNatural) {
 		this.personaNatural = personaNatural;
@@ -1216,17 +1306,36 @@ public class ClienteMBean extends BaseMBean {
 	 * @return the listaArchivos
 	 */
 	public List<DocumentoAdicional> getListaArchivos() {
-		if (listaArchivos == null){
+		if (listaArchivos == null) {
 			listaArchivos = new ArrayList<DocumentoAdicional>();
 		}
 		return listaArchivos;
 	}
 
 	/**
-	 * @param listaArchivos the listaArchivos to set
+	 * @param listaArchivos
+	 *            the listaArchivos to set
 	 */
 	public void setListaArchivos(List<DocumentoAdicional> listaArchivos) {
 		this.listaArchivos = listaArchivos;
+	}
+
+	/**
+	 * @return the documentoAdicional
+	 */
+	public DocumentoAdicional getDocumentoAdicional() {
+		if (documentoAdicional == null) {
+			documentoAdicional = new DocumentoAdicional();
+		}
+		return documentoAdicional;
+	}
+
+	/**
+	 * @param documentoAdicional
+	 *            the documentoAdicional to set
+	 */
+	public void setDocumentoAdicional(DocumentoAdicional documentoAdicional) {
+		this.documentoAdicional = documentoAdicional;
 	}
 
 }

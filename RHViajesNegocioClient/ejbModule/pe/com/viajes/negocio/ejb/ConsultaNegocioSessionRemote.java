@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Comprobante;
@@ -77,7 +78,8 @@ public interface ConsultaNegocioSessionRemote {
 			ReporteArchivoBusqueda reporteArchivoBusqueda)
 			throws ErrorConsultaDataException;
 
-	List<CheckIn> consultarCheckInPendientes(Usuario usuario) throws SQLException;
+	List<CheckIn> consultarCheckInPendientes(Usuario usuario)
+			throws SQLException;
 
 	List<Pasajero> consultarPasajeroHistorico(Pasajero pasajero)
 			throws ErrorConsultaDataException;
@@ -179,5 +181,8 @@ public interface ConsultaNegocioSessionRemote {
 			Integer idArchivoCargado, Integer idEmpresa) throws SQLException;
 
 	List<Comprobante> consultarObligacionesPendientes(int idEmpresa)
+			throws ErrorConsultaDataException;
+
+	List<DocumentoAdicional> listarDocumentosAdicionales(Persona persona)
 			throws ErrorConsultaDataException;
 }

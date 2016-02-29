@@ -12,11 +12,7 @@ import pe.com.viajes.bean.base.BaseVO;
  */
 public class DocumentoAdicional extends BaseNegocio {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -2793048165737322182L;
 	private boolean editarDocumento;
 	private Integer idServicio;
 	private String descripcionArchivo;

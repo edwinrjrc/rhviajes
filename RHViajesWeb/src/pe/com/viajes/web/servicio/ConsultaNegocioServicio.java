@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Comprobante;
@@ -181,5 +182,8 @@ public interface ConsultaNegocioServicio {
 	List<Cliente> listarCliente(Cliente cliente) throws SQLException;
 	
 	List<Comprobante> consultarObligacionesPendientes(int idEmpresa)
+			throws ErrorConsultaDataException;
+
+	List<DocumentoAdicional> listarAdjuntosPersona(Persona persona)
 			throws ErrorConsultaDataException;
 }

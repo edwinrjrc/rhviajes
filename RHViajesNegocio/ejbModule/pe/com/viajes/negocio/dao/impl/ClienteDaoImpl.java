@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.negocio.dao.impl;
 
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.base.Persona;
@@ -323,6 +325,7 @@ public class ClienteDaoImpl implements ClienteDao {
 
 			if (rs.next()) {
 				resultado = new Cliente();
+				resultado.setTipoPersona(1);
 				resultado.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				resultado.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				resultado.setRazonSocial(resultado.getNombres());
@@ -821,10 +824,10 @@ public class ClienteDaoImpl implements ClienteDao {
 			sql = "{ ? = call negocio.fn_ingresaradjuntopersona(?,?,?,?,?,?,?,?,?,?,?) }";
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.BOOLEAN);
-			cs.setInt(2, documento.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(3, persona.getCodigoEntero().intValue());
 			cs.setInt(4, persona.getTipoPersona());
-			cs.setInt(5, documento.getCodigoEntero().intValue());
+			cs.setInt(5, documento.getDocumento().getCodigoEntero().intValue());
 			cs.setString(6, documento.getDescripcionArchivo());
 			cs.setBinaryStream(7, UtilEjb.convertirByteArrayAInputStream(documento.getArchivo().getDatos()), documento.getArchivo().getDatos().length);
 			cs.setString(8, documento.getArchivo().getNombreArchivo());
@@ -852,11 +855,16 @@ public class ClienteDaoImpl implements ClienteDao {
 			sql = "{ ? = call negocio.fn_actualizaradjuntopersona(?,?,?,?,?,?,?,?,?,?,?,?) }";
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.BOOLEAN);
-			cs.setInt(2, documento.getEmpresa().getCodigoEntero().intValue());
-			cs.setInt(3, documento.getCodigoEntero().intValue());
+			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
+			if (documento.getCodigoEntero() != null && documento.getCodigoEntero().intValue() != 0){
+				cs.setInt(3, documento.getCodigoEntero().intValue());
+			}
+			else{	
+				cs.setNull(3, Types.INTEGER);
+			}
 			cs.setInt(4, persona.getCodigoEntero().intValue());
 			cs.setInt(5, persona.getTipoPersona());
-			cs.setInt(6, documento.getCodigoEntero().intValue());
+			cs.setInt(6, documento.getDocumento().getCodigoEntero().intValue());
 			cs.setString(7, documento.getDescripcionArchivo());
 			cs.setBinaryStream(8, UtilEjb.convertirByteArrayAInputStream(documento.getArchivo().getDatos()), documento.getArchivo().getDatos().length);
 			cs.setString(9, documento.getArchivo().getNombreArchivo());
@@ -881,12 +889,14 @@ public class ClienteDaoImpl implements ClienteDao {
 		String sql = "";
 		
 		try{
-			sql = "{ ? = call negocio.fn_eliminaradjuntopersona1(?,?,?) }";
+			sql = "{ ? = call negocio.fn_eliminaradjuntopersona1(?,?,?,?,?) }";
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.BOOLEAN);
 			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
-			cs.setInt(4, persona.getUsuarioModificacion().getCodigoEntero().intValue());
-			cs.setString(5, persona.getIpModificacion());
+			cs.setInt(3, persona.getCodigoEntero().intValue());
+			cs.setInt(4, persona.getTipoPersona());
+			cs.setInt(5, persona.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(6, persona.getIpModificacion());
 			cs.execute();
 			
 			return cs.getBoolean(1);
@@ -908,8 +918,8 @@ public class ClienteDaoImpl implements ClienteDao {
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.BOOLEAN);
 			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
-			cs.setInt(2, persona.getCodigoEntero().intValue());
-			cs.setInt(2, persona.getTipoPersona());
+			cs.setInt(3, persona.getCodigoEntero().intValue());
+			cs.setInt(4, persona.getTipoPersona());
 			cs.execute();
 			
 			return cs.getBoolean(1);
@@ -919,5 +929,68 @@ public class ClienteDaoImpl implements ClienteDao {
 				cs.close();
 			}
 		}
+	}
+	
+	@Override
+	public List<DocumentoAdicional> listarAdjuntosPersona(Persona persona) throws SQLException {
+		List<DocumentoAdicional> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{ ? = call negocio.fn_listaradjuntospersona(?,?,?)}";
+
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, persona.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(3, persona.getCodigoEntero().intValue());
+			cs.setInt(4, persona.getTipoPersona());
+			cs.execute();
+			rs = (ResultSet) cs.getObject(1);
+
+			resultado = new ArrayList<DocumentoAdicional>();
+			DocumentoAdicional bean = null;
+			while (rs.next()) {
+				bean = new DocumentoAdicional();
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				bean.getDocumento().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodocumento"));
+				bean.getDocumento().setNombre(UtilJdbc.obtenerCadena(rs, "nombretipodocumento"));
+				bean.setDescripcionArchivo(UtilJdbc.obtenerCadena(rs, "descripciondocumento"));
+				bean.getArchivo().setDatos(UtilJdbc.obtenerBytes(rs, "archivo"));
+				bean.getArchivo().setNombreArchivo(UtilJdbc.obtenerCadena(rs, "nombrearchivo"));
+				bean.getArchivo().setTipoContenido(UtilJdbc.obtenerCadena(rs, "tipocontenido"));
+				bean.getArchivo().setExtensionArchivo(UtilJdbc.obtenerCadena(rs, "extensionarchivo"));
+				bean.getEmpresa().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idempresa"));
+				resultado.add(bean);
+			}
+
+		} catch (SQLException e) {
+			resultado = null;
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+					throw new SQLException(e);
+				} catch (SQLException e1) {
+					throw new SQLException(e);
+				}
+			}
+		}
+
+		return resultado;
 	}
 }
