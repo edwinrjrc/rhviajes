@@ -1131,6 +1131,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 						.consultarMaestroServicio(UtilWeb
 								.convertirCadenaEntero(valor), this.obtenerIdEmpresa());
 
+				this.getDetalleServicio().setEmpresa(this.obtenerEmpresa());
 				this.getDetalleServicio().setTipoServicio(maestroServicio);
 				this.getDetalleServicio().setConfiguracionTipoServicio(
 						this.soporteServicio

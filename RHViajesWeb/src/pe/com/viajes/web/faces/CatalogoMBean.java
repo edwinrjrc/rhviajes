@@ -738,13 +738,14 @@ public class CatalogoMBean extends BaseMBean {
 		try {
 			BaseVO tipoProveedor = new BaseVO();
 			tipoProveedor.setCodigoEntero(6);
+			tipoProveedor.setEmpresa(this.obtenerEmpresa());
 			List<Proveedor> lista = this.soporteServicio
 					.listarComboProveedorTipo(tipoProveedor);
 			SelectItem si = null;
 			catalogoHoteles = new ArrayList<SelectItem>();
 			for (Proveedor proveedor : lista) {
 				si = new SelectItem();
-				si.setLabel(proveedor.getNombreCompleto());
+				si.setLabel(proveedor.getNombreComercial());
 				si.setValue(proveedor.getCodigoEntero());
 				catalogoHoteles.add(si);
 			}
