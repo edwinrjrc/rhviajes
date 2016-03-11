@@ -48,7 +48,7 @@
 									<a4j:commandLink
 										action="#{servicioAgenteMBean.consultarClientes()}"
 										oncomplete="#{rich:component('idModalbusqclientes')}.show();"
-										render="idTablaClientes" immediate="true">
+										render="idTablaClientes, idPnBusqCliente" immediate="true">
 										<h:graphicImage style="border:0px;"
 											value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
 									</a4j:commandLink>

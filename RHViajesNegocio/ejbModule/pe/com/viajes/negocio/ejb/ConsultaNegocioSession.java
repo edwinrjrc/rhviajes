@@ -210,6 +210,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			hijoMaestro.setCodigoMaestro(valorMaestro);
 			hijoMaestro.setCodigoEntero(cliente2.getDireccion().getVia()
 					.getCodigoEntero());
+			hijoMaestro.setEmpresa(cliente.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 			cliente2.getDireccion().setDireccion(
 					UtilDatos.obtenerDireccionCompleta(cliente2.getDireccion(),

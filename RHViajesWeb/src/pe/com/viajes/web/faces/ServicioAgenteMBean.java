@@ -215,6 +215,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	public void buscarCliente() {
 		try {
+			this.getClienteBusqueda().setEmpresa(this.obtenerEmpresa());
 			this.setListadoClientes(this.consultaNegocioServicio
 					.buscarCliente(getClienteBusqueda()));
 		} catch (SQLException e) {
@@ -386,6 +387,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 			if (validarServicioVenta()) {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
+				
+				System.out.println("moneda fact::"+this.getServicioAgencia().getMoneda().getCodigoEntero());
 
 				this.getServicioAgencia().setEmpresa(this.obtenerEmpresa());
 				getDetalleServicio().setEmpresa(this.obtenerEmpresa());
@@ -660,15 +663,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 				resultado = false;
 			}
 			if (configuracionTipoServicio.isMuestraFechaServicio()
-					&& (this.getDetalleServicio().getFechaIda() != null && !UtilWeb
-							.fecha1EsMayorIgualFecha2(this.getDetalleServicio()
-									.getFechaIda(), new Date()))) {
-				this.agregarMensaje(
-						idFormulario + ":idFecServicio",
-						"La fecha del servicio no puede ser menor que la fecha de actual",
-						"", FacesMessage.SEVERITY_ERROR);
-				resultado = false;
-			} else if (configuracionTipoServicio.isMuestraFechaServicio()
 					&& (this.getDetalleServicio().getFechaRegreso() != null && this
 							.getDetalleServicio().getFechaIda()
 							.after(this.getDetalleServicio().getFechaRegreso()))) {
@@ -768,7 +762,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 					montoFee = montoFee.add(ds.getTotalServicio());
 				}
 				
-				this.getServicioAgencia().setMoneda(ds.getMonedaFacturacion());
+				//this.getServicioAgencia().setMoneda(ds.getMonedaFacturacion());
 			}
 
 		} catch (Exception e) {
@@ -2486,6 +2480,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				}
 			}
 			if (!encontrado) {
+				this.getPasajero().setEmpresa(this.obtenerEmpresa());
 				List<Pasajero> listaPax = this.consultaNegocioServicio
 						.consultarPasajeroHistorico(getPasajero());
 				if (!listaPax.isEmpty()) {
