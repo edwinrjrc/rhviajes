@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ventaservicio" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1fa6abd7-05a9-4808-8c7b-52d94827b865">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="2.1961500000000007"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="p_nom_cliente" class="java.lang.String"/>
@@ -9,6 +9,7 @@
 	<parameter name="p_idservicio" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="p_image_logo" class="java.awt.image.BufferedImage"/>
 	<queryString>
 		<![CDATA[select * from negocio.vw_servicio_detalle where idservicio = $P{p_idservicio}]]>
 	</queryString>
@@ -24,7 +25,7 @@
 		<band height="29" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="145" height="29" uuid="0c813eb0-cd10-4d21-ab2f-ccc4b9f76795"/>
-				<imageExpression><![CDATA["C:\\Users\\Edwin\\git\\viajesNova2\\ViajesNovaWeb\\WebContent\\resources\\img\\logo3.gif"]]></imageExpression>
+				<imageExpression><![CDATA[$P{p_image_logo}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="0" y="2" width="555" height="20" uuid="41a5a7fa-577b-467c-9073-5365be7038b7"/>

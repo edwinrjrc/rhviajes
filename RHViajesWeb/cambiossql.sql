@@ -293,3 +293,33 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
   
+  
+-- Function: negocio.fn_comboproveedorestipo(integer, integer)
+
+-- DROP FUNCTION negocio.fn_comboproveedorestipo(integer, integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_comboproveedorestipo(p_idempresa integer, p_idtipo integer)
+  RETURNS refcursor AS
+$BODY$
+
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT per.id, per.nombres, pper.nombrecomercial, per.apellidopaterno, per.apellidomaterno
+  FROM negocio."Persona" per,
+       negocio."ProveedorPersona" pper
+ WHERE per.id                = pper.idproveedor
+   AND per.idestadoregistro  = 1
+   AND pper.idestadoregistro = 1
+   AND pper.idtipoproveedor  = p_idtipo
+   AND pper.idempresa        = per.idempresa
+   AND per.idempresa         = p_idempresa;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

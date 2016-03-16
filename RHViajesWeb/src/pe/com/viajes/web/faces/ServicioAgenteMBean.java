@@ -3,10 +3,13 @@
  */
 package pe.com.viajes.web.faces;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+import javax.imageio.ImageIO;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -1943,20 +1947,41 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	private Map<String, Object> enviarParametros() {
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("p_nom_cliente", this.getServicioAgencia().getCliente()
-				.getNombreCompleto());
-		parametros.put("p_documento_cliente", this.getServicioAgencia()
-				.getCliente().getDocumentoIdentidad().getTipoDocumento()
-				.getNombre()
-				+ "-"
-				+ this.getServicioAgencia().getCliente()
-						.getDocumentoIdentidad().getNumeroDocumento());
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		parametros.put("p_fecha_emision",
-				sdf.format(this.getServicioAgencia().getFechaServicio()));
-		parametros.put("p_idservicio", this.getServicioAgencia()
-				.getCodigoEntero());
+		Map<String, Object> parametros = null;
+		
+		try {
+			String rutaImagen = "";
+			rutaImagen = File.separator + ".." + File.separator + "resources" + File.separator + "img" + File.separator + "logo3.gif";
+			System.out.println(":::"+rutaImagen);
+			
+			//rutaImagen = this.obtenerRequest().
+			System.out.println(rutaImagen);
+			rutaImagen = "/img/"+"logo3.gif";
+			//rutaImagen = "C:\\Users\\Edwin\\git\\rhviajes\\RHViajesWeb\\WebContent\\resources\\img\\"+"logo3.gif";
+			File imagen = new File(rutaImagen);
+			
+			URL imagen2 = getClass().getResource(rutaImagen);
+			System.out.println(imagen2);
+			
+			BufferedImage image = ImageIO.read(imagen);
+			parametros = new HashMap<String, Object>();
+			parametros.put("p_nom_cliente", this.getServicioAgencia().getCliente()
+					.getNombreCompleto());
+			parametros.put("p_documento_cliente", this.getServicioAgencia()
+					.getCliente().getDocumentoIdentidad().getTipoDocumento()
+					.getNombre()
+					+ "-"
+					+ this.getServicioAgencia().getCliente()
+							.getDocumentoIdentidad().getNumeroDocumento());
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			parametros.put("p_fecha_emision",
+					sdf.format(this.getServicioAgencia().getFechaServicio()));
+			parametros.put("p_idservicio", this.getServicioAgencia()
+					.getCodigoEntero());
+			parametros.put("p_image_logo", image);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return parametros;
 	}
