@@ -2510,8 +2510,12 @@ public class ServicioAgenteMBean extends BaseMBean {
 				List<Pasajero> listaPax = this.consultaNegocioServicio
 						.consultarPasajeroHistorico(getPasajero());
 				if (!listaPax.isEmpty()) {
+					encontrado = true;
 					this.setPasajero(listaPax.get(0));
 				}
+			}
+			if (!encontrado){
+				this.setPasajero(this.consultaNegocioServicio.consultaClientePasajero(getPasajero()));
 			}
 
 			this.getPasajero().setCodigoReserva(null);

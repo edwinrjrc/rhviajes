@@ -772,6 +772,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 				proveedor = new Proveedor();
 				proveedor.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				proveedor.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
+				proveedor.setNombreComercial(UtilJdbc.obtenerCadena(rs, "nombrecomercial"));
 				proveedor.setApellidoPaterno(UtilJdbc.obtenerCadena(rs,
 						"apellidopaterno"));
 				proveedor.setApellidoMaterno(UtilJdbc.obtenerCadena(rs,

@@ -417,4 +417,10 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	public List<DocumentoAdicional> listarAdjuntosPersona(Persona persona) throws ErrorConsultaDataException{
 		return ejbSession.listarDocumentosAdicionales(persona);
 	}
+
+	@Override
+	public Pasajero consultaClientePasajero(Pasajero pasajero)
+			throws ErrorConsultaDataException {
+		return ejbSession.consultaClientePasajero(pasajero);
+	}
 }

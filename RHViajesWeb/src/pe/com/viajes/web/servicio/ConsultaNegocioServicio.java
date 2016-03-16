@@ -186,4 +186,7 @@ public interface ConsultaNegocioServicio {
 
 	List<DocumentoAdicional> listarAdjuntosPersona(Persona persona)
 			throws ErrorConsultaDataException;
+	
+	Pasajero consultaClientePasajero(Pasajero pasajero)
+			throws ErrorConsultaDataException;
 }

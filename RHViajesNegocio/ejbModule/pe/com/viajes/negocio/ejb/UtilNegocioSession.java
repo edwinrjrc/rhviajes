@@ -1005,20 +1005,25 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			}
 		} else if (idTipoServicio == UtilEjb.obtenerEnteroPropertieMaestro(
 				"servicioPaquete", "aplicacionDatosEjb")) {
-			List<ServicioProveedor> lista = proveedorDao
-					.consultarServicioProveedor(detalleServicio
-							.getServicioProveedor().getProveedor()
-							.getCodigoEntero(), detalleServicio.getEmpresa().getCodigoEntero());
-
-			for (ServicioProveedor servicioProveedor : lista) {
-				if ((servicioProveedor.getProveedorServicio().getCodigoEntero() != null && detalleServicio
-						.getOperadora().getCodigoEntero() != null)
-						&& servicioProveedor.getProveedorServicio()
-								.getCodigoEntero().intValue() == detalleServicio
-								.getOperadora().getCodigoEntero().intValue()) {
-					return servicioProveedor.getPorcenComInternacional();
+			if (detalleServicio
+					.getServicioProveedor().getProveedor()
+					.getCodigoEntero() != null && detalleServicio.getEmpresa().getCodigoEntero() != null){
+				List<ServicioProveedor> lista = proveedorDao
+						.consultarServicioProveedor(detalleServicio
+								.getServicioProveedor().getProveedor()
+								.getCodigoEntero().intValue(), detalleServicio.getEmpresa().getCodigoEntero().intValue());
+				
+				for (ServicioProveedor servicioProveedor : lista) {
+					if ((servicioProveedor.getProveedorServicio().getCodigoEntero() != null && detalleServicio
+							.getOperadora().getCodigoEntero() != null)
+							&& servicioProveedor.getProveedorServicio()
+									.getCodigoEntero().intValue() == detalleServicio
+									.getOperadora().getCodigoEntero().intValue()) {
+						return servicioProveedor.getPorcenComInternacional();
+					}
 				}
 			}
+
 		} else if (idTipoServicio == UtilEjb.obtenerEnteroPropertieMaestro(
 				"servicioPrograma", "aplicacionDatosEjb")) {
 			List<ServicioProveedor> lista = proveedorDao

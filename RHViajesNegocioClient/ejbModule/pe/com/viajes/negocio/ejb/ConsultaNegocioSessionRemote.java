@@ -185,4 +185,7 @@ public interface ConsultaNegocioSessionRemote {
 
 	List<DocumentoAdicional> listarDocumentosAdicionales(Persona persona)
 			throws ErrorConsultaDataException;
+
+	Pasajero consultaClientePasajero(Pasajero pasajero)
+			throws ErrorConsultaDataException;
 }

@@ -90,13 +90,6 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 	@EJB
 	UtilNegocioSessionLocal utilNegocioSessionLocal;
 
-	/**
-	 * Default constructor.
-	 */
-	public ConsultaNegocioSession() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public List<Proveedor> listarProveedor(Proveedor proveedor)
 			throws SQLException {
@@ -870,5 +863,24 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 		}
 		
 		return documentosAdicionales;
+	}
+	
+	@Override
+	public Pasajero consultaClientePasajero(Pasajero pasajero) throws ErrorConsultaDataException{
+		try {
+			ClienteDao clienteDao = new ClienteDaoImpl();
+			List<Cliente> listaClientes = clienteDao.listarClientes(pasajero);
+			
+			Cliente cliente = this.consultarCliente(listaClientes.get(0).getCodigoEntero().intValue(), pasajero.getEmpresa().getCodigoEntero().intValue());
+			
+			pasajero = (Pasajero)(Persona)cliente;
+			
+			return pasajero;
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e.getMessage(),e);
+		} catch (Exception e) {
+			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta");
+		}
+		
 	}
 }
