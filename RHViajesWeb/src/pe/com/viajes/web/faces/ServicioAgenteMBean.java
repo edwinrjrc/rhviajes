@@ -351,6 +351,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setVerDetalleServicio(false);
 		this.setCargoConfiguracionTipoServicio(false);
 		this.setEditarComision(false);
+		this.setShowModal(false);
+		this.setTipoModal(null);
+		this.setMensajeModal(null);
 
 		consultarTasaPredeterminada();
 		this.setListadoEmpresas(null);
