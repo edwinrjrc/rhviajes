@@ -51,6 +51,8 @@
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 
+								<h:outputText value="" />
+								<h:outputText value="" />
 							</h:panelGrid>
 							<h:panelGrid columns="4" border="0" cellpadding="0"
 								cellspacing="0" style="width:100%;"
@@ -586,41 +588,53 @@
 				</rich:tabPanel>
 
 				<f:facet name="footer">
-					<h:panelGrid cellpadding="0" cellspacing="0" border="0">
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="3"
+						style="text-align:center;width:100%;"
+						columnClasses="col1TablaCentroBotones,col2TablaCentroBotones,col3TablaCentroBotones">
+						<h:outputText value="" />
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-							columns="3"
-							rendered="#{nova:mostrarBotonesVenta1(sessionScope.usuarioSession.rol.codigoEntero,servicioAgenteMBean.servicioAgencia.estadoServicio.codigoEntero,servicioAgenteMBean.servicioAgencia.tienePagos,servicioAgenteMBean.guardoComprobantes)}">
-							<a4j:commandButton value="Anular Venta"
-								render="idTxtNomTitulo, idTxtSubTitulo, idGrFrObsAnu"
-								action="#{servicioAgenteMBean.preAnularVenta()}"
-								oncomplete="#{rich:component('idModalObsAnu')}.show(); return false;"></a4j:commandButton>
-							<a4j:commandButton value="Anular Venta" style="display:none;"
-								action="#{servicioAgenteMBean.preAnularVenta()}"
-								oncomplete="#{rich:component('idModalConfirma')}.show(); return false;"></a4j:commandButton>
-							<a4j:commandButton value="Grabar Comprobantes"
-								action="#{servicioAgenteMBean.preRegistrarComponente()}"
-								oncomplete="#{rich:component('idModConfimrComp')}.show(); return false;"
-								render="idGrConfirID2,idServVentaVista2" />
-							<a4j:commandButton value="Grabar Comprobantes"
-								style="display:none;" id="idBtnGraComponentes"
-								oncomplete="mostrarModal('idformadmservicios')"
-								action="#{servicioAgenteMBean.registrarComprobante()}"
-								render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio,idServVentaVista2" />
+							columns="3">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								columns="3"
+								rendered="#{nova:mostrarBotonesVenta1(sessionScope.usuarioSession.rol.codigoEntero,servicioAgenteMBean.servicioAgencia.estadoServicio.codigoEntero,servicioAgenteMBean.servicioAgencia.tienePagos,servicioAgenteMBean.guardoComprobantes)}">
+								<a4j:commandButton value="Anular Venta"
+									styleClass="estiloBoton1"
+									render="idTxtNomTitulo, idTxtSubTitulo, idGrFrObsAnu"
+									action="#{servicioAgenteMBean.preAnularVenta()}"
+									oncomplete="#{rich:component('idModalObsAnu')}.show(); return false;"></a4j:commandButton>
+								<a4j:commandButton value="Anular Venta" style="display:none;"
+									action="#{servicioAgenteMBean.preAnularVenta()}"
+									styleClass="estiloBoton1"
+									oncomplete="#{rich:component('idModalConfirma')}.show(); return false;"></a4j:commandButton>
+								<a4j:commandButton value="Grabar Comprobantes"
+									action="#{servicioAgenteMBean.preRegistrarComponente()}"
+									styleClass="estiloBoton1"
+									oncomplete="#{rich:component('idModConfimrComp')}.show(); return false;"
+									render="idGrConfirID2,idServVentaVista2" />
+								<a4j:commandButton value="Grabar Comprobantes"
+									style="display:none;" id="idBtnGraComponentes"
+									styleClass="estiloBoton1"
+									oncomplete="mostrarModal('idformadmservicios')"
+									action="#{servicioAgenteMBean.registrarComprobante()}"
+									render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio,idServVentaVista2" />
+							</h:panelGrid>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								rendered="#{!servicioAgenteMBean.guardoRelacionComprobantes  and servicioAgenteMBean.guardoComprobantes}">
+								<a4j:commandButton value="Grabar Relacion Comprobantes"
+									render="idGrPreguntaID" styleClass="estiloBoton1"
+									action="#{servicioAgenteMBean.preGuardarRelacion()}"
+									oncomplete="#{rich:component('idModConfimrRelacion')}.show(); return false;"></a4j:commandButton>
+								<a4j:commandButton id="idBtnRelaComp"
+									oncomplete="mostrarModal('idformadmservicios')"
+									style="display:none;" styleClass="estiloBoton1"
+									action="#{servicioAgenteMBean.guardarRelacionComprobanteObligacion()}"
+									render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio"></a4j:commandButton>
+							</h:panelGrid>
+							<a4j:commandButton value="Imprimir Venta"
+								styleClass="estiloBoton1"
+								oncomplete="clicBoton('idformadmservicios:idbtnImprimirVenta')"></a4j:commandButton>
 						</h:panelGrid>
-						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-							rendered="#{!servicioAgenteMBean.guardoRelacionComprobantes  and servicioAgenteMBean.guardoComprobantes}">
-							<a4j:commandButton value="Grabar Relacion Comprobantes"
-								render="idGrPreguntaID"
-								action="#{servicioAgenteMBean.preGuardarRelacion()}"
-								oncomplete="#{rich:component('idModConfimrRelacion')}.show(); return false;"></a4j:commandButton>
-							<a4j:commandButton id="idBtnRelaComp"
-								oncomplete="mostrarModal('idformadmservicios')"
-								style="display:none;"
-								action="#{servicioAgenteMBean.guardarRelacionComprobanteObligacion()}"
-								render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio"></a4j:commandButton>
-						</h:panelGrid>
-						<a4j:commandButton value="Imprimir Venta"
-							oncomplete="clicBoton('idformadmservicios:idbtnImprimirVenta')"></a4j:commandButton>
+						<h:outputText value="" />
 					</h:panelGrid>
 				</f:facet>
 			</h:panelGrid>
