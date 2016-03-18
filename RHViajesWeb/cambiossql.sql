@@ -323,3 +323,33 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+  
+-- Function: negocio.fn_listarpagosobligaciones(integer, integer)
+
+-- DROP FUNCTION negocio.fn_listarpagosobligaciones(integer, integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_listarpagosobligaciones(p_idempresa integer, p_idobligacion integer)
+  RETURNS refcursor AS
+$BODY$
+
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT idpago, idobligacion, fechapago, montopagado, sustentopago, nombrearchivo, extensionarchivo, tipocontenido, espagodetraccion, espagoretencion, idusuariocreacion, 
+       fechacreacion, ipcreacion, idusuariomodificacion, fechamodificacion, 
+       ipmodificacion
+  FROM negocio."PagosObligacion"
+ WHERE idestadoregistro = 1
+   AND idobligacion     = p_idobligacion
+   AND idempresa        = p_idempresa
+ ORDER BY idpago DESC;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
