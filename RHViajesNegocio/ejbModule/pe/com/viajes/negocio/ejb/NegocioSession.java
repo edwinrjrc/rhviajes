@@ -468,13 +468,16 @@ public class NegocioSession implements NegocioSessionRemote,
 			
 			for (DocumentoAdicional documento : cliente.getListaAdjuntos()){
 				boolean resultado = clienteDao.ingresarArchivosAdjuntos(documento, cliente, conexion);
-				if (resultado){
+				if (!resultado){
 					throw new ErrorRegistroDataException("Error registro documento adjunto");
 				}
 			}
 			
 			userTransaction.commit();
 			return true;
+		} catch (ErrorRegistroDataException e){
+			userTransaction.rollback();
+			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
 		} catch (ResultadoCeroDaoException e) {
 			userTransaction.rollback();
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
