@@ -75,6 +75,7 @@ public class ReporteVentasMBean extends BaseMBean {
 			this.setNombreVendedor(this.seguridadServicio.consultarUsuario(
 					this.getReporteVentas().getVendedor().getCodigoEntero(), this.obtenerIdEmpresa())
 					.getNombreCompleto());
+			this.getReporteVentas().setEmpresa(this.obtenerEmpresa());
 			this.setReporteGeneralVentas(this.reportesServicio
 					.reporteGeneralVentas(this.getReporteVentas()));
 
