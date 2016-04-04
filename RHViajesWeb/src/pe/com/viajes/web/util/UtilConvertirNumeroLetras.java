@@ -54,7 +54,6 @@ public class UtilConvertirNumeroLetras {
 	public static String convertNumberToLetter(double doubleNumber)
 			throws NumberFormatException {
 
-		// System.out.println("Numero a letras ::"+doubleNumber);
 		StringBuilder converted = new StringBuilder();
 
 		String patternThreeDecimalPoints = "###,###.##";

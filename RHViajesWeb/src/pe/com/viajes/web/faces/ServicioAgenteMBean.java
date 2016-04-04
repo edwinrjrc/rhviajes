@@ -395,8 +395,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 				
-				System.out.println("moneda fact::"+this.getServicioAgencia().getMoneda().getCodigoEntero());
-
 				this.getServicioAgencia().setEmpresa(this.obtenerEmpresa());
 				getDetalleServicio().setEmpresa(this.obtenerEmpresa());
 				this.setListadoDetalleServicio(this.utilNegocioServicio
@@ -1955,16 +1953,13 @@ public class ServicioAgenteMBean extends BaseMBean {
 		try {
 			String rutaImagen = "";
 			rutaImagen = File.separator + ".." + File.separator + "resources" + File.separator + "img" + File.separator + "logo3.gif";
-			System.out.println(":::"+rutaImagen);
 			
 			//rutaImagen = this.obtenerRequest().
-			System.out.println(rutaImagen);
 			rutaImagen = "/img/"+"logo3.gif";
 			//rutaImagen = "C:\\Users\\Edwin\\git\\rhviajes\\RHViajesWeb\\WebContent\\resources\\img\\"+"logo3.gif";
 			File imagen = new File(rutaImagen);
 			
 			URL imagen2 = getClass().getResource(rutaImagen);
-			System.out.println(imagen2);
 			
 			BufferedImage image = ImageIO.read(imagen);
 			parametros = new HashMap<String, Object>();

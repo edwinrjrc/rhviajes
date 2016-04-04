@@ -21,6 +21,7 @@ import javax.mail.internet.AddressException;
 import javax.transaction.UserTransaction;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.cargaexcel.ColumnasExcel;
@@ -96,6 +97,9 @@ import pe.com.viajes.negocio.util.UtilEjb;
 @TransactionManagement(TransactionManagementType.BEAN)
 public class NegocioSession implements NegocioSessionRemote,
 		NegocioSessionLocal {
+	
+	private final static Logger logger = Logger
+			.getLogger(NegocioSession.class);
 
 	@Resource
 	private UserTransaction userTransaction;
@@ -908,32 +912,27 @@ public class NegocioSession implements NegocioSessionRemote,
 					}
 				} catch (AddressException e) {
 					respuesta = 1;
-					System.out.println("ERROR EN ENVIO DE CORREO ::"
-							+ envio.getCorreoElectronico().getDireccion());
-					e.printStackTrace();
+					logger.error("ERROR EN ENVIO DE CORREO ::"
+							+ envio.getCorreoElectronico().getDireccion(), e);
 				} catch (FileNotFoundException e) {
 					respuesta = 2;
-					System.out.println("ERROR EN ENVIO DE CORREO ::"
-							+ envio.getCorreoElectronico().getDireccion());
-					e.printStackTrace();
+					logger.error("ERROR EN ENVIO DE CORREO ::"
+							+ envio.getCorreoElectronico().getDireccion(), e);
 				} catch (NoSuchProviderException e) {
 					respuesta = 3;
-					System.out.println("ERROR EN ENVIO DE CORREO ::"
-							+ envio.getCorreoElectronico().getDireccion());
-					e.printStackTrace();
+					logger.error("ERROR EN ENVIO DE CORREO ::"
+							+ envio.getCorreoElectronico().getDireccion(), e);
 				} catch (IOException e) {
 					respuesta = 4;
-					System.out.println("ERROR EN ENVIO DE CORREO ::"
-							+ envio.getCorreoElectronico().getDireccion());
-					e.printStackTrace();
+					logger.error("ERROR EN ENVIO DE CORREO ::"
+							+ envio.getCorreoElectronico().getDireccion(), e);
 				} catch (MessagingException e) {
 					respuesta = 5;
-					System.out.println("ERROR EN ENVIO DE CORREO ::"
-							+ envio.getCorreoElectronico().getDireccion());
-					e.printStackTrace();
+					logger.error("ERROR EN ENVIO DE CORREO ::"
+							+ envio.getCorreoElectronico().getDireccion(), e);
 				}
 			}
-			System.out.println("respuesta de envio de correo ::" + respuesta);
+			logger.debug("respuesta de envio de correo ::" + respuesta);
 
 			return respuesta;
 		} catch (Exception e) {

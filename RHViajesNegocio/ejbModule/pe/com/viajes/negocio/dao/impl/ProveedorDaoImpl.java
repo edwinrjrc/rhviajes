@@ -171,19 +171,19 @@ public class ProveedorDaoImpl implements ProveedorDao {
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
-		String sql = "select * " + " from negocio.vw_proveedor";
+		String sql = "select * from negocio.vw_proveedor";
 
-		sql = sql +" where idempresa = ? ";
+		sql = sql +" where idempresa = ?";
 		if (proveedor.getDocumentoIdentidad().getTipoDocumento()
 				.getCodigoEntero() != null
 				&& StringUtils.isNotBlank(proveedor.getDocumentoIdentidad()
 						.getNumeroDocumento())) {
 			sql = sql + "idtipodocumento = ? and numerodocumento = ?";
 			if (StringUtils.isNotBlank(proveedor.getNombres())) {
-				sql = sql + " and upper(nombres) like '%?%'";
+				sql = sql + " and upper(nombres) like ?";
 			}
 		} else if (StringUtils.isNotBlank(proveedor.getNombres())) {
-			sql = sql + " and upper(nombres) like '%?%'";
+			sql = sql + " and upper(nombres) like ?";
 		}
 
 		try {
@@ -198,10 +198,10 @@ public class ProveedorDaoImpl implements ProveedorDao {
 						.getCodigoEntero().intValue());
 				cs.setString(3, proveedor.getDocumentoIdentidad().getNumeroDocumento());
 				if (StringUtils.isNotBlank(proveedor.getNombres())) {
-					cs.setString(4, UtilJdbc.convertirMayuscula(proveedor.getNombres()));
+					cs.setString(4, "%"+UtilJdbc.convertirMayuscula(proveedor.getNombres())+"%");
 				}
 			} else if (StringUtils.isNotBlank(proveedor.getNombres())) {
-				cs.setString(2, UtilJdbc.convertirMayuscula(proveedor.getNombres()));
+				cs.setString(2, "%"+UtilJdbc.convertirMayuscula(proveedor.getNombres())+"%");
 			}
 			rs = cs.executeQuery();
 

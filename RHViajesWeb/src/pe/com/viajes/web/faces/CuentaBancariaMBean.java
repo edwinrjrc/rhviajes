@@ -64,6 +64,7 @@ public class CuentaBancariaMBean extends BaseMBean {
 		this.setNuevaCuentaBancaria(true);
 		this.setEditarCuentaBancaria(false);
 		this.setNombreFormulario("Nueva Cuenta Bancaria");
+		this.getCuentaBancaria().setEmpresa(this.obtenerEmpresa());
 	}
 
 	public void editarCuenta() {
