@@ -873,13 +873,15 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			
 			Cliente cliente = this.consultarCliente(listaClientes.get(0).getCodigoEntero().intValue(), pasajero.getEmpresa().getCodigoEntero().intValue());
 			
-			pasajero = (Pasajero)(Persona)cliente;
+			pasajero.setNombres(cliente.getNombres());
+			pasajero.setApellidoPaterno(cliente.getApellidoPaterno());
+			pasajero.setApellidoMaterno(cliente.getApellidoMaterno());
 			
 			return pasajero;
 		} catch (SQLException e) {
 			throw new ErrorConsultaDataException(e.getMessage(),e);
 		} catch (Exception e) {
-			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta");
+			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta",e);
 		}
 		
 	}

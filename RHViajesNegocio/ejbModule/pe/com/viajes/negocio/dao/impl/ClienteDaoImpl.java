@@ -588,14 +588,15 @@ public class ClienteDaoImpl implements ClienteDao {
 			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(persona.getDocumentoIdentidad()
-					.getNumeroDocumento())) {
-				cs.setString(i++, persona.getDocumentoIdentidad()
-						.getNumeroDocumento());
+			if (StringUtils.isNotBlank(persona.getNombres())) {
+				cs.setString(i++,
+						UtilJdbc.borrarEspacioMayusculas(persona.getNombres()));
 			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			rs = cs.executeQuery();
+			cs.execute();
+			
+			rs = (ResultSet) cs.getObject(1);
 
 			resultado = new ArrayList<Cliente>();
 			Cliente cliente = null;
@@ -618,18 +619,14 @@ public class ClienteDaoImpl implements ClienteDao {
 						"apellidopaterno"));
 				cliente.setApellidoMaterno(UtilJdbc.obtenerCadena(rs,
 						"apellidomaterno"));
-				cliente.getGenero().setCodigoEntero(
-						UtilJdbc.obtenerNumero(rs, "idgenero"));
+				cliente.getGenero().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "idgenero"));
 				cliente.getGenero().setNombre(
 						UtilJdbc.obtenerCadena(rs, "genero"));
 				cliente.getEstadoCivil().setCodigoEntero(
 						UtilJdbc.obtenerNumero(rs, "idestadocivil"));
 				cliente.getEstadoCivil().setNombre(
 						UtilJdbc.obtenerCadena(rs, "nombre"));
-				cliente.getRubro().setCodigoEntero(
-						UtilJdbc.obtenerNumero(rs, "idrubro"));
-				cliente.getRubro().setNombre(
-						UtilJdbc.obtenerCadena(rs, "nomrubro"));
 				resultado.add(cliente);
 			}
 

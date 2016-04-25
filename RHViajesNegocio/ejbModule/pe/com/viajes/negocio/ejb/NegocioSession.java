@@ -18,6 +18,7 @@ import javax.ejb.TransactionManagementType;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.internet.AddressException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.apache.commons.lang3.StringUtils;
@@ -548,6 +549,7 @@ public class NegocioSession implements NegocioSessionRemote,
 											"No se pudo completar el registro del teléfono de direccion");
 								}
 								telefono.setCodigoEntero(idTelefono);
+								direccion.setCodigoEntero(idDireccion);
 								telefonoDao.registrarTelefonoDireccion(
 										telefono, direccion, conexion);
 							}
@@ -1193,18 +1195,26 @@ public class NegocioSession implements NegocioSessionRemote,
 
 	@Override
 	public void registrarEventoAnulacion(EventoObsAnu evento)
-			throws SQLException, Exception {
+			throws ErrorRegistroDataException {
 		try {
-			userTransaction.begin();
-			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(evento.getEmpresa().getCodigoEntero());
+			try {
+				userTransaction.begin();
+				ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(evento.getEmpresa().getCodigoEntero());
 
-			evento.getTipoEvento().setCodigoEntero(EventoObsAnu.EVENTO_ANU);
+				evento.getTipoEvento().setCodigoEntero(EventoObsAnu.EVENTO_ANU);
 
-			servicioNovaViajesDao.registrarEventoObsAnu(evento);
-			userTransaction.commit();
-		} catch (Exception e) {
-			userTransaction.rollback();
-			e.printStackTrace();
+				servicioNovaViajesDao.registrarEventoObsAnu(evento);
+				userTransaction.commit();
+			} catch (Exception e) {
+				userTransaction.rollback();
+				throw new ErrorRegistroDataException(e);
+			}
+		} catch (IllegalStateException e) {
+			throw new ErrorRegistroDataException(e);
+		} catch (SecurityException e) {
+			throw new ErrorRegistroDataException(e);
+		} catch (SystemException e) {
+			throw new ErrorRegistroDataException(e);
 		}
 	}
 

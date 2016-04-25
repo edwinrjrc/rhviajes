@@ -81,8 +81,7 @@ public interface NegocioServicio {
 	void registrarEventoObservacion(EventoObsAnu evento) throws SQLException,
 			Exception;
 
-	void registrarEventoAnulacion(EventoObsAnu evento) throws SQLException,
-			Exception;
+	void registrarEventoAnulacion(EventoObsAnu evento) throws ErrorRegistroDataException;
 
 	public boolean registrarComprobantes(ServicioAgencia servicioAgencia)
 			throws SQLException, Exception;

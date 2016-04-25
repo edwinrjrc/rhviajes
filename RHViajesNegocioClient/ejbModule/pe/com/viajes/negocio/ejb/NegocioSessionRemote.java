@@ -79,7 +79,7 @@ public interface NegocioSessionRemote {
 			throws SQLException, Exception;
 
 	public void registrarEventoAnulacion(EventoObsAnu evento)
-			throws SQLException, Exception;
+			throws ErrorRegistroDataException;
 
 	public boolean registrarComprobantes(ServicioAgencia servicioAgencia)
 			throws ValidacionException, SQLException, Exception;

@@ -841,15 +841,18 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 						calcularIGV);
 			}
 
-			for (DetalleServicioAgencia detalleServicioAgencia2 : listaServiciosVenta) {
+			int indice = 0;
+			for (int i=0; i<listaServiciosVenta.size(); i++){
+				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta.get(i);
 				if (detalleServicioAgencia2.getServicioPadre()
 						.getCodigoEntero() != null
 						&& detalleServicioAgencia2.getServicioPadre()
 								.getCodigoEntero().intValue() == detalleServicio
 								.getCodigoEntero().intValue()) {
-					listaServiciosVenta.remove(detalleServicioAgencia2);
+					indice = i;
 				}
 			}
+			listaServiciosVenta.remove(indice);
 
 			for (int i = 0; i < listaServiciosVenta.size(); i++) {
 				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta
@@ -1338,7 +1341,12 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			hijoMaestro.setEmpresa(pasajero.getEmpresa());
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 
-			pasajero.getRelacion().setNombre(hijoMaestro.getNombre());
+			pasajero.getRelacion().setNombre(StringUtils.upperCase(hijoMaestro.getNombre().toUpperCase()));
+			pasajero.setApellidoMaterno(StringUtils.upperCase(pasajero.getApellidoMaterno()));
+			pasajero.setApellidoPaterno(StringUtils.upperCase(pasajero.getApellidoPaterno()));
+			pasajero.setNombres(StringUtils.upperCase(pasajero.getNombres().toUpperCase()));
+			pasajero.setCorreoElectronico(StringUtils.upperCase(pasajero.getCorreoElectronico()));
+			pasajero.setCodigoReserva(StringUtils.upperCase(pasajero.getCodigoReserva()));
 
 			return pasajero;
 		} catch (SQLException e) {

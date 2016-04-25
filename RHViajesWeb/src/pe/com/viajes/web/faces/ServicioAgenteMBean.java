@@ -985,7 +985,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 					obtenerRequest().getRemoteAddr());
 
 			this.negocioServicio.anularVenta(getServicioAgencia());
-
+			
 			this.setTransaccionExito(true);
 			this.mostrarMensajeExito("Servicio Venta se cerro satisfactoriamente");
 		} catch (SQLException e) {
@@ -1005,6 +1005,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setNombreTitulo("Anular Venta");
 		this.setNombreCampoTexto("Comentario Anulación");
 		this.setTipoEvento(EventoObsAnu.EVENTO_ANU);
+		this.getEventoObsAnu().setComentario("");
 	}
 
 	public void preObservarVenta() {
@@ -1035,7 +1036,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.getEventoObsAnu().setUsuarioModificacion(usuario);
 			this.getEventoObsAnu().setIpModificacion(
 					obtenerRequest().getRemoteAddr());
-
+			
+			this.getEventoObsAnu().setEmpresa(this.obtenerEmpresa());
+			
 			if (EventoObsAnu.EVENTO_OBS.equals(this.getTipoEvento())) {
 				this.negocioServicio.registrarEventoObservacion(this
 						.getEventoObsAnu());
@@ -1046,7 +1049,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 						.getEventoObsAnu());
 				this.mostrarMensajeExito("Servicio Venta anulada satisfactoriamente");
 			}
-		} catch (SQLException e) {
+			
+			buscarServicioRegistrado();
+			
+		} catch (ErrorRegistroDataException e) {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {

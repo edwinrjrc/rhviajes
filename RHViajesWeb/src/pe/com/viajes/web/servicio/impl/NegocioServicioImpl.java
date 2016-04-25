@@ -179,7 +179,7 @@ public class NegocioServicioImpl implements NegocioServicio {
 
 	@Override
 	public void registrarEventoAnulacion(EventoObsAnu evento)
-			throws SQLException, Exception {
+			throws ErrorRegistroDataException {
 		ejbSession.registrarEventoAnulacion(evento);
 	}
 
