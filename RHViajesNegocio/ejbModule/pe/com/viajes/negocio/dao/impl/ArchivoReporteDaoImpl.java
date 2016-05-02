@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import pe.com.viajes.bean.cargaexcel.ColumnasExcel;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivo;
@@ -26,7 +27,13 @@ import pe.com.viajes.negocio.util.UtilJdbc;
  *
  */
 public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
+	
+	private final static Logger logger = Logger.getLogger(ArchivoReporteDaoImpl.class);
+	private boolean pintaLog;
+	
+	public ArchivoReporteDaoImpl() {
 
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
