@@ -86,6 +86,7 @@ public class ComprobanteMBean extends BaseMBean {
 
 	public void buscar() {
 		try {
+			getComprobanteBusqueda().setEmpresa(this.obtenerEmpresa());
 			this.setListaComprobantes(this.consultaNegocioServicio
 					.consultarComprobantesGenerados(getComprobanteBusqueda()));
 		} catch (ErrorConsultaDataException e) {

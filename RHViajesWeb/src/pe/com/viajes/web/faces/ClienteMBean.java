@@ -409,6 +409,7 @@ public class ClienteMBean extends BaseMBean {
 		this.setCliente(null);
 		this.setListaArchivos(null);
 		this.setNombreFormulario("Nuevo Cliente");
+		this.setPersonaNatural(false);
 		this.getCliente().setEmpresa(this.obtenerEmpresa());
 	}
 

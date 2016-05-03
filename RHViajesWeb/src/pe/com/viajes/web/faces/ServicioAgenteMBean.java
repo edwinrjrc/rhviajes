@@ -1622,7 +1622,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 			this.getServicioAgencia().setListaDetalleServicioAgrupado(
 					getListadoDetalleServicioAgrupado());
-
+			this
+			.getServicioAgencia().setEmpresa(this.obtenerEmpresa());
 			if (this.negocioServicio.registrarComprobantes(this
 					.getServicioAgencia())) {
 				this.getServicioAgencia()
