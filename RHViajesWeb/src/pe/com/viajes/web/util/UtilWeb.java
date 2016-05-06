@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +26,7 @@ import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.Tramo;
+import pe.com.viajes.bean.negocio.Usuario;
 
 /**
  * @author Edwin
@@ -370,5 +372,17 @@ public class UtilWeb {
 			return valor1;
 		}
 		return valor2;
+	}
+	
+	public static boolean obtenerValorPropiedad(Properties propiedades, String llave, Usuario usuario){
+		try {
+			llave = usuario.getNombreDominioEmpresa() + llave;
+			String valor = (String) propiedades.get(llave);
+			
+			return Boolean.getBoolean(valor);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

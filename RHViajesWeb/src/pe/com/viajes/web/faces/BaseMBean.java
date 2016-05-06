@@ -40,6 +40,7 @@ public class BaseMBean implements Serializable {
 	public static final String TIPO_MODAL_ERROR = "2";
 	public static final String USUARIO_SESSION = "usuarioSession";
 	public static final String EMPRESA_USUARIO_SESSION = "empresaUsuarioSession";
+	public static final String TIPO_CAMBIO_SESSION = "tipoCambioSession";
 
 	/**
 	 * 

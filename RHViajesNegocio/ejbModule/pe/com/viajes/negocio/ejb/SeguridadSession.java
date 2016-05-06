@@ -76,6 +76,7 @@ public class SeguridadSession implements SeguridadRemote, SeguridadLocal {
 			
 			usuarioDao = new UsuarioDaoImpl(usuario.getEmpresa().getCodigoEntero());
 			usuario = usuarioDao.inicioSesion2(usuario);
+			usuario.setNombreDominioEmpresa(nombreDominio);
 			
 			if (!usuario.isEncontrado()) {
 				throw new InicioSesionException(

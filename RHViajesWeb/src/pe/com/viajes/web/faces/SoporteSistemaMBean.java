@@ -84,9 +84,10 @@ public class SoporteSistemaMBean extends BaseMBean {
 				if (this.getSentenciaSQL().isConsulta()) {
 					this.setCabeceraResultado((String[]) this.getSentenciaSQL()
 							.getResultadoConsulta().get("cabecera"));
-					this.setListaResultado((List<Map<String, Object>>) this
+					List<Map<String, Object>> lista = (List<Map<String, Object>>) this
 							.getSentenciaSQL().getResultadoConsulta()
-							.get("data"));
+							.get("data");
+					this.setListaResultado(lista);
 
 					this.setTamanioLista(this.getCabeceraResultado().length);
 				}

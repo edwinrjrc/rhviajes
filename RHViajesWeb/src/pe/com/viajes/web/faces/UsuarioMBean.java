@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.web.faces;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import pe.com.viajes.bean.negocio.TipoCambio;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.bean.recursoshumanos.UsuarioAsistencia;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
@@ -158,10 +160,15 @@ public class UsuarioMBean extends BaseMBean {
 			this.getUsuario().setIpCreacion(obtenerRequest().getRemoteAddr());
 			this.getUsuario().setIpModificacion(obtenerRequest().getRemoteAddr());
 			usuario = seguridadServicio.inicioSesion(this.getUsuario());
+			
+			TipoCambio tipoCambio = new TipoCambio();
+			tipoCambio.setFechaTipoCambio(new Date());
+			tipoCambio.setMontoCambio(BigDecimal.valueOf(3.25747));
 
 			HttpSession session = (HttpSession) obtenerSession(true);
-			session.setAttribute(this.USUARIO_SESSION, usuario);
-			session.setAttribute(this.EMPRESA_USUARIO_SESSION, usuario.getEmpresa());
+			session.setAttribute(USUARIO_SESSION, usuario);
+			session.setAttribute(EMPRESA_USUARIO_SESSION, usuario.getEmpresa());
+			session.setAttribute(TIPO_CAMBIO_SESSION, tipoCambio);
 			return "irInicio";
 
 		} catch (InicioSesionException e) {
