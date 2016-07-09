@@ -440,7 +440,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{? = call seguridad.fn_actualizarclaveusuario(?,?,?)}";
+		String sql = "{? = call seguridad.fn_actualizarclaveusuario(?,?,?,?,?)}";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -451,6 +451,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			cs.setInt(i++, usuario.getCodigoEntero());
 			cs.setString(i++,
 					UtilEncripta.encriptaCadena(usuario.getCredencialNueva()));
+			cs.setInt(i++, usuario.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(i++, usuario.getIpModificacion());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);

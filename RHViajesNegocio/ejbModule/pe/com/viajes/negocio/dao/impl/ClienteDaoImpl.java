@@ -3,7 +3,6 @@
  */
 package pe.com.viajes.negocio.dao.impl;
 
-import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.base.Persona;
@@ -255,7 +253,12 @@ public class ClienteDaoImpl implements ClienteDao {
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, cliente.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(i++, cliente.getCodigoEntero());
-			cs.setInt(i++, cliente.getRubro().getCodigoEntero());
+			if ( cliente.getRubro() != null && cliente.getRubro().getCodigoEntero() != null){
+				cs.setInt(i++, cliente.getRubro().getCodigoEntero());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
 			cs.setInt(i++, cliente.getUsuarioCreacion().getCodigoEntero().intValue());
 			cs.setString(i++, cliente.getIpCreacion());
 

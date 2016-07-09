@@ -9,8 +9,7 @@
 
 <h:body style="background-color:#FFFFFF;">
 	<h:form>
-		<table border="0" cellpadding="0" cellspacing="0"
-			style="width: 100%;">
+		<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
 			<tr>
 				<td><h:graphicImage
 						value="#{facesContext.externalContext.requestContextPath}/../resources/img/logorh.png"></h:graphicImage>
@@ -27,13 +26,25 @@
 						</a4j:commandLink>
 						<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 							border="0" rendered="#{sessionScope.usuarioSession != null}"
-							style="font-weight:bold;" columnClasses="datosCabecera1,datosCabecera2">
-							<h:outputText
-								value="Usuario :" />
+							style="font-weight:bold;"
+							columnClasses="datosCabecera1,datosCabecera2">
+							<h:outputText value="Usuario :" />
 							<h:outputText value="#{sessionScope.usuarioSession.usuario}" />
+							<h:outputText value="Empresa : " />
 							<h:outputText
-								value="Empresa : " />
-							<h:outputText value="#{sessionScope.empresaUsuarioSession.nombre}" />
+								value="#{sessionScope.empresaUsuarioSession.nombre}" />
+							<h:outputText value="Tipo Cambio : " />
+							<h:panelGrid columns="3" cellpadding="0" cellspacing="0"
+								border="0">
+								<h:outputText
+									value="#{sessionScope.tipoCambioSession.montoCambio}" >
+									<f:convertNumber pattern="##0.000000" locale="en_US" />
+								</h:outputText>
+								<h:outputText value="/" />
+								<h:outputText value="#{sessionScope.tipoCambioSession.fechaTipoCambio}" >
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</h:panelGrid>
 						</h:panelGrid>
 					</h:panelGrid></td>
 			</tr>
