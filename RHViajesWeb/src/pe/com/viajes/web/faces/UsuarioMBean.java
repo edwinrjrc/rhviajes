@@ -276,6 +276,7 @@ public class UsuarioMBean extends BaseMBean {
 				getUsuario().setIpModificacion(
 						obtenerRequest().getRemoteAddr());
 				getUsuario().setEmpresa(this.obtenerEmpresa());
+				
 				this.seguridadServicio.actualizarClaveUsuario(getUsuario());
 
 				this.setShowModal(true);

@@ -24,6 +24,7 @@ public class Usuario extends Persona {
 	private boolean encontrado;
 	private boolean vendedor;
 	private boolean credencialVencida;
+	private String nombreDominioEmpresa;
 
 	/**
 	 * 
@@ -138,6 +139,20 @@ public class Usuario extends Persona {
 	 */
 	public void setCredencialVencida(boolean credencialVencida) {
 		this.credencialVencida = credencialVencida;
+	}
+
+	/**
+	 * @return the nombreDominioEmpresa
+	 */
+	public String getNombreDominioEmpresa() {
+		return nombreDominioEmpresa;
+	}
+
+	/**
+	 * @param nombreDominioEmpresa the nombreDominioEmpresa to set
+	 */
+	public void setNombreDominioEmpresa(String nombreDominioEmpresa) {
+		this.nombreDominioEmpresa = nombreDominioEmpresa;
 	}
 
 }

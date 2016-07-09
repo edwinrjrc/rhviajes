@@ -1,7 +1,12 @@
 package pe.com.viajes.web.servlet;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
@@ -76,6 +81,27 @@ public class InicioAppServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void init() throws ServletException {
+		try {
+			String rutaArchivo = "D:\\aplicacion\\";
+			String nomArchivoPropiedades = "aplicacionconfiguracion.properties";
+			File archivopropiedades = new File(rutaArchivo + nomArchivoPropiedades);
+			InputStream streamArchivo = new FileInputStream(archivopropiedades);
+			Properties propiedades = new Properties();
+			propiedades.load(streamArchivo);
+			
+			getServletContext().setAttribute("PROPIEDADES_SISTEMA", propiedades);
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		super.init();
 	}
 
 }

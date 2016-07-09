@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.faces.application.FacesMessage;
@@ -97,6 +98,8 @@ public class ClienteMBean extends BaseMBean {
 	private NegocioServicio negocioServicio;
 	private UtilNegocioServicio utilNegocioServicio;
 	private ConsultaNegocioServicio consultaNegocioServicio;
+	
+	private Properties propiedadesSistema;
 
 	/**
 	 * 
@@ -110,6 +113,7 @@ public class ClienteMBean extends BaseMBean {
 			utilNegocioServicio = new UtilNegocioServicioImpl(servletContext);
 			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
 					servletContext);
+			propiedadesSistema = (Properties) servletContext.getAttribute("PROPIEDADES_SISTEMA");
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -227,9 +231,9 @@ public class ClienteMBean extends BaseMBean {
 	}
 
 	private boolean validarTelefonoCliente() {
-		boolean resultado = false;
-
-		if (false) {
+		boolean resultado = true;
+		String llave = "negocio.admclientes.validarTelefonoCliente";
+		if (UtilWeb.obtenerValorPropiedad(propiedadesSistema, llave, this.obtenerUsuarioSession())) {
 			List<Direccion> listaDire = this.getCliente().getListaDirecciones();
 			for (Direccion direccion : listaDire) {
 				List<Telefono> listTelefono = direccion.getTelefonos();
@@ -256,8 +260,6 @@ public class ClienteMBean extends BaseMBean {
 			}
 		}
 
-		resultado = true;
-
 		return resultado;
 	}
 
@@ -274,8 +276,8 @@ public class ClienteMBean extends BaseMBean {
 	private boolean validarDireccionCliente(ActionEvent e)
 			throws NoEnvioDatoException {
 		boolean resultado = true;
-
-		if (false) {
+		String llave = "negocio.admclientes.validarDireccionCliente";
+		if (UtilWeb.obtenerValorPropiedad(propiedadesSistema, llave, this.obtenerUsuarioSession())) {
 			resultado = !(this.getCliente().getListaDirecciones().isEmpty());
 
 			int principales = 0;
