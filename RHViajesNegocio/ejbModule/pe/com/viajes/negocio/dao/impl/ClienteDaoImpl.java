@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.DocumentoAdicional;
+import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.Telefono;
 import pe.com.viajes.negocio.dao.ClienteDao;
 import pe.com.viajes.negocio.util.UtilConexion;

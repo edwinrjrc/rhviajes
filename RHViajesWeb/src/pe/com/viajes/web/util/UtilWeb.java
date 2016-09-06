@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.negocio.DocumentoIdentidad;
 import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.Tramo;
@@ -384,5 +385,14 @@ public class UtilWeb {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public static boolean comparaDocumentoIdentidad(DocumentoIdentidad di1, DocumentoIdentidad di2){
+		boolean igual = false;
+		igual =(di1.getTipoDocumento().getCodigoEntero().intValue() == di1.getTipoDocumento().getCodigoEntero().intValue());
+		if (igual){
+			igual = StringUtils.equals(di1.getNumeroDocumento(),di2.getNumeroDocumento());
+		}
+		return igual;
 	}
 }

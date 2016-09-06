@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import pe.com.viajes.bean.base.BaseVO;
+import pe.com.viajes.bean.base.CorreoElectronico;
 import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.viajes.bean.negocio.Cliente;
@@ -79,6 +80,7 @@ import pe.com.viajes.negocio.exception.ValidacionException;
 import pe.com.viajes.negocio.util.UtilConexion;
 import pe.com.viajes.negocio.util.UtilDatos;
 import pe.com.viajes.negocio.util.UtilEjb;
+import pe.com.viajes.negocio.util.UtilJdbc;
 
 /**
  * Session Bean implementation class ConsultaNegocioSession
@@ -728,7 +730,6 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 				
 				detalle.setAerolinea(detalle.getRuta().getTramos().get(0).getAerolinea());
 			}
-
 			return detalle;
 		}
 		catch (SQLException e){
@@ -739,7 +740,6 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 				conn.close();
 			}
 		}
-
 	}
 
 	@Override
@@ -792,7 +792,6 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 	@Override
 	public List<TipoCambio> listarTipoCambio(Date fecha, Integer idEmpresa) throws SQLException {
 		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl(idEmpresa);
-
 		return tipoCambioDao.listarTipoCambio(fecha);
 	}
 	
@@ -811,13 +810,11 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 		else{
 			return servicioNegocioDao.consultarcheckinpendientes(cal.getTime(), usuario.getCodigoEntero(), usuario.getEmpresa().getCodigoEntero());
 		}
-		
 	}
 	
 	@Override
 	public List<ImpresionArchivoCargado> consultaImpresionArchivoCargado(Integer idArchivoCargado, Integer idEmpresa) throws SQLException{
 		ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
-		
 		return archivoReporteDao.consultaImpresionArchivoCargado(idArchivoCargado, idEmpresa);
 	}
 	
@@ -825,9 +822,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 	public List<Pasajero> consultarPasajeroHistorico(Pasajero pasajero) throws ErrorConsultaDataException{
 		try {
 			ServicioNegocioDao servicioNegocioDao = new ServicioNegocioDaoImpl();
-			
 			List<Pasajero> listaPasajeros = servicioNegocioDao.consultarPasajeroHistorico(pasajero);
-			
 			return listaPasajeros;
 		} catch (SQLException e) {
 			throw new ErrorConsultaDataException(e.getMessage());
@@ -871,11 +866,19 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			ClienteDao clienteDao = new ClienteDaoImpl();
 			List<Cliente> listaClientes = clienteDao.listarClientes(pasajero);
 			
-			Cliente cliente = this.consultarCliente(listaClientes.get(0).getCodigoEntero().intValue(), pasajero.getEmpresa().getCodigoEntero().intValue());
-			
-			pasajero.setNombres(cliente.getNombres());
-			pasajero.setApellidoPaterno(cliente.getApellidoPaterno());
-			pasajero.setApellidoMaterno(cliente.getApellidoMaterno());
+			if (listaClientes != null && !listaClientes.isEmpty()){
+				Cliente cliente = this.consultarCliente(listaClientes.get(0).getCodigoEntero().intValue(), pasajero.getEmpresa().getCodigoEntero().intValue());
+				
+				pasajero.setNombres(cliente.getNombres());
+				pasajero.setApellidoPaterno(cliente.getApellidoPaterno());
+				pasajero.setApellidoMaterno(cliente.getApellidoMaterno());
+				pasajero.setFechaNacimiento(cliente.getFechaNacimiento());
+				pasajero.setFechaVctoPasaporte(cliente.getFechaVctoPasaporte());
+				pasajero.setNroPasaporte(cliente.getNroPasaporte());
+				pasajero.setTelefono1(obtenerTelefonoCliente(cliente.getListaContactos()));
+				pasajero.setTelefono2(obtenerTelefonoFijoCliente(cliente.getListaDirecciones()));
+				pasajero.setCorreoElectronico(obtenerCorreoElectronico(cliente.getListaContactos()));
+			}
 			
 			return pasajero;
 		} catch (SQLException e) {
@@ -884,5 +887,72 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta",e);
 		}
 		
+	}
+
+	private String obtenerCorreoElectronico(List<Contacto> listaContactos) {
+		if (listaContactos.size()>0){
+			Contacto contacto = listaContactos.get(0);
+			List<CorreoElectronico> correos = contacto.getListaCorreos();
+			if (correos.size()>0){
+				CorreoElectronico correo = correos.get(0);
+				return correo.getDireccion();
+			}
+		}
+		
+		return "";
+	}
+
+	private String obtenerTelefonoCliente(List<Contacto> listaContactos) {
+		if (listaContactos.size()>0){
+			Contacto contacto = listaContactos.get(0);
+			List<Telefono> telefonos = contacto.getListaTelefonos();
+			if (telefonos.size()>0){
+				Telefono telefono = telefonos.get(0);
+				return UtilJdbc.quitaEspaciosInternos(telefono.getNumeroTelefono());
+			}
+		}
+		
+		return "";
+	}
+	
+	private String obtenerTelefonoFijoCliente(List<Direccion> listaDireccion) {
+		if (listaDireccion.size()>0){
+			Direccion direccion = listaDireccion.get(0);
+			List<Telefono> telefonos = direccion.getTelefonos();
+			if (telefonos.size()>0){
+				Telefono telefono = telefonos.get(0);
+				return UtilJdbc.quitaEspaciosInternos(telefono.getNumeroTelefono());
+			}
+		}
+		
+		return "";
+	}
+
+	@Override
+	public Pasajero consultaContactoPasajero(Pasajero pasajero) throws ErrorConsultaDataException {
+		try {
+			ContactoDao contactoDao = new ContactoDaoImpl();
+			List<Contacto> listaClientes = contactoDao.consultarContactoPasajero(pasajero);
+			
+			if (listaClientes != null && !listaClientes.isEmpty()){
+				Contacto cliente = listaClientes.get(0);
+				
+				pasajero.setNombres(cliente.getNombres());
+				pasajero.setApellidoPaterno(cliente.getApellidoPaterno());
+				pasajero.setApellidoMaterno(cliente.getApellidoMaterno());
+				if (!cliente.getListaTelefonos().isEmpty()){
+					pasajero.setTelefono1(UtilJdbc.quitaEspaciosInternos(cliente.getListaTelefonos().get(0).getNumeroTelefono()));
+				}
+				if (!cliente.getListaCorreos().isEmpty()){
+					pasajero.setCorreoElectronico(cliente.getListaCorreos().get(0).getDireccion());
+				}
+			}
+			
+			return pasajero;
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e.getMessage(),e);
+		} catch (Exception e) {
+			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta",e);
+		}
 	}
 }

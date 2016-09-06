@@ -188,4 +188,6 @@ public interface ConsultaNegocioSessionRemote {
 
 	Pasajero consultaClientePasajero(Pasajero pasajero)
 			throws ErrorConsultaDataException;
+
+	Pasajero consultaContactoPasajero(Pasajero pasajero) throws ErrorConsultaDataException;
 }

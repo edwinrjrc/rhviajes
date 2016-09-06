@@ -9,7 +9,9 @@ import java.util.List;
 
 import pe.com.viajes.bean.base.CorreoElectronico;
 import pe.com.viajes.bean.base.Persona;
+import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Contacto;
+import pe.com.viajes.bean.negocio.Pasajero;
 
 /**
  * @author Edwin
@@ -46,4 +48,7 @@ public interface ContactoDao {
 
 	List<Contacto> listarContactosXPersona(int idpersona, int idEmpresa,
 			Connection conn) throws SQLException;
+
+	List<Contacto> consultarContactoPasajero(Pasajero pasajero)
+			throws SQLException;
 }

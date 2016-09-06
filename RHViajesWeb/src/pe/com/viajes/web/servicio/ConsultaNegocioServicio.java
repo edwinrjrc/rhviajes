@@ -189,4 +189,6 @@ public interface ConsultaNegocioServicio {
 	
 	Pasajero consultaClientePasajero(Pasajero pasajero)
 			throws ErrorConsultaDataException;
+
+	Pasajero consultarContactoPasajero(Pasajero pasajero) throws ErrorConsultaDataException;
 }

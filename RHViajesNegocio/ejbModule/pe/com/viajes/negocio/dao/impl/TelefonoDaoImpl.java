@@ -55,7 +55,7 @@ public class TelefonoDaoImpl implements TelefonoDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, idEmpresa.intValue());
 			if (StringUtils.isNotBlank(telefono.getNumeroTelefono())) {
-				cs.setString(i++, telefono.getNumeroTelefono());
+				cs.setString(i++, UtilJdbc.quitaEspaciosInternos(telefono.getNumeroTelefono()));
 			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}

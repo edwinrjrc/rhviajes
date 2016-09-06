@@ -18,9 +18,9 @@ public class UtilProperties {
 
 	public static Properties cargaArchivo(String archivoProperties)
 			throws FileNotFoundException, IOException {
-		String c = "/var/lib/openshift/567b012d2d5271e0e6000010/jbossas/aplicacion"
+		String c = "/usr/local/share/aplicacion"
 				+ File.separator + archivoProperties;
-		String d = "/var/lib/openshift/567b012d2d5271e0e6000010/jbossas/aplicacion"
+		String d = "/usr/local/share/aplicacion"
 				+ File.separator + archivoProperties;
 		File fc = new File(c);
 

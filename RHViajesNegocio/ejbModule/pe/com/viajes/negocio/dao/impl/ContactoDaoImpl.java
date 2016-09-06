@@ -15,7 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.base.CorreoElectronico;
 import pe.com.viajes.bean.base.Persona;
+import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Contacto;
+import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.negocio.dao.ContactoDao;
 import pe.com.viajes.negocio.dao.TelefonoDao;
 import pe.com.viajes.negocio.util.UtilConexion;
@@ -26,13 +28,6 @@ import pe.com.viajes.negocio.util.UtilJdbc;
  *
  */
 public class ContactoDaoImpl implements ContactoDao {
-
-	/**
-	 * 
-	 */
-	public ContactoDaoImpl() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -530,6 +525,83 @@ public class ContactoDaoImpl implements ContactoDao {
 				}
 			} catch (SQLException e) {
 				throw new SQLException(e);
+			}
+		}
+
+		return resultado;
+	}
+	
+	@Override
+	public List<Contacto> consultarContactoPasajero(Pasajero pasajero) throws SQLException {
+		List<Contacto> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{ ? = call negocio.fn_consultarcontactopasajero(?,?,?)}";
+
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i = 1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			cs.setInt(i++, pasajero.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(i++, pasajero.getDocumentoIdentidad().getTipoDocumento().getCodigoEntero().intValue());
+			cs.setString(i++, pasajero.getDocumentoIdentidad().getNumeroDocumento());
+
+			cs.execute();
+			rs = (ResultSet) cs.getObject(1);
+
+			resultado = new ArrayList<Contacto>();
+			Contacto persona2 = null;
+			TelefonoDao telefonoDao = new TelefonoDaoImpl(pasajero.getEmpresa().getCodigoEntero().intValue());
+			while (rs.next()) {
+				persona2 = new Contacto();
+				persona2.setCodigoEntero(UtilJdbc.obtenerNumero(rs,
+						"id"));
+				persona2.getDocumentoIdentidad()
+						.getTipoDocumento()
+						.setCodigoEntero(
+								UtilJdbc.obtenerNumero(rs, "idtipodocumento"));
+				persona2.getDocumentoIdentidad().setNumeroDocumento(
+						UtilJdbc.obtenerCadena(rs, "numerodocumento"));
+				persona2.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
+				persona2.setApellidoPaterno(UtilJdbc.obtenerCadena(rs,
+						"apellidopaterno"));
+				persona2.setApellidoMaterno(UtilJdbc.obtenerCadena(rs,
+						"apellidomaterno"));
+				persona2.setListaTelefonos(telefonoDao
+						.consultarTelefonoContacto(UtilJdbc
+								.obtenerNumero(persona2.getCodigoEntero()),
+								conn));
+				persona2.setListaCorreos(consultarCorreos(
+						UtilJdbc.obtenerNumero(persona2.getCodigoEntero()),pasajero.getEmpresa().getCodigoEntero().intValue(),
+						conn));
+				resultado.add(persona2);
+			}
+
+		} catch (SQLException e) {
+			resultado = null;
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+					throw new SQLException(e);
+				} catch (SQLException e1) {
+					throw new SQLException(e);
+				}
 			}
 		}
 

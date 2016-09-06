@@ -1179,6 +1179,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.getDetalleServicio().getMoneda().setCodigoEntero(2);
 
 				this.consultarDestinos();
+				
+				agregarPasajerosAnteriores();
 			}
 
 		} catch (SQLException ex) {
@@ -1188,11 +1190,41 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 	}
 
+	private void agregarPasajerosAnteriores() {
+		List<Pasajero> listaPasajeros = new ArrayList<Pasajero>();
+		for (DetalleServicioAgencia detalleServicioAgencia : this.getListadoDetalleServicio()){
+			List<Pasajero> listap = detalleServicioAgencia.getListaPasajeros();
+			for (Pasajero pasajero : listap) {
+				agregarPasajeroLista(listaPasajeros, pasajero);
+			}
+		}
+		this.getDetalleServicio().setListaPasajeros(listaPasajeros);
+		this.aceptarPasajeros();
+	}
+
+	private void agregarPasajeroLista(List<Pasajero> listaPasajeros,
+			Pasajero pasajero2) {
+		if (listaPasajeros.isEmpty()){
+			listaPasajeros.add(pasajero2);
+		}
+		else{
+			boolean esta = false;
+			for (Pasajero pasajero : listaPasajeros) {
+				if (UtilWeb.comparaDocumentoIdentidad(pasajero.getDocumentoIdentidad(), pasajero2.getDocumentoIdentidad())){
+					esta = true;
+					break;
+				}
+			}
+			if (!esta){
+				listaPasajeros.add(pasajero2);
+			}
+		}
+	}
+
 	private void cargarEmpresas(Integer valor) throws SQLException, Exception {
 		listaProveedores = this.consultaNegocioServicio
 				.proveedoresXServicio(valor, this.obtenerIdEmpresa());
 		setListadoEmpresas(null);
-
 		SelectItem si = null;
 		for (ServicioProveedor servicioProveedor : listaProveedores) {
 			si = new SelectItem();
@@ -2279,6 +2311,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 								.getPasajero()));
 
 				this.setPasajero(null);
+				this.getPasajero().getPais().setCodigoEntero(UtilWeb.obtenerEnteroPropertieMaestro("codigoPaisPeru", "aplicacionDatos"));
 			}
 		} catch (ErrorRegistroDataException e) {
 			logger.error(e.getMessage(), e);
@@ -2431,7 +2464,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 								break;
 							}
 						}
-						if (!contacto2.getListaCorreos().isEmpty()) {
+						if (contacto2!= null && contacto2.getListaCorreos()!=null && !contacto2.getListaCorreos().isEmpty()) {
 							this.getPasajero().setCorreoElectronico(
 									contacto2.getListaCorreos().get(0)
 											.getDireccion());
@@ -2510,8 +2543,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 					}
 				}
 			}
+			this.getPasajero().setEmpresa(this.obtenerEmpresa());
 			if (!encontrado) {
-				this.getPasajero().setEmpresa(this.obtenerEmpresa());
 				List<Pasajero> listaPax = this.consultaNegocioServicio
 						.consultarPasajeroHistorico(getPasajero());
 				if (!listaPax.isEmpty()) {
@@ -2520,7 +2553,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 				}
 			}
 			if (!encontrado){
-				this.setPasajero(this.consultaNegocioServicio.consultaClientePasajero(getPasajero()));
+				try {
+					this.setPasajero(this.consultaNegocioServicio.consultaClientePasajero(getPasajero()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (!encontrado){
+				try {
+					this.setPasajero(this.consultaNegocioServicio.consultarContactoPasajero(getPasajero()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			this.getPasajero().setCodigoReserva(null);

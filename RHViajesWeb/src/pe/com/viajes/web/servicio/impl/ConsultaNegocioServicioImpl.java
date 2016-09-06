@@ -423,4 +423,10 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 			throws ErrorConsultaDataException {
 		return ejbSession.consultaClientePasajero(pasajero);
 	}
+
+	@Override
+	public Pasajero consultarContactoPasajero(Pasajero pasajero)
+			throws ErrorConsultaDataException {
+		return ejbSession.consultaContactoPasajero(pasajero);
+	}
 }

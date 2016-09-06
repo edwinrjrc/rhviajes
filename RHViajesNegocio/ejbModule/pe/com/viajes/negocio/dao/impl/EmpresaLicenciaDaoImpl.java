@@ -47,10 +47,10 @@ public class EmpresaLicenciaDaoImpl implements EmpresaLicenciaDao {
 				empresa.setNombre(UtilJdbc.obtenerCadena(rs, "nombrecomercial"));
 			}
 			
-			
 			return empresa;
 		}
 		catch (SQLException e){
+			e.printStackTrace();
 			throw new SQLException(e);
 		}
 		finally{

@@ -10,6 +10,7 @@ import java.util.List;
 import pe.com.viajes.bean.base.Persona;
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.DocumentoAdicional;
+import pe.com.viajes.bean.negocio.Pasajero;
 
 /**
  * @author Edwin
