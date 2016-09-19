@@ -119,6 +119,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 		this.setComprobante(null);
 		this.setListadoProveedores(null);
 		this.setBusquedaProveedor(false);
+		this.getComprobante().setEmpresa(obtenerEmpresa());
 	}
 
 	public void ejecutarMetodo() {
@@ -177,6 +178,12 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 				|| this.getComprobante().getFechaPago().equals(fechaHoy)) {
 			this.agregarMensaje(idFormulario + ":idFecPago",
 					"La fecha de pago debe ser mayor a la fecha de hoy", "",
+					FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
+		if (this.getComprobante().getMoneda().getCodigoEntero()== null || this.getComprobante().getMoneda().getCodigoEntero().intValue()==0){
+			this.agregarMensaje(idFormulario + ":idSelMonedaObligacion",
+					"Seleccione la moneda", "",
 					FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
@@ -392,6 +399,11 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			logger.error(e1.getMessage(), e1);
 		}
 	}
+	
+	public void reseteaBuscador(){
+		this.setProveedorBusqueda(null);
+		this.setListadoProveedores(null);
+	}
 
 	/**
 	 * ========================================================================
@@ -440,6 +452,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 		this.setShowModal(false);
 		if (listaComprobantes == null || !this.isBuscoObligaciones()) {
 			try {
+				getComprobanteBusqueda().setEmpresa(obtenerEmpresa());
 				this.setListaComprobantes(this.consultaNegocioServicio
 						.listarObligacionXPagar(getComprobanteBusqueda()));
 
@@ -522,6 +535,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	public List<Proveedor> getListadoProveedores() {
 		try {
 			// if (!this.isConsultoProveedor()){
+			getProveedorBusqueda().setEmpresa(this.obtenerEmpresa());
 			listadoProveedores = this.consultaNegocioServicio
 					.buscarProveedor(getProveedorBusqueda());
 			// }

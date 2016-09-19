@@ -2995,13 +2995,14 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		boolean resultado = false;
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarobligacionxpagar(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarobligacionxpagar(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setInt(i++, comprobante.getEmpresa().getCodigoEntero().intValue());
 			cs.setInt(i++, comprobante.getTipoComprobante().getCodigoEntero()
 					.intValue());
 			cs.setString(i++, comprobante.getNumeroComprobante());

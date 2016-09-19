@@ -73,8 +73,10 @@
 							<h:inputText readonly="true" size="100" id="idTxtProveedor"
 								requiredMessage="Seleccione el proveedor" required="true"
 								value="#{obligacionPorPagarMBean.comprobante.proveedor.nombres}" />
-							<a4j:commandLink oncomplete="mostrarModal3('idModalbusqproveedor')" immediate="true">
-								<h:graphicImage style="border:0px;" 
+							<a4j:commandLink action="#{obligacionPorPagarMBean.reseteaBuscador()}"
+								oncomplete="mostrarModal3('idModalbusqproveedor')"
+								immediate="true">
+								<h:graphicImage style="border:0px;"
 									value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
 							</a4j:commandLink>
 							<rich:message for="idTxtProveedor" ajaxRendered="true"
@@ -96,8 +98,7 @@
 						</h:panelGrid>
 
 						<h:outputText value="Fecha Pago" />
-						<h:panelGrid cellpadding="0" cellspacing="0"
-							border="0">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0">
 							<rich:calendar datePattern="dd/MM/yyyy" id="idFecPago"
 								required="true" requiredMessage="Seleccione la fecha de pago"
 								value="#{obligacionPorPagarMBean.comprobante.fechaPago}"></rich:calendar>
@@ -126,25 +127,45 @@
 						style="width:100%;"
 						columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor">
 						<h:outputText value="Tiene Detracción" />
-						<h:selectBooleanCheckbox value="#{obligacionPorPagarMBean.comprobante.tieneDetraccion}" />
-						
+						<h:selectBooleanCheckbox
+							value="#{obligacionPorPagarMBean.comprobante.tieneDetraccion}" />
+
 						<h:outputText value="Tiene Detracción" />
-						<h:selectBooleanCheckbox value="#{obligacionPorPagarMBean.comprobante.tieneRetencion}" />
-						
+						<h:selectBooleanCheckbox
+							value="#{obligacionPorPagarMBean.comprobante.tieneRetencion}" />
+
 						<h:outputText value="Total IGV" />
 						<h:panelGrid columns="1" border="0" cellpadding="0"
 							cellspacing="0">
 							<h:inputText id="idTotalIGV"
-								value="#{obligacionPorPagarMBean.comprobante.totalIGV}" onkeypress="return js_soloDecimal(event);" />
+								value="#{obligacionPorPagarMBean.comprobante.totalIGV}"
+								onkeypress="return js_soloDecimal(event);" style="text-align:right;"/>
 							<rich:message for="idTotalIGV" ajaxRendered="true"
 								showSummary="true" showDetail="false"></rich:message>
 						</h:panelGrid>
 
+						<h:outputText value="Moneda" />
+						<h:panelGrid columns="1" border="0" cellpadding="0"
+							cellspacing="0">
+							<h:selectOneMenu id="idSelMonedaObligacion" required="true" requiredMessage="Seleccione la moneda"
+								value="#{obligacionPorPagarMBean.comprobante.moneda.codigoEntero}">
+								<f:selectItem itemLabel="-Seleccione-" />
+								<f:selectItems value="#{catalogoMBean.catalogoMoneda}"></f:selectItems>
+							</h:selectOneMenu>
+							<rich:message for="idSelMonedaObligacion" ajaxRendered="true"
+								showSummary="true" showDetail="false"></rich:message>
+						</h:panelGrid>
+
+						<h:outputText value="" />
+						<h:outputText value="" />
+
 						<h:outputText value="Total Comprobante" />
 						<h:panelGrid columns="1" border="0" cellpadding="0"
 							cellspacing="0">
-							<h:inputText id="idTotalComprobante" required="true" requiredMessage="Ingrese el total comprobante"
-								value="#{obligacionPorPagarMBean.comprobante.totalComprobante}" onkeypress="return js_soloDecimal(event);" />
+							<h:inputText id="idTotalComprobante" required="true"
+								requiredMessage="Ingrese el total comprobante"
+								value="#{obligacionPorPagarMBean.comprobante.totalComprobante}"
+								onkeypress="return js_soloDecimal(event);" style="text-align:right;" />
 							<rich:message for="idTotalComprobante" ajaxRendered="true"
 								showSummary="true" showDetail="false"></rich:message>
 						</h:panelGrid>
@@ -156,7 +177,7 @@
 				<f:facet name="footer">
 					<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 						style="width:100%;text-align:center;">
-						<a4j:commandButton value="Grabar"
+						<a4j:commandButton value="Grabar" styleClass="estiloBoton2"
 							action="#{obligacionPorPagarMBean.ejecutarMetodo()}"
 							render="idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGr2FrObligacion"
 							oncomplete="mostrarModal('idformadmobligatorios');" />
