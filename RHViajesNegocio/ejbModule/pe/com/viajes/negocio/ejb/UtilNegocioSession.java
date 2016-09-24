@@ -841,7 +841,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 						calcularIGV);
 			}
 
-			int indice = 0;
+			/*int indice = 0;
+			
 			for (int i=0; i<listaServiciosVenta.size(); i++){
 				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta.get(i);
 				if (detalleServicioAgencia2.getServicioPadre()
@@ -852,7 +853,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 					indice = i;
 				}
 			}
-			listaServiciosVenta.remove(indice);
+			listaServiciosVenta.remove(indice);*/
 
 			for (int i = 0; i < listaServiciosVenta.size(); i++) {
 				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta
@@ -864,6 +865,12 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 
 			listaServiciosVenta.add(detalleServicioAgencia);
 			if (listaInvisibles != null) {
+				for (int j=0; j<listaServiciosVenta.size(); j++){
+					DetalleServicioAgencia servicioHijo = listaServiciosVenta.get(j);
+					if (servicioHijo.getServicioPadre()!= null && servicioHijo.getServicioPadre().getCodigoEntero() != null && servicioHijo.getServicioPadre().getCodigoEntero().intValue() == detalleServicioAgencia.getCodigoEntero().intValue() && servicioHijo.isInvisible()){
+						listaServiciosVenta.remove(j);
+					}
+				}
 				listaServiciosVenta.addAll(listaInvisibles);
 			}
 
@@ -912,7 +919,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 					detalle.setTipoCambio(detalleServicio2.getTipoCambio());
 					detalle.setPrecioUnitarioAnterior(detalleServicio2
 							.getPrecioUnitarioAnterior());
-
+					detalle.setInvisible(true);
 					try {
 						BigDecimal cantidad = BigDecimal.valueOf(Double
 								.valueOf(String.valueOf(detalleServicio2

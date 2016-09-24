@@ -75,6 +75,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private boolean aplicaIGV;
 	
 	private String resumenPasajeros;
+	
+	private boolean invisible;
 
 	/**
 	 * @return the tipoServicio
@@ -805,6 +807,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setMonedaFacturacion(BaseVO monedaFacturacion) {
 		this.monedaFacturacion = monedaFacturacion;
+	}
+
+	/**
+	 * @return the invisible
+	 */
+	public boolean isInvisible() {
+		return invisible;
+	}
+
+	/**
+	 * @param invisible the invisible to set
+	 */
+	public void setInvisible(boolean invisible) {
+		this.invisible = invisible;
 	}
 
 }
