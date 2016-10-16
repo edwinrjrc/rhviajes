@@ -48,233 +48,88 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	public ServicioNovaViajesDaoImpl(int idEmpresa) {
 		this.idEmpresa = idEmpresa;
 	}
-	
-	
-	@Override
-	public Integer ingresarCabeceraServicio(ServicioAgencia servicioAgencia)
-			throws SQLException {
-		Integer idservicio = 0;
-		Connection conn = null;
-		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-
-		try {
-			conn = UtilConexion.obtenerConexion();
-			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.INTEGER);
-			cs.setInt(i++, idEmpresa);
-			cs.setInt(i++, servicioAgencia.getCliente().getCodigoEntero()
-					.intValue());
-			if (servicioAgencia.getCliente2().getCodigoEntero() != null
-					&& servicioAgencia.getCliente2().getCodigoEntero()
-							.intValue() != 0) {
-				cs.setInt(i++, servicioAgencia.getCliente2().getCodigoEntero()
-						.intValue());
-			} else {
-				cs.setNull(i++, Types.INTEGER);
-			}
-			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(servicioAgencia
-					.getFechaServicio()));
-			if (servicioAgencia.getMontoTotalIGV() != null
-					&& !servicioAgencia.getMontoTotalIGV().equals(
-							BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getMontoTotalIGV());
-			} else {
-				cs.setNull(i++, Types.DECIMAL);
-			}
-			if (servicioAgencia.getMontoTotal() != null
-					&& !servicioAgencia.getMontoTotal().equals(BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getMontoTotal());
-			} else {
-				cs.setNull(i++, Types.DECIMAL);
-			}
-			if (servicioAgencia.getMontoTotalFee() != null
-					&& !servicioAgencia.getMontoTotalFee().equals(
-							BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getMontoTotalFee());
-			} else {
-				cs.setNull(i++, Types.DECIMAL);
-			}
-			if (servicioAgencia.getMontoTotalComision() != null
-					&& !servicioAgencia.getMontoTotalComision().equals(
-							BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getMontoTotalComision());
-			} else {
-				cs.setNull(i++, Types.DECIMAL);
-			}
-			if (servicioAgencia.getDestino().getCodigoEntero() != null
-					&& servicioAgencia.getDestino().getCodigoEntero()
-							.intValue() != 0) {
-				cs.setInt(i++, servicioAgencia.getDestino().getCodigoEntero()
-						.intValue());
-			} else {
-				cs.setNull(i++, Types.INTEGER);
-			}
-			if (StringUtils.isNotBlank(servicioAgencia.getDestino()
-					.getDescripcion())) {
-				cs.setString(i++, servicioAgencia.getDestino().getDescripcion());
-			} else {
-				cs.setNull(i++, Types.VARCHAR);
-			}
-			if (servicioAgencia.getFormaPago().getCodigoEntero() != null
-					&& servicioAgencia.getFormaPago().getCodigoEntero()
-							.intValue() != 0) {
-				cs.setInt(i++, servicioAgencia.getFormaPago().getCodigoEntero()
-						.intValue());
-			} else {
-				cs.setNull(i++, Types.INTEGER);
-			}
-			cs.setInt(i++, 1);
-			cs.setInt(i++, servicioAgencia.getEstadoServicio()
-					.getCodigoEntero());
-			if (servicioAgencia.getNroCuotas() != 0) {
-				cs.setInt(i++, servicioAgencia.getNroCuotas());
-			} else {
-				cs.setNull(i++, Types.INTEGER);
-			}
-			if (servicioAgencia.getTea() != null
-					&& !servicioAgencia.getTea().equals(BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getTea());
-			} else {
-				cs.setNull(i++, Types.DECIMAL);
-			}
-			if (servicioAgencia.getValorCuota() != null
-					&& !servicioAgencia.getValorCuota().equals(BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getValorCuota());
-			} else {
-				cs.setNull(i++, Types.DECIMAL);
-			}
-			if (servicioAgencia.getFechaPrimerCuota() != null) {
-				cs.setDate(i++, UtilJdbc
-						.convertirUtilDateSQLDate(servicioAgencia
-								.getFechaPrimerCuota()));
-			} else {
-				cs.setNull(i++, Types.DATE);
-			}
-			if (servicioAgencia.getFechaUltimaCuota() != null) {
-				cs.setDate(i++, UtilJdbc
-						.convertirUtilDateSQLDate(servicioAgencia
-								.getFechaUltimaCuota()));
-			} else {
-				cs.setNull(i++, Types.DATE);
-			}
-			cs.setInt(i++, servicioAgencia.getVendedor().getCodigoEntero());
-			if (StringUtils.isNotBlank(servicioAgencia.getObservaciones())) {
-				cs.setString(i++, servicioAgencia.getObservaciones());
-			} else {
-				cs.setNull(i++, Types.VARCHAR);
-			}
-			cs.setInt(i++, servicioAgencia.getUsuarioCreacion().getCodigoEntero().intValue());
-			cs.setString(i++, servicioAgencia.getIpCreacion());
-			cs.execute();
-
-			idservicio = cs.getInt(1);
-		} catch (SQLException e) {
-			idservicio = 0;
-			throw new SQLException(e);
-		} finally {
-			try {
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
-			}
-		}
-
-		return idservicio;
-	}
 
 	@Override
 	public Integer ingresarCabeceraServicio(ServicioAgencia servicioAgencia,
 			Connection conn) throws SQLException {
 		Integer idservicio = 0;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
 		try {
 			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.INTEGER);
-			cs.setInt(i++, idEmpresa);
-			cs.setInt(i++, servicioAgencia.getCliente().getCodigoEntero()
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setInt(2, idEmpresa);
+			cs.setInt(3, servicioAgencia.getCliente().getCodigoEntero()
 					.intValue());
 			if (servicioAgencia.getCliente2().getCodigoEntero() != null
 					&& servicioAgencia.getCliente2().getCodigoEntero()
 							.intValue() != 0) {
-				cs.setInt(i++, servicioAgencia.getCliente2().getCodigoEntero()
+				cs.setInt(4, servicioAgencia.getCliente2().getCodigoEntero()
 						.intValue());
 			} else {
-				cs.setNull(i++, Types.INTEGER);
+				cs.setNull(4, Types.INTEGER);
 			}
-			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(servicioAgencia
+			cs.setDate(5, UtilJdbc.convertirUtilDateSQLDate(servicioAgencia
 					.getFechaServicio()));
-			cs.setBigDecimal(i++, servicioAgencia.getMontoTotalIGV());
-			cs.setBigDecimal(i++, servicioAgencia.getMontoTotal());
-			cs.setBigDecimal(i++, servicioAgencia.getMontoTotalFee());
-			cs.setBigDecimal(i++, servicioAgencia.getMontoTotalComision());
-			cs.setInt(i++, 1);
-			cs.setInt(i++, servicioAgencia.getEstadoServicio()
+			cs.setBigDecimal(6, servicioAgencia.getMontoTotalIGV());
+			cs.setBigDecimal(7, servicioAgencia.getMontoTotal());
+			cs.setBigDecimal(8, servicioAgencia.getMontoTotalFee());
+			cs.setBigDecimal(9, servicioAgencia.getMontoTotalComision());
+			cs.setInt(10, 1);
+			cs.setInt(11, servicioAgencia.getEstadoServicio()
 					.getCodigoEntero());
 			if (servicioAgencia.getNroCuotas() != 0) {
-				cs.setInt(i++, servicioAgencia.getNroCuotas());
+				cs.setInt(12, servicioAgencia.getNroCuotas());
 			} else {
-				cs.setNull(i++, Types.INTEGER);
+				cs.setNull(12, Types.INTEGER);
 			}
 			if (servicioAgencia.getTea() != null
 					&& !servicioAgencia.getTea().equals(BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getTea());
+				cs.setBigDecimal(13, servicioAgencia.getTea());
 			} else {
-				cs.setNull(i++, Types.DECIMAL);
+				cs.setNull(13, Types.DECIMAL);
 			}
 			if (servicioAgencia.getValorCuota() != null
 					&& !servicioAgencia.getValorCuota().equals(BigDecimal.ZERO)) {
-				cs.setBigDecimal(i++, servicioAgencia.getValorCuota());
+				cs.setBigDecimal(14, servicioAgencia.getValorCuota());
 			} else {
-				cs.setNull(i++, Types.DECIMAL);
+				cs.setNull(14, Types.DECIMAL);
 			}
 			if (servicioAgencia.getFechaPrimerCuota() != null) {
-				cs.setDate(i++, UtilJdbc
+				cs.setDate(15, UtilJdbc
 						.convertirUtilDateSQLDate(servicioAgencia
 								.getFechaPrimerCuota()));
 			} else {
-				cs.setNull(i++, Types.DATE);
+				cs.setNull(15, Types.DATE);
 			}
 			if (servicioAgencia.getFechaUltimaCuota() != null) {
-				cs.setDate(i++, UtilJdbc
+				cs.setDate(16, UtilJdbc
 						.convertirUtilDateSQLDate(servicioAgencia
 								.getFechaUltimaCuota()));
 			} else {
-				cs.setNull(i++, Types.DATE);
+				cs.setNull(16, Types.DATE);
 			}
-			cs.setInt(i++, servicioAgencia.getMoneda().getCodigoEntero()
+			cs.setInt(17, servicioAgencia.getMoneda().getCodigoEntero()
 					.intValue());
-			cs.setInt(i++, servicioAgencia.getVendedor().getCodigoEntero()
+			cs.setInt(18, servicioAgencia.getVendedor().getCodigoEntero()
 					.intValue());
 			if (StringUtils.isNotBlank(servicioAgencia.getObservaciones())) {
-				cs.setString(i++, servicioAgencia.getObservaciones());
+				cs.setString(19, servicioAgencia.getObservaciones());
 			} else {
-				cs.setNull(i++, Types.VARCHAR);
+				cs.setNull(19, Types.VARCHAR);
 			}
-			cs.setInt(i++, servicioAgencia.getUsuarioCreacion().getCodigoEntero().intValue());
-			cs.setString(i++, servicioAgencia.getIpCreacion());
+			cs.setInt(20, servicioAgencia.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(21, servicioAgencia.getIpCreacion());
 			if (StringUtils.isNotBlank(servicioAgencia.getCodigoNovios())){
-				cs.setString(i++, servicioAgencia.getCodigoNovios());
+				cs.setString(22, servicioAgencia.getCodigoNovios());
 			}
 			else{
-				cs.setNull(i++, Types.VARCHAR);
+				cs.setNull(22, Types.VARCHAR);
 			}
+			cs.setBigDecimal(23, servicioAgencia.getMontoTotalDscto());
+			cs.setBigDecimal(24, servicioAgencia.getMontoSubtotal());
+			
 			cs.execute();
 
 			idservicio = cs.getInt(1);
@@ -1006,6 +861,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 						UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
 				detalleServicio.getTipoServicio().setEsFee(
 						UtilJdbc.obtenerBoolean(rs, "esfee"));
+				detalleServicio.getTipoServicio().setOperacionMatematica(
+						UtilJdbc.obtenerCadena(rs, "operacionmatematica"));
 				detalleServicio.setDescripcionServicio(UtilJdbc.obtenerCadena(
 						rs, "descripcionservicio"));
 				detalleServicio.setFechaIda(UtilJdbc.obtenerFecha(rs,
@@ -1106,6 +963,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 						UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
 				detalleServicio.getTipoServicio().setEsFee(
 						UtilJdbc.obtenerBoolean(rs, "esfee"));
+				detalleServicio.getTipoServicio().setOperacionMatematica(
+						UtilJdbc.obtenerCadena(rs, "operacionmatematica"));
 				detalleServicio.setDescripcionServicio(UtilJdbc.obtenerCadena(
 						rs, "descripcionservicio"));
 				detalleServicio.setFechaIda(UtilJdbc.obtenerFecha(rs,
@@ -1865,7 +1724,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setInt(i++, 0);
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(servicioAgencia
 					.getFechaServicio()));
-			cs.setBigDecimal(i++, servicioAgencia.getMontoTotal());
+			cs.setBigDecimal(i++, servicioAgencia.getMontoTotalServicios());
 			if (servicioAgencia.getIdReferencia() != null) {
 				cs.setInt(i++, servicioAgencia.getIdReferencia());
 			} else {

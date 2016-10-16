@@ -100,6 +100,7 @@ public class CatalogoDaoImpl implements CatalogoDao {
 				maestroVO = new BaseVO();
 				maestroVO.setCodigoEntero(rs.getInt("id"));
 				maestroVO.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
+				maestroVO.setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
 				resultado.add(maestroVO);
 			}
 		} catch (SQLException e) {

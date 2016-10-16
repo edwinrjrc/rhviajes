@@ -95,7 +95,7 @@ public class ParametroDaoImpl implements ParametroDao {
 	public void registrarParametro(Parametro parametro) throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{ ? = call soporte.fn_ingresarparametro(?,?,?,?) }";
+		String sql = "{ ? = call soporte.fn_ingresarparametro(?,?,?,?,?,?) }";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -108,6 +108,8 @@ public class ParametroDaoImpl implements ParametroDao {
 			cs.setString(i++,
 					UtilJdbc.convertirMayuscula(parametro.getDescripcion()));
 			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getValor()));
+			cs.setInt(i++, parametro.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(i++, parametro.getIpCreacion());
 
 			cs.execute();
 		} catch (SQLException e) {

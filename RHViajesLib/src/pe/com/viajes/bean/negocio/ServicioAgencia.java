@@ -40,6 +40,8 @@ public class ServicioAgencia extends BaseNegocio {
 	private BigDecimal montoTotalComision;
 	private BigDecimal montoTotalIGV;
 	private BigDecimal montoSaldoServicio;
+	private BigDecimal montoTotalDscto;
+	private BigDecimal montoSubtotal;
 
 	private List<DetalleServicioAgencia> listaDetalleServicio;
 	private List<DetalleServicioAgencia> listaDetalleServicioAgrupado;
@@ -171,8 +173,12 @@ public class ServicioAgencia extends BaseNegocio {
 		if (this.listaDetalleServicio != null
 				&& !this.listaDetalleServicio.isEmpty()) {
 			for (DetalleServicioAgencia detalleServicio : this.listaDetalleServicio) {
-
-				monto = monto.add(detalleServicio.getTotalServicio());
+				if ("S".equals(detalleServicio.getTipoServicio().getOperacionMatematica())){
+					monto = monto.add(detalleServicio.getTotalServicio());
+				}
+				else if ("R".equals(detalleServicio.getTipoServicio().getOperacionMatematica())){
+					monto = monto.subtract(detalleServicio.getTotalServicio());
+				}
 			}
 		}
 
@@ -641,5 +647,33 @@ public class ServicioAgencia extends BaseNegocio {
 	 */
 	public void setCodigoNovios(String codigoNovios) {
 		this.codigoNovios = codigoNovios;
+	}
+
+	/**
+	 * @return the montoTotalDscto
+	 */
+	public BigDecimal getMontoTotalDscto() {
+		return montoTotalDscto;
+	}
+
+	/**
+	 * @param montoTotalDscto the montoTotalDscto to set
+	 */
+	public void setMontoTotalDscto(BigDecimal montoTotalDscto) {
+		this.montoTotalDscto = montoTotalDscto;
+	}
+
+	/**
+	 * @return the montoSubtotal
+	 */
+	public BigDecimal getMontoSubtotal() {
+		return montoSubtotal;
+	}
+
+	/**
+	 * @param montoSubtotal the montoSubtotal to set
+	 */
+	public void setMontoSubtotal(BigDecimal montoSubtotal) {
+		this.montoSubtotal = montoSubtotal;
 	}
 }

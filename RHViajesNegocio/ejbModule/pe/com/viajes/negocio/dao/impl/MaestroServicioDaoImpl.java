@@ -283,7 +283,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 	public Integer ingresarMaestroServicio(MaestroServicio servicio, Connection conn)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
+		String sql = "{ ? = call negocio.fn_ingresarservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 		Integer resultado = null;
 
 		try {
@@ -340,6 +340,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			}
 			cs.setBoolean(i++, true);
 			cs.setBoolean(i++, servicio.isServicioPadre());
+			cs.setString(i++, servicio.getOperacionMatematica());
 			cs.execute();
 
 			resultado = cs.getInt(1);
@@ -371,7 +372,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_actualizarservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
+		String sql = "{ ? = call negocio.fn_actualizarservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 		boolean resultado = false;
 
 		try {
@@ -425,6 +426,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			}
 			cs.setBoolean(i++, servicio.isVisible());
 			cs.setBoolean(i++, servicio.isServicioPadre());
+			cs.setString(i++, servicio.getOperacionMatematica());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);
@@ -504,6 +506,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				resultado.setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
 				resultado.setServicioPadre(UtilJdbc.obtenerBoolean(rs,
 						"esserviciopadre"));
+				resultado.setOperacionMatematica(UtilJdbc.obtenerCadena(rs, "operacionmatematica"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -575,6 +578,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				resultado.setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
 				resultado.setServicioPadre(UtilJdbc.obtenerBoolean(rs,
 						"esserviciopadre"));
+				resultado.setOperacionMatematica(UtilJdbc.obtenerCadena(rs, "operacionmatematica"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -782,7 +786,7 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 						"idserviciodepende"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
 				bean.setValorParametro(UtilJdbc.obtenerCadena(rs, "valor"));
-
+				bean.setOperacionMatematica(UtilJdbc.obtenerCadena(rs, "operacionmatematica"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {

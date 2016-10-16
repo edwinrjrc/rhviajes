@@ -913,6 +913,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 							maestroServicio.getCodigoEntero());
 					detalle.getTipoServicio().setNombre(
 							maestroServicio.getNombre());
+					detalle.getTipoServicio().setOperacionMatematica(maestroServicio.getOperacionMatematica());
 					detalle.setFechaIda(new Date());
 					detalle.getServicioPadre().setCodigoEntero(idServicioPadre);
 					detalle.setMoneda(detalleServicio2.getMoneda());

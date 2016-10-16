@@ -42,6 +42,7 @@ public class MaestroServicio extends BaseNegocio {
 	private List<BaseVO> listaServicioDepende;
 	private BaseVO parametroAsociado;
 	private String valorParametro;
+	private String operacionMatematica;
 
 	/**
 	 * 
@@ -363,6 +364,20 @@ public class MaestroServicio extends BaseNegocio {
 	 */
 	public void setServicioPadre(boolean servicioPadre) {
 		this.servicioPadre = servicioPadre;
+	}
+
+	/**
+	 * @return the operacionMatematica
+	 */
+	public String getOperacionMatematica() {
+		return operacionMatematica;
+	}
+
+	/**
+	 * @param operacionMatematica the operacionMatematica to set
+	 */
+	public void setOperacionMatematica(String operacionMatematica) {
+		this.operacionMatematica = operacionMatematica;
 	}
 
 }

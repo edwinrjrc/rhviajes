@@ -60,10 +60,15 @@ public class ParametroMBean extends BaseMBean {
 		this.setEditarParametro(false);
 		this.setParametro(null);
 		this.setNombreFormulario("Nuevo Parametro");
+		this.getParametro().setEmpresa(this.obtenerEmpresa());
 	}
 
 	public void ejecutarMetodo() {
 		try {
+			parametro.setUsuarioCreacion(this.obtenerUsuarioSession());
+			parametro.setIpCreacion(this.obtenerIpMaquina());
+			parametro.setUsuarioModificacion(this.obtenerUsuarioSession());
+			parametro.setIpModificacion(this.obtenerIpMaquina());
 			if (this.isNuevoParametro()) {
 				parametroServicio.registrarParametro(parametro);
 				this.setShowModal(true);

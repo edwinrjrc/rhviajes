@@ -26,9 +26,6 @@ import pe.com.viajes.bean.negocio.Tramo;
  */
 public interface ServicioNovaViajesDao {
 
-	Integer ingresarCabeceraServicio(ServicioAgencia servicioAgencia)
-			throws SQLException;
-
 	Integer ingresarCabeceraServicio(ServicioAgencia servicioAgencia,
 			Connection conn) throws SQLException;
 

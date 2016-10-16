@@ -3,13 +3,13 @@
  */
 package pe.com.viajes.bean.negocio;
 
-import pe.com.viajes.bean.base.Base;
+import pe.com.viajes.bean.base.BaseNegocio;
 
 /**
  * @author Edwin
  * 
  */
-public class Parametro extends Base {
+public class Parametro extends BaseNegocio {
 
 	/**
 	 * 

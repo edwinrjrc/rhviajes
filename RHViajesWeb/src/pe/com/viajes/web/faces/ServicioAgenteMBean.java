@@ -413,7 +413,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.setCargoConfiguracionTipoServicio(false);
 
 				if (StringUtils.isBlank(this.getServicioAgencia().getMoneda()
-						.getNombre())) {
+						.getNombre()) || StringUtils.isBlank(this.getServicioAgencia().getMoneda().getAbreviatura())) {
 					int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
 							"maestroMonedas", "aplicacionDatos");
 					List<BaseVO> lista = soporteServicio
@@ -425,10 +425,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 									.getCodigoEntero().intValue()) {
 								this.getServicioAgencia().getMoneda()
 										.setNombre(base.getNombre());
+								this.getServicioAgencia().getMoneda().setAbreviatura(base.getAbreviatura());
 							}
 						}
 					}
-
 				}
 
 				inicializaTipoServicio();
@@ -694,6 +694,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 				throw new ValidacionException(
 						"No puede agregar este servicio hasta que no haya agregado un servicio padre o principal");
 			}
+			
+			if (this.getServicioAgencia().getMoneda()== null || this.getServicioAgencia().getMoneda().getCodigoEntero() == null || this.getServicioAgencia().getMoneda().getCodigoEntero().intValue() == 0){
+				throw new ValidacionException(
+						"No se especifico la moneda de facturacion en la información de venta");
+			}
 
 			if (configuracionTipoServicio.isMuestraRuta()) {
 				if (this.getDetalleServicio().getRuta().getTramos().isEmpty()) {
@@ -745,17 +750,27 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	private void calcularTotales() {
-		BigDecimal montoTotal = BigDecimal.ZERO;
 		BigDecimal montoComision = BigDecimal.ZERO;
 		BigDecimal montoFee = BigDecimal.ZERO;
 		BigDecimal montoIgv = BigDecimal.ZERO;
+		BigDecimal montoSubtotal = BigDecimal.ZERO;
+		BigDecimal montoTotalDscto = BigDecimal.ZERO;
 		try {
 			Parametro param = this.parametroServicio.consultarParametro(UtilWeb
 					.obtenerEnteroPropertieMaestro("codigoParametroIGV",
 							"aplicacionDatos"), this.obtenerIdEmpresa());
 
+			//codigoParametroDscto
+			Parametro paramDscto = this.parametroServicio.consultarParametro(UtilWeb
+					.obtenerEnteroPropertieMaestro("codigoParametroDscto",
+							"aplicacionDatos"), this.obtenerIdEmpresa());
 			for (DetalleServicioAgencia ds : this.getListadoDetalleServicio()) {
-				montoTotal = montoTotal.add(ds.getTotalServicio());
+				if ("S".equals(ds.getTipoServicio().getOperacionMatematica())){
+					montoSubtotal = montoSubtotal.add(ds.getTotalServicio());
+				}
+				/*else if ("R".equals(ds.getTipoServicio().getOperacionMatematica())){
+					montoSubtotal = montoSubtotal.subtract(ds.getTotalServicio());
+				}*/
 				montoComision = montoComision.add(ds.getMontoComision());
 				if (ds.getTipoServicio().getCodigoEntero().toString()
 						.equals(param.getValor())) {
@@ -767,6 +782,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 					montoFee = montoFee.add(ds.getTotalServicio());
 				}
 				
+				if (ds.getTipoServicio().getCodigoEntero().toString()
+						.equals(paramDscto.getValor())) {
+					montoTotalDscto = montoTotalDscto.add(ds.getPrecioUnitario());
+				}
+				
 				//this.getServicioAgencia().setMoneda(ds.getMonedaFacturacion());
 			}
 
@@ -775,28 +795,36 @@ public class ServicioAgenteMBean extends BaseMBean {
 			montoComision = BigDecimal.ZERO;
 			montoFee = BigDecimal.ZERO;
 			montoIgv = BigDecimal.ZERO;
-			montoTotal = BigDecimal.ZERO;
 		}
 
-		this.getServicioAgencia().setMontoTotalServicios(montoTotal);
 		this.getServicioAgencia().setMontoTotalComision(montoComision);
 		this.getServicioAgencia().setMontoTotalFee(montoFee);
 		this.getServicioAgencia().setMontoTotalIGV(montoIgv);
+		this.getServicioAgencia().setMontoSubtotal(montoSubtotal);
+		this.getServicioAgencia().setMontoTotalDscto(montoTotalDscto);
+		this.getServicioAgencia().setMontoTotalServicios(montoSubtotal.subtract(montoTotalDscto));
 	}
 
 	private void calcularTotalesConsulta() {
-		BigDecimal montoTotal = BigDecimal.ZERO;
 		BigDecimal montoComision = BigDecimal.ZERO;
 		BigDecimal montoFee = BigDecimal.ZERO;
 		BigDecimal montoIgv = BigDecimal.ZERO;
+		BigDecimal montoSubtotal = BigDecimal.ZERO;
+		BigDecimal montoTotalDscto = BigDecimal.ZERO;
 		try {
 			Parametro param = this.parametroServicio.consultarParametro(UtilWeb
 					.obtenerEnteroPropertieMaestro("codigoParametroIGV",
 							"aplicacionDatos"), this.obtenerIdEmpresa());
-
+			
+			//codigoParametroDscto
+			Parametro paramDscto = this.parametroServicio.consultarParametro(UtilWeb
+					.obtenerEnteroPropertieMaestro("codigoParametroDscto",
+							"aplicacionDatos"), this.obtenerIdEmpresa());
 			for (DetalleServicioAgencia ds : this.getListadoDetalleServicio()) {
 				for (DetalleServicioAgencia dsh : ds.getServiciosHijos()) {
-					montoTotal = montoTotal.add(dsh.getTotalServicio());
+					if ("S".equals(dsh.getTipoServicio().getOperacionMatematica())){
+						montoSubtotal = montoSubtotal.add(dsh.getTotalServicio());
+					}
 					montoComision = montoComision.add(dsh.getMontoComision());
 					if (dsh.getTipoServicio().getCodigoEntero().toString()
 							.equals(param.getValor())) {
@@ -807,6 +835,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 							&& dsh.getTipoServicio().isEsFee()) {
 						montoFee = montoFee.add(ds.getTotalServicio());
 					}
+					
+					if (ds.getTipoServicio().getCodigoEntero().toString()
+							.equals(paramDscto.getValor())) {
+						montoTotalDscto = montoTotalDscto.add(ds.getPrecioUnitario());
+					}
 				}
 			}
 
@@ -815,13 +848,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 			montoComision = BigDecimal.ZERO;
 			montoFee = BigDecimal.ZERO;
 			montoIgv = BigDecimal.ZERO;
-			montoTotal = BigDecimal.ZERO;
 		}
 
-		this.getServicioAgencia().setMontoTotalServicios(montoTotal);
 		this.getServicioAgencia().setMontoTotalComision(montoComision);
 		this.getServicioAgencia().setMontoTotalFee(montoFee);
 		this.getServicioAgencia().setMontoTotalIGV(montoIgv);
+		this.getServicioAgencia().setMontoSubtotal(montoSubtotal);
+		this.getServicioAgencia().setMontoTotalDscto(montoTotalDscto);
+		this.getServicioAgencia().setMontoTotalServicios(montoSubtotal.subtract(montoTotalDscto));
 	}
 
 	public void ejecutarMetodo() {
@@ -1180,7 +1214,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.consultarDestinos();
 				
-				agregarPasajerosAnteriores();
+				if(this.getDetalleServicio().getTipoServicio().isServicioPadre() && !this.getDetalleServicio().getTipoServicio().isEsFee()){
+					agregarPasajerosAnteriores();
+				}
 			}
 
 		} catch (SQLException ex) {
@@ -1396,6 +1432,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 		agregarServiciosPadre();
 
 		calcularTotales();
+		
+		if (listadoDetalleServicio== null || listadoDetalleServicio.isEmpty()){
+			this.getServicioAgencia().setMoneda(null);
+		}
 	}
 
 	private void eliminarServicioEHijos(Integer codigoDetalleServicio) {
