@@ -230,6 +230,9 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 		for (Direccion direccion : listaDirecciones) {
 			direccion.setDireccion(utilNegocioSessionLocal
 					.obtenerDireccionCompleta(direccion));
+			if (direccion.isPrincipal()){
+				cliente.setDireccion(direccion);
+			}
 		}
 		cliente.setListaDirecciones(listaDirecciones);
 		cliente.setListaContactos(contactoDao
@@ -675,6 +678,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 
 			ComprobanteBusqueda comprobanteBusqueda = new ComprobanteBusqueda();
 			comprobanteBusqueda.setCodigoEntero(idComprobante);
+			comprobanteBusqueda.getEmpresa().setCodigoEntero(idEmpresa);
 
 			List<Comprobante> comprobantes = comprobanteNovaViajesDao
 					.consultarComprobantes(comprobanteBusqueda);
@@ -804,7 +808,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 		numeroHoras = UtilEjb.convertirCadenaEntero(parametroDao.consultarParametro(UtilEjb.obtenerEnteroPropertieMaestro("codigoParametroCheckIn", "aplicacionDatosEjb"), usuario.getEmpresa().getCodigoEntero()).getValor());
 		cal.add(Calendar.HOUR, numeroHoras);
 		
-		if (usuario.getRol().getCodigoEntero().intValue() == UtilEjb.obtenerEnteroPropertieMaestro("rolSupervisorVen", "aplicacionDatosEjb")){
+		if (UtilEjb.validarPermisoRoles(usuario.getListaRoles(), UtilEjb.obtenerEnteroPropertieMaestro("rolSupervisorVen", "aplicacionDatosEjb"))){
 			return servicioNegocioDao.consultarcheckinpendientes(cal.getTime(), null, usuario.getEmpresa().getCodigoEntero());
 		}
 		else{
@@ -955,4 +959,17 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			throw new ErrorConsultaDataException("Ha ocurrido un error al realizar la consulta",e);
 		}
 	}
+	
+	@Override
+	public TipoCambio consultarTipoCambio (Integer idEmpresa) throws ErrorConsultaDataException{
+		try {
+			TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl(idEmpresa);
+			Integer idMonedaOrigen = 2;
+			Integer idMonedaDestino = 1;
+			return tipoCambioDao.consultarTipoCambio(idMonedaOrigen, idMonedaDestino);
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException("No se pudo completar la consulta de tipo de cambio", e);
+		}
+	}
+	
 }

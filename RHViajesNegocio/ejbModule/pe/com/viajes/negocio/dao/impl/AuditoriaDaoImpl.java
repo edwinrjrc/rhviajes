@@ -66,6 +66,33 @@ public class AuditoriaDaoImpl implements AuditoriaDao {
 			}
 		}
 	}
+	
+	@Override
+	public boolean registrarEventoSesion(Usuario usuario, Integer tipoEvento, Connection conn)
+			throws SQLException {
+		CallableStatement cs = null;
+		String sql = "";
+
+		try {
+			sql = "{ ? = call auditoria.fn_registrareventosesionsistema(?,?,?,?,?,?) }";
+			cs = conn.prepareCall(sql);
+			int i = 1;
+			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setInt(i++, usuario.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(i++, usuario.getCodigoEntero().intValue());
+			cs.setString(i++, usuario.getUsuario());
+			cs.setInt(i++, tipoEvento.intValue());
+			cs.setInt(i++, usuario.getUsuarioCreacion().getCodigoEntero());
+			cs.setString(i++, usuario.getIpCreacion());
+			cs.execute();
+
+			return cs.getBoolean(1);
+		} finally {
+			if (cs != null) {
+				cs.close();
+			}
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

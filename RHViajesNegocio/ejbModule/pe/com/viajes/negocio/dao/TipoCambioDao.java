@@ -23,4 +23,7 @@ public interface TipoCambioDao {
 
 	TipoCambio consultarTipoCambio(Integer idMonedaOrigen,
 			Integer idMonedaDestino, Connection conn) throws SQLException;
+
+	TipoCambio consultarTipoCambio(Integer idMonedaOrigen,
+			Integer idMonedaDestino) throws SQLException;
 }

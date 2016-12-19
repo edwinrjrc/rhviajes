@@ -69,6 +69,7 @@ public class ParametroMBean extends BaseMBean {
 			parametro.setIpCreacion(this.obtenerIpMaquina());
 			parametro.setUsuarioModificacion(this.obtenerUsuarioSession());
 			parametro.setIpModificacion(this.obtenerIpMaquina());
+			parametro.setEmpresa(this.obtenerEmpresa());
 			if (this.isNuevoParametro()) {
 				parametroServicio.registrarParametro(parametro);
 				this.setShowModal(true);

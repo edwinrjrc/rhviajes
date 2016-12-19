@@ -346,6 +346,12 @@ public class ClienteDaoImpl implements ClienteDao {
 						.getTipoDocumento()
 						.setCodigoEntero(
 								UtilJdbc.obtenerNumero(rs, "idtipodocumento"));
+				resultado
+				.getDocumentoIdentidad()
+				.getTipoDocumento().setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
+				resultado
+				.getDocumentoIdentidad()
+				.getTipoDocumento().setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
 				resultado.getDocumentoIdentidad().setNumeroDocumento(
 						UtilJdbc.obtenerCadena(rs, "numerodocumento"));
 				resultado.getRubro().setCodigoEntero(

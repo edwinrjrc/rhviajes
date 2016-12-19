@@ -190,4 +190,7 @@ public interface ConsultaNegocioSessionRemote {
 			throws ErrorConsultaDataException;
 
 	Pasajero consultaContactoPasajero(Pasajero pasajero) throws ErrorConsultaDataException;
+
+	TipoCambio consultarTipoCambio(Integer idEmpresa)
+			throws ErrorConsultaDataException;
 }

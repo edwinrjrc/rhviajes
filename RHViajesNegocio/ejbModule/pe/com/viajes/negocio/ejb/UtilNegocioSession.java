@@ -20,6 +20,7 @@ import pe.com.viajes.bean.jasper.DetalleServicio;
 import pe.com.viajes.bean.negocio.ConfiguracionTipoServicio;
 import pe.com.viajes.bean.negocio.Contacto;
 import pe.com.viajes.bean.negocio.Destino;
+import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Maestro;
@@ -1359,6 +1360,20 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			return pasajero;
 		} catch (SQLException e) {
 			throw new ErrorRegistroDataException("No se agrego el pasajero");
+		}
+	}
+	
+	@Override
+	public void analizarDetalleComprobante(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa){
+		if (listaDetalle != null){
+			for (DetalleComprobante detalleComprobante : listaDetalle) {
+				try {
+					consultaNegocioSessionLocal.consultaDetalleServicioDetalle(idServicio, detalleComprobante.getIdServicioDetalle(), idEmpresa);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

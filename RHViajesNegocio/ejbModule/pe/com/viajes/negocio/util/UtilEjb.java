@@ -24,6 +24,7 @@ import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Parametro;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
+import pe.com.viajes.bean.util.UtilApp;
 import pe.com.viajes.negocio.dao.ParametroDao;
 import pe.com.viajes.negocio.dao.impl.ParametroDaoImpl;
 
@@ -31,7 +32,7 @@ import pe.com.viajes.negocio.dao.impl.ParametroDaoImpl;
  * @author Edwin
  *
  */
-public class UtilEjb {
+public class UtilEjb extends UtilApp {
 
 	private final static Logger logger = Logger.getLogger(UtilEjb.class);
 

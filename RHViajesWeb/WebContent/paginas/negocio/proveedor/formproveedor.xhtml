@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:rh="http://novaviajes.com.pe/funciones">
 
 	<rich:popupPanel id="idModalformproveedor" modal="true" width="1000"
 		height="500" style="background-color: #FFFFFF">
@@ -340,7 +341,7 @@
 						</h:panelGrid>
 					</rich:tab>
 					<rich:tab header="Cuentas Bancarias"
-						rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+						rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'3')}">
 						<h:panelGrid border="0" cellpadding="o" cellspacing="0"
 							style="width:100%;" columns="1" id="idGrdTablaCuentas">
 							<rich:dataTable id="idTabCuentas"

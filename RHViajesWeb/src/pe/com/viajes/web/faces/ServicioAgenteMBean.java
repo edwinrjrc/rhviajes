@@ -251,9 +251,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 		try {
 			HttpSession session = obtenerSession(false);
 			Usuario usuario = (Usuario) session.getAttribute(USUARIO_SESSION);
-			if (Integer.valueOf(2).equals(usuario.getRol().getCodigoEntero())
-					|| Integer.valueOf(4).equals(
-							usuario.getRol().getCodigoEntero())) {
+			
+			if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 2) || UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 4)){
 				getServicioAgenciaBusqueda().getVendedor().setCodigoEntero(
 						usuario.getCodigoEntero());
 			}
@@ -287,7 +286,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 			this.setColumnasComprobantes(9);
 
-			if (usuario.getRol().getCodigoEntero().intValue() == 3) {
+			if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 3)) {
 				if (this.getServicioAgencia().isGuardoRelacionComprobantes()) {
 					this.setGuardoComprobantes(true);
 					this.setGuardoRelacionComprobantes(true);
@@ -368,8 +367,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setVendedor(usuario.isVendedor());
 
 		if (!this.isVendedor()
-				&& Integer.valueOf(2)
-						.equals(usuario.getRol().getCodigoEntero())) {
+				&& UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 2)) {
 			this.getServicioAgencia().getVendedor()
 					.setCodigoEntero(usuario.getCodigoEntero());
 			this.getServicioAgencia().getVendedor()
@@ -1620,10 +1618,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				HttpSession session = obtenerSession(false);
 				Usuario usuario = (Usuario) session
 						.getAttribute(USUARIO_SESSION);
-				if (Integer.valueOf(2).equals(
-						usuario.getRol().getCodigoEntero())
-						|| Integer.valueOf(4).equals(
-								usuario.getRol().getCodigoEntero())) {
+				if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 2) || UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 4)){
 					getServicioAgenciaBusqueda().getVendedor().setCodigoEntero(
 							usuario.getCodigoEntero());
 				}
@@ -2038,7 +2033,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			//rutaImagen = "C:\\Users\\Edwin\\git\\rhviajes\\RHViajesWeb\\WebContent\\resources\\img\\"+"logo3.gif";
 			File imagen = new File(rutaImagen);
 			
-			URL imagen2 = getClass().getResource(rutaImagen);
+			//URL imagen2 = getClass().getResource(rutaImagen);
 			
 			BufferedImage image = ImageIO.read(imagen);
 			parametros = new HashMap<String, Object>();

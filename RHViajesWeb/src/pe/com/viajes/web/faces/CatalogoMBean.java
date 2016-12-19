@@ -117,9 +117,7 @@ public class CatalogoMBean extends BaseMBean {
 		try {
 			lista = seguridadServicio.listarRoles(obtenerIdEmpresa());
 			catalogoRoles = UtilWeb.convertirSelectItem(lista);
-		} catch (ConnectionException e) {
-			logger.error(e.getMessage(), e);
-		} catch (SQLException e) {
+		} catch (ErrorConsultaDataException e) {
 			logger.error(e.getMessage(), e);
 		}
 
@@ -476,9 +474,6 @@ public class CatalogoMBean extends BaseMBean {
 				catalogoVendedores.add(si);
 			}
 
-		} catch (SQLException e) {
-			catalogoVendedores = new ArrayList<SelectItem>();
-			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			catalogoVendedores = new ArrayList<SelectItem>();
 			logger.error(e.getMessage(), e);

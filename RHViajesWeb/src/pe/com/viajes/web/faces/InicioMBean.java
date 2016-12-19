@@ -23,6 +23,7 @@ import pe.com.viajes.bean.reportes.CheckIn;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
 import pe.com.viajes.web.servicio.impl.ConsultaNegocioServicioImpl;
+import pe.com.viajes.web.util.UtilWeb;
 
 /**
  * @author Edwin
@@ -83,7 +84,7 @@ public class InicioMBean extends BaseMBean {
 			
 			Usuario usuario = this.obtenerUsuarioSession();
 			
-			if (usuario.getRol().getCodigoEntero().intValue() == 2 || usuario.getRol().getCodigoEntero().intValue() == 4){
+			if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 2) || UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 4)){
 				checkInPendientes = consultaNegocioServicio
 						.consultarCheckInPendiente(this.obtenerUsuarioSession());
 			}

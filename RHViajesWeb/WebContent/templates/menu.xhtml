@@ -6,7 +6,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:my="http://java.sun.com/jsf/composite/components">
+	xmlns:my="http://java.sun.com/jsf/composite/components"
+	xmlns:rh="http://novaviajes.com.pe/funciones">
 
 	<h:outputStylesheet>
         .pic {
@@ -24,148 +25,97 @@
 
 	<h:form id="idFormMenu">
 		<rich:toolbar height="20px">
-			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 1}">
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;">
 				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
 					style="text-align:left" />
 				<f:facet name="label">
 					<h:outputText value="Inicio" style="width:50px;" />
 				</f:facet>
 				<rich:menuGroup label="Seguridad" style="text-align:left"
-					icon="#{facesContext.externalContext.requestContextPath}/resources/img/iconos/seguridadicon.gif">
+					icon="#{facesContext.externalContext.requestContextPath}/resources/img/iconos/seguridadicon.gif"
+					rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}">
 					<rich:menuItem action="irAdministrarUsuarios"
-						label="Administrar Usuarios" style="text-align:left">
+						label="Administrar Usuarios" style="text-align:left"
+						rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}">
 						<f:facet name="icon">
 							<h:graphicImage
 								value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconos/usuarioicon.gif" />
 						</f:facet>
 					</rich:menuItem>
 				</rich:menuGroup>
-				<rich:menuGroup label="Soporte" style="text-align:left">
+				<rich:menuGroup label="Soporte" style="text-align:left"
+					rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,4')}">
 					<rich:menuItem action="irAdministrarParametros"
-						label="Administrar Parametros" style="text-align:left" />
+						label="Administrar Parametros" style="text-align:left"
+						rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,4')}" />
 					<rich:menuItem action="irAdministrarMaestros"
-						label="Administrar Maestros" style="text-align:left" />
+						label="Administrar Maestros" style="text-align:left"
+						rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1')}" />
 					<rich:menuItem action="irAdministrarPlantillaCorreo"
 						label="Administrar Plantilla de Correos Masivos"
-						style="text-align:left" />
+						style="text-align:left"
+						rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1')}" />
 					<rich:menuItem action="irConfigurarServicios"
-						label="Configurar Tipos Servicio" style="text-align:left" />
+						label="Configurar Tipos Servicio" style="text-align:left"
+						rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1')}" />
 				</rich:menuGroup>
-				<rich:menuGroup label="Negocio" style="text-align:left">
+				<rich:menuGroup label="Negocio" style="text-align:left"
+					rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,2,3,4')}">
 					<rich:menuItem action="irAdministrarMaeServicios"
-						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
+						label="Administrar Maestro Servicios" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}"></rich:menuItem>
 					<rich:menuItem action="#{proveedorMBean.iniciaAdmProveedor()}"
-						label="Administrar Proveedores" style="text-align:left" />
+						label="Administrar Proveedores" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}"/>
 					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
-						label="Administrar Clientes" style="text-align:left" />
-					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
+						label="Administrar Clientes" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,2,3,4')}"/>
+					<rich:menuItem action="irProgramaNovios" label="Programa Novios" rendered="false"
 						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
 						<f:facet name="icon">
 							<h:graphicImage
 								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
 						</f:facet>
 					</rich:menuItem>
-					<rich:menuItem action="irAdministrarVentaServicios"
+					<rich:menuItem action="irAdministrarVentaServicios" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,2,3,4')}"
 						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
 					<rich:menuItem action="irEnvioMasivoCorreo"
-						label="Envio Correo Masivo" style="text-align:left"></rich:menuItem>
+						label="Envio Correo Masivo" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}"></rich:menuItem>
 					<rich:menuItem action="irAdministracionObliXPagar"
-						label="Administrar Obligaciones por Pagar" style="text-align:left"></rich:menuItem>
-				</rich:menuGroup>
-				<rich:menuGroup label="Destinos" style="text-align:left">
-					<rich:menuItem action="irAdministrarPaises"
-						label="Administrar Paises" style="text-align:left" />
-					<rich:menuItem action="irAdministrarDestino"
-						label="Administrar Destinos" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuSeparator />
-				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
-					style="text-align:left" />
-			</rich:dropDownMenu>
-			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 2}">
-				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
-					style="text-align:left" />
-				<f:facet name="label">
-					<h:outputText value="Inicio" style="width:50px;" />
-				</f:facet>
-				<rich:menuGroup label="Negocio" style="text-align:left">
-					<rich:menuItem action="irAdministrarMaeServicios"
-						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="irAdministrarProveedor"
-						label="Administrar Proveedores" style="text-align:left" />
-					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
-						label="Administrar Clientes" style="text-align:left" />
-					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
-						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
-						<f:facet name="icon">
-							<h:graphicImage
-								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
-						</f:facet>
-					</rich:menuItem>
-					<rich:menuItem action="irAdministrarVentaServicios"
-						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
-				</rich:menuGroup>
-				<rich:menuGroup label="Destinos" style="text-align:left">
-					<rich:menuItem action="irAdministrarPaises"
-						label="Administrar Paises" style="text-align:left" />
-					<rich:menuItem action="irAdministrarDestino"
-						label="Administrar Destinos" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuSeparator />
-				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
-					style="text-align:left" />
-			</rich:dropDownMenu>
-			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
-				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
-					style="text-align:left" />
-				<f:facet name="label">
-					<h:outputText value="Inicio" style="width:50px;" />
-				</f:facet>
-				<rich:menuGroup label="Negocio" style="text-align:left">
-					<rich:menuItem action="irAdministrarMaeServicios"
-						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="#{proveedorMBean.iniciaAdmProveedor()}"
-						label="Administrar Proveedores" style="text-align:left" />
-					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
-						label="Administrar Clientes" style="text-align:left" />
-					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
-						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
-						<f:facet name="icon">
-							<h:graphicImage
-								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
-						</f:facet>
-					</rich:menuItem>
-					<rich:menuItem action="irAdministrarVentaServicios"
-						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="irAdministracionObliXPagar"
-						label="Administrar Obligaciones por Pagar" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="irConsultaComprobantesGenerados"
+						label="Administrar Obligaciones por Pagar" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}"></rich:menuItem>
+					<rich:menuItem action="irConsultaComprobantesGenerados" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3,4')}"
 						label="Consulta Comprobantes Generados" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="irAdministrarCargaArchivo"
+					<rich:menuItem action="irAdministrarCargaArchivo" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3')}"
 						label="Carga Deuda Clientes" style="text-align:left"></rich:menuItem>
-					<rich:menuGroup label="Tesoreria" style="text-align:left">
-						<rich:menuItem action="irAdministrarCuentaBancaria"
+					<rich:menuGroup label="Tesoreria" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3')}">
+						<rich:menuItem action="irAdministrarCuentaBancaria" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3')}"
 							label="Administrar Cuentas Bancarias" style="text-align:left"></rich:menuItem>
-						<rich:menuItem action="irAdmTipoCambio"
+						<rich:menuItem action="irAdmTipoCambio" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,3')}"
 							actionListener="#{tipoCambioMBean.listarTipoCambio}"
 							label="Administrar Tipo Cambio" style="text-align:left"></rich:menuItem>
 					</rich:menuGroup>
 				</rich:menuGroup>
-				<rich:menuGroup label="Destinos" style="text-align:left">
-					<rich:menuItem action="irAdministrarPaises"
+				<rich:menuGroup label="Destinos" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,2,3,4')}">
+					<rich:menuItem action="irAdministrarPaises" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,2,3,4')}"
 						label="Administrar Paises" style="text-align:left" />
-					<rich:menuItem action="irAdministrarDestino"
+					<rich:menuItem action="irAdministrarDestino" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1,2,3,4')}"
 						label="Administrar Destinos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Empresas" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'5')}">
+					<rich:menuItem action="irAdministrarEmpresa"
+						label="Administrar Empresas" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Contratos" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'5')}">
+					<rich:menuItem action="irAdministrarContrato"
+						label="Administrar Contratos" style="text-align:left" />
+				</rich:menuGroup>
+				<rich:menuGroup label="Soporte" style="text-align:left" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'5')}">
+					<rich:menuItem action="irEjecucionSQL"
+						label="Ejecutar Sentencias SQL" style="text-align:left" />
 				</rich:menuGroup>
 				<rich:menuSeparator />
 				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
 					style="text-align:left" />
 			</rich:dropDownMenu>
 			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'3')}">
 				<f:facet name="label">
 					<h:outputText value="Reportes" style="width:50px;" />
 				</f:facet>
@@ -175,7 +125,7 @@
 				</rich:menuGroup>
 			</rich:dropDownMenu>
 			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'3')}">
 				<f:facet name="label">
 					<h:outputText value="Recursos Humanos" style="width:50px;" />
 				</f:facet>
@@ -183,78 +133,6 @@
 					<rich:menuItem action="#{usuarioMBean.consultarAsistencia()}"
 						label="Consulta Asistencia" style="text-align:left" />
 				</rich:menuGroup>
-			</rich:dropDownMenu>
-			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 4}">
-				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
-					style="text-align:left" />
-				<f:facet name="label">
-					<h:outputText value="Inicio" style="width:50px;" />
-				</f:facet>
-				<rich:menuGroup label="Seguridad" style="text-align:left"
-					icon="#{facesContext.externalContext.requestContextPath}/resources/img/iconos/seguridadicon.gif">
-					<rich:menuItem action="irAdministrarUsuarios"
-						label="Administrar Usuarios" style="text-align:left">
-						<f:facet name="icon">
-							<h:graphicImage
-								value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconos/usuarioicon.gif" />
-						</f:facet>
-					</rich:menuItem>
-				</rich:menuGroup>
-				<rich:menuGroup label="Soporte" style="text-align:left">
-					<rich:menuItem action="irAdministrarMaestros"
-						label="Administrar Maestros" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuGroup label="Negocio" style="text-align:left">
-					<rich:menuItem action="irAdministrarMaeServicios"
-						label="Administrar Maestro Servicios" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="#{proveedorMBean.iniciaAdmProveedor()}"
-						label="Administrar Proveedores" style="text-align:left" />
-					<rich:menuItem action="#{clienteMBean.inicioAdministrador()}"
-						label="Administrar Clientes" style="text-align:left" />
-					<rich:menuItem action="irProgramaNovios" label="Programa Novios"
-						style="text-align:left" actionListener="#{noviosMBean.inicio()}">
-						<f:facet name="icon">
-							<h:graphicImage
-								value="#{facesContext.externalContext.requestContextPath}/../resources/img/novioicon.gif" />
-						</f:facet>
-					</rich:menuItem>
-					<rich:menuItem action="irAdministrarVentaServicios"
-						label="Administrar Registro Servicios" style="text-align:left"></rich:menuItem>
-					<rich:menuItem action="irEnvioMasivoCorreo"
-						label="Envio Correo Masivo" style="text-align:left"></rich:menuItem>
-				</rich:menuGroup>
-				<rich:menuGroup label="Destinos" style="text-align:left">
-					<rich:menuItem action="irAdministrarPaises"
-						label="Administrar Paises" style="text-align:left" />
-					<rich:menuItem action="irAdministrarDestino"
-						label="Administrar Destinos" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuSeparator />
-				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
-					style="text-align:left" />
-			</rich:dropDownMenu>
-			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 5}">
-				<f:facet name="label">
-					<h:outputText value="Inicio" style="width:50px;" />
-				</f:facet>
-				<rich:menuItem label="Inicio Sistema" style="text-align:left" />
-				<rich:menuGroup label="Empresas" style="text-align:left">
-					<rich:menuItem action="irAdministrarEmpresa"
-						label="Administrar Empresas" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuGroup label="Contratos" style="text-align:left">
-					<rich:menuItem action="irAdministrarContrato"
-						label="Administrar Contratos" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuGroup label="Soporte" style="text-align:left">
-					<rich:menuItem action="irEjecucionSQL"
-						label="Ejecutar Sentencias SQL" style="text-align:left" />
-				</rich:menuGroup>
-				<rich:menuSeparator />
-				<rich:menuItem action="#{usuarioMBean.salirSesion}" label="Salir"
-					style="text-align:left" />
 			</rich:dropDownMenu>
 		</rich:toolbar>
 	</h:form>

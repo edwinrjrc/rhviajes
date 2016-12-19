@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.negocio.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import pe.com.viajes.negocio.exception.ConnectionException;
  */
 public interface CatalogoDao {
 
-	List<BaseVO> listarRoles(Integer idEmpresa) throws ConnectionException,
+	List<BaseVO> listarRoles(Integer idEmpresa, Connection conn) throws ConnectionException,
 			SQLException;
 
 	List<BaseVO> listarCatalogoMaestro(int maestro, int idempresa)

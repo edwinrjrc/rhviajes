@@ -9,16 +9,11 @@ package pe.com.viajes.negocio.exception;
  */
 public class RHViajesException extends Exception {
 
-	private String codigoError = "";
-	private String mensajeError = "";
-	/**
-	 * 
-	 */
+	private String codigoError;
+	private String mensajeError;
+
 	private static final long serialVersionUID = 3005964831488327481L;
 
-	/**
-	 * 
-	 */
 	public RHViajesException() {
 		// TODO Auto-generated constructor stub
 	}

@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.naming.NamingException;
@@ -66,10 +65,7 @@ public class InicioAppServlet extends HttpServlet {
 
 		} catch (NamingException e) {
 			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

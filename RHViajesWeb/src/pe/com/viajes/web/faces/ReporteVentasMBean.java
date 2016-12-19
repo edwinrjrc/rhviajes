@@ -32,6 +32,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.reportes.ReporteVentas;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.servicio.ReportesServicio;
 import pe.com.viajes.web.servicio.SeguridadServicio;
 import pe.com.viajes.web.servicio.impl.ReportesServicioImpl;
@@ -79,9 +80,12 @@ public class ReporteVentasMBean extends BaseMBean {
 			this.setReporteGeneralVentas(this.reportesServicio
 					.reporteGeneralVentas(this.getReporteVentas()));
 
+		} catch (ErrorConsultaDataException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 

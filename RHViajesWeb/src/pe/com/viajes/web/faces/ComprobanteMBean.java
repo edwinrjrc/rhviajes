@@ -3,13 +3,16 @@
  */
 package pe.com.viajes.web.faces;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -27,18 +30,25 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.ComprobanteBusqueda;
 import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
+import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.Proveedor;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
+import pe.com.viajes.web.servicio.UtilNegocioServicio;
 import pe.com.viajes.web.servicio.impl.ConsultaNegocioServicioImpl;
+import pe.com.viajes.web.servicio.impl.UtilNegocioServicioImpl;
 import pe.com.viajes.web.util.UtilConvertirNumeroLetras;
 import pe.com.viajes.web.util.UtilWeb;
 
@@ -48,7 +58,7 @@ import pe.com.viajes.web.util.UtilWeb;
  */
 @ManagedBean(name = "comprobanteMBean")
 @SessionScoped()
-public class ComprobanteMBean extends BaseMBean {
+public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface {
 
 	private final static Logger logger = Logger
 			.getLogger(ComprobanteMBean.class);
@@ -68,6 +78,7 @@ public class ComprobanteMBean extends BaseMBean {
 
 	//private NegocioServicio negocioServicio;
 	private ConsultaNegocioServicio consultaNegocioServicio;
+	private UtilNegocioServicio utilNegocioServicio; 
 
 	/**
 	 * 
@@ -79,6 +90,7 @@ public class ComprobanteMBean extends BaseMBean {
 			//negocioServicio = new NegocioServicioImpl(servletContext);
 			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
 					servletContext);
+			utilNegocioServicio = new UtilNegocioServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -120,53 +132,56 @@ public class ComprobanteMBean extends BaseMBean {
 	
 	public void generarComprobante(){
 		try {
-			HSSFWorkbook archivoExcel = new HSSFWorkbook();
 			
-			HSSFSheet hoja1 = null;
+			String plantilla = "D:\\dc-plantilla.xlsx";
+			File archivo = new File(plantilla);
+			XSSFWorkbook archivoExcel = new XSSFWorkbook(new FileInputStream(archivo));
+			
+			XSSFSheet hoja1 = null;
 			
 			// FACTURA
 			if (this.getComprobanteDetalle().getTipoComprobante().getCodigoEntero().intValue() == UtilWeb.obtenerEnteroPropertieMaestro("comprobanteFactura", "aplicacionDatos")){
-				hoja1 = archivoExcel.createSheet("Factura");
+				//hoja1 = archivoExcel.createSheet("Factura");
 				/**
 				 * Inicio de configuracion de hoja excel
 				 */
-				hoja1 = this.configuracionFactura(hoja1);
+				//hoja1 = this.configuracionFactura(hoja1);
 				/**
 				 * Fin configuracion hoja excel
 				 */
 				/**
 				 * Inicio data de factura
 				 */
-				this.dataFactura(hoja1, archivoExcel);
+				//	this.dataFactura(hoja1, archivoExcel);
 				/**
 				 * Fin data de factura
 				 */
 			}
 			// BOLETA
 			else if (this.getComprobanteDetalle().getTipoComprobante().getCodigoEntero().intValue() == UtilWeb.obtenerEnteroPropertieMaestro("comprobanteBoleta", "aplicacionDatos")){
-				hoja1 = archivoExcel.createSheet("Boleta");
+				//hoja1 = archivoExcel.createSheet("Boleta");
 				/**
 				 * Inicio de configuracion de hoja excel
 				 */
-				hoja1 = this.configuracionBoletaVenta(hoja1);
+				//hoja1 = this.configuracionBoletaVenta(hoja1);
 				/**
 				 * Fin configuracion hoja excel
 				 */
 				/**
 				 * Inicio data documento de cobranza
 				 */
-				this.dataBoletaVenta(hoja1, archivoExcel);
+				//this.dataBoletaVenta(hoja1, archivoExcel);
 				/**
 				 * Fin data documento de cobranza
 				 */
 			}
 			// DOCUMENTO DE COBRANZA
 			else if (this.getComprobanteDetalle().getTipoComprobante().getCodigoEntero().intValue() == UtilWeb.obtenerEnteroPropertieMaestro("comprobanteDocumentoCobranza", "aplicacionDatos")){
-				hoja1 = archivoExcel.createSheet("Documento de Cobranza");
+				hoja1 = archivoExcel.getSheetAt(0);
 				/**
 				 * Inicio de configuracion de hoja excel
 				 */
-				hoja1 = this.configuracionDocumentoCobranza(hoja1);
+				//hoja1 = this.configuracionDocumentoCobranza(hoja1);
 				/**
 				 * Fin configuracion hoja excel
 				 */
@@ -187,7 +202,7 @@ public class ComprobanteMBean extends BaseMBean {
 			HttpServletResponse response = obtenerResponse();
 			response.setContentType("application/vnd.ms-excel");
 			response.setHeader("Content-disposition", "attachment;filename="
-					+ "reporte.xls");
+					+ "comprobante.xlsx");
 			response.setHeader("Content-Transfer-Encoding", "binary");
 
 			FacesContext facesContext = obtenerContexto();
@@ -223,7 +238,6 @@ public class ComprobanteMBean extends BaseMBean {
 					fila.createCell(j);
 				}
 			}
-
 		}
 
 		hoja1.setColumnWidth(0, 2800);
@@ -468,190 +482,63 @@ public class ComprobanteMBean extends BaseMBean {
 		return hoja1;
 	}
 	
-	private void dataDocumentoCobranza(HSSFSheet hoja1, HSSFWorkbook archivoExcel) throws SQLException, Exception{
-		HSSFFont fuenteDefecto = archivoExcel.createFont();
-		fuenteDefecto.setFontName("Calibri");
-		fuenteDefecto.setFontHeightInPoints((short) 10);
-
-		/**
-		 * Creacion de estilos
-		 */
-		HSSFCellStyle estiloCalibri = archivoExcel.createCellStyle();
-		HSSFFont fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 10);
-		estiloCalibri.setFont(fuente);
-
-		HSSFCellStyle estiloCalibriNegrita = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 10);
-		fuente.setBold(true);
-		estiloCalibriNegrita.setFont(fuente);
-
-		HSSFCellStyle sCalibriNegrita12 = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 10);
-		fuente.setBold(true);
-		sCalibriNegrita12.setFont(fuente);
-
-		HSSFCellStyle estiloCalibriCentro = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 10);
-		estiloCalibriCentro.setFont(fuente);
-		estiloCalibriCentro.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-		HSSFCellStyle estiloCalibriDerecha = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 10);
-		estiloCalibriDerecha.setFont(fuente);
-		estiloCalibriDerecha.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-		
-		HSSFCellStyle estiloCalibriIzquierda = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 10);
-		estiloCalibriIzquierda.setFont(fuente);
-		estiloCalibriIzquierda.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-
-		/**
-		 * Fin de estilos
-		 */
-		
-		Pasajero pasajero = null;
-		ServicioAgencia servicio = this.consultaNegocioServicio.consultarVentaServicio(this.getComprobanteDetalle().getIdServicio(), this.obtenerIdEmpresa());
-		for (DetalleServicioAgencia detalleServicio : servicio.getListaDetalleServicio()){
-			if (!detalleServicio.getListaPasajeros().isEmpty()){
-				pasajero = detalleServicio.getListaPasajeros().get(0);
-				break;
-			}
-		}
-		
-		String linea1 = "Referencia: Pax "+pasajero.getApellidoPaterno()+" "+pasajero.getApellidoMaterno()+" "+pasajero.getNombres();
-		String linea2 = "";
-		String linea3 = "";
-		String linea4 = "";
-		String linea5 = "";
-		String linea6 = "";
-		String linea7 = "";
-		for (int i=0; i<this.getComprobanteDetalle().getDetalleComprobante().size(); i++){
-			DetalleComprobante detaComprobante = this.getComprobanteDetalle().getDetalleComprobante().get(i);
-			if (i==0){
-				linea2 = detaComprobante.getConcepto();
-			}
-			else if (i==1){
-				linea3 = detaComprobante.getConcepto();
-			}
-			else if (i==2){
-				linea4 = detaComprobante.getConcepto();
-			}
-			else if (i==3){
-				linea5 = detaComprobante.getConcepto();
-			}
-			else if (i==4){
-				linea6 = detaComprobante.getConcepto();
-			}
-			else if (i==5){
-				linea7 = detaComprobante.getConcepto();
-			}
-		}
-		BigDecimal redondeado = this.getComprobanteDetalle().getTotalComprobante().setScale(2, RoundingMode.HALF_UP);
-		String monto = redondeado.toEngineeringString();
-		String moneda = this.getComprobanteDetalle().getMoneda().getNombre();
-		String simboloMoneda = this.getComprobanteDetalle().getMoneda().getAbreviatura();
-				
-		HSSFRow fila = hoja1.getRow(6);
-		HSSFCell celda = fila.getCell(0);
-		celda.setCellStyle(estiloCalibriIzquierda);
-		String fechaHoy = "     "+UtilWeb.diaFechaHoy();
-		fechaHoy = fechaHoy + "   " + UtilWeb.mesHoyNumero();
-		fechaHoy = fechaHoy + "     " + UtilWeb.anioFechaHoyYY();
-		celda.setCellValue(fechaHoy);
-		
-		celda = fila.createCell(2);
-		celda.setCellStyle(estiloCalibriIzquierda);
+	private void dataDocumentoCobranza(XSSFSheet hoja1, XSSFWorkbook archivoExcel) throws SQLException, Exception{
+		int ultimaFila = hoja1.getLastRowNum();
 		Cliente cliente = this.consultaNegocioServicio.consultarCliente(this.getComprobanteDetalle().getTitular().getCodigoEntero(), this.obtenerIdEmpresa());
-		celda.setCellValue(cliente.getNombreCompleto());
-		
-		fila = hoja1.getRow(7);
-		celda = fila.createCell(2);
-		celda.setCellValue(cliente.getDocumentoIdentidad().getNumeroDocumento());
-		celda.setCellStyle(estiloCalibriIzquierda);
-		
-		fila = hoja1.getRow(12);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		celda.setCellStyle(estiloCalibriIzquierda);
-		celda.setCellValue(linea1);
-		
-		celda = fila.createCell(7);
-		celda.setCellValue(simboloMoneda+" "+monto);
-		celda.setCellStyle(estiloCalibriDerecha);
-		
-		fila = hoja1.getRow(13);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		celda.setCellValue(linea2);
-		celda.setCellStyle(estiloCalibri);
-		
-		fila = hoja1.getRow(14);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		celda.setCellValue(linea3);
-		celda.setCellStyle(estiloCalibri);
-		
-		fila = hoja1.getRow(15);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		celda.setCellValue(linea4);
-		celda.setCellStyle(estiloCalibri);
-		
-		fila = hoja1.getRow(16);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		celda.setCellValue(linea5);
-		celda.setCellStyle(estiloCalibri);
-		
-		fila = hoja1.getRow(17);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		celda.setCellValue(linea6);
-		celda.setCellStyle(estiloCalibri);
-		
-		fila = hoja1.getRow(18);
-		celda = fila.getCell(1);
-		if (celda == null){
-			celda = fila.createCell(1);
-		}
-		fila = hoja1.getRow(21);
-		celda = fila.getCell(0);
-		if (celda == null){
-			celda = fila.createCell(0);
+		for (int i=0; i<=ultimaFila; i++){
+			XSSFRow fila = hoja1.getRow(i);
+			if (fila != null){
+				Integer vfinal = Integer.valueOf(fila.getLastCellNum());
+				for (int j=0; j<vfinal.intValue(); j++){
+					XSSFCell celda = fila.getCell(j);
+					if (celda != null){
+						String valor = celda.getStringCellValue();
+						if (NOMBRE_CLIENTE.equals(valor)){
+							celda.setCellValue(cliente.getNombreCompleto());
+						}
+						else if (DIRECCION_CLIENTE.equals(valor)){
+							List<Direccion> listaDirecciones = cliente.getListaDirecciones();
+							if (listaDirecciones != null && !listaDirecciones.isEmpty()){
+								celda.setCellValue(listaDirecciones.get(0).getDireccion());
+							}
+						}
+						else if (DOC_IDENTIDAD.equals(valor)){
+							String docIdentidad = cliente.getDocumentoIdentidad().getTipoDocumento().getNombre() + " - " + cliente.getDocumentoIdentidad().getNumeroDocumento();
+							celda.setCellValue(docIdentidad);
+						}
+						else if (NUM_VENTA.equals(valor)){
+							celda.setCellValue(this.getComprobanteDetalle().getIdServicio());
+						}
+						else if (FECHA_COMPRA.equals(valor)){
+							Calendar cal = Calendar.getInstance();
+							cal.setTime(this.getComprobanteDetalle().getFechaComprobante());
+							
+							String fecha = UtilWeb.completarCerosIzquierda(String.valueOf(cal.get(Calendar.DATE)),2)+"  "+UtilWeb.completarCerosIzquierda(String.valueOf(cal.get(Calendar.MONTH)),2)+ "    "+cal.get(Calendar.YEAR);
+							celda.setCellValue(fecha);
+						}
+						else if (TOTAL_DC.equals(valor)){
+							DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.US));
+							celda.setCellValue(df.format(this.getComprobanteDetalle().getTotalComprobante().doubleValue()));
+						}
+						else if (DETALLE_DOCUMENTO_COBRANZA.equals(valor)){
+							List<DetalleComprobante> listaDetalle = this.getComprobanteDetalle().getDetalleComprobante();
+							utilNegocioServicio.analizarDetalleComprobante(listaDetalle, this.getComprobanteDetalle().getIdServicio(), this.obtenerIdEmpresa());
+							int z=1;
+							for (int a=0; a<listaDetalle.size(); a++){
+								DetalleComprobante detaComprobante = listaDetalle.get(a);
+								if (detaComprobante.isImpresion()){
+									celda.setCellValue(detaComprobante.getConcepto());
+									fila = hoja1.getRow(i+z);
+									celda = fila.getCell(1);
+									z++;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		
-		String montoLetras = UtilConvertirNumeroLetras.convertNumberToLetter(monto);
-		celda.setCellValue("   SON: "+montoLetras+" "+moneda);
-		celda.setCellStyle(estiloCalibriIzquierda);
-		
-		fila = hoja1.getRow(22);
-		celda = fila.createCell(7);
-		celda.setCellValue(simboloMoneda+" "+monto);
-		celda.setCellStyle(estiloCalibriDerecha);
 	}
 	
 	private void dataBoletaVenta(HSSFSheet hoja1, HSSFWorkbook archivoExcel) throws SQLException, Exception{

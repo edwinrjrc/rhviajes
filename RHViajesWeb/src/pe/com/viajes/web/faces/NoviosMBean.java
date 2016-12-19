@@ -150,7 +150,7 @@ public class NoviosMBean extends BaseMBean {
 		this.setNombreFormulario("Registro de Novios");
 		HttpSession session = obtenerSession(false);
 		Usuario usuario = (Usuario) session.getAttribute(USUARIO_SESSION);
-		if (!Integer.valueOf(1).equals(usuario.getRol().getCodigoEntero())) {
+		if (!UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 1)) {
 			this.getProgramaNovios().getVendedor()
 					.setCodigoEntero(usuario.getCodigoEntero());
 			this.getProgramaNovios().getVendedor()

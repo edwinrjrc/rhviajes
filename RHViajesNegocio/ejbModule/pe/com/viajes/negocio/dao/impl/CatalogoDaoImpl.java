@@ -29,15 +29,13 @@ public class CatalogoDaoImpl implements CatalogoDao {
 	}
 
 	@Override
-	public List<BaseVO> listarRoles(Integer idEmpresa) throws ConnectionException, SQLException {
+	public List<BaseVO> listarRoles(Integer idEmpresa, Connection conn) throws ConnectionException, SQLException {
 		List<BaseVO> resultado = null;
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select id, nombre from seguridad.rol where idempresa = ?";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setInt(1, idEmpresa.intValue());
 			rs = cs.executeQuery();
@@ -54,24 +52,11 @@ public class CatalogoDaoImpl implements CatalogoDao {
 			resultado = null;
 			throw new SQLException(e);
 		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
 			}
 		}
 

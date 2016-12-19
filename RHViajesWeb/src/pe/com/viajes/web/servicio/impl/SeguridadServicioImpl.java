@@ -18,6 +18,7 @@ import pe.com.viajes.negocio.ejb.SeguridadRemote;
 import pe.com.viajes.negocio.exception.ConnectionException;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
+import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.InicioSesionException;
 import pe.com.viajes.web.servicio.SeguridadServicio;
 
@@ -62,33 +63,32 @@ public class SeguridadServicioImpl implements SeguridadServicio {
 
 	@Override
 	public boolean registrarUsuario(Usuario usuario) throws SQLException,
-			ErrorEncriptacionException {
+			ErrorEncriptacionException, ErrorRegistroDataException {
 		return ejbSession.registrarUsuario(usuario);
 	}
 
 	@Override
-	public List<Usuario> listarUsuarios(Integer idEmpresa) throws SQLException {
+	public List<Usuario> listarUsuarios(Integer idEmpresa) throws ErrorConsultaDataException {
 		return ejbSession.listarUsuarios(idEmpresa);
 	}
 
 	@Override
-	public List<BaseVO> listarRoles(Integer idEmpresa) throws ConnectionException, SQLException {
+	public List<BaseVO> listarRoles(Integer idEmpresa) throws ErrorConsultaDataException {
 		return ejbSession.listarRoles(idEmpresa);
 	}
 
 	@Override
-	public Usuario consultarUsuario(int id, Integer idEmpresa) throws SQLException {
+	public Usuario consultarUsuario(int id, Integer idEmpresa) throws ErrorConsultaDataException  {
 		return ejbSession.consultarUsuario(id, idEmpresa);
 	}
 
 	@Override
-	public boolean actualizarUsuario(Usuario usuario) throws SQLException {
+	public boolean actualizarUsuario(Usuario usuario) throws ErrorEncriptacionException, ErrorRegistroDataException {
 		return ejbSession.actualizarUsuario(usuario);
 	}
 
 	@Override
-	public Usuario inicioSesion(Usuario usuario) throws InicioSesionException,
-			SQLException, Exception {
+	public Usuario inicioSesion(Usuario usuario) throws InicioSesionException {
 		return ejbSession.inicioSesion(usuario);
 	}
 
@@ -105,7 +105,7 @@ public class SeguridadServicioImpl implements SeguridadServicio {
 	}
 
 	@Override
-	public List<Usuario> listarVendedores(Integer idEmpresa) throws SQLException {
+	public List<Usuario> listarVendedores(Integer idEmpresa) throws ErrorConsultaDataException {
 		return ejbSession.listarVendedores(idEmpresa);
 	}
 

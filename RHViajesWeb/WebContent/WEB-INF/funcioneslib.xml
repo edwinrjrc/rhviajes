@@ -15,7 +15,7 @@
     <function>
         <function-name>mostrarBotonesVenta1</function-name>
         <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
-        <function-signature>boolean mostrarBotonesVenta1(java.lang.Integer, java.lang.Integer, java.lang.Integer, boolean)</function-signature>
+        <function-signature>boolean mostrarBotonesVenta1(java.util.List, java.lang.Integer, java.lang.Integer, boolean, java.lang.String)</function-signature>
     </function>
     
     <function>
@@ -28,6 +28,12 @@
         <function-name>formatearMonto2</function-name>
         <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
         <function-signature>java.lang.String formatearMonto2(java.lang.String, java.lang.Object, java.lang.Object)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>validarPermisoRol</function-name>
+        <function-class>pe.com.viajes.web.facelet.FuncionesNova</function-class>
+        <function-signature>boolean validarPermisoRol(java.util.List, java.lang.String)</function-signature>
     </function>
     
 </facelet-taglib>

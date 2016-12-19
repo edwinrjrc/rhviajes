@@ -104,6 +104,7 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 						UtilJdbc.obtenerCadena(rs, "nombreMonDestino"));
 				resultado.setMontoCambio(UtilJdbc.obtenerBigDecimal(rs,
 						"montocambio"));
+				resultado.setFechaTipoCambio(UtilJdbc.obtenerFecha(rs, "fechatipocambio"));
 			}
 
 			return resultado;
@@ -116,6 +117,60 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 			}
 			if (cs != null) {
 				cs.close();
+			}
+		}
+	}
+	
+	@Override
+	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen,
+			Integer idMonedaDestino) throws SQLException {
+		Connection conn = null;
+		TipoCambio resultado = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+
+		try {
+			sql = "{ ? = call negocio.fn_consultartipocambio(?,?,?) }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, idMonedaOrigen.intValue());
+			cs.setInt(4, idMonedaDestino.intValue());
+			cs.execute();
+
+			rs = (ResultSet) cs.getObject(1);
+
+			if (rs.next()) {
+				resultado = new TipoCambio();
+				resultado.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				resultado.getMonedaOrigen().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idmonedaorigen"));
+				resultado.getMonedaOrigen().setNombre(
+						UtilJdbc.obtenerCadena(rs, "nombreMonOrigen"));
+				resultado.getMonedaDestino().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idmonedadestino"));
+				resultado.getMonedaDestino().setNombre(
+						UtilJdbc.obtenerCadena(rs, "nombreMonDestino"));
+				resultado.setMontoCambio(UtilJdbc.obtenerBigDecimal(rs,
+						"montocambio"));
+				resultado.setFechaTipoCambio(UtilJdbc.obtenerFecha(rs, "fechatipocambio"));
+			}
+
+			return resultado;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
 			}
 		}
 	}

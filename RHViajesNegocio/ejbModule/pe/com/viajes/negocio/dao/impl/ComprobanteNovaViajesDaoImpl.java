@@ -115,56 +115,55 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 			sql = "{ ? = call negocio.fn_consultarcomprobantesgenerados(?,?,?,?,?,?,?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.OTHER);
-			cs.setInt(i++, comprobanteBusqueda.getEmpresa().getCodigoEntero().intValue());
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, comprobanteBusqueda.getEmpresa().getCodigoEntero().intValue());
 			if (comprobanteBusqueda.getCodigoEntero() != null
 					&& comprobanteBusqueda.getCodigoEntero().intValue() != 0) {
-				cs.setInt(i++, comprobanteBusqueda.getCodigoEntero().intValue());
+				cs.setInt(3, comprobanteBusqueda.getCodigoEntero().intValue());
 			} else {
-				cs.setNull(i++, Types.INTEGER);
+				cs.setNull(3, Types.INTEGER);
 			}
 			if (comprobanteBusqueda.getIdServicio() != null
 					&& comprobanteBusqueda.getIdServicio().intValue() != 0) {
-				cs.setInt(i++, comprobanteBusqueda.getIdServicio().intValue());
+				cs.setInt(4, comprobanteBusqueda.getIdServicio().intValue());
 			} else {
-				cs.setNull(i++, Types.INTEGER);
+				cs.setNull(4, Types.INTEGER);
 			}
 			if (comprobanteBusqueda.getTitular().getCodigoEntero() != null
 					&& comprobanteBusqueda.getTitular().getCodigoEntero()
 							.intValue() != 0) {
-				cs.setInt(i++, comprobanteBusqueda.getTitular()
+				cs.setInt(5, comprobanteBusqueda.getTitular()
 						.getCodigoEntero().intValue());
 			} else {
-				cs.setNull(i++, Types.INTEGER);
+				cs.setNull(5, Types.INTEGER);
 			}
 			if (comprobanteBusqueda.getTipoComprobante().getCodigoEntero() != null
 					&& comprobanteBusqueda.getTipoComprobante()
 							.getCodigoEntero().intValue() != 0) {
-				cs.setInt(i++, comprobanteBusqueda.getTipoComprobante()
+				cs.setInt(6, comprobanteBusqueda.getTipoComprobante()
 						.getCodigoEntero().intValue());
 			} else {
-				cs.setNull(i++, Types.INTEGER);
+				cs.setNull(6, Types.INTEGER);
 			}
 			if (StringUtils.isNotBlank(comprobanteBusqueda
 					.getNumeroComprobante())) {
-				cs.setString(i++, comprobanteBusqueda.getNumeroComprobante());
+				cs.setString(7, comprobanteBusqueda.getNumeroComprobante());
 			} else {
-				cs.setNull(i++, Types.VARCHAR);
+				cs.setNull(7, Types.VARCHAR);
 			}
 			if (comprobanteBusqueda.getFechaDesde() != null) {
-				cs.setDate(i++, UtilJdbc
+				cs.setDate(8, UtilJdbc
 						.convertirUtilDateSQLDate(comprobanteBusqueda
 								.getFechaDesde()));
 			} else {
-				cs.setNull(i++, Types.DATE);
+				cs.setNull(8, Types.DATE);
 			}
 			if (comprobanteBusqueda.getFechaHasta() != null) {
-				cs.setDate(i++, UtilJdbc
+				cs.setDate(9, UtilJdbc
 						.convertirUtilDateSQLDate(comprobanteBusqueda
 								.getFechaHasta()));
 			} else {
-				cs.setNull(i++, Types.DATE);
+				cs.setNull(9, Types.DATE);
 			}
 
 			cs.execute();
@@ -230,13 +229,12 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 		ResultSet rs = null;
 		String sql = "";
 		try {
-			sql = "{ ? = call negocio.fn_consultardetallecomprobantegenerado(?)}";
+			sql = "{ ? = call negocio.fn_consultardetallecomprobantegenerado(?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.OTHER);
-			cs.setInt(i++, idEmpresa);
-			cs.setInt(i++, idComprobante.intValue());
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa);
+			cs.setInt(3, idComprobante.intValue());
 
 			cs.execute();
 			rs = (ResultSet) cs.getObject(1);
@@ -255,6 +253,7 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 						.obtenerBigDecimal(rs, "preciounitario"));
 				detalleComprobante.setTotalDetalle(UtilJdbc.obtenerBigDecimal(
 						rs, "totaldetalle"));
+				detalleComprobante.setImpresion(UtilJdbc.obtenerBoolean(rs, "impresion"));
 				resultado.add(detalleComprobante);
 			}
 		} catch (SQLException e) {

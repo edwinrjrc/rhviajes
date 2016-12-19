@@ -3,6 +3,9 @@
  */
 package pe.com.viajes.bean.negocio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.base.Persona;
 
@@ -20,7 +23,7 @@ public class Usuario extends Persona {
 	private String usuario;
 	private String credencial;
 	private String credencialNueva;
-	private BaseVO rol;
+	private List<BaseVO> listaRoles;
 	private boolean encontrado;
 	private boolean vendedor;
 	private boolean credencialVencida;
@@ -61,24 +64,6 @@ public class Usuario extends Persona {
 	 */
 	public void setCredencial(String credencial) {
 		this.credencial = credencial;
-	}
-
-	/**
-	 * @return the rol
-	 */
-	public BaseVO getRol() {
-		if (rol == null) {
-			rol = new BaseVO();
-		}
-		return rol;
-	}
-
-	/**
-	 * @param rol
-	 *            the rol to set
-	 */
-	public void setRol(BaseVO rol) {
-		this.rol = rol;
 	}
 
 	/**
@@ -153,6 +138,23 @@ public class Usuario extends Persona {
 	 */
 	public void setNombreDominioEmpresa(String nombreDominioEmpresa) {
 		this.nombreDominioEmpresa = nombreDominioEmpresa;
+	}
+
+	/**
+	 * @return the listaRoles
+	 */
+	public List<BaseVO> getListaRoles() {
+		if (listaRoles == null){
+			listaRoles = new ArrayList<BaseVO>();
+		}
+		return listaRoles;
+	}
+
+	/**
+	 * @param listaRoles the listaRoles to set
+	 */
+	public void setListaRoles(List<BaseVO> listaRoles) {
+		this.listaRoles = listaRoles;
 	}
 
 }

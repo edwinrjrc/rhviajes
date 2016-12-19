@@ -6,7 +6,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:my="http://java.sun.com/jsf/composite/components">
+	xmlns:my="http://java.sun.com/jsf/composite/components"
+	xmlns:rh="http://novaviajes.com.pe/funciones">
 
 <h:head></h:head>
 <ui:composition template="/templates/plantillainicio.xhtml">
@@ -25,7 +26,7 @@
 				
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 					style="width:100%;" columns="1"
-					rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 2 or sessionScope.usuarioSession.rol.codigoEntero == 4}">
+					rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'2,4')}">
 					<h:outputText
 						value="Clientes que cumplen años hoy #{clienteMBean.fechaHoy}"
 						styleClass="textNegrita" />
@@ -74,7 +75,7 @@
 			
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 				style="width:100%;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 2 or sessionScope.usuarioSession.rol.codigoEntero == 4}">
+				rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'2,4')}">
 				<table style="width: 70%;" align="center" border="0">
 					<tr>
 						<td align="center"><rich:dataTable id="idTablaCheckIn"
@@ -141,7 +142,7 @@
 			
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 				style="width:100%;text-align:center;"
-				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'3')}">
 				<h:outputText
 						value="Obligaciones que deben pagarse hoy, #{clienteMBean.fechaHoy}"
 						styleClass="textNegrita" />

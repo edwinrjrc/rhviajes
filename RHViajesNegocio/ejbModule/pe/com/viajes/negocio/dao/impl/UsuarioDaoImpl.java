@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.negocio.dao.UsuarioDao;
 import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
@@ -32,56 +33,42 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public boolean registrarUsuario(Usuario usuario) throws SQLException,
+	public Integer registrarUsuario(Usuario usuario, Connection conn) throws SQLException,
 			ErrorEncriptacionException {
-		boolean resultado = false;
-		Connection conn = null;
+		Integer resultado = 0;
 		CallableStatement cs = null;
-		String sql = "{? = call seguridad.fn_ingresarusuario(?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{? = call seguridad.fn_ingresarusuario(?,?,?,?,?,?,?,?,?,?)}";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, idEmpresa.intValue());
-			cs.setString(i++, usuario.getUsuario());
-			cs.setString(i++,
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setString(3, usuario.getUsuario());
+			cs.setString(4,
 					UtilEncripta.encriptaCadena(usuario.getCredencial()));
-			cs.setInt(i++, usuario.getRol().getCodigoEntero());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(usuario.getNombres()));
-			cs.setString(i++,
+			cs.setString(5, UtilJdbc.convertirMayuscula(usuario.getNombres()));
+			cs.setString(6,
 					UtilJdbc.convertirMayuscula(usuario.getApellidoPaterno()));
-			cs.setString(i++,
+			cs.setString(7,
 					UtilJdbc.convertirMayuscula(usuario.getApellidoMaterno()));
-			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(usuario
+			cs.setDate(8, UtilJdbc.convertirUtilDateSQLDate(usuario
 					.getFechaNacimiento()));
-			cs.setBoolean(i++, usuario.isVendedor());
-			cs.setInt(i++, usuario.getUsuarioCreacion().getCodigoEntero().intValue());
-			cs.setString(i++, usuario.getUsuarioCreacion().getIpCreacion());
+			cs.setBoolean(9, usuario.isVendedor());
+			cs.setInt(10, usuario.getUsuarioCreacion().getCodigoEntero().intValue());
+			cs.setString(11, usuario.getUsuarioCreacion().getIpCreacion());
 			cs.execute();
 
-			resultado = cs.getBoolean(1);
+			resultado = cs.getInt(1);
 		} catch (SQLException e) {
-			resultado = false;
+			resultado = 0;
 			throw new SQLException(e);
 		} finally {
 			try {
 				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null) {
-					conn.close();
-				}
 			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+				throw new SQLException(e);
 			}
 		}
 
@@ -89,51 +76,30 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public boolean actualizarUsuario(Usuario usuario) throws SQLException {
+	public boolean actualizarUsuario(Usuario usuario, Connection conn) throws SQLException {
 		boolean resultado = false;
-		Connection conn = null;
 		CallableStatement cs = null;
-		String sql = "{? = call seguridad.fn_actualizarusuario(?,?,?,?,?,?,?,?)}";
+		String sql = "{? = call seguridad.fn_actualizarusuario(?,?,?,?,?,?,?)}";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, idEmpresa.intValue());
-			cs.setInt(i++, usuario.getCodigoEntero());
-			cs.setInt(i++, usuario.getRol().getCodigoEntero());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(usuario.getNombres()));
-			cs.setString(i++,
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, usuario.getCodigoEntero());
+			cs.setString(4, UtilJdbc.convertirMayuscula(usuario.getNombres()));
+			cs.setString(5,
 					UtilJdbc.convertirMayuscula(usuario.getApellidoPaterno()));
-			cs.setString(i++,
+			cs.setString(6,
 					UtilJdbc.convertirMayuscula(usuario.getApellidoMaterno()));
-			cs.setInt(i++, usuario.getUsuarioModificacion().getCodigoEntero().intValue());
-			cs.setString(i++, usuario.getIpModificacion());
+			cs.setInt(7, usuario.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(8, usuario.getIpModificacion());
 
 			cs.execute();
 
 			resultado = cs.getBoolean(1);
-		} catch (SQLException e) {
-			resultado = false;
-			throw new SQLException(e);
 		} finally {
-			try {
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+			if (cs != null) {
+				cs.close();
 			}
 		}
 
@@ -141,15 +107,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public List<Usuario> listarUsuarios() throws SQLException {
+	public List<Usuario> listarUsuarios(Connection conn) throws SQLException {
 		List<Usuario> resultado = null;
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from seguridad.vw_listarusuarios where idempresa = ?";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setInt(1, idEmpresa.intValue());
 			rs = cs.executeQuery();
@@ -160,9 +124,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				usuario = new Usuario();
 				usuario.setCodigoEntero(rs.getInt("id"));
 				usuario.setUsuario(UtilJdbc.obtenerCadena(rs, "usuario"));
-				usuario.getRol().setCodigoEntero(rs.getInt("id_rol"));
-				usuario.getRol()
-						.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
 				usuario.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				usuario.setApellidoPaterno(UtilJdbc.obtenerCadena(rs,
 						"apepaterno"));
@@ -171,6 +132,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				usuario.setVendedor(UtilJdbc.obtenerBoolean(rs, "vendedor"));
 				usuario.setFechaNacimiento(UtilJdbc.obtenerFecha(rs,
 						"fecnacimiento"));
+				usuario.setListaRoles(this.listarRolesUsuario(usuario.getCodigoEntero(), conn));
 				resultado.add(usuario);
 			}
 		} catch (SQLException e) {
@@ -184,18 +146,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null) {
-					conn.close();
-				}
 			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+				throw new SQLException(e);
 			}
 		}
 
@@ -203,17 +155,15 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario consultarUsuario(int id) throws SQLException {
+	public Usuario consultarUsuario(int id, Connection conn) throws SQLException {
 		Usuario resultado = null;
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
-		String sql = "select id, usuario, credencial, id_rol, nombre, nombres, apepaterno, "
+		String sql = "select id, usuario, credencial, nombres, apepaterno, "
 				+ "apematerno, fecnacimiento, vendedor"
 				+ " from seguridad.vw_listarusuarios where id = ? and idempresa = ?";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setInt(1, id);
 			cs.setInt(2, idEmpresa.intValue());
@@ -225,9 +175,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				resultado.setUsuario(UtilJdbc.obtenerCadena(rs, "usuario"));
 				resultado.setCredencial(UtilJdbc
 						.obtenerCadena(rs, "credencial"));
-				resultado.getRol().setCodigoEntero(rs.getInt("id_rol"));
-				resultado.getRol().setNombre(
-						UtilJdbc.obtenerCadena(rs, "nombre"));
 				resultado.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				resultado.setApellidoPaterno(UtilJdbc.obtenerCadena(rs,
 						"apepaterno"));
@@ -241,25 +188,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			resultado = null;
 			throw new SQLException(e);
 		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
 			}
 		}
 
@@ -314,15 +247,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario inicioSesion2(Usuario usuario) throws SQLException,
+	public Usuario inicioSesion2(Usuario usuario, Connection conn) throws SQLException,
 			ErrorEncriptacionException {
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "{ ? = call seguridad.fn_consultarusuarios(?) }";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setString(2, UtilJdbc.convertirMayuscula(usuario.getUsuario()));
@@ -333,9 +264,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			if (rs.next()) {
 				usuario.setCodigoEntero(rs.getInt("id"));
 				usuario.setUsuario(UtilJdbc.obtenerCadena(rs, "usuario"));
-				usuario.getRol().setCodigoEntero(rs.getInt("id_rol"));
-				usuario.getRol().setNombre(
-						UtilJdbc.obtenerCadena(rs, "nombre"));
 				usuario.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				usuario.setApellidoPaterno(UtilJdbc.obtenerCadena(rs,
 						"apepaterno"));
@@ -359,6 +287,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 						usuario.setCredencialVencida(true);
 					}
 				}
+				usuario.setListaRoles(this.listarRolesUsuario(usuario.getCodigoEntero(), conn));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -370,18 +299,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null) {
-					conn.close();
-				}
+				
 			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+				throw new SQLException(e);
 			}
 		}
 
@@ -435,24 +355,21 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public boolean actualizarClaveUsuario(Usuario usuario) throws SQLException,
+	public boolean actualizarClaveUsuario(Usuario usuario, Connection conn) throws SQLException,
 			ErrorEncriptacionException {
 		boolean resultado = false;
-		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{? = call seguridad.fn_actualizarclaveusuario(?,?,?,?,?)}";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i = 1;
-			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, idEmpresa.intValue());
-			cs.setInt(i++, usuario.getCodigoEntero());
-			cs.setString(i++,
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, usuario.getCodigoEntero());
+			cs.setString(4,
 					UtilEncripta.encriptaCadena(usuario.getCredencialNueva()));
-			cs.setInt(i++, usuario.getUsuarioModificacion().getCodigoEntero().intValue());
-			cs.setString(i++, usuario.getIpModificacion());
+			cs.setInt(5, usuario.getUsuarioModificacion().getCodigoEntero().intValue());
+			cs.setString(6, usuario.getIpModificacion());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);
@@ -460,22 +377,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			resultado = false;
 			throw new SQLException(e);
 		} finally {
-			try {
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+			if (cs != null) {
+				cs.close();
 			}
 		}
 
@@ -483,15 +386,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	@Override
-	public List<Usuario> listarVendedores() throws SQLException {
+	public List<Usuario> listarVendedores(Connection conn) throws SQLException {
 		List<Usuario> resultado = null;
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "{? = call seguridad.fn_listarvendedores(?)}";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.OTHER);
@@ -518,25 +419,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
 			}
 		}
 
@@ -592,21 +479,91 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 	
 	@Override
-	public boolean validarAgregarUsuario()
+	public boolean validarAgregarUsuario(Connection conn)
 			throws SQLException {
 		boolean resultado = false;
-		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{? = call seguridad.fn_puedeagregarusuario(?)}";
 
 		try {
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.BOOLEAN);
 			cs.setInt(2, idEmpresa.intValue());
 			cs.execute();
 
 			resultado = cs.getBoolean(1);
+		} finally {
+			if (cs != null) {
+				cs.close();
+			}
+		}
+
+		return resultado;
+	}
+	
+	@Override
+	public List<BaseVO> listarRolesUsuario(Integer idUsuario, Connection conn) throws SQLException {
+		List<BaseVO> resultado = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{? = call seguridad.fn_consultarrolesusuario(?,?)}";
+
+		try {
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, idUsuario.intValue());
+			cs.execute();
+
+			rs = (ResultSet) cs.getObject(1);
+			BaseVO rol = null;
+			resultado = new ArrayList<BaseVO>();
+			while (rs.next()) {
+				rol = new BaseVO();
+				rol.setCodigoEntero(rs.getInt("idrol"));
+				rol.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
+				
+				resultado.add(rol);
+			}
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+			} catch (SQLException e) {
+				throw new SQLException(e);
+			}
+		}
+
+		return resultado;
+	}
+	
+	@Override
+	public boolean ingresarRolUsuario(List<BaseVO> roles, Integer idUsuario, Connection conn) throws SQLException{
+		boolean resultado = false;
+		CallableStatement cs = null;
+		String sql = "{? = call seguridad.fn_ingresarusuariorol(?,?,?,?,?)}";
+
+		try {
+			for (BaseVO baseVO : roles) {
+				cs = conn.prepareCall(sql);
+				cs.registerOutParameter(1, Types.BOOLEAN);
+				cs.setInt(2, idEmpresa.intValue());
+				cs.setInt(3, idUsuario.intValue());
+				cs.setInt(4, baseVO.getCodigoEntero().intValue());
+				cs.setInt(5, baseVO.getUsuarioCreacion().getCodigoEntero().intValue());
+				cs.setString(6, baseVO.getIpCreacion());
+				cs.execute();
+
+				resultado = cs.getBoolean(1);
+				cs.close();
+			}
+			
 		} catch (SQLException e) {
 			resultado = false;
 			throw new SQLException(e);
@@ -632,4 +589,5 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 		return resultado;
 	}
+	
 }

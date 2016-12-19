@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.negocio.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,17 @@ public interface AuditoriaDao {
 	 * @throws SQLException
 	 */
 	public boolean registrarEventoSesion(Usuario usuario, Integer tipoEvento)
+			throws SQLException;
+	
+	/**
+	 * Metodo que registrar el evento de sesion del sistema
+	 * 
+	 * @param usuario
+	 * @param tipoEvento
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean registrarEventoSesion(Usuario usuario, Integer tipoEvento, Connection conn)
 			throws SQLException;
 
 	/**

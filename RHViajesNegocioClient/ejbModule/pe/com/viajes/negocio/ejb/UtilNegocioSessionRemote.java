@@ -8,6 +8,7 @@ import javax.ejb.Remote;
 
 import pe.com.viajes.bean.jasper.DetalleServicio;
 import pe.com.viajes.bean.negocio.Contacto;
+import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Pasajero;
@@ -53,4 +54,7 @@ public interface UtilNegocioSessionRemote {
 
 	List<DetalleServicioAgencia> agruparServiciosHijos(
 			List<DetalleServicioAgencia> listaServicios, Integer idEmpresa);
+
+	void analizarDetalleComprobante(List<DetalleComprobante> listaDetalle,
+			int idServicio, int idEmpresa);
 }

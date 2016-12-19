@@ -6,9 +6,13 @@ package pe.com.viajes.web.facelet;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
+
+import pe.com.viajes.bean.base.BaseVO;
 
 /**
  * @author Edwin
@@ -16,6 +20,12 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FuncionesNova {
 
+	/**
+	 * 
+	 * @param codigoOpcion
+	 * @param codigoRol
+	 * @return
+	 */
 	public static boolean tienePermiso(String codigoOpcion, String codigoRol) {
 		return (StringUtils.equals(codigoOpcion, codigoRol));
 	}
@@ -26,19 +36,25 @@ public class FuncionesNova {
 	 * @param codigoRol
 	 * @return
 	 */
-	public static boolean mostrarBotonesVenta1(Integer codigoRol,
+	public static boolean mostrarBotonesVenta1(List<BaseVO> roles,
 			Integer estadoServicio, Integer tienePagos,
-			boolean guardoComprobantes) {
-		// boolean resultado = (codigoRol.intValue() == 3 &&
-		// estadoServicio.intValue() ==2 && tienePagos.intValue()==0);
-		boolean resultado = (codigoRol.intValue() == 3 && estadoServicio
-				.intValue() == 2);
+			boolean guardoComprobantes, String codigoRoles) {
+		if (roles != null) {
+			boolean resultado = validarPermisoRol(roles, codigoRoles);
 
-		resultado = (resultado && !guardoComprobantes);
+			resultado = (resultado && !guardoComprobantes);
 
-		return resultado;
+			return resultado;
+		}
+		return false;
 	}
 
+	/**
+	 * 
+	 * @param simboloMoneda
+	 * @param monto
+	 * @return
+	 */
 	public static String formatearMonto(String simboloMoneda, Object monto) {
 		String formateado = "";
 		DecimalFormat formateador = new DecimalFormat("###,###,##0.00",
@@ -51,6 +67,13 @@ public class FuncionesNova {
 		return formateado;
 	}
 
+	/**
+	 * 
+	 * @param simboloMoneda
+	 * @param monto
+	 * @param montoAlternativo
+	 * @return
+	 */
 	public static String formatearMonto2(String simboloMoneda, Object monto,
 			Object montoAlternativo) {
 		String formateado = "";
@@ -65,5 +88,29 @@ public class FuncionesNova {
 		formateado = simboloMoneda + " " + formateado;
 
 		return formateado;
+	}
+
+	/**
+	 * 
+	 * @param roles
+	 * @param codigoRoles
+	 * @return
+	 */
+	public static boolean validarPermisoRol(List<BaseVO> roles,
+			String codigoRoles) {
+		StringTokenizer stk = new StringTokenizer(codigoRoles, ",");
+		if (roles != null) {
+			while (stk.hasMoreTokens()) {
+				String c= (String) stk.nextElement();
+				for (BaseVO rol : roles) {
+					if (rol.getCodigoEntero().toString()
+							.equals(c)) {
+						return true;
+					}
+				}
+
+			}
+		}
+		return false;
 	}
 }

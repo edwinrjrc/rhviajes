@@ -191,4 +191,7 @@ public interface ConsultaNegocioServicio {
 			throws ErrorConsultaDataException;
 
 	Pasajero consultarContactoPasajero(Pasajero pasajero) throws ErrorConsultaDataException;
+
+	TipoCambio consultarTipoCambio(Integer idEmpresa)
+			throws ErrorConsultaDataException;
 }

@@ -12,7 +12,6 @@
 <h:head></h:head>
 <ui:composition template="/templates/plantillainicio.xhtml">
 	<ui:define name="cuerpo">
-
 		<h:form id="idformadmusuario">
 			<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0"
 				width="100%">
@@ -46,13 +45,6 @@
 
 								<rich:column>
 									<f:facet name="header">
-										<h:outputText value="Rol" />
-									</f:facet>
-									<h:outputText value="#{row.rol.nombre}" />
-								</rich:column>
-
-								<rich:column>
-									<f:facet name="header">
 										<h:outputText value="Nombres" />
 									</f:facet>
 									<h:outputText value="#{row.nombres}" />
@@ -70,6 +62,17 @@
 										<h:outputText value="Apellido Materno" />
 									</f:facet>
 									<h:outputText value="#{row.apellidoMaterno}" />
+								</rich:column>
+								
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Roles" />
+									</f:facet>
+									<h:dataTable value="#{row.listaRoles}" var="rol">
+										<h:column>
+											<h:outputText value="#{rol.nombre}" />
+										</h:column>
+									</h:dataTable>
 								</rich:column>
 
 								<rich:column>
@@ -96,7 +99,7 @@
 											action="#{usuarioMBean.consultarCambioClave(row.codigoEntero)}"
 											oncomplete="#{rich:component('idModalfrcambioclaveusuario')}.show()"
 											render="idGrFrcambioclaveusu, idNomModalCCusu"
-											rendered="#{fc:tienePermiso('1',sessionScope.usuarioSession.rol.codigoEntero)}">
+											rendered="#{fc:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'1')}">
 											<h:graphicImage height="25" width="20"
 												url="/resources/img/llaves2.gif" style="border:0" />
 										</a4j:commandLink>

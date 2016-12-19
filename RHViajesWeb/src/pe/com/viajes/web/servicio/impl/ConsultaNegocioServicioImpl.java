@@ -429,4 +429,9 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 			throws ErrorConsultaDataException {
 		return ejbSession.consultaContactoPasajero(pasajero);
 	}
+	
+	@Override
+	public TipoCambio consultarTipoCambio (Integer idEmpresa) throws ErrorConsultaDataException{
+		return ejbSession.consultarTipoCambio(idEmpresa);
+	}
 }

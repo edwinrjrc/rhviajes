@@ -26,6 +26,7 @@ public class DetalleComprobante extends BaseNegocio {
 
 	private boolean tieneDetraccion;
 	private boolean tieneRetencion;
+	private boolean impresion;
 
 	/**
 	 * 
@@ -152,6 +153,20 @@ public class DetalleComprobante extends BaseNegocio {
 	 */
 	public void setTieneRetencion(boolean tieneRetencion) {
 		this.tieneRetencion = tieneRetencion;
+	}
+
+	/**
+	 * @return the impresion
+	 */
+	public boolean isImpresion() {
+		return impresion;
+	}
+
+	/**
+	 * @param impresion the impresion to set
+	 */
+	public void setImpresion(boolean impresion) {
+		this.impresion = impresion;
 	}
 
 }

@@ -21,15 +21,20 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.negocio.TipoCambio;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.bean.recursoshumanos.UsuarioAsistencia;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
+import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
+import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.InicioSesionException;
 import pe.com.viajes.negocio.exception.ValidacionException;
 import pe.com.viajes.web.servicio.AuditoriaServicio;
+import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
 import pe.com.viajes.web.servicio.SeguridadServicio;
 import pe.com.viajes.web.servicio.impl.AuditoriaServicioImpl;
+import pe.com.viajes.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.viajes.web.servicio.impl.SeguridadServicioImpl;
 
 /**
@@ -57,12 +62,14 @@ public class UsuarioMBean extends BaseMBean {
 	private Date fechaAsistencia;
 
 	private List<UsuarioAsistencia> listaAsistenciaUsuario;
+	private List<String> listaRoles;
 
 	private boolean nuevoUsuario;
 	private boolean editarUsuario;
 
 	private SeguridadServicio seguridadServicio;
 	private AuditoriaServicio auditoriaServicio;
+	private ConsultaNegocioServicio consultaNegocioServicio;
 
 	
 	public UsuarioMBean() {
@@ -71,6 +78,8 @@ public class UsuarioMBean extends BaseMBean {
 					.getCurrentInstance().getExternalContext().getContext();
 			seguridadServicio = new SeguridadServicioImpl(servletContext);
 			auditoriaServicio = new AuditoriaServicioImpl(servletContext);
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -93,7 +102,7 @@ public class UsuarioMBean extends BaseMBean {
 			this.setNuevoUsuario(false);
 			this.setUsuario(this.seguridadServicio.consultarUsuario(id, this.obtenerIdEmpresa()));
 			this.setReCredencial(this.getUsuario().getCredencial());
-		} catch (SQLException e) {
+		} catch (ErrorConsultaDataException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
@@ -101,47 +110,58 @@ public class UsuarioMBean extends BaseMBean {
 	public void registrarUsuario() {
 		try {
 			seguridadServicio.registrarUsuario(getUsuario());
-		} catch (SQLException e) {
+		} catch (ErrorEncriptacionException e) {
+			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ErrorRegistroDataException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
+		} catch (SQLException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
 		}
 	}
 
 	public void ejecutarMetodo(ActionEvent e) {
 		try {
 			if (validarUsuarioFormulario()) {
-				HttpSession session = obtenerSession(false);
-				Usuario usuario = (Usuario) session
-						.getAttribute("usuarioSession");
 				getUsuario().setUsuarioCreacion(
-						usuario);
+						this.obtenerUsuarioSession());
 				getUsuario().setIpCreacion(
 						obtenerRequest().getRemoteAddr());
 				getUsuario().setUsuarioModificacion(
-						usuario);
+						this.obtenerUsuarioSession());
 				getUsuario().setIpModificacion(
 						obtenerRequest().getRemoteAddr());
-				getUsuario().setEmpresa(usuario.getEmpresa());
+				getUsuario().setEmpresa(this.obtenerEmpresa());
+				
+				BaseVO baseVO = null;
+				for(String rol : this.getListaRoles()){
+					baseVO = new BaseVO();
+					baseVO.setCodigoEntero(Integer.valueOf(rol));
+					baseVO.setUsuarioCreacion(this.obtenerUsuarioSession());
+					baseVO.setIpCreacion(this.obtenerIpMaquina());
+					baseVO.setEmpresa(this.obtenerEmpresa());
+					this.getUsuario().getListaRoles().add(baseVO);
+				}
 				
 				if (this.isNuevoUsuario()) {
 					seguridadServicio.registrarUsuario(getUsuario());
-					this.setShowModal(true);
-					this.setTipoModal("1");
-					this.setMensajeModal("Usuario registrado Satisfactoriamente");
+					this.mostrarMensajeExito("Usuario registrado Satisfactoriamente");
 				} else if (this.isEditarUsuario()) {
 					seguridadServicio.actualizarUsuario(getUsuario());
-					this.setShowModal(true);
-					this.setTipoModal("1");
-					this.setMensajeModal("Usuario actualizado Satisfactoriamente");
+					this.mostrarMensajeExito("Usuario actualizado Satisfactoriamente");
 				}
 			}
-
-		} catch (SQLException ex) {
+		} catch (ErrorEncriptacionException ex) {
+			this.mostrarMensajeError(ex.getMessage());
 			logger.error(ex.getMessage(), ex);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (ErrorRegistroDataException ex) {
+			this.mostrarMensajeError(ex.getMessage());
+			logger.error(ex.getMessage(), ex);
+		} catch (SQLException ex) {
+			this.mostrarMensajeError(ex.getMessage());
+			logger.error(ex.getMessage(), ex);
 		}
 	}
 
@@ -161,9 +181,7 @@ public class UsuarioMBean extends BaseMBean {
 			this.getUsuario().setIpModificacion(obtenerRequest().getRemoteAddr());
 			usuario = seguridadServicio.inicioSesion(this.getUsuario());
 			
-			TipoCambio tipoCambio = new TipoCambio();
-			tipoCambio.setFechaTipoCambio(new Date());
-			tipoCambio.setMontoCambio(BigDecimal.valueOf(3.25747));
+			TipoCambio tipoCambio = this.consultaNegocioServicio.consultarTipoCambio(usuario.getEmpresa().getCodigoEntero());
 
 			HttpSession session = (HttpSession) obtenerSession(true);
 			session.setAttribute(USUARIO_SESSION, usuario);
@@ -172,19 +190,13 @@ public class UsuarioMBean extends BaseMBean {
 			return "irInicio";
 
 		} catch (InicioSesionException e) {
-			this.mostrarMensajeError(e.getMessage());
-			obtenerRequest().setAttribute("msjeError", e.getMessage());
-			logger.error(e.getMessage());
-		} catch (SQLException e) {
-			this.mostrarMensajeError(e.getMessage());
-			obtenerRequest().setAttribute("msjeError",
-					"No se pudo iniciar sesion");
-			logger.error(e.getMessage());
+			this.mostrarMensajeError(e.getCause().getMessage());
+			obtenerRequest().setAttribute("msjeError", e.getCause().getMessage());
+			logger.error(e.getMessage(),e);
 		} catch (Exception e) {
-			this.mostrarMensajeError(e.getMessage());
-			obtenerRequest().setAttribute("msjeError",
-					"No se pudo iniciar sesion");
-			logger.error(e.getMessage());
+			this.mostrarMensajeError(e.getCause().getMessage());
+			obtenerRequest().setAttribute("msjeError", e.getCause().getMessage());
+			logger.error(e.getMessage(),e);
 		}
 
 		return "";
@@ -331,8 +343,8 @@ public class UsuarioMBean extends BaseMBean {
 		try {
 			this.setIdModalPopup("idModalfrcambioclaveusuario");
 			this.setUsuario(this.seguridadServicio.consultarUsuario(id, this.obtenerIdEmpresa()));
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -377,11 +389,11 @@ public class UsuarioMBean extends BaseMBean {
 		try {
 			this.setShowModal(false);
 			listaUsuarios = seguridadServicio.listarUsuarios(this.obtenerIdEmpresa());
-
-		} catch (SQLException e) {
+			return listaUsuarios;
+		} catch (ErrorConsultaDataException e) {
 			logger.error(e.getMessage(), e);
 		}
-		return listaUsuarios;
+		return new ArrayList<Usuario>();
 	}
 
 	/**
@@ -562,6 +574,23 @@ public class UsuarioMBean extends BaseMBean {
 	public void setListaAsistenciaUsuario(
 			List<UsuarioAsistencia> listaAsistenciaUsuario) {
 		this.listaAsistenciaUsuario = listaAsistenciaUsuario;
+	}
+
+	/**
+	 * @return the listaRoles
+	 */
+	public List<String> getListaRoles() {
+		if (listaRoles == null){
+			listaRoles = new ArrayList<String>();
+		}
+		return listaRoles;
+	}
+
+	/**
+	 * @param listaRoles the listaRoles to set
+	 */
+	public void setListaRoles(List<String> listaRoles) {
+		this.listaRoles = listaRoles;
 	}
 
 }

@@ -11,7 +11,6 @@ import java.sql.Types;
 
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.negocio.dao.EmpresaLicenciaDao;
-import pe.com.viajes.negocio.util.UtilConexion;
 import pe.com.viajes.negocio.util.UtilJdbc;
 
 /**
@@ -24,16 +23,14 @@ public class EmpresaLicenciaDaoImpl implements EmpresaLicenciaDao {
 	 * @see pe.com.viajes.negocio.dao.EmpresaLicenciaDao#consultarEmpresaLicencia(java.lang.String)
 	 */
 	@Override
-	public BaseVO consultarEmpresaLicencia(String nombreDominio)
-			throws SQLException {
+	public BaseVO consultarEmpresaLicencia(String nombreDominio, Connection conn)
+			throws SQLException, Exception {
 		BaseVO empresa = null;
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "";
 		try{
 			sql = "{ ? = call licencia.fn_consultaempresa(?) }";
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setString(2, nombreDominio);
@@ -50,7 +47,6 @@ public class EmpresaLicenciaDaoImpl implements EmpresaLicenciaDao {
 			return empresa;
 		}
 		catch (SQLException e){
-			e.printStackTrace();
 			throw new SQLException(e);
 		}
 		finally{
@@ -59,9 +55,6 @@ public class EmpresaLicenciaDaoImpl implements EmpresaLicenciaDao {
 			}
 			if (cs != null){
 				cs.close();
-			}
-			if (conn != null){
-				conn.close();
 			}
 		}
 	}

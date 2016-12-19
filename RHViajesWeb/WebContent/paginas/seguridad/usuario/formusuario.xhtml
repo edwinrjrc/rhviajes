@@ -65,12 +65,11 @@
 				</h:panelGrid>
 				<h:outputLabel value="Rol" style="width: 100px; text-align:left" />
 				<h:panelGrid columns="1" border="0" cellpadding="0" cellspacing="0">
-					<h:selectOneMenu id="idRol"
-						value="#{usuarioMBean.usuario.rol.codigoEntero}" required="true"
-						requiredMessage="Seleccione el rol">
+					<h:selectManyMenu value="#{usuarioMBean.listaRoles}" required="true"
+						requiredMessage="Seleccione el rol" style="height: 80px;">
 						<f:selectItem itemValue="" itemLabel="-Seleccione-" />
 						<f:selectItems value="#{catalogoMBean.catalogoRoles}" />
-					</h:selectOneMenu>
+					</h:selectManyMenu>
 					<rich:message for="idRol" showDetail="true" showSummary="false"
 						ajaxRendered="true" />
 				</h:panelGrid>

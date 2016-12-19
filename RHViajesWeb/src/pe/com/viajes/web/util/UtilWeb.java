@@ -28,12 +28,13 @@ import pe.com.viajes.bean.negocio.Maestro;
 import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.Tramo;
 import pe.com.viajes.bean.negocio.Usuario;
+import pe.com.viajes.bean.util.UtilApp;
 
 /**
  * @author Edwin
  *
  */
-public class UtilWeb {
+public class UtilWeb extends UtilApp{
 
 	private final static Logger logger = Logger.getLogger(UtilWeb.class);
 
@@ -394,5 +395,9 @@ public class UtilWeb {
 			igual = StringUtils.equals(di1.getNumeroDocumento(),di2.getNumeroDocumento());
 		}
 		return igual;
+	}
+	
+	public static String completarCerosIzquierda(String cadena, int cantidad){
+		return completarCaracter(cadena, "0", cantidad, "I");
 	}
 }

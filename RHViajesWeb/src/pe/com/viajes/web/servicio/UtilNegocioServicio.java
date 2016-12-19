@@ -9,6 +9,7 @@ import java.util.List;
 
 import pe.com.viajes.bean.jasper.DetalleServicio;
 import pe.com.viajes.bean.negocio.Contacto;
+import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Pasajero;
@@ -55,4 +56,7 @@ public interface UtilNegocioServicio {
 
 	List<DetalleServicio> consultarServiciosVenta(Integer idServicio,
 			Integer idEmpresa) throws SQLException;
+
+	void analizarDetalleComprobante(List<DetalleComprobante> listaDetalle,
+			int idServicio, int idEmpresa);
 }
