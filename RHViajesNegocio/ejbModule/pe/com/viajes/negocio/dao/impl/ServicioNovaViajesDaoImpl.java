@@ -24,6 +24,7 @@ import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.DocumentoAdicional;
 import pe.com.viajes.bean.negocio.EventoObsAnu;
 import pe.com.viajes.bean.negocio.PagoServicio;
+import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.ServicioAgenciaBusqueda;
@@ -3490,5 +3491,188 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 
 			}
 		}
+	}
+	
+	@Override
+	public List<DetalleComprobante> consultaResumenDocumentoCobranza(Comprobante comprobante) throws SQLException{
+		List<DetalleComprobante> listaDetalleComprobante = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_consultarresumenservicio(?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, comprobante.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(3, comprobante.getIdServicio().intValue());
+			cs.execute();
+			rs = (ResultSet) cs.getObject(1);
+			listaDetalleComprobante = new ArrayList<DetalleComprobante>();
+			DetalleComprobante detalle = null;
+			while(rs.next()){
+				detalle = new DetalleComprobante();
+				detalle.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				detalle.setConcepto(UtilJdbc.obtenerCadena(rs, "nombre"));
+				detalle.setCantidad(UtilJdbc.obtenerNumero(rs, "cantidad"));
+				listaDetalleComprobante.add(detalle);
+			}
+			
+			return listaDetalleComprobante;
+		}
+		finally{
+			if (rs != null){
+				rs.next();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+	}
+	
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarDescripcionServicio(DetalleServicioAgencia detalleServicio, Integer idServicio) throws SQLException{
+		List<DetalleServicioAgencia> listaDetalleServicio = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_consultardescripcionservicio(?,?,?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, detalleServicio.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(3, idServicio.intValue());
+			cs.setInt(4, detalleServicio.getCodigoEntero().intValue());
+			cs.setInt(5, detalleServicio.getTipoServicio().getCodigoEntero().intValue());
+			cs.execute();
+			rs = (ResultSet)cs.getObject(1);
+			
+			listaDetalleServicio = new ArrayList<DetalleServicioAgencia>();
+			DetalleServicioAgencia detalleServicio2 = null;
+			while(rs.next()){
+				detalleServicio2 = new DetalleServicioAgencia();
+				detalleServicio2.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				detalleServicio2.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
+				detalleServicio2.getEmpresa().setCodigoEntero(detalleServicio.getEmpresa().getCodigoEntero().intValue());
+				listaDetalleServicio.add(detalleServicio2);
+			}
+			
+		}
+		finally{
+			if (rs != null){
+				rs.next();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		return listaDetalleServicio;
+	}
+	
+	@Override
+	public List<Pasajero> consultarPasajerosServicio(DetalleServicioAgencia detalleServicio, Integer idServicio) throws SQLException{
+		List<Pasajero> listaPasajeros = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_consultarpasajerosserviciodetalle(?,?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, detalleServicio.getEmpresa().getCodigoEntero().intValue());
+			cs.setInt(3, idServicio.intValue());
+			cs.setInt(4, detalleServicio.getCodigoEntero().intValue());
+			cs.execute();
+			rs = (ResultSet)cs.getObject(1);
+			
+			listaPasajeros = new ArrayList<Pasajero>();
+			Pasajero pasajero = null;
+			while(rs.next()){
+				pasajero = new Pasajero();
+				pasajero.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				pasajero.getDocumentoIdentidad().getTipoDocumento().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodocumento"));
+				pasajero.getDocumentoIdentidad().setNumeroDocumento(UtilJdbc.obtenerCadena(rs, "numerodocumento"));
+				pasajero.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
+				pasajero.setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
+				pasajero.setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				listaPasajeros.add(pasajero);
+			}
+			
+		}
+		finally{
+			if (rs != null){
+				rs.next();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		return listaPasajeros;
+	}
+	
+	@Override
+	public List<Pasajero> consultarPasajerosServicio(Integer idEmpresa, Integer idServicio) throws SQLException{
+		List<Pasajero> listaPasajeros = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_consultarpasajerosservicio(?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, idServicio.intValue());
+			cs.execute();
+			rs = (ResultSet)cs.getObject(1);
+			
+			listaPasajeros = new ArrayList<Pasajero>();
+			Pasajero pasajero = null;
+			while(rs.next()){
+				pasajero = new Pasajero();
+				pasajero.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				pasajero.getDocumentoIdentidad().getTipoDocumento().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodocumento"));
+				pasajero.getDocumentoIdentidad().setNumeroDocumento(UtilJdbc.obtenerCadena(rs, "numerodocumento"));
+				pasajero.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
+				pasajero.setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
+				pasajero.setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				pasajero.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				pasajero.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
+				listaPasajeros.add(pasajero);
+			}
+			
+		}
+		finally{
+			if (rs != null){
+				rs.next();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		return listaPasajeros;
 	}
 }

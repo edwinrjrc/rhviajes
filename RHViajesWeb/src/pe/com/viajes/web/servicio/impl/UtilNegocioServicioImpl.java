@@ -22,6 +22,7 @@ import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.ServicioNovios;
 import pe.com.viajes.negocio.ejb.UtilNegocioSessionRemote;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.web.servicio.UtilNegocioServicio;
 
@@ -138,7 +139,18 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	}
 	
 	@Override
-	public void analizarDetalleComprobante(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa){
-		
+	public List<String> generarDetalleComprobanteImpresionDocumentoCobranza(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa) throws ErrorConsultaDataException{
+		return ejbSession.generarDetalleComprobanteImpresionDocumentoCobranza(listaDetalle, idServicio, idEmpresa);
+	}
+	
+	@Override
+	public List<String> generarDetalleComprobanteImpresionBoleta(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa) throws ErrorConsultaDataException{
+		return ejbSession.generarDetalleComprobanteImpresionBoleta(listaDetalle, idServicio, idEmpresa);
+	}
+
+	@Override
+	public List<Pasajero> consultarPasajerosServicio(int idServicio,
+			int idEmpresa) throws ErrorConsultaDataException {
+		return ejbSession.consultarPasajerosServicio(idServicio, idEmpresa);
 	}
 }

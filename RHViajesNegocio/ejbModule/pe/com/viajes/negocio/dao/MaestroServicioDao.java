@@ -52,4 +52,7 @@ public interface MaestroServicioDao {
 	void ingresarServicioMaestroServicio(MaestroServicio servicio,
 			Connection conn) throws SQLException, Exception;
 
+	List<MaestroServicio> listarMaestroServiciosPadre(int idEmpresa)
+			throws SQLException;
+
 }

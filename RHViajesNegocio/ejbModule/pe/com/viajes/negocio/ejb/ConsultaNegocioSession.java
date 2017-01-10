@@ -475,6 +475,14 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 
 		return maestroServicioDao.listarMaestroServicios(idEmpresa);
 	}
+	
+	@Override
+	public List<MaestroServicio> listarMaestroServicioPadre(Integer idEmpresa) throws SQLException,
+			Exception {
+		MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
+
+		return maestroServicioDao.listarMaestroServiciosPadre(idEmpresa);
+	}
 
 	@Override
 	public List<MaestroServicio> listarMaestroServicioAdm(Integer idEmpresa)
@@ -524,6 +532,7 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 
 		return maestroServicio;
 	}
+	
 
 	@Override
 	public List<CorreoClienteMasivo> listarClientesCorreo(Integer idEmpresa)

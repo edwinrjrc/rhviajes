@@ -245,6 +245,8 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 				detalleComprobante = new DetalleComprobante();
 				detalleComprobante.setCodigoEntero(UtilJdbc.obtenerNumero(rs,
 						"id"));
+				detalleComprobante.setIdServicioDetalle(UtilJdbc.obtenerNumero(rs, "idserviciodetalle"));
+				detalleComprobante.setIdComprobante(UtilJdbc.obtenerNumero(rs, "idcomprobante"));
 				detalleComprobante.setCantidad(UtilJdbc.obtenerNumero(rs,
 						"cantidad"));
 				detalleComprobante.setConcepto(UtilJdbc.obtenerCadena(rs,

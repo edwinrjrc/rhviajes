@@ -15,6 +15,7 @@ import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.DocumentoAdicional;
 import pe.com.viajes.bean.negocio.EventoObsAnu;
 import pe.com.viajes.bean.negocio.PagoServicio;
+import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.ServicioAgenciaBusqueda;
@@ -157,4 +158,18 @@ public interface ServicioNovaViajesDao {
 	Integer obtenerSiguienteRuta(Connection conn) throws SQLException;
 
 	List<Tramo> consultarTramos(Integer codigoEntero, Connection conn) throws SQLException;
+
+	List<DetalleComprobante> consultaResumenDocumentoCobranza(
+			Comprobante comprobante) throws SQLException;
+
+	List<DetalleServicioAgencia> consultarDescripcionServicio(
+			DetalleServicioAgencia detalleServicio, Integer idServicio)
+			throws SQLException;
+
+	List<Pasajero> consultarPasajerosServicio(
+			DetalleServicioAgencia detalleServicio, Integer idServicio)
+			throws SQLException;
+
+	List<Pasajero> consultarPasajerosServicio(Integer idEmpresa,
+			Integer idServicio) throws SQLException;
 }

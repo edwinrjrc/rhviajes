@@ -14,6 +14,7 @@ import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.ServicioNovios;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 
 @Remote
@@ -55,6 +56,13 @@ public interface UtilNegocioSessionRemote {
 	List<DetalleServicioAgencia> agruparServiciosHijos(
 			List<DetalleServicioAgencia> listaServicios, Integer idEmpresa);
 
-	void analizarDetalleComprobante(List<DetalleComprobante> listaDetalle,
-			int idServicio, int idEmpresa);
+	List<String> generarDetalleComprobanteImpresionDocumentoCobranza(
+			List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa) throws ErrorConsultaDataException;
+
+	List<String> generarDetalleComprobanteImpresionBoleta(
+			List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa)
+			throws ErrorConsultaDataException;
+
+	List<Pasajero> consultarPasajerosServicio(int idServicio, int idEmpresa)
+			throws ErrorConsultaDataException;
 }

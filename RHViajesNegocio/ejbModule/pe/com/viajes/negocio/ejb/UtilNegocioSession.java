@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.jasper.DetalleServicio;
+import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.ConfiguracionTipoServicio;
 import pe.com.viajes.bean.negocio.Contacto;
 import pe.com.viajes.bean.negocio.Destino;
@@ -42,6 +43,7 @@ import pe.com.viajes.negocio.dao.MaestroServicioDao;
 import pe.com.viajes.negocio.dao.ParametroDao;
 import pe.com.viajes.negocio.dao.ProveedorDao;
 import pe.com.viajes.negocio.dao.ServicioNegocioDao;
+import pe.com.viajes.negocio.dao.ServicioNovaViajesDao;
 import pe.com.viajes.negocio.dao.TipoCambioDao;
 import pe.com.viajes.negocio.dao.UbigeoDao;
 import pe.com.viajes.negocio.dao.impl.ComunDaoImpl;
@@ -51,6 +53,7 @@ import pe.com.viajes.negocio.dao.impl.MaestroServicioDaoImpl;
 import pe.com.viajes.negocio.dao.impl.ParametroDaoImpl;
 import pe.com.viajes.negocio.dao.impl.ProveedorDaoImpl;
 import pe.com.viajes.negocio.dao.impl.ServicioNegocioDaoImpl;
+import pe.com.viajes.negocio.dao.impl.ServicioNovaViajesDaoImpl;
 import pe.com.viajes.negocio.dao.impl.TipoCambioDaoImpl;
 import pe.com.viajes.negocio.dao.impl.UbigeoDaoImpl;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
@@ -1164,7 +1167,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
 			contacto.getArea().setNombre(hijoMaestro.getNombre());
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ErrorRegistroDataException(
+					"No se pudo agregar el contacto", e);
 		}
 
 		return contacto;
@@ -1334,7 +1338,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 		valorCuota = servicioNegocioDao.calcularCuota(servicioAgencia);
 
 		return valorCuota;
-	}
+}
 
 	@Override
 	public Pasajero agregarPasajero(Pasajero pasajero)
@@ -1364,16 +1368,85 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 	}
 	
 	@Override
-	public void analizarDetalleComprobante(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa){
+	public List<String> generarDetalleComprobanteImpresionDocumentoCobranza(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa) throws ErrorConsultaDataException{
 		if (listaDetalle != null){
-			for (DetalleComprobante detalleComprobante : listaDetalle) {
-				try {
-					consultaNegocioSessionLocal.consultaDetalleServicioDetalle(idServicio, detalleComprobante.getIdServicioDetalle(), idEmpresa);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			try {
+				Comprobante comprobante = new Comprobante();
+				comprobante.getEmpresa().setCodigoEntero(idEmpresa);
+				comprobante.setIdServicio(idServicio);
+				ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(idEmpresa);
+				List<DetalleComprobante> listaResumen = servicioNovaViajesDao.consultaResumenDocumentoCobranza(comprobante);
+				DetalleServicioAgencia detalleServicioAgencia = null;
+				List<String> detalle = new ArrayList<String>();
+				for (DetalleComprobante detalleComprobante : listaResumen) {
+					if (detalleComprobante.getCantidad() > 0){
+						for (DetalleComprobante detalle2 : listaDetalle){
+							detalleServicioAgencia = new DetalleServicioAgencia();
+							detalleServicioAgencia.setCodigoEntero(detalle2.getIdServicioDetalle());
+							detalleServicioAgencia.getTipoServicio().setCodigoEntero(detalleComprobante.getCodigoEntero());
+							detalleServicioAgencia.getEmpresa().setCodigoEntero(idEmpresa);
+							List<DetalleServicioAgencia> lista2 = servicioNovaViajesDao.consultarDescripcionServicio(detalleServicioAgencia, idServicio);
+							for (DetalleServicioAgencia detalleServicioAgencia2 : lista2) {
+								List<Pasajero> listaPasajeros = servicioNovaViajesDao.consultarPasajerosServicio(detalleServicioAgencia2, idServicio);
+								detalle.add("Por la compra de "+listaPasajeros.size()+" "+detalleServicioAgencia2.getDescripcionServicio()+" para los pasajeros:");
+								for (Pasajero pasajero : listaPasajeros) {
+									detalle.add("-"+pasajero.getNombreCompleto());
+								}
+							}
+						}
+					}
 				}
+				return detalle;
+			} catch (SQLException e1) {
+				throw new ErrorConsultaDataException(
+						"Error en la generacion de detalle de comprobante", e1);
+			} catch (Exception e1) {
+				throw new ErrorConsultaDataException(
+						"Error en la generacion de detalle de comprobante", e1);
 			}
+			
 		}
+		return null;
+	}
+	
+	@Override
+	public List<String> generarDetalleComprobanteImpresionBoleta(List<DetalleComprobante> listaDetalle, int idServicio, int idEmpresa) throws ErrorConsultaDataException{
+		if (listaDetalle != null){
+			try {
+				ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(idEmpresa);
+				List<String> detalle = new ArrayList<String>();
+				List<Pasajero> listaPasajeros = servicioNovaViajesDao.consultarPasajerosServicio(idEmpresa, idServicio);
+				detalle.add("Por el FEE de emision para los pasajeros:");
+				for (Pasajero pasajero : listaPasajeros) {
+					detalle.add("-"+pasajero.getNombreCompleto());
+				}
+				return detalle;
+			} catch (SQLException e1) {
+				throw new ErrorConsultaDataException(
+						"Error en la generacion de detalle de comprobante", e1);
+			} catch (Exception e1) {
+				throw new ErrorConsultaDataException(
+						"Error en la generacion de detalle de comprobante", e1);
+			}
+			
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Pasajero> consultarPasajerosServicio(int idServicio, int idEmpresa) throws ErrorConsultaDataException{
+		try {
+			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(idEmpresa);
+			List<Pasajero> listaPasajeros = servicioNovaViajesDao.consultarPasajerosServicio(idEmpresa, idServicio);
+			
+			return listaPasajeros;
+		} catch (SQLException e1) {
+			throw new ErrorConsultaDataException(
+					"Error en la consulta de pasajeros", e1);
+		} catch (Exception e1) {
+			throw new ErrorConsultaDataException(
+					"Error en la consulta de pasajeros", e1);
+		}
+			
 	}
 }
