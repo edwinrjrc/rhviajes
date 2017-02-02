@@ -141,10 +141,16 @@
 
 				<f:facet name="footer">
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
-						style="width:100%;text-align:center">
-						<a4j:commandButton value="Generar Comprobante" type="button"
-							styleClass="estiloBoton1"
-							oncomplete="clicBoton('idformconsultacomp:idBtnGeneraComprobante')"></a4j:commandButton>
+						style="width:100%;text-align:center;">
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							columns="2">
+							<a4j:commandButton value="Generar Comprobante Impresión"
+								type="button" styleClass="estiloBoton1" style="width: 200px;"
+								oncomplete="clicBoton('idformconsultacomp:idBtnGeneraComprobante')"></a4j:commandButton>
+							<a4j:commandButton value="Generar Comprobante Digital"
+								type="button" styleClass="estiloBoton1" style="width: 200px;"
+								oncomplete="clicBoton('idformconsultacomp:idBtnGeneraComprobanteDigital')"></a4j:commandButton>
+						</h:panelGrid>
 					</h:panelGrid>
 				</f:facet>
 

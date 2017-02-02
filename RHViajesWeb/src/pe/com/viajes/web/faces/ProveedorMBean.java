@@ -108,6 +108,8 @@ public class ProveedorMBean extends BaseMBean {
 		this.setProveedorBusqueda(null);
 		this.setListaProveedores(null);
 		
+		this.buscarProveedor();
+		
 		return "irAdministrarProveedor";
 	}
 
@@ -794,7 +796,7 @@ public class ProveedorMBean extends BaseMBean {
 	 */
 	public List<Proveedor> getListaProveedores() {
 		this.setShowModal(false);
-		try {
+		/*try {
 			if (listaProveedores == null || listaProveedores.isEmpty()) {
 				this.getProveedor().setEmpresa(this.obtenerEmpresa());
 				listaProveedores = this.consultaNegocioServicio
@@ -803,7 +805,7 @@ public class ProveedorMBean extends BaseMBean {
 
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
-		}
+		}*/
 		return listaProveedores;
 	}
 

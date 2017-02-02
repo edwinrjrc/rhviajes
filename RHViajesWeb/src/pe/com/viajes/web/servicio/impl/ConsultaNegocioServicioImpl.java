@@ -434,4 +434,9 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	public TipoCambio consultarTipoCambio (Integer idEmpresa) throws ErrorConsultaDataException{
 		return ejbSession.consultarTipoCambio(idEmpresa);
 	}
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio) throws ErrorConsultaDataException{
+		return ejbSession.consultarDescripcionServicioDC(idEmpresa, idServicio);
+	}
 }

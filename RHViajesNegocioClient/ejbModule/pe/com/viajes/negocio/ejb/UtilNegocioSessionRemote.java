@@ -1,6 +1,7 @@
 package pe.com.viajes.negocio.ejb;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -65,4 +66,6 @@ public interface UtilNegocioSessionRemote {
 
 	List<Pasajero> consultarPasajerosServicio(int idServicio, int idEmpresa)
 			throws ErrorConsultaDataException;
+
+	Connection obtenerConexion();
 }

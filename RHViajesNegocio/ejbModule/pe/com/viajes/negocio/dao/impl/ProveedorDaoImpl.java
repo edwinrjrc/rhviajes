@@ -178,7 +178,7 @@ public class ProveedorDaoImpl implements ProveedorDao {
 				.getCodigoEntero() != null
 				&& StringUtils.isNotBlank(proveedor.getDocumentoIdentidad()
 						.getNumeroDocumento())) {
-			sql = sql + "idtipodocumento = ? and numerodocumento = ?";
+			sql = sql + "and idtipodocumento = ? and numerodocumento = ?";
 			if (StringUtils.isNotBlank(proveedor.getNombres())) {
 				sql = sql + " and upper(nombres) like ?";
 			}

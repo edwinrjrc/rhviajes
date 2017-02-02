@@ -7,6 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:rh="http://novaviajes.com.pe/funciones">
+	
 
 	<rich:popupPanel id="idModalventaservicio" modal="true" width="1100"
 		height="600">
@@ -190,7 +191,7 @@
 											<a4j:commandLink
 												oncomplete="mostrarModal3('idModalverdetalle')"
 												action="#{servicioAgenteMBean.verDetalleServicio(filaDetalle)}"
-												render="idPnDetalle">
+												render="idPnDetalle,iddatapax">
 												<h:graphicImage url="/resources/img/vericono.gif"
 													style="border:0; height:15px;width:15px;" />
 											</a4j:commandLink>

@@ -194,4 +194,8 @@ public interface ConsultaNegocioServicio {
 
 	TipoCambio consultarTipoCambio(Integer idEmpresa)
 			throws ErrorConsultaDataException;
+
+	List<DetalleServicioAgencia> consultarDescripcionServicioDC(
+			Integer idEmpresa, Integer idServicio)
+			throws ErrorConsultaDataException;
 }

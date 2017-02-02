@@ -493,27 +493,29 @@ public class ClienteMBean extends BaseMBean {
 			resultado = false;
 			this.setPestanaActiva("idFD01");
 		}
-		if (StringUtils.isBlank(getDireccion().getUbigeo().getDepartamento()
-				.getCodigoCadena())) {
-			this.agregarMensaje(idFormulario + ":idDepartamentoDireccion",
-					"Seleccione el departamento", "",
-					FacesMessage.SEVERITY_ERROR);
-			resultado = false;
-			this.setPestanaActiva("idFD01");
-		}
-		if (StringUtils.isBlank(getDireccion().getUbigeo().getProvincia()
-				.getCodigoCadena())) {
-			this.agregarMensaje(idFormulario + ":idProvinciaDireccion",
-					"Seleccione la provincia", "", FacesMessage.SEVERITY_ERROR);
-			resultado = false;
-			this.setPestanaActiva("idFD01");
-		}
-		if (StringUtils.isBlank(getDireccion().getUbigeo().getDistrito()
-				.getCodigoCadena())) {
-			this.agregarMensaje(idFormulario + ":idDistritoDireccion",
-					"Seleccione el distrito", "", FacesMessage.SEVERITY_ERROR);
-			resultado = false;
-			this.setPestanaActiva("idFD01");
+		if (this.getDireccion().getPais().getCodigoEntero().intValue() == 1){
+			if (StringUtils.isBlank(getDireccion().getUbigeo().getDepartamento()
+					.getCodigoCadena())) {
+				this.agregarMensaje(idFormulario + ":idDepartamentoDireccion",
+						"Seleccione el departamento", "",
+						FacesMessage.SEVERITY_ERROR);
+				resultado = false;
+				this.setPestanaActiva("idFD01");
+			}
+			if (StringUtils.isBlank(getDireccion().getUbigeo().getProvincia()
+					.getCodigoCadena())) {
+				this.agregarMensaje(idFormulario + ":idProvinciaDireccion",
+						"Seleccione la provincia", "", FacesMessage.SEVERITY_ERROR);
+				resultado = false;
+				this.setPestanaActiva("idFD01");
+			}
+			if (StringUtils.isBlank(getDireccion().getUbigeo().getDistrito()
+					.getCodigoCadena())) {
+				this.agregarMensaje(idFormulario + ":idDistritoDireccion",
+						"Seleccione el distrito", "", FacesMessage.SEVERITY_ERROR);
+				resultado = false;
+				this.setPestanaActiva("idFD01");
+			}
 		}
 		if (StringUtils.isNotBlank(getDireccion().getReferencia())
 				&& UtilWeb.obtenerLongitud(getDireccion().getReferencia()) > 300) {

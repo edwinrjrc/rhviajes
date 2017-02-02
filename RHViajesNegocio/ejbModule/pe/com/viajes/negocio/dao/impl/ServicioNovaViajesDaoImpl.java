@@ -3610,6 +3610,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				pasajero.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				pasajero.setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
 				pasajero.setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				pasajero.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				pasajero.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
 				listaPasajeros.add(pasajero);
 			}
 			
@@ -3674,5 +3676,49 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			}
 		}
 		return listaPasajeros;
+	}
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio) throws SQLException{
+		List<DetalleServicioAgencia> listaDetalleServicio = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_consultardetalleserviciodc(?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, idServicio.intValue());
+			cs.execute();
+			rs = (ResultSet)cs.getObject(1);
+			
+			listaDetalleServicio = new ArrayList<DetalleServicioAgencia>();
+			DetalleServicioAgencia detalleServicio2 = null;
+			while(rs.next()){
+				detalleServicio2 = new DetalleServicioAgencia();
+				detalleServicio2.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				detalleServicio2.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
+				detalleServicio2.getEmpresa().setCodigoEntero(idEmpresa);
+				detalleServicio2.setListaPasajeros(this.consultarPasajerosServicio(detalleServicio2, idServicio));
+				listaDetalleServicio.add(detalleServicio2);
+			}
+			
+		}
+		finally{
+			if (rs != null){
+				rs.next();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		return listaDetalleServicio;
 	}
 }

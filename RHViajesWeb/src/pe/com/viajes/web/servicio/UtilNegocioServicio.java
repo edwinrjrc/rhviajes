@@ -4,6 +4,7 @@
 package pe.com.viajes.web.servicio;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -67,5 +68,7 @@ public interface UtilNegocioServicio {
 	
 	List<Pasajero> consultarPasajerosServicio(int idServicio, int idEmpresa)
 			throws ErrorConsultaDataException;
+
+	Connection obtenerConexion();
 	
 }

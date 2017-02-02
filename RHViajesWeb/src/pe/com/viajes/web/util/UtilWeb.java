@@ -3,8 +3,12 @@
  */
 package pe.com.viajes.web.util;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +21,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.model.SelectItem;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,12 +37,13 @@ import pe.com.viajes.bean.negocio.Ruta;
 import pe.com.viajes.bean.negocio.Tramo;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.bean.util.UtilApp;
+import pe.com.viajes.bean.util.UtilProperties;
 
 /**
  * @author Edwin
  *
  */
-public class UtilWeb extends UtilApp{
+public class UtilWeb extends UtilApp {
 
 	private final static Logger logger = Logger.getLogger(UtilWeb.class);
 
@@ -51,7 +60,7 @@ public class UtilWeb extends UtilApp{
 
 		return listaCombo;
 	}
-	
+
 	public static List<SelectItem> convertirSelectItem2(List<Maestro> lista) {
 		List<SelectItem> listaCombo = new ArrayList<SelectItem>();
 		SelectItem si = null;
@@ -127,6 +136,7 @@ public class UtilWeb extends UtilApp{
 
 	/**
 	 * Nombre de la semana de la fecha de hoy
+	 * 
 	 * @return
 	 */
 	public static String diaHoy() {
@@ -151,36 +161,38 @@ public class UtilWeb extends UtilApp{
 
 		return "";
 	}
-	
+
 	/**
 	 * Devuelve el valor de dia de la fecha de hoy
+	 * 
 	 * @return
 	 */
 	public static String diaFechaHoy() {
 		Calendar cal = Calendar.getInstance();
 
 		String valor = Integer.valueOf(cal.get(Calendar.DATE)).toString();
-		
+
 		return completarCaracter(valor, "0", 2, "I");
 	}
-	
+
 	public static String anioFechaHoy() {
 		Calendar cal = Calendar.getInstance();
 
 		String valor = Integer.valueOf(cal.get(Calendar.YEAR)).toString();
-		
+
 		return valor;
 	}
-	
+
 	public static String anioFechaHoyYY() {
 		Date fecha = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yy");
-		
+
 		return sdf.format(fecha);
 	}
 
 	/**
 	 * Nombre del mes de la fecha de hoy
+	 * 
 	 * @return
 	 */
 	public static String mesHoy() {
@@ -215,9 +227,10 @@ public class UtilWeb extends UtilApp{
 
 		return "";
 	}
-	
+
 	/**
 	 * Numero del mes completo, ejm. 01, 03, 10, 12
+	 * 
 	 * @return
 	 */
 	public static String mesHoyNumero() {
@@ -225,11 +238,11 @@ public class UtilWeb extends UtilApp{
 
 		String mes = "";
 		mes = Integer.valueOf(cal.get(Calendar.MONTH) + 1).toString();
-		mes = completarCaracter(mes,"0",2,"I");
-		
+		mes = completarCaracter(mes, "0", 2, "I");
+
 		return mes;
 	}
-	
+
 	/**
 	 * Completa caracteres segun la cantidad y la direccion
 	 * 
@@ -318,7 +331,7 @@ public class UtilWeb extends UtilApp{
 		}
 		return null;
 	}
-	
+
 	public static String fechaHoy(String pattern) {
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 
@@ -350,54 +363,100 @@ public class UtilWeb extends UtilApp{
 
 		return tamanio.intValue();
 	}
-	
-	public static String rutaCorta(Ruta ruta){
+
+	public static String rutaCorta(Ruta ruta) {
 		String rutaCorta = "";
-		int i=0;
-		if (ruta != null && !ruta.getTramos().isEmpty()){
+		int i = 0;
+		if (ruta != null && !ruta.getTramos().isEmpty()) {
 			for (Tramo tramo : ruta.getTramos()) {
-				if (i == 0){
-					rutaCorta = tramo.getOrigen().getDescripcion() +"/" + tramo.getDestino().getDescripcion();
-				}
-				else{
-					rutaCorta = rutaCorta + tramo.getDestino().getDescripcion() + "/";
+				if (i == 0) {
+					rutaCorta = tramo.getOrigen().getDescripcion() + "/"
+							+ tramo.getDestino().getDescripcion();
+				} else {
+					rutaCorta = rutaCorta + tramo.getDestino().getDescripcion()
+							+ "/";
 				}
 				i++;
 			}
 		}
-		
+
 		return rutaCorta;
 	}
-	
-	public static String nvl(String valor1, String valor2){
-		if (StringUtils.isNotBlank(valor1)){
+
+	public static String nvl(String valor1, String valor2) {
+		if (StringUtils.isNotBlank(valor1)) {
 			return valor1;
 		}
 		return valor2;
 	}
-	
-	public static boolean obtenerValorPropiedad(Properties propiedades, String llave, Usuario usuario){
+
+	public static boolean obtenerValorPropiedad(Properties propiedades,
+			String llave, Usuario usuario) {
 		try {
 			llave = usuario.getNombreDominioEmpresa() + llave;
 			String valor = (String) propiedades.get(llave);
-			
+
 			return Boolean.getBoolean(valor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	public static boolean comparaDocumentoIdentidad(DocumentoIdentidad di1, DocumentoIdentidad di2){
+
+	public static boolean comparaDocumentoIdentidad(DocumentoIdentidad di1,
+			DocumentoIdentidad di2) {
 		boolean igual = false;
-		igual =(di1.getTipoDocumento().getCodigoEntero().intValue() == di1.getTipoDocumento().getCodigoEntero().intValue());
-		if (igual){
-			igual = StringUtils.equals(di1.getNumeroDocumento(),di2.getNumeroDocumento());
+		igual = (di1.getTipoDocumento().getCodigoEntero().intValue() == di1
+				.getTipoDocumento().getCodigoEntero().intValue());
+		if (igual) {
+			igual = StringUtils.equals(di1.getNumeroDocumento(),
+					di2.getNumeroDocumento());
 		}
 		return igual;
 	}
-	
-	public static String completarCerosIzquierda(String cadena, int cantidad){
+
+	public static String completarCerosIzquierda(String cadena, int cantidad) {
 		return completarCaracter(cadena, "0", cantidad, "I");
+	}
+
+	public static Connection obtenerConexion() {
+
+		try {
+			Context ic = new InitialContext();
+			DataSource dataSource = null;
+
+			String jndiProperties = getJndiProperties();
+
+			if (StringUtils.isNotBlank(jndiProperties)) {
+				dataSource = (DataSource) ic.lookup(jndiProperties);
+			} else {
+				dataSource = (DataSource) ic.lookup("java:/jboss/jdbc/rhviajesDS");
+			}
+
+			return dataSource.getConnection();
+		} catch (NamingException e) {
+			logger.error(e.getMessage(), e);
+			// throw new ConnectionException(e);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			// throw new ConnectionException(e);
+		} catch (FileNotFoundException e) {
+			logger.error(e.getMessage(), e);
+			// throw new ConnectionException(e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			// throw new ConnectionException(e);
+		}
+		return null;
+	}
+
+	public static String getJndiProperties() throws FileNotFoundException,
+			IOException {
+		Properties prop = UtilProperties
+				.cargaArchivo("aplicacionConfiguracion.properties");
+
+		String jndiProperties = prop.getProperty("jndi_ds");
+
+		return jndiProperties;
 	}
 }

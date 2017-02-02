@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author EDWREB
  *
@@ -198,8 +200,15 @@ public class UtilConvertirNumeroLetras {
 		}
 
 		// Descompone los centavos
-		String decimales = splitNumber[1]; 
-		converted.append(" CON "+decimales+"/100");
+		String decimales = splitNumber[1];
+		if (StringUtils.isNotBlank(decimales)){
+			if (decimales.length() == 1){
+				converted.append(" CON "+decimales+"0/100");
+			}
+			else{
+				converted.append(" CON "+decimales+"/100");
+			}
+		}
 
 		return converted.toString();
 	}

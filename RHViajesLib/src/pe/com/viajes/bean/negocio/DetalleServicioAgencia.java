@@ -48,6 +48,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 
 	private List<DetalleServicioAgencia> serviciosHijos;
 	private List<Pasajero> listaPasajeros;
+	
+	private String pasajeros;
 
 	private ConfiguracionTipoServicio configuracionTipoServicio;
 
@@ -821,6 +823,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setInvisible(boolean invisible) {
 		this.invisible = invisible;
+	}
+
+	/**
+	 * @return the pasajeros
+	 */
+	public String getPasajeros() {
+		return pasajeros;
+	}
+
+	/**
+	 * @param pasajeros the pasajeros to set
+	 */
+	public void setPasajeros(String pasajeros) {
+		this.pasajeros = pasajeros;
 	}
 
 }

@@ -23,6 +23,7 @@ import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Parametro;
+import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.util.UtilApp;
 import pe.com.viajes.negocio.dao.ParametroDao;
@@ -368,5 +369,13 @@ public class UtilEjb extends UtilApp {
 		ByteArrayInputStream bis = new ByteArrayInputStream(arreglo);
 		
 		return (InputStream)bis;
+	}
+	
+	public static String listaPasajerosString(List<Pasajero> lista){
+		String pasajeros = "";
+		for (Pasajero pasajero : lista) {
+			pasajeros = pasajeros + pasajero.getNombreCompleto() + "("+pasajero.getNumeroBoleto()+")\n";
+		}
+		return pasajeros;
 	}
 }

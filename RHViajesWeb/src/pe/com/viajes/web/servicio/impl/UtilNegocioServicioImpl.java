@@ -4,6 +4,7 @@
 package pe.com.viajes.web.servicio.impl;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
@@ -152,5 +153,10 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	public List<Pasajero> consultarPasajerosServicio(int idServicio,
 			int idEmpresa) throws ErrorConsultaDataException {
 		return ejbSession.consultarPasajerosServicio(idServicio, idEmpresa);
+	}
+	
+	@Override
+	public Connection obtenerConexion(){
+		return ejbSession.obtenerConexion();
 	}
 }

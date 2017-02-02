@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -252,9 +251,13 @@ public class ServicioAgenteMBean extends BaseMBean {
 			HttpSession session = obtenerSession(false);
 			Usuario usuario = (Usuario) session.getAttribute(USUARIO_SESSION);
 			
-			if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 2) || UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 4)){
+			if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 2)){
 				getServicioAgenciaBusqueda().getVendedor().setCodigoEntero(
 						usuario.getCodigoEntero());
+				if (UtilWeb.validarPermisoRoles(usuario.getListaRoles(), 4)){
+					getServicioAgenciaBusqueda().getVendedor().setCodigoEntero(
+							null);
+				}
 			}
 
 			listadoServicioAgencia = this.consultaNegocioServicio
@@ -2026,11 +2029,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 		
 		try {
 			String rutaImagen = "";
-			rutaImagen = File.separator + ".." + File.separator + "resources" + File.separator + "img" + File.separator + "logo3.gif";
+			rutaImagen =  File.separator + "resources" + File.separator + "img" + File.separator + "logo3.gif";
 			
-			//rutaImagen = this.obtenerRequest().
-			rutaImagen = "/img/"+"logo3.gif";
-			//rutaImagen = "C:\\Users\\Edwin\\git\\rhviajes\\RHViajesWeb\\WebContent\\resources\\img\\"+"logo3.gif";
+			//rutaImagen = this.obtenerRequest().getContextPath();
+			//rutaImagen = rutaImagen+ File.separator + "resources"+File.separator+"img"+ File.separator + "logo3.gif";
 			File imagen = new File(rutaImagen);
 			
 			//URL imagen2 = getClass().getResource(rutaImagen);

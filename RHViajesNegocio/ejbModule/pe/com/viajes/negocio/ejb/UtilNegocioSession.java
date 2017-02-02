@@ -1449,4 +1449,9 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 		}
 			
 	}
+	
+	@Override
+	public Connection obtenerConexion(){
+		return UtilConexion.obtenerConexion();
+	}
 }
