@@ -3,6 +3,7 @@
  */
 package pe.com.viajes.web.faces;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -854,7 +856,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 		return mapeo;
 	}
 	
-	private Map<String,Object> enviarParametrosDocumentoCobranza(String ruta, String tipo, Connection conn) throws ErrorConsultaDataException {
+	private Map<String,Object> enviarParametrosDocumentoCobranza(String ruta, String tipo, Connection conn) throws ErrorConsultaDataException, IOException {
 		Map<String,Object> mapeo = new HashMap<String,Object>();
 		
 		Cliente cliente = null;
@@ -909,6 +911,10 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 		mapeo.put("p_idservicio", this.getComprobanteDetalle().getIdServicio());
 		mapeo.put("SUBREPORT_DIR", ruta + File.separator);
 		mapeo.put("REPORT_CONNECTION", conn);
+		String rutaImagen = ruta + File.separator + "logocomprobante.jpg";
+		File imagen = new File(rutaImagen);
+		BufferedImage image = ImageIO.read(imagen);
+		mapeo.put("p_imagen", image);
 		
 		return mapeo;
 	}

@@ -103,7 +103,12 @@
 							<rich:dataTable style="width:100%;"
 								value="#{comprobanteMBean.comprobanteDetalle.detalleComprobante}"
 								var="fila">
-
+								<rich:column style="width:10%;text-align:right;">
+									<f:facet name="header">
+										<h:outputText value="Mostrar en Documento" />
+									</f:facet>
+									<h:selectBooleanCheckbox value="#{fila.impresion}" />
+								</rich:column>
 								<rich:column style="width:10%;text-align:right;">
 									<f:facet name="header">
 										<h:outputText value="Cantidad" />
