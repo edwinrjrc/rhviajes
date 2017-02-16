@@ -619,6 +619,7 @@ public class ClienteMBean extends BaseMBean {
 				Usuario usuario = (Usuario) session
 						.getAttribute("usuarioSession");
 				getContacto().setUsuarioCreacion(usuario);
+				getContacto().setEmpresa(this.obtenerEmpresa());
 				getContacto().setIpCreacion(obtenerRequest().getRemoteAddr());
 				getContacto().setUsuarioModificacion(usuario);
 				getContacto().setIpModificacion(
