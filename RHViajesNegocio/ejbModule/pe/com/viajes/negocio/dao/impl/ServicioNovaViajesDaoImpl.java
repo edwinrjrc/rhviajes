@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1124,7 +1125,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
-		String sql = "{ ? = call negocio.fn_consultarservicioventa(?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_consultarservicioventa(?,?,?,?,?,?,?,?,?)}";
 		List<ServicioAgencia> listaVentaServicios = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -1175,7 +1176,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 					.getFechaDesde()));
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(servicioAgencia
 					.getFechaHasta()));
-
+			cs.setBoolean(i++, servicioAgencia.isVentaAnulada());
 			cs.execute();
 
 			rs = (ResultSet) cs.getObject(1);
@@ -1257,7 +1258,6 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				}
 			}
 		}
-
 		return listaVentaServicios;
 	}
 
@@ -2163,7 +2163,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	public Integer registrarComprobante(Comprobante comprobante, Connection conn)
 			throws SQLException, Exception {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarcomprobantegenerado(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarcomprobantegenerado(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		int resultado = 0;
 		try {
 			cs = conn.prepareCall(sql);
@@ -2184,10 +2184,9 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setBoolean(i++, comprobante.isTieneRetencion());
 			//TODO COLOCAR LA MONEDA EN LA BASE DE DATOS EN LA TABLA DE COMPROBANTES GENERADOS
 			cs.setInt(i++, comprobante.getMoneda().getCodigoEntero().intValue());
-
 			cs.setInt(i++, comprobante.getUsuarioCreacion().getCodigoEntero().intValue());
 			cs.setString(i++, comprobante.getIpCreacion());
-
+			cs.setString(i++, comprobante.getNumeroSerie());
 			cs.execute();
 
 			resultado = cs.getInt(1);
@@ -2369,10 +2368,10 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 						UtilJdbc.obtenerCadena(rs, "tipoComprobanteNombre"));
 				detalleServicio.getTipoComprobante().setAbreviatura(
 						UtilJdbc.obtenerCadena(rs, "tipoComprobanteAbrev"));
+				detalleServicio.setNumeroSerie(UtilJdbc.obtenerCadena(rs, "serieComprobante"));
 				detalleServicio.setNroComprobante(UtilJdbc.obtenerCadena(rs,
 						"numeroComprobante"));
 				detalleServicio.getServicioPadre().setCodigoEntero(idServicio);
-
 				resultado.add(detalleServicio);
 			}
 		} catch (SQLException e) {
@@ -2484,6 +2483,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 						UtilJdbc.obtenerCadena(rs, "tipoComprobanteNombre"));
 				detalleServicio.getTipoComprobante().setAbreviatura(
 						UtilJdbc.obtenerCadena(rs, "tipoComprobanteAbrev"));
+				detalleServicio.setNumeroSerie(UtilJdbc.obtenerCadena(rs,
+						"serieComprobante"));
 				detalleServicio.setNroComprobante(UtilJdbc.obtenerCadena(rs,
 						"numeroComprobante"));
 				detalleServicio.getServicioPadre().setCodigoEntero(
@@ -3679,7 +3680,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio) throws SQLException{
+	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idComprobante, Integer idServicio) throws SQLException{
 		List<DetalleServicioAgencia> listaDetalleServicio = null;
 		Connection conn = null;
 		CallableStatement cs = null;
@@ -3692,7 +3693,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idEmpresa.intValue());
-			cs.setInt(3, idServicio.intValue());
+			cs.setInt(3, idComprobante.intValue());
 			cs.execute();
 			rs = (ResultSet)cs.getObject(1);
 			
@@ -3702,6 +3703,50 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio2 = new DetalleServicioAgencia();
 				detalleServicio2.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				detalleServicio2.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
+				detalleServicio2.getEmpresa().setCodigoEntero(idEmpresa);
+				detalleServicio2.setListaPasajeros(this.consultarPasajerosServicio(detalleServicio2, idServicio));
+				listaDetalleServicio.add(detalleServicio2);
+			}
+			
+		}
+		finally{
+			if (rs != null){
+				rs.next();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		return listaDetalleServicio;
+	}
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarDescripcionServicioBL(Integer idEmpresa, Integer idComprobante, Integer idServicio) throws SQLException{
+		List<DetalleServicioAgencia> listaDetalleServicio = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_consultardetalleserviciobl(?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setInt(3, idComprobante.intValue());
+			cs.execute();
+			rs = (ResultSet)cs.getObject(1);
+			
+			listaDetalleServicio = new ArrayList<DetalleServicioAgencia>();
+			DetalleServicioAgencia detalleServicio2 = null;
+			while(rs.next()){
+				detalleServicio2 = new DetalleServicioAgencia();
+				detalleServicio2.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				detalleServicio2.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "detalleconcepto"));
 				detalleServicio2.getEmpresa().setCodigoEntero(idEmpresa);
 				detalleServicio2.setListaPasajeros(this.consultarPasajerosServicio(detalleServicio2, idServicio));
 				listaDetalleServicio.add(detalleServicio2);

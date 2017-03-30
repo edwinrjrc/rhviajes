@@ -26,4 +26,6 @@ public interface TipoCambioDao {
 
 	TipoCambio consultarTipoCambio(Integer idMonedaOrigen,
 			Integer idMonedaDestino) throws SQLException;
+
+	boolean validarTipoCambio(TipoCambio tipoCambio) throws SQLException;
 }

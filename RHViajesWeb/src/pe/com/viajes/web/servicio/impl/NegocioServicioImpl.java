@@ -31,6 +31,7 @@ import pe.com.viajes.negocio.ejb.NegocioSessionRemote;
 import pe.com.viajes.negocio.exception.EnvioCorreoException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.ResultadoCeroDaoException;
+import pe.com.viajes.negocio.exception.ValidacionException;
 import pe.com.viajes.web.servicio.NegocioServicio;
 
 /**
@@ -245,4 +246,8 @@ public class NegocioServicioImpl implements NegocioServicio {
 		return ejbSession.registrarTipoCambio(tipoCambio);
 	}
 
+	@Override
+	public boolean registrarTipoCambioSunat(TipoCambio tipoCambio) throws ValidacionException{
+		return ejbSession.registrarTipoCambioSunat(tipoCambio);
+	}
 }

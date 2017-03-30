@@ -980,11 +980,12 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			throw new ErrorConsultaDataException("No se pudo completar la consulta de tipo de cambio", e);
 		}
 	}
+	
 	@Override
-	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio) throws ErrorConsultaDataException{
+	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio, Integer idComprobante) throws ErrorConsultaDataException{
 		try {
 			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(idEmpresa);
-			List<DetalleServicioAgencia> lista = servicioNovaViajesDao.consultarDescripcionServicioDC(idEmpresa, idServicio);
+			List<DetalleServicioAgencia> lista = servicioNovaViajesDao.consultarDescripcionServicioDC(idEmpresa, idComprobante, idServicio);
 			for (DetalleServicioAgencia detalleServicioAgencia : lista) {
 				detalleServicioAgencia.setPasajeros(UtilEjb.listaPasajerosString(detalleServicioAgencia.getListaPasajeros()));
 			}
@@ -995,4 +996,19 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 		}
 	}
 	
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarDescripcionServicioBL(Integer idEmpresa, Integer idComprobante, Integer idServicio) throws ErrorConsultaDataException{
+		try {
+			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl(idEmpresa);
+			List<DetalleServicioAgencia> lista = servicioNovaViajesDao.consultarDescripcionServicioBL(idEmpresa, idComprobante, idServicio);
+			for (DetalleServicioAgencia detalleServicioAgencia : lista) {
+				detalleServicioAgencia.setPasajeros(UtilEjb.listaPasajerosString(detalleServicioAgencia.getListaPasajeros()));
+			}
+			
+			return lista;
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e);
+		}
+	}
 }

@@ -77,15 +77,17 @@
 								<rich:calendar datePattern="dd/MM/yyyy"
 									value="#{servicioAgenteMBean.servicioAgenciaBusqueda.fechaHasta}" />
 							</h:panelGrid>
-							<h:panelGrid columns="2" border="0" cellpadding="0"
+							<h:panelGrid columns="4" border="0" cellpadding="0"
 								cellspacing="0" style="width:100%;text-align:left;"
-								columnClasses="col1fil2proveedor,col2fil2proveedor" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'3')}">
+								columnClasses="col1fil1proveedor,col2fil1proveedor,col3fil1proveedor,col4fil1proveedor" rendered="#{rh:validarPermisoRol(sessionScope.usuarioSession.listaRoles,'3')}">
 								<h:outputText value="Agente Viajes" />
 								<h:selectOneMenu
 									value="#{servicioAgenteMBean.servicioAgenciaBusqueda.vendedor.codigoEntero}">
 									<f:selectItem itemLabel="-Seleccione el agente-" />
 									<f:selectItems value="#{catalogoMBean.catalogoVendedores}" />
 								</h:selectOneMenu>
+								<h:selectBooleanCheckbox value="#{servicioAgenteMBean.servicioAgenciaBusqueda.ventaAnulada}" />
+								<h:outputText value="Mostrar ventas anuladas" />
 							</h:panelGrid>
 						</h:panelGrid>
 						<f:facet name="footer">

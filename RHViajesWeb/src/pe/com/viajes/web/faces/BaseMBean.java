@@ -20,12 +20,7 @@ import pe.com.viajes.bean.negocio.Usuario;
  * @author Edwin
  * 
  */
-
-public class BaseMBean implements Serializable {
-
-	/**
-	 * 
-	 */
+public abstract class BaseMBean implements Serializable {
 	private static final long serialVersionUID = -8144858026084650982L;
 
 	private String nombreFormulario;
@@ -42,9 +37,6 @@ public class BaseMBean implements Serializable {
 	public static final String EMPRESA_USUARIO_SESSION = "empresaUsuarioSession";
 	public static final String TIPO_CAMBIO_SESSION = "tipoCambioSession";
 
-	/**
-	 * 
-	 */
 	public BaseMBean() {
 		// TODO Auto-generated constructor stub
 	}

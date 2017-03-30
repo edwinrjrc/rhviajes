@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pe.com.viajes.web.faces;
+package pe.com.viajes.web.faces.inter;
 
 /**
  * @author Edwin

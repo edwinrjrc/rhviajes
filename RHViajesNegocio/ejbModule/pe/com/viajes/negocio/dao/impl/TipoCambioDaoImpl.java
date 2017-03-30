@@ -231,4 +231,37 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 			}
 		}
 	}
+	
+	
+	@Override
+	public boolean validarTipoCambio(TipoCambio tipoCambio) throws SQLException {
+		boolean resultado = false;
+		Connection conn = null;
+		CallableStatement cs = null;
+		String sql = "";
+
+		try {
+			sql = "{ ? = call negocio.fn_validartipocambio(?,?,?,?) }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.BOOLEAN);
+			cs.setInt(2, idEmpresa.intValue());
+			cs.setDate(3, UtilJdbc.convertirUtilDateSQLDate(tipoCambio.getFechaTipoCambio()));
+			cs.setInt(4, tipoCambio.getMonedaOrigen().getCodigoEntero().intValue());
+			cs.setInt(5, tipoCambio.getMonedaDestino().getCodigoEntero().intValue());
+			cs.execute();
+			resultado = cs.getBoolean(1);
+			return resultado;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
+		} finally {
+			if (cs != null) {
+				cs.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
 }

@@ -7,7 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:rh="http://novaviajes.com.pe/funciones">
-	
+
 
 	<rich:popupPanel id="idModalventaservicio" modal="true" width="1100"
 		height="600">
@@ -258,7 +258,7 @@
 												<h:outputText value="Tipo Comprobante" />
 											</rich:column>
 											<rich:column>
-												<h:outputText value="Numero Comprobante" />
+												<h:outputText value="Número Serie - Comprobante" />
 											</rich:column>
 											<rich:column>
 												<h:outputText value="" />
@@ -314,12 +314,17 @@
 												rendered="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}" />
 										</rich:column>
 										<rich:column>
-											<h:inputText
-												rendered="#{!servicioAgenteMBean.servicioAgencia.guardoComprobante}"
-												readonly="#{servicioAgenteMBean.guardoComprobantes}"
-												value="#{filaDetalle.nroComprobante}" maxlength="20" />
-											<h:outputText value="#{filaDetalle.nroComprobante}"
-												rendered="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}" />
+											<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+												border="0">
+												<h:inputText value="#{filaDetalle.numeroSerie}" size="3"
+													maxlength="3" rendered="#{!servicioAgenteMBean.servicioAgencia.guardoComprobante}" />
+												<h:inputText
+													rendered="#{!servicioAgenteMBean.servicioAgencia.guardoComprobante}"
+													readonly="#{servicioAgenteMBean.guardoComprobantes}"
+													value="#{filaDetalle.nroComprobante}" maxlength="10" size="5" />
+												<h:outputText value="#{filaDetalle.numeroSerie} - #{filaDetalle.nroComprobante}"
+													rendered="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}" />
+											</h:panelGrid>
 										</rich:column>
 										<rich:column>
 											<h:panelGrid cellpadding="0" cellspacing="0" border="0"

@@ -173,6 +173,9 @@ public interface ServicioNovaViajesDao {
 	List<Pasajero> consultarPasajerosServicio(Integer idEmpresa,
 			Integer idServicio) throws SQLException;
 
-	List<DetalleServicioAgencia> consultarDescripcionServicioDC(
-			Integer idEmpresa, Integer idServicio) throws SQLException;
+	List<DetalleServicioAgencia> consultarDescripcionServicioBL(Integer idEmpresa, Integer idComprobante,
+			Integer idServicio) throws SQLException;
+
+	List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idComprobante,
+			Integer idServicio) throws SQLException;
 }

@@ -58,6 +58,7 @@ public class DetalleServicioAgencia extends BaseNegocio {
 
 	private String nroComprobante;
 	private BaseVO tipoComprobante;
+	private String numeroSerie;
 
 	private boolean tieneDetraccion;
 	private boolean tieneRetencion;
@@ -837,6 +838,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setPasajeros(String pasajeros) {
 		this.pasajeros = pasajeros;
+	}
+
+	/**
+	 * @return the numeroSerie
+	 */
+	public String getNumeroSerie() {
+		return numeroSerie;
+	}
+
+	/**
+	 * @param numeroSerie the numeroSerie to set
+	 */
+	public void setNumeroSerie(String numeroSerie) {
+		this.numeroSerie = numeroSerie;
 	}
 
 }

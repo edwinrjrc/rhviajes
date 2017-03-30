@@ -436,7 +436,12 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio) throws ErrorConsultaDataException{
-		return ejbSession.consultarDescripcionServicioDC(idEmpresa, idServicio);
+	public List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio, Integer idComprobante) throws ErrorConsultaDataException{
+		return ejbSession.consultarDescripcionServicioDC(idEmpresa, idServicio, idComprobante);
+	}
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarDescripcionServicioBL(Comprobante comprobante) throws ErrorConsultaDataException{
+		return ejbSession.consultarDescripcionServicioBL(comprobante.getEmpresa().getCodigoEntero(), comprobante.getCodigoEntero(), comprobante.getIdServicio());
 	}
 }

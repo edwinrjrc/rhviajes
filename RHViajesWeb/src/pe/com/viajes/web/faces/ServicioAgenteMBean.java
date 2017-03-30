@@ -1692,23 +1692,25 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 			this.getServicioAgencia().setListaDetalleServicioAgrupado(
 					getListadoDetalleServicioAgrupado());
-			this
-			.getServicioAgencia().setEmpresa(this.obtenerEmpresa());
-			if (this.negocioServicio.registrarComprobantes(this
-					.getServicioAgencia())) {
-				this.getServicioAgencia()
-						.setListaDetalleServicio(
-								this.consultaNegocioServicio
-										.consultarDetalleComprobantes(this
-												.getServicioAgencia()
-												.getCodigoEntero(), this.obtenerIdEmpresa()));
-				this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio
-						.agruparServicios(this.getServicioAgencia()
-								.getListaDetalleServicio(), this.obtenerIdEmpresa()));
-				this.setGuardoComprobantes(true);
-				this.getServicioAgencia().setGuardoComprobante(true);
-				this.setColumnasComprobantes(10);
+			this.getServicioAgencia().setEmpresa(this.obtenerEmpresa());
+			if (validarComprobantes()){
+				if (this.negocioServicio.registrarComprobantes(this
+						.getServicioAgencia())) {
+					this.getServicioAgencia()
+							.setListaDetalleServicio(
+									this.consultaNegocioServicio
+											.consultarDetalleComprobantes(this
+													.getServicioAgencia()
+													.getCodigoEntero(), this.obtenerIdEmpresa()));
+					this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio
+							.agruparServicios(this.getServicioAgencia()
+									.getListaDetalleServicio(), this.obtenerIdEmpresa()));
+					this.setGuardoComprobantes(true);
+					this.getServicioAgencia().setGuardoComprobante(true);
+					this.setColumnasComprobantes(10);
+				}
 			}
+			
 			this.mostrarMensajeExito("Comprobante Registrado Satisfactoriamente");
 		} catch (ValidacionException e) {
 			this.mostrarMensajeError(e.getMessage());
@@ -1720,6 +1722,24 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
 		}
+	}
+
+	private boolean validarComprobantes() throws ValidacionException {
+		List<DetalleServicioAgencia> listaAgrupados = this.getServicioAgencia().getListaDetalleServicioAgrupado();
+		if (listaAgrupados == null || listaAgrupados.isEmpty()){
+			throw new ValidacionException("Lista de servicios agrupados en blanco");
+		}
+		for (DetalleServicioAgencia detalleServicioAgencia : listaAgrupados) {
+			for (DetalleServicioAgencia servicioHijo : detalleServicioAgencia.getServiciosHijos()){
+				if (StringUtils.isBlank(servicioHijo.getNumeroSerie()) && StringUtils.isNotBlank(servicioHijo.getNroComprobante())){
+					throw new ValidacionException("Complete correctamente los numeros de comprobantes");
+				}
+				if (StringUtils.isNotBlank(servicioHijo.getNumeroSerie()) && StringUtils.isBlank(servicioHijo.getNroComprobante())){
+					throw new ValidacionException("Complete correctamente los numeros de comprobantes");
+				}
+			}
+		}
+		return true;
 	}
 
 	public void consultarPagosComprobantes(DetalleServicioAgencia detalle) {

@@ -24,6 +24,7 @@ import pe.com.viajes.bean.negocio.TipoCambio;
 import pe.com.viajes.negocio.exception.EnvioCorreoException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.ResultadoCeroDaoException;
+import pe.com.viajes.negocio.exception.ValidacionException;
 
 /**
  * @author Edwin
@@ -113,4 +114,6 @@ public interface NegocioServicio {
 	boolean grabarDocumentosAdicionales(List<DocumentoAdicional> lista,
 			Integer idEmpresa) throws ErrorRegistroDataException, SQLException,
 			Exception;
+
+	boolean registrarTipoCambioSunat(TipoCambio tipoCambio) throws ValidacionException;
 }

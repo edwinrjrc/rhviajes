@@ -195,7 +195,9 @@ public interface ConsultaNegocioServicio {
 	TipoCambio consultarTipoCambio(Integer idEmpresa)
 			throws ErrorConsultaDataException;
 
-	List<DetalleServicioAgencia> consultarDescripcionServicioDC(
-			Integer idEmpresa, Integer idServicio)
+	List<DetalleServicioAgencia> consultarDescripcionServicioBL(Comprobante comprobante)
 			throws ErrorConsultaDataException;
+
+	List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio,
+			Integer idComprobante) throws ErrorConsultaDataException;
 }

@@ -100,6 +100,8 @@ public class UtilEjb extends UtilApp {
 				.get(0).isTieneDetraccion());
 		comprobante.setTieneRetencion(listaDetalle.get(0).getServiciosHijos()
 				.get(0).isTieneRetencion());
+		comprobante.setNumeroSerie(listaDetalle.get(0).getServiciosHijos()
+				.get(0).getNumeroSerie());
 		comprobante.setMoneda(listaDetalle.get(0).getMoneda());
 		lista.add(comprobante);
 		for (int s = 0; s < listaDetalle.size(); s++) {
@@ -111,13 +113,13 @@ public class UtilEjb extends UtilApp {
 							.size(); j++) {
 						DetalleServicioAgencia bean2 = listaDetalle.get(r)
 								.getServiciosHijos().get(j);
-						if (!bean.getNroComprobante().equals(
-								bean2.getNroComprobante())
-								&& !estaEnListado(bean2.getNroComprobante(),
+						if (!comparaComprobante(bean,bean2)
+								&& !estaEnListado(bean2,
 										lista)) {
 							comprobante = new Comprobante();
 							comprobante.setNumeroComprobante(bean2
 									.getNroComprobante());
+							comprobante.setNumeroSerie(bean2.getNumeroSerie());
 							comprobante.setTipoComprobante(bean2
 									.getTipoComprobante());
 							comprobante.setTieneDetraccion(bean2
@@ -136,13 +138,30 @@ public class UtilEjb extends UtilApp {
 		return lista;
 	}
 
-	private static boolean estaEnListado(String numero, List<Comprobante> lista) {
+	private static boolean estaEnListado(DetalleServicioAgencia numero, List<Comprobante> lista) {
 		for (Comprobante comprobante : lista) {
-			if (comprobante.getNumeroComprobante().equals(numero)) {
+			if (comparaComprobante(comprobante, numero)) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	
+	private static boolean comparaComprobante(Comprobante comprobante, DetalleServicioAgencia numero){
+		boolean tipoComprobante = (comprobante.getTipoComprobante().getCodigoEntero().intValue() == numero.getTipoComprobante().getCodigoEntero().intValue());
+		boolean serieComprobante = (StringUtils.equals(comprobante.getNumeroSerie(),numero.getNumeroSerie()));
+		boolean numeroComprobante = (comprobante.getNumeroComprobante().equals(numero.getNroComprobante()));
+		
+		return (tipoComprobante && serieComprobante && numeroComprobante);
+	}
+	
+	private static boolean comparaComprobante(DetalleServicioAgencia comprobante, DetalleServicioAgencia numero){
+		boolean tipoComprobante = (comprobante.getTipoComprobante().getCodigoEntero().intValue() == numero.getTipoComprobante().getCodigoEntero().intValue());
+		boolean serieComprobante = (StringUtils.equals(comprobante.getNumeroSerie(),numero.getNumeroSerie()));
+		boolean numeroComprobante = (comprobante.getNroComprobante().equals(numero.getNroComprobante()));
+		
+		return (tipoComprobante && serieComprobante && numeroComprobante);
 	}
 
 	public static Comprobante obtenerDetalleComprobante(Comprobante comp,
@@ -154,7 +173,7 @@ public class UtilEjb extends UtilApp {
 			Parametro param = parametroDao.consultarParametro(UtilEjb
 					.obtenerEnteroPropertieMaestro("codigoParametroIGV",
 							"aplicacionDatosEjb"), servicioAgencia.getEmpresa().getCodigoEntero());
-			BaseVO tipoComprobante = null;
+			//BaseVO tipoComprobante = null;
 			DetalleComprobante detalle = null;
 			DetalleServicioAgencia bean = null;
 			for (int s = 0; s < servicioAgencia.getListaDetalleServicio()
@@ -164,8 +183,7 @@ public class UtilEjb extends UtilApp {
 						.getServiciosHijos().size(); i++) {
 					bean = servicioAgencia.getListaDetalleServicioAgrupado()
 							.get(s).getServiciosHijos().get(i);
-					if (bean.getNroComprobante().equals(
-							comp.getNumeroComprobante())) {
+					if (comparaComprobante(comp, bean)) {
 						detalle = new DetalleComprobante();
 						if (bean.isAgrupado()) {
 							for (Integer id : bean.getCodigoEnteroAgrupados()) {
@@ -177,7 +195,7 @@ public class UtilEjb extends UtilApp {
 									continue;
 								}
 								total = total.add(bean.getTotalServicio());
-								tipoComprobante = bean.getTipoComprobante();
+								//tipoComprobante = bean.getTipoComprobante();
 								detalle = null;
 								detalle = new DetalleComprobante();
 								detalle.setIdServicioDetalle(id);
@@ -203,7 +221,7 @@ public class UtilEjb extends UtilApp {
 							}
 						} else {
 							total = total.add(bean.getTotalServicio());
-							tipoComprobante = bean.getTipoComprobante();
+							//tipoComprobante = bean.getTipoComprobante();
 							detalle.setIdServicioDetalle(bean.getCodigoEntero());
 							detalle.setCantidad(bean.getCantidad());
 							detalle.setPrecioUnitario(bean.getPrecioUnitario());
@@ -227,7 +245,7 @@ public class UtilEjb extends UtilApp {
 
 			comp.setTitular(servicioAgencia.getCliente());
 			comp.setFechaComprobante(servicioAgencia.getFechaServicio());
-			comp.setTipoComprobante(tipoComprobante);
+			//comp.setTipoComprobante(tipoComprobante);
 			comp.setTotalComprobante(total);
 			comp.setTotalIGV(totalIGV);
 			comp.setUsuarioCreacion(servicioAgencia.getUsuarioCreacion());

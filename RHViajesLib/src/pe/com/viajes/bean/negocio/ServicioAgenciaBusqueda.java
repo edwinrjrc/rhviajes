@@ -17,13 +17,8 @@ public class ServicioAgenciaBusqueda extends ServicioAgencia {
 
 	private Date fechaDesde;
 	private Date fechaHasta;
-
-	/**
-	 * 
-	 */
-	public ServicioAgenciaBusqueda() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	private boolean ventaAnulada;
 
 	/**
 	 * @return the fechaDesde
@@ -53,6 +48,20 @@ public class ServicioAgenciaBusqueda extends ServicioAgencia {
 	 */
 	public void setFechaHasta(Date fechaHasta) {
 		this.fechaHasta = fechaHasta;
+	}
+
+	/**
+	 * @return the ventaAnulada
+	 */
+	public boolean isVentaAnulada() {
+		return ventaAnulada;
+	}
+
+	/**
+	 * @param ventaAnulada the ventaAnulada to set
+	 */
+	public void setVentaAnulada(boolean ventaAnulada) {
+		this.ventaAnulada = ventaAnulada;
 	}
 
 }
