@@ -15,7 +15,6 @@ import javax.servlet.ServletContext;
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.negocio.ejb.SeguridadRemote;
-import pe.com.viajes.negocio.exception.ConnectionException;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorEncriptacionException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
