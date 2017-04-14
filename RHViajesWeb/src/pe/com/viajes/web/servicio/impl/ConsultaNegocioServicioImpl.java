@@ -444,4 +444,9 @@ public class ConsultaNegocioServicioImpl implements ConsultaNegocioServicio {
 	public List<DetalleServicioAgencia> consultarDescripcionServicioBL(Comprobante comprobante) throws ErrorConsultaDataException{
 		return ejbSession.consultarDescripcionServicioBL(comprobante.getEmpresa().getCodigoEntero(), comprobante.getCodigoEntero(), comprobante.getIdServicio());
 	}
+	
+	@Override
+	public List<BaseVO> listarTarjetasPago() throws ErrorConsultaDataException{
+		return ejbSession.obtenerListaTarjetasPago();
+	}
 }

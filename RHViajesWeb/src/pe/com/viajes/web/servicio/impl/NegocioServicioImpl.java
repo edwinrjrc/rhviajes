@@ -245,6 +245,12 @@ public class NegocioServicioImpl implements NegocioServicio {
 			throws SQLException {
 		return ejbSession.registrarTipoCambio(tipoCambio);
 	}
+	
+	@Override
+	public boolean actualizarTipoCambio(TipoCambio tipoCambio)
+			throws ErrorRegistroDataException {
+		return ejbSession.actualizarTipoCambio(tipoCambio);
+	}
 
 	@Override
 	public boolean registrarTipoCambioSunat(TipoCambio tipoCambio) throws ValidacionException{

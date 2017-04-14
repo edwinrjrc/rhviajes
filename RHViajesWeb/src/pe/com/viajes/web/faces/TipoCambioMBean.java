@@ -32,8 +32,7 @@ import pe.com.viajes.web.servicio.impl.NegocioServicioImpl;
 @SessionScoped()
 public class TipoCambioMBean extends BaseMBean {
 
-	private final static Logger logger = Logger
-			.getLogger(TipoCambioMBean.class);
+	private final static Logger logger = Logger.getLogger(TipoCambioMBean.class);
 
 	private static final long serialVersionUID = 7385254040705801393L;
 
@@ -45,14 +44,14 @@ public class TipoCambioMBean extends BaseMBean {
 	private ConsultaNegocioServicio consultaNegocioServicio;
 
 	private boolean nuevoTipoCambio;
+	private boolean editarTipoCambio;
 
 	public TipoCambioMBean() {
 		try {
-			ServletContext servletContext = (ServletContext) FacesContext
-					.getCurrentInstance().getExternalContext().getContext();
+			ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
+					.getContext();
 			negocioServicio = new NegocioServicioImpl(servletContext);
-			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
-					servletContext);
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -61,27 +60,36 @@ public class TipoCambioMBean extends BaseMBean {
 	public void nuevoTipoCambio() {
 		this.setTipoCambio(null);
 		this.setNuevoTipoCambio(true);
+		this.setEditarTipoCambio(false);
+		this.setModalNombre("Nuevo tipo de cambio");
 	}
 
 	public void ejecutarMetodo() {
-
 		try {
 			if (validatTipoCambio()) {
 				HttpSession session = obtenerSession(false);
-				Usuario usuario = (Usuario) session
-						.getAttribute("usuarioSession");
+				Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 				getTipoCambio().setUsuarioCreacion(usuario);
 				getTipoCambio().setIpCreacion(obtenerRequest().getRemoteAddr());
 				getTipoCambio().setEmpresa(this.obtenerEmpresa());
 
-				this.negocioServicio.registrarTipoCambio(getTipoCambio());
+				if (this.isNuevoTipoCambio()){
+					this.negocioServicio.registrarTipoCambio(getTipoCambio());
 
-				this.mostrarMensajeExito("Tipo de cambio registrado satisfactoriamente");
+					this.mostrarMensajeExito("Tipo de cambio registrado satisfactoriamente");
 
-				this.setListaTipoCambio(this.consultaNegocioServicio
-						.listarTipoCambio(new Date(), this.obtenerIdEmpresa()));
+					this.setListaTipoCambio(
+							this.consultaNegocioServicio.listarTipoCambio(new Date(), this.obtenerIdEmpresa()));
+				}
+				else if (this.isEditarTipoCambio()){
+					this.negocioServicio.actualizarTipoCambio(getTipoCambio());
+					this.mostrarMensajeExito("Tipo de cambio actualizado satisfactoriamente");
 
+					this.setListaTipoCambio(
+							this.consultaNegocioServicio.listarTipoCambio(new Date(), this.obtenerIdEmpresa()));
+				}
 				this.setNuevoTipoCambio(false);
+				this.setEditarTipoCambio(false);
 			}
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
@@ -96,10 +104,32 @@ public class TipoCambioMBean extends BaseMBean {
 		return true;
 	}
 
-	public void listarTipoCambio(ActionEvent e) {
+	public void buscarTipoCambio(ActionEvent e) {
 		try {
 			this.setListaTipoCambio(this.consultaNegocioServicio
-					.listarTipoCambio(new Date(), this.obtenerIdEmpresa()));
+					.listarTipoCambio(this.getTipoCambio().getFechaTipoCambio(), this.obtenerIdEmpresa()));
+
+		} catch (SQLException e1) {
+			this.mostrarMensajeError(e1.getMessage());
+		}
+	}
+	
+	public void editarTipoCambio(Integer id){
+		this.setNuevoTipoCambio(false);
+		this.setEditarTipoCambio(true);
+		this.setModalNombre("Editar tipo de cambio");
+		for(TipoCambio tipoCambio2 : this.getListaTipoCambio()){
+			if (tipoCambio2.getCodigoEntero().intValue() == id.intValue()){
+				this.setTipoCambio(tipoCambio2);
+				break;
+			}
+		}
+		
+	}
+
+	public void listarTipoCambio(ActionEvent e) {
+		try {
+			this.setListaTipoCambio(this.consultaNegocioServicio.listarTipoCambio(new Date(), this.obtenerIdEmpresa()));
 
 		} catch (SQLException ex) {
 			logger.error(ex.getMessage(), ex);
@@ -152,6 +182,20 @@ public class TipoCambioMBean extends BaseMBean {
 	 */
 	public void setListaTipoCambio(List<TipoCambio> listaTipoCambio) {
 		this.listaTipoCambio = listaTipoCambio;
+	}
+
+	/**
+	 * @return the editarTipoCambio
+	 */
+	public boolean isEditarTipoCambio() {
+		return editarTipoCambio;
+	}
+
+	/**
+	 * @param editarTipoCambio the editarTipoCambio to set
+	 */
+	public void setEditarTipoCambio(boolean editarTipoCambio) {
+		this.editarTipoCambio = editarTipoCambio;
 	}
 
 }

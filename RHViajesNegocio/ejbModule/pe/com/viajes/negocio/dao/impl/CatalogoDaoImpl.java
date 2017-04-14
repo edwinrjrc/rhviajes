@@ -22,12 +22,6 @@ import pe.com.viajes.negocio.util.UtilJdbc;
  */
 public class CatalogoDaoImpl implements CatalogoDao {
 
-	/**
-	 * 
-	 */
-	public CatalogoDaoImpl() {
-	}
-
 	@Override
 	public List<BaseVO> listarRoles(Integer idEmpresa, Connection conn) throws ConnectionException, SQLException {
 		List<BaseVO> resultado = null;
@@ -270,6 +264,41 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		}
 
 		return resultado;
+	}
+	
+	@Override
+	public List<BaseVO> obtenerTarjetasPago() throws SQLException{
+		List<BaseVO> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "select * from negocio.\"TarjetasPagos\"";
+		try{
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			rs = cs.executeQuery();
+			BaseVO bean = null;
+			resultado = new ArrayList<BaseVO>();
+			while(rs.next()){
+				bean = new BaseVO();
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombretarjeta"));
+				resultado.add(bean);
+			}
+			return resultado;
+		}
+		finally{
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+
 	}
 
 }

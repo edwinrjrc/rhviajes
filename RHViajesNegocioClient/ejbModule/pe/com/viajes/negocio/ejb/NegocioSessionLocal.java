@@ -113,4 +113,6 @@ public interface NegocioSessionLocal {
 
 	public boolean registrarTipoCambio(TipoCambio tipoCambio)
 			throws SQLException;
+
+	boolean actualizarTipoCambio(TipoCambio tipoCambio) throws ErrorRegistroDataException;
 }

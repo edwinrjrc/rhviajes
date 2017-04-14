@@ -64,6 +64,7 @@ public class ServicioAgencia extends BaseNegocio {
 	private Integer idReferencia;
 	
 	private String codigoNovios;
+	private Integer idTarjetaPago;
 
 	public static final Integer ESTADO_PENDIENTE_CIERRE = 1;
 	public static final Integer ESTADO_CERRADO = 2;
@@ -675,5 +676,19 @@ public class ServicioAgencia extends BaseNegocio {
 	 */
 	public void setMontoSubtotal(BigDecimal montoSubtotal) {
 		this.montoSubtotal = montoSubtotal;
+	}
+
+	/**
+	 * @return the idTarjetaPago
+	 */
+	public Integer getIdTarjetaPago() {
+		return idTarjetaPago;
+	}
+
+	/**
+	 * @param idTarjetaPago the idTarjetaPago to set
+	 */
+	public void setIdTarjetaPago(Integer idTarjetaPago) {
+		this.idTarjetaPago = idTarjetaPago;
 	}
 }

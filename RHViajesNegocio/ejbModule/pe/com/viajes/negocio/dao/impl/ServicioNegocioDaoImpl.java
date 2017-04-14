@@ -477,7 +477,7 @@ public class ServicioNegocioDaoImpl implements ServicioNegocioDao {
 				pasajero2.getDocumentoIdentidad().setNumeroDocumento(UtilJdbc.obtenerCadena(rs, "numerodocumento"));
 				pasajero2.setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				pasajero2.setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
-				pasajero2.setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
+				pasajero2.setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
 				pasajero2.setTelefono1(UtilJdbc.obtenerCadena(rs, "telefono1"));
 				pasajero2.setTelefono2(UtilJdbc.obtenerCadena(rs, "telefono2"));
 				pasajero2.setCorreoElectronico(UtilJdbc.obtenerCadena(rs, "correoelectronico"));

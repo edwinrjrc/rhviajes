@@ -154,6 +154,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 								detalleHijo.getCodigoEntero());
 						detalle.setComprobanteAsociado(detalleHijo
 								.getComprobanteAsociado());
+						detalleHijo.getTipoComprobante().setCodigoEntero(3);
 						detalle.setTipoComprobante(detalleHijo
 								.getTipoComprobante());
 						detalle.setNroComprobante(detalleHijo

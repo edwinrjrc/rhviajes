@@ -199,4 +199,6 @@ public interface ConsultaNegocioSessionRemote {
 
 	List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio,
 			Integer idComprobante) throws ErrorConsultaDataException;
+
+	List<BaseVO> obtenerListaTarjetasPago() throws ErrorConsultaDataException;
 }

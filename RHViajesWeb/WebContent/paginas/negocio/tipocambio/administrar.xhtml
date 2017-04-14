@@ -24,9 +24,19 @@
 				<table border="0" cellpadding="0" cellspacing="0" align="center"
 					width="80%">
 					<tr>
-						<td align="center"><rich:dataTable var="row" id="idTabla"
-								rows="10" value="#{tipoCambioMBean.listaTipoCambio}"
-								style="width:100%;">
+						<td align="center"><h:panelGrid columns="3" border="0"
+								cellpadding="0" cellspacing="0" style="width:100%;">
+								<h:outputText value="Fecha Tipo Cambio" />
+								<rich:calendar id="idFPFecTipoCambio"
+									value="#{tipoCambioMBean.tipoCambio.fechaTipoCambio}"
+									datePattern="dd/MM/yyyy"
+									requiredMessage="Ingrese la fecha de nacimiento" popup="true">
+								</rich:calendar>
+								<a4j:commandButton value="Buscar" styleClass="estiloBoton1"
+									render="idTabla"
+									actionListener="#{tipoCambioMBean.buscarTipoCambio}"></a4j:commandButton>
+							</h:panelGrid> <rich:dataTable var="row" id="idTabla" rows="10"
+								value="#{tipoCambioMBean.listaTipoCambio}" style="width:100%;">
 								<f:facet name="noData">
 									<h:outputText value="No se encontraron registros" />
 								</f:facet>
@@ -67,6 +77,18 @@
 										</h:outputText>
 									</h:panelGrid>
 
+								</rich:column>
+								<rich:column style="text-align:center;">
+									<f:facet name="header">
+										<h:outputText value="Editar" />
+									</f:facet>
+									<a4j:commandLink action="#{tipoCambioMBean.editarTipoCambio(row.codigoEntero)}"
+										oncomplete="#{rich:component('idModalformtipocambio')}.show()"
+										render="idGridFormTipoCambio,idNomModal">
+										<h:graphicImage style="height:15px; width:15px;"
+											value="/resources/img/editar2.png">
+										</h:graphicImage>
+									</a4j:commandLink>
 								</rich:column>
 								<f:facet name="footer">
 									<rich:dataScroller for="idTabla" />

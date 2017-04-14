@@ -28,4 +28,6 @@ public interface TipoCambioDao {
 			Integer idMonedaDestino) throws SQLException;
 
 	boolean validarTipoCambio(TipoCambio tipoCambio) throws SQLException;
+
+	boolean actualizarTipoCambio(TipoCambio tipoCambio) throws SQLException;
 }

@@ -86,6 +86,7 @@ public class CatalogoMBean extends BaseMBean {
 	private List<SelectItem> catalogoProveedorTarjeta;
 	private List<SelectItem> catalogoRelacion;
 	private List<SelectItem> catalogoPais;
+	private List<SelectItem> catalogoTarjetasPago;
 	
 
 	private SeguridadServicio seguridadServicio;
@@ -1005,11 +1006,14 @@ public class CatalogoMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param catalogoTipoDocumentoEmpresa the catalogoTipoDocumentoEmpresa to set
+	 * @return the catalogoTarjetasPago
 	 */
-	public void setCatalogoTipoDocumentoEmpresa(
-			List<SelectItem> catalogoTipoDocumentoEmpresa) {
-		this.catalogoTipoDocumentoEmpresa = catalogoTipoDocumentoEmpresa;
+	public List<SelectItem> getCatalogoTarjetasPago() {
+		try {
+			catalogoTarjetasPago = UtilWeb.convertirSelectItem(consultaNegocioServicio.listarTarjetasPago());
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return catalogoTarjetasPago;
 	}
-
 }

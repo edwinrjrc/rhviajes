@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +55,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			Connection conn) throws SQLException {
 		Integer idservicio = 0;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
 		try {
 			cs = conn.prepareCall(sql);
@@ -131,6 +130,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			}
 			cs.setBigDecimal(23, servicioAgencia.getMontoTotalDscto());
 			cs.setBigDecimal(24, servicioAgencia.getMontoSubtotal());
+			cs.setInt(25, servicioAgencia.getIdTarjetaPago());
 			
 			cs.execute();
 
@@ -2168,6 +2168,10 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		try {
 			cs = conn.prepareCall(sql);
 			int i = 1;
+			System.out.println("tipocomprobante ::"+comprobante.getTipoComprobante().getCodigoEntero()
+					.intValue());
+			System.out.println("numerocomprobante::"+comprobante.getNumeroComprobante());
+			System.out.println("numeroserie::"+comprobante.getNumeroSerie());
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, idEmpresa);
 			cs.setInt(i++, comprobante.getIdServicio().intValue());
@@ -2182,7 +2186,6 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setBigDecimal(i++, comprobante.getTotalComprobante());
 			cs.setBoolean(i++, comprobante.isTieneDetraccion());
 			cs.setBoolean(i++, comprobante.isTieneRetencion());
-			//TODO COLOCAR LA MONEDA EN LA BASE DE DATOS EN LA TABLA DE COMPROBANTES GENERADOS
 			cs.setInt(i++, comprobante.getMoneda().getCodigoEntero().intValue());
 			cs.setInt(i++, comprobante.getUsuarioCreacion().getCodigoEntero().intValue());
 			cs.setString(i++, comprobante.getIpCreacion());

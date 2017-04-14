@@ -1079,6 +1079,7 @@ public class NegocioSession implements NegocioSessionRemote, NegocioSessionLocal
 			try {
 				userTransaction.begin();
 				conn = UtilConexion.obtenerConexion();
+				System.out.println("lista comprobantes::"+listaComprobantes2.size());
 				for (Comprobante comprobante : listaComprobantes2) {
 					if (comprobante.getTipoComprobante().getCodigoEntero().intValue() == UtilEjb
 							.obtenerEnteroPropertieMaestro("comprobanteFactura", "aplicacionDatosEjb")) {
@@ -1368,6 +1369,23 @@ public class NegocioSession implements NegocioSessionRemote, NegocioSessionLocal
 		tipoCambio.setMonedaOrigen(monedaOrigen);
 
 		return tipoCambioDao.registrarTipoCambio(tipoCambio);
+	}
+	
+	@Override
+	public boolean actualizarTipoCambio(TipoCambio tipoCambio) throws ErrorRegistroDataException {
+		try {
+			TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl(tipoCambio.getEmpresa().getCodigoEntero());
+			tipoCambioDao.actualizarTipoCambio(tipoCambio);
+			BigDecimal tipoCambioReversa = BigDecimal.ONE.divide(tipoCambio.getMontoCambio(), 6, RoundingMode.HALF_UP);
+
+			BaseVO monedaOrigen = new BaseVO(tipoCambio.getMonedaDestino().getCodigoEntero());
+			tipoCambio.setMontoCambio(tipoCambioReversa);
+			tipoCambio.setMonedaDestino(tipoCambio.getMonedaOrigen());
+			tipoCambio.setMonedaOrigen(monedaOrigen);
+			return tipoCambioDao.actualizarTipoCambio(tipoCambio);
+		} catch (SQLException e) {
+			throw new ErrorRegistroDataException(e);
+		}
 	}
 
 	@Override

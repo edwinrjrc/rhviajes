@@ -116,4 +116,6 @@ public interface NegocioServicio {
 			Exception;
 
 	boolean registrarTipoCambioSunat(TipoCambio tipoCambio) throws ValidacionException;
+
+	boolean actualizarTipoCambio(TipoCambio tipoCambio) throws ErrorRegistroDataException;
 }

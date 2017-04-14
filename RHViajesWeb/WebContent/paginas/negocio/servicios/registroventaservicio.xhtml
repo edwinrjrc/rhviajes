@@ -184,6 +184,29 @@
 
 							</h:panelGrid>
 
+							<h:panelGrid columns="4" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;"
+								columnClasses="col1form,col2form,col1form,col2form">
+
+								<h:outputText value="Tarjeta Pago" />
+								<h:panelGrid columns="1" border="0" cellpadding="0"
+									cellspacing="0">
+									<h:selectOneMenu id="idSelTarjetaPago"
+										value="#{servicioAgenteMBean.servicioAgencia.idTarjetaPago}"
+										required="true"
+										requiredMessage="Seleccione una tarjeta de pago">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoTarjetasPago}"></f:selectItems>
+									</h:selectOneMenu>
+									<rich:message for="idSelTarjetaPago" showDetail="false" showSummary="true"
+										ajaxRendered="true" />
+								</h:panelGrid>
+
+								<h:outputText value="" />
+								<h:outputText value="" />
+
+							</h:panelGrid>
+
 							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 								style="width:100%;" columns="1">
 								<h:outputText value="Observaciones" styleClass="col1form" />

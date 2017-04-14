@@ -30,4 +30,6 @@ public interface CatalogoDao {
 
 	List<BaseVO> listaProvincia(String idDepartamento, Integer idEmpresa)
 			throws ConnectionException, SQLException;
+
+	List<BaseVO> obtenerTarjetasPago() throws SQLException;
 }

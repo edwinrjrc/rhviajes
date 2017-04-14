@@ -166,7 +166,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 					"Seleccione el proveedor", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		if (this.getComprobante().getFechaComprobante().after(fechaHoy)
+		/*if (this.getComprobante().getFechaComprobante().after(fechaHoy)
 				|| this.getComprobante().getFechaComprobante().equals(fechaHoy)) {
 			this.agregarMensaje(
 					idFormulario + ":idFecComprobante",
@@ -180,7 +180,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 					"La fecha de pago debe ser mayor a la fecha de hoy", "",
 					FacesMessage.SEVERITY_ERROR);
 			resultado = false;
-		}
+		}*/
 		if (this.getComprobante().getMoneda().getCodigoEntero()== null || this.getComprobante().getMoneda().getCodigoEntero().intValue()==0){
 			this.agregarMensaje(idFormulario + ":idSelMonedaObligacion",
 					"Seleccione la moneda", "",
@@ -240,7 +240,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 						usuario);
 				this.getPagoComprobante().setIpModificacion(
 						obtenerRequest().getRemoteAddr());
-
+				
+				getPagoComprobante().setEmpresa(this.obtenerEmpresa());
 				this.negocioServicio
 						.registrarPagoObligacion(getPagoComprobante());
 

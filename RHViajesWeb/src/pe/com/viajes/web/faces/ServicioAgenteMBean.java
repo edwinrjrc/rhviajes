@@ -533,6 +533,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 					FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
+		
+		if (this.getServicioAgencia().getIdTarjetaPago() == null){
+			throw new ValidacionException("Seleccione una tarjeta de pago");
+		}
 
 		if (this.getServicioAgencia().getVendedor().getCodigoEntero() == null
 				|| this.getServicioAgencia().getVendedor().getCodigoEntero()

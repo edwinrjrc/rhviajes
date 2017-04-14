@@ -42,6 +42,7 @@ import pe.com.viajes.bean.negocio.TipoCambio;
 import pe.com.viajes.bean.negocio.Usuario;
 import pe.com.viajes.bean.reportes.CheckIn;
 import pe.com.viajes.negocio.dao.ArchivoReporteDao;
+import pe.com.viajes.negocio.dao.CatalogoDao;
 import pe.com.viajes.negocio.dao.ClienteDao;
 import pe.com.viajes.negocio.dao.ComprobanteNovaViajesDao;
 import pe.com.viajes.negocio.dao.ConsolidadorDao;
@@ -59,6 +60,7 @@ import pe.com.viajes.negocio.dao.ServicioNoviosDao;
 import pe.com.viajes.negocio.dao.TelefonoDao;
 import pe.com.viajes.negocio.dao.TipoCambioDao;
 import pe.com.viajes.negocio.dao.impl.ArchivoReporteDaoImpl;
+import pe.com.viajes.negocio.dao.impl.CatalogoDaoImpl;
 import pe.com.viajes.negocio.dao.impl.ClienteDaoImpl;
 import pe.com.viajes.negocio.dao.impl.ComprobanteNovaViajesDaoImpl;
 import pe.com.viajes.negocio.dao.impl.ConsolidadorDaoImpl;
@@ -1007,6 +1009,16 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			}
 			
 			return lista;
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e);
+		}
+	}
+	
+	@Override
+	public List<BaseVO> obtenerListaTarjetasPago() throws ErrorConsultaDataException{
+		try {
+			CatalogoDao catalogoDao = new CatalogoDaoImpl();
+			return catalogoDao.obtenerTarjetasPago();
 		} catch (SQLException e) {
 			throw new ErrorConsultaDataException(e);
 		}

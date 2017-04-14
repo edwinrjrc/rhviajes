@@ -200,4 +200,6 @@ public interface ConsultaNegocioServicio {
 
 	List<DetalleServicioAgencia> consultarDescripcionServicioDC(Integer idEmpresa, Integer idServicio,
 			Integer idComprobante) throws ErrorConsultaDataException;
+
+	List<BaseVO> listarTarjetasPago() throws ErrorConsultaDataException;
 }

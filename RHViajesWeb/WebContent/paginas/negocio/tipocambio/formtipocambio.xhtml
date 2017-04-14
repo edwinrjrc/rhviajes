@@ -11,7 +11,7 @@
 		height="500">
 
 		<f:facet name="header">
-			<h:outputText id="idNomModal" value="Nuevo Tipo Cambio" />
+			<h:outputText id="idNomModal" value="#{tipoCambioMBean.modalNombre}" />
 		</f:facet>
 		<f:facet name="controls">
 			<h:outputLink value="#" style="border:0"
@@ -27,7 +27,7 @@
 				<f:facet name="header">
 					<h:panelGrid width="100%" border="0" cellpadding="0"
 						cellspacing="0" style="text-align: left;vertical-align: top; ">
-						<h:outputText id="idNomSubtitulo" value="Nuevo Tipo cambio"
+						<h:outputText id="idNomSubtitulo" value="#{tipoCambioMBean.modalNombre}"
 							style="height: 100px" styleClass="subtitulo2" />
 						<hr width="100%" />
 					</h:panelGrid>
