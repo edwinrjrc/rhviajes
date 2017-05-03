@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -341,6 +342,54 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 			}
 		}
 		return comprobante;
+	}
+
+	@Override
+	public List<Comprobante> consultarReporteComprobantes(Date fechaDesde, Date fechaHasta, Integer idEmpresa)
+			throws SQLException {
+		List<Comprobante> listaComprobantes = new ArrayList<>();
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		try{
+			String sql = "{ ? = call negocio.fn_consultardetallecomprobante2(?,?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setDate(2, UtilJdbc.convertirUtilDateSQLDate(fechaDesde));
+			cs.setDate(3, UtilJdbc.convertirUtilDateSQLDate(fechaHasta));
+			cs.setInt(4, idEmpresa.intValue());
+			cs.execute();
+			rs = (ResultSet) cs.getObject(1);
+			Comprobante comprobante = null;
+			while(rs.next()){
+				comprobante = new Comprobante();
+				comprobante.setCodigoEntero(rs.getInt("id"));
+				comprobante.getTipoComprobante().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocomprobante"));
+				comprobante.getTipoComprobante().setNombre(rs.getString("nombre"));
+				comprobante.setNumeroSerie(rs.getString("numserie"));
+				comprobante.setNumeroComprobante(rs.getString("numerocomprobante"));
+				comprobante.getTitular().setNombres(rs.getString("nombretitular"));
+				comprobante.setFechaComprobante(rs.getDate("fechacomprobante"));
+				comprobante.setTotalIGV(rs.getBigDecimal("totaligv"));
+				comprobante.setTotalComprobante(rs.getBigDecimal("totalcomprobante"));
+				comprobante.setDetalleComprobante(this.consultarDetalleComprobante(comprobante.getCodigoEntero(), idEmpresa));
+				listaComprobantes.add(comprobante);
+			}
+		}
+		finally{
+			if (rs != null) {
+				rs.close();
+			}
+			if (cs != null) {
+				cs.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		
+		return listaComprobantes;
 	}
 
 }

@@ -1,5 +1,7 @@
 package pe.com.viajes.negocio.ejb;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -24,6 +26,10 @@ import javax.transaction.UserTransaction;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import pe.com.viajes.bean.base.BaseVO;
 import pe.com.viajes.bean.cargaexcel.ColumnasExcel;
@@ -35,6 +41,7 @@ import pe.com.viajes.bean.negocio.Contacto;
 import pe.com.viajes.bean.negocio.CorreoClienteMasivo;
 import pe.com.viajes.bean.negocio.CorreoMasivo;
 import pe.com.viajes.bean.negocio.CuentaBancaria;
+import pe.com.viajes.bean.negocio.DetalleComprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.DocumentoAdicional;
@@ -85,9 +92,11 @@ import pe.com.viajes.negocio.dao.impl.ServicioNoviosDaoImpl;
 import pe.com.viajes.negocio.dao.impl.TelefonoDaoImpl;
 import pe.com.viajes.negocio.dao.impl.TipoCambioDaoImpl;
 import pe.com.viajes.negocio.exception.EnvioCorreoException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.ResultadoCeroDaoException;
 import pe.com.viajes.negocio.exception.ValidacionException;
+import pe.com.viajes.negocio.util.Constantes;
 import pe.com.viajes.negocio.util.UtilConexion;
 import pe.com.viajes.negocio.util.UtilCorreo;
 import pe.com.viajes.negocio.util.UtilEjb;
@@ -109,6 +118,9 @@ public class NegocioSession implements NegocioSessionRemote, NegocioSessionLocal
 
 	@EJB
 	ConsultaNegocioSessionLocal consultaNegocioSessionLocal;
+	
+	@EJB
+	ReportesSessionLocal reportesSessionLocal;
 
 	@Override
 	public boolean registrarProveedor(Proveedor proveedor) throws ResultadoCeroDaoException, SQLException, Exception {
@@ -1405,6 +1417,250 @@ public class NegocioSession implements NegocioSessionRemote, NegocioSessionLocal
 			throw new ValidacionException(e);
 		} catch (Exception e){
 			throw new ValidacionException(e);
+		}
+	}
+	
+	@Override
+	public byte[] generarReporteComprobantes(Date fechaDesde, Date fechaHasta, Integer idEmpresa) throws ErrorConsultaDataException{
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			List<Comprobante> lista = reportesSessionLocal.generarReporteContable(fechaDesde, fechaHasta, idEmpresa);
+			File carpetaExcelComprobantes = new File("D:\\ReportesComprobantes");
+			if (!carpetaExcelComprobantes.exists()){
+				carpetaExcelComprobantes.mkdirs();
+			}
+			XSSFWorkbook libro = new XSSFWorkbook();
+			XSSFSheet hoja = libro.createSheet("Comprobantes");
+			XSSFRow fila = hoja.createRow(0);
+			XSSFCell celda = fila.createCell(0);
+			celda.setCellValue("ID");
+			celda = fila.createCell(1);
+			celda.setCellValue("Tipo Comprobante");
+			celda = fila.createCell(2);
+			celda.setCellValue("Numero Serie");
+			celda = fila.createCell(3);
+			celda.setCellValue("Numero Comprobante");
+			celda = fila.createCell(4);
+			celda.setCellValue("Titular");
+			celda = fila.createCell(5);
+			celda.setCellValue("Fecha comprobante");
+			celda = fila.createCell(6);
+			celda.setCellValue("Detalle Comprobante");
+			celda = fila.createCell(7);
+			celda.setCellValue("Total IGV");
+			celda = fila.createCell(8);
+			celda.setCellValue("Total Compronbante");
+			String conceptosTotal = "";
+			for (int i=1; i<lista.size(); i++) {
+				Comprobante comprobante = lista.get(i);
+				fila = hoja.createRow(i);
+				celda = fila.createCell(0);
+				celda.setCellValue(comprobante.getCodigoEntero().intValue());
+				celda = fila.createCell(1);
+				celda.setCellValue(comprobante.getTipoComprobante().getNombre());
+				celda = fila.createCell(2);
+				celda.setCellValue(comprobante.getNumeroSerie());
+				celda = fila.createCell(3);
+				celda.setCellValue(comprobante.getNumeroComprobante());
+				celda = fila.createCell(4);
+				celda.setCellValue(comprobante.getTitular().getNombres());
+				celda = fila.createCell(5);
+				celda.setCellValue(sdf.format(comprobante.getFechaComprobante()));
+				conceptosTotal = "";
+				for (int j=0; j<comprobante.getDetalleComprobante().size(); j++){
+					DetalleComprobante detalle = comprobante.getDetalleComprobante().get(j);
+					conceptosTotal = conceptosTotal + "- " + detalle.getConcepto() + "\n";
+				}
+				celda = fila.createCell(6);
+				celda.setCellValue(conceptosTotal);
+				celda = fila.createCell(7);
+				celda.setCellValue(comprobante.getTotalIGV().toPlainString());
+				celda = fila.createCell(8);
+				celda.setCellValue(comprobante.getTotalComprobante().toPlainString());
+			}
+			/**
+			 * FACTURAS
+			 */
+			hoja = libro.createSheet("Facturas");
+			fila = hoja.createRow(0);
+			celda = fila.createCell(0);
+			celda.setCellValue("ID");
+			celda = fila.createCell(1);
+			celda.setCellValue("Tipo Comprobante");
+			celda = fila.createCell(2);
+			celda.setCellValue("Numero Serie");
+			celda = fila.createCell(3);
+			celda.setCellValue("Numero Comprobante");
+			celda = fila.createCell(4);
+			celda.setCellValue("Titular");
+			celda = fila.createCell(5);
+			celda.setCellValue("Fecha comprobante");
+			celda = fila.createCell(6);
+			celda.setCellValue("Detalle Comprobante");
+			celda = fila.createCell(7);
+			celda.setCellValue("Total IGV");
+			celda = fila.createCell(8);
+			celda.setCellValue("Total Compronbante");
+			conceptosTotal = "";
+			int i=1;
+			int k=1;
+			while (i<lista.size()) {
+				Comprobante comprobante = lista.get(i);
+				if (comprobante.getTipoComprobante().getCodigoEntero().intValue() == Constantes.CODIGO_FACTURA){
+					fila = hoja.createRow(k);
+					celda = fila.createCell(0);
+					celda.setCellValue(comprobante.getCodigoEntero().intValue());
+					celda = fila.createCell(1);
+					celda.setCellValue(comprobante.getTipoComprobante().getNombre());
+					celda = fila.createCell(2);
+					celda.setCellValue(comprobante.getNumeroSerie());
+					celda = fila.createCell(3);
+					celda.setCellValue(comprobante.getNumeroComprobante());
+					celda = fila.createCell(4);
+					celda.setCellValue(comprobante.getTitular().getNombres());
+					celda = fila.createCell(5);
+					celda.setCellValue(sdf.format(comprobante.getFechaComprobante()));
+					conceptosTotal = "";
+					for (int j=0; j<comprobante.getDetalleComprobante().size(); j++){
+						DetalleComprobante detalle = comprobante.getDetalleComprobante().get(j);
+						conceptosTotal = conceptosTotal + "- " + detalle.getConcepto() + "\n";
+					}
+					celda = fila.createCell(6);
+					celda.setCellValue(conceptosTotal);
+					celda = fila.createCell(7);
+					celda.setCellValue(comprobante.getTotalIGV().toPlainString());
+					celda = fila.createCell(8);
+					celda.setCellValue(comprobante.getTotalComprobante().toPlainString());
+					k++;
+				}
+				i++;
+				
+			}
+			/**
+			 * BOLETAS
+			 */
+			hoja = libro.createSheet("Boletas");
+			fila = hoja.createRow(0);
+			celda = fila.createCell(0);
+			celda.setCellValue("ID");
+			celda = fila.createCell(1);
+			celda.setCellValue("Tipo Comprobante");
+			celda = fila.createCell(2);
+			celda.setCellValue("Numero Serie");
+			celda = fila.createCell(3);
+			celda.setCellValue("Numero Comprobante");
+			celda = fila.createCell(4);
+			celda.setCellValue("Titular");
+			celda = fila.createCell(5);
+			celda.setCellValue("Fecha comprobante");
+			celda = fila.createCell(6);
+			celda.setCellValue("Detalle Comprobante");
+			celda = fila.createCell(7);
+			celda.setCellValue("Total IGV");
+			celda = fila.createCell(8);
+			celda.setCellValue("Total Compronbante");
+			conceptosTotal = "";
+			i=1;
+			k=1;
+			while (i<lista.size()) {
+				Comprobante comprobante = lista.get(i);
+				if (comprobante.getTipoComprobante().getCodigoEntero().intValue() == Constantes.CODIGO_BOLETA){
+					fila = hoja.createRow(k);
+					celda = fila.createCell(0);
+					celda.setCellValue(comprobante.getCodigoEntero().intValue());
+					celda = fila.createCell(1);
+					celda.setCellValue(comprobante.getTipoComprobante().getNombre());
+					celda = fila.createCell(2);
+					celda.setCellValue(comprobante.getNumeroSerie());
+					celda = fila.createCell(3);
+					celda.setCellValue(comprobante.getNumeroComprobante());
+					celda = fila.createCell(4);
+					celda.setCellValue(comprobante.getTitular().getNombres());
+					celda = fila.createCell(5);
+					celda.setCellValue(sdf.format(comprobante.getFechaComprobante()));
+					conceptosTotal = "";
+					for (int j=0; j<comprobante.getDetalleComprobante().size(); j++){
+						DetalleComprobante detalle = comprobante.getDetalleComprobante().get(j);
+						conceptosTotal = conceptosTotal + "- " + detalle.getConcepto() + "\n";
+					}
+					celda = fila.createCell(6);
+					celda.setCellValue(conceptosTotal);
+					celda = fila.createCell(7);
+					celda.setCellValue(comprobante.getTotalIGV().toPlainString());
+					celda = fila.createCell(8);
+					celda.setCellValue(comprobante.getTotalComprobante().toPlainString());
+					k++;
+				}
+				i++;
+			}
+			
+			/**
+			 * DOCUMENTO DE COBRANZA
+			 */
+			hoja = libro.createSheet("Documento Cobranza");
+			fila = hoja.createRow(0);
+			celda = fila.createCell(0);
+			celda.setCellValue("ID");
+			celda = fila.createCell(1);
+			celda.setCellValue("Tipo Comprobante");
+			celda = fila.createCell(2);
+			celda.setCellValue("Numero Serie");
+			celda = fila.createCell(3);
+			celda.setCellValue("Numero Comprobante");
+			celda = fila.createCell(4);
+			celda.setCellValue("Titular");
+			celda = fila.createCell(5);
+			celda.setCellValue("Fecha comprobante");
+			celda = fila.createCell(6);
+			celda.setCellValue("Detalle Comprobante");
+			celda = fila.createCell(7);
+			celda.setCellValue("Total IGV");
+			celda = fila.createCell(8);
+			celda.setCellValue("Total Compronbante");
+			conceptosTotal = "";
+			i = 1;
+			k=1;
+			while (i<lista.size()) {
+				Comprobante comprobante = lista.get(i);
+				if (comprobante.getTipoComprobante().getCodigoEntero().intValue() == Constantes.CODIGO_DOCUMENTOCOBRANZA){
+					fila = hoja.createRow(k);
+					celda = fila.createCell(0);
+					celda.setCellValue(comprobante.getCodigoEntero().intValue());
+					celda = fila.createCell(1);
+					celda.setCellValue(comprobante.getTipoComprobante().getNombre());
+					celda = fila.createCell(2);
+					celda.setCellValue(comprobante.getNumeroSerie());
+					celda = fila.createCell(3);
+					celda.setCellValue(comprobante.getNumeroComprobante());
+					celda = fila.createCell(4);
+					celda.setCellValue(comprobante.getTitular().getNombres());
+					celda = fila.createCell(5);
+					celda.setCellValue(sdf.format(comprobante.getFechaComprobante()));
+					conceptosTotal = "";
+					for (int j=0; j<comprobante.getDetalleComprobante().size(); j++){
+						DetalleComprobante detalle = comprobante.getDetalleComprobante().get(j);
+						conceptosTotal = conceptosTotal + "- " + detalle.getConcepto() + "\n";
+					}
+					celda = fila.createCell(6);
+					celda.setCellValue(conceptosTotal);
+					celda = fila.createCell(7);
+					celda.setCellValue(comprobante.getTotalIGV().toPlainString());
+					celda = fila.createCell(8);
+					celda.setCellValue(comprobante.getTotalComprobante().toPlainString());
+					k++;
+				}
+				i++;
+			}
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			libro.write(stream);
+			libro.close();
+			stream.flush();
+			stream.close();
+			return stream.toByteArray();
+		} catch (ErrorConsultaDataException e) {
+			throw new ErrorConsultaDataException(e);
+		} catch (Exception e){
+			throw new ErrorConsultaDataException(e);
 		}
 	}
 

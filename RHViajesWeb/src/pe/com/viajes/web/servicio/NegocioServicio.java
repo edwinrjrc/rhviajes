@@ -4,6 +4,7 @@
 package pe.com.viajes.web.servicio;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import pe.com.viajes.bean.cargaexcel.ColumnasExcel;
@@ -22,6 +23,7 @@ import pe.com.viajes.bean.negocio.Proveedor;
 import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.TipoCambio;
 import pe.com.viajes.negocio.exception.EnvioCorreoException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.ResultadoCeroDaoException;
 import pe.com.viajes.negocio.exception.ValidacionException;
@@ -118,4 +120,6 @@ public interface NegocioServicio {
 	boolean registrarTipoCambioSunat(TipoCambio tipoCambio) throws ValidacionException;
 
 	boolean actualizarTipoCambio(TipoCambio tipoCambio) throws ErrorRegistroDataException;
+
+	byte[] exportarComprobantes(Date fechaDesde, Date fechaHasta, Integer idEmpresa) throws ErrorConsultaDataException;
 }

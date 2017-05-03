@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.naming.NamingException;
@@ -59,8 +60,10 @@ import pe.com.viajes.bean.util.UtilProperties;
 import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.faces.inter.ComprobanteInterface;
 import pe.com.viajes.web.servicio.ConsultaNegocioServicio;
+import pe.com.viajes.web.servicio.NegocioServicio;
 import pe.com.viajes.web.servicio.UtilNegocioServicio;
 import pe.com.viajes.web.servicio.impl.ConsultaNegocioServicioImpl;
+import pe.com.viajes.web.servicio.impl.NegocioServicioImpl;
 import pe.com.viajes.web.servicio.impl.UtilNegocioServicioImpl;
 import pe.com.viajes.web.util.UtilConvertirNumeroLetras;
 import pe.com.viajes.web.util.UtilWeb;
@@ -93,6 +96,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 	// private NegocioServicio negocioServicio;
 	private ConsultaNegocioServicio consultaNegocioServicio;
 	private UtilNegocioServicio utilNegocioServicio;
+	private NegocioServicio negocioServicio;
 	
 	private static String TIPO_EXPORTA_IMPRESION = "I";
 	private static String TIPO_EXPORTA_DIGITAL   = "D";
@@ -108,6 +112,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
 					servletContext);
 			utilNegocioServicio = new UtilNegocioServicioImpl(servletContext);
+			negocioServicio = new NegocioServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -1199,6 +1204,29 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 			this.obtenerContexto().responseComplete();
 		} catch (JRException | ErrorConsultaDataException e) {
 			logger.error(e.getMessage(), e);
+		}
+		
+	}
+	
+	public void exportarComprobante(){
+		try {
+			Integer idEmpresa  = this.obtenerIdEmpresa();
+			byte[] arregloBytes = negocioServicio.exportarComprobantes(this.getComprobanteBusqueda().getFechaDesde(), this.getComprobanteBusqueda().getFechaHasta(), idEmpresa);
+			FacesContext fc = this.obtenerContexto();
+			ExternalContext ec = fc.getExternalContext();
+			ec.responseReset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
+		    ec.setResponseContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"); // Check http://www.iana.org/assignments/media-types for all types. Use if necessary ExternalContext#getMimeType() for auto-detection based on filename.
+		    ec.setResponseContentLength(arregloBytes.length); // Set it with the file size. This header is optional. It will work if it's omitted, but the download progress will be unknown.
+		    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + "comprobantes.xlsx" + "\"");
+			OutputStream ouputStream = ec.getResponseOutputStream();
+			ouputStream.write(arregloBytes);
+			ouputStream.flush();
+			ouputStream.close();
+			fc.responseComplete();
+		} catch (ErrorConsultaDataException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 	}

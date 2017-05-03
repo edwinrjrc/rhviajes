@@ -4,6 +4,7 @@
 package pe.com.viajes.web.servicio.impl;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -12,9 +13,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
+import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.reportes.ReporteVentas;
 import pe.com.viajes.negocio.ejb.ReportesSessionRemote;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.web.servicio.ReportesServicio;
 
 /**
@@ -70,5 +73,10 @@ public class ReportesServicioImpl implements ReportesServicio {
 
 		return ejbSession.reporteGeneralVentas(reporteVentas);
 	}
-
+	
+	@Override
+	public List<Comprobante> generarReporteContable(Date fechaDesde, Date fechaHasta, Integer idEmpresa) throws ErrorConsultaDataException{
+		return ejbSession.generarReporteContable(fechaDesde, fechaHasta, idEmpresa);
+	}
+	
 }

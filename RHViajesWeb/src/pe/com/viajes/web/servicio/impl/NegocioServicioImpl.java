@@ -4,6 +4,7 @@
 package pe.com.viajes.web.servicio.impl;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -29,6 +30,7 @@ import pe.com.viajes.bean.negocio.ServicioAgencia;
 import pe.com.viajes.bean.negocio.TipoCambio;
 import pe.com.viajes.negocio.ejb.NegocioSessionRemote;
 import pe.com.viajes.negocio.exception.EnvioCorreoException;
+import pe.com.viajes.negocio.exception.ErrorConsultaDataException;
 import pe.com.viajes.negocio.exception.ErrorRegistroDataException;
 import pe.com.viajes.negocio.exception.ResultadoCeroDaoException;
 import pe.com.viajes.negocio.exception.ValidacionException;
@@ -255,5 +257,10 @@ public class NegocioServicioImpl implements NegocioServicio {
 	@Override
 	public boolean registrarTipoCambioSunat(TipoCambio tipoCambio) throws ValidacionException{
 		return ejbSession.registrarTipoCambioSunat(tipoCambio);
+	}
+	
+	@Override
+	public byte[] exportarComprobantes(Date fechaDesde, Date fechaHasta, Integer idEmpresa) throws ErrorConsultaDataException{
+		return ejbSession.generarReporteComprobantes(fechaDesde, fechaHasta, idEmpresa);
 	}
 }

@@ -5,6 +5,7 @@ package pe.com.viajes.negocio.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import pe.com.viajes.bean.negocio.Comprobante;
@@ -34,5 +35,7 @@ public interface ComprobanteNovaViajesDao {
 
 	Comprobante consultarObligacion(Integer idObligacion, Integer idEmpresa)
 			throws SQLException;
-
+	
+	List<Comprobante> consultarReporteComprobantes(Date fechaDesde, Date fechaHasta, Integer idEmpresa)
+			throws SQLException;
 }
