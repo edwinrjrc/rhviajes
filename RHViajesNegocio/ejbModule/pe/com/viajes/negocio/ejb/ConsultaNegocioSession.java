@@ -1023,4 +1023,6 @@ public class ConsultaNegocioSession implements ConsultaNegocioSessionRemote,
 			throw new ErrorConsultaDataException(e);
 		}
 	}
+	
+	
 }

@@ -180,6 +180,7 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 						UtilJdbc.obtenerNumero(rs, "idtipocomprobante"));
 				comprobante.getTipoComprobante().setNombre(
 						UtilJdbc.obtenerCadena(rs, "nombre"));
+				comprobante.setNumeroSerie(UtilJdbc.obtenerCadena(rs, "numserie"));
 				comprobante.setNumeroComprobante(UtilJdbc.obtenerCadena(rs,
 						"numerocomprobante"));
 				comprobante.getTitular().setCodigoEntero(
@@ -364,14 +365,15 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 			Comprobante comprobante = null;
 			while(rs.next()){
 				comprobante = new Comprobante();
-				comprobante.setCodigoEntero(rs.getInt("id"));
+				comprobante.setIdServicio(rs.getInt("idventa"));
+				comprobante.setFechaCompraVenta(rs.getDate("fechacompra"));
+				comprobante.setCodigoEntero(rs.getInt("idcomprobante"));
 				comprobante.getTipoComprobante().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocomprobante"));
 				comprobante.getTipoComprobante().setNombre(rs.getString("nombre"));
+				comprobante.getTitular().setNombres(rs.getString("Cliente"));
 				comprobante.setNumeroSerie(rs.getString("numserie"));
 				comprobante.setNumeroComprobante(rs.getString("numerocomprobante"));
-				comprobante.getTitular().setNombres(rs.getString("nombretitular"));
 				comprobante.setFechaComprobante(rs.getDate("fechacomprobante"));
-				comprobante.setTotalIGV(rs.getBigDecimal("totaligv"));
 				comprobante.setTotalComprobante(rs.getBigDecimal("totalcomprobante"));
 				comprobante.setDetalleComprobante(this.consultarDetalleComprobante(comprobante.getCodigoEntero(), idEmpresa));
 				listaComprobantes.add(comprobante);

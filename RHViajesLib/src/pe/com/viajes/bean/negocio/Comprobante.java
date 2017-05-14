@@ -32,6 +32,7 @@ public class Comprobante extends BaseNegocio {
 	private Integer idServicio;
 
 	private Date fechaPago;
+	private Date fechaCompraVenta;
 
 	private List<DetalleComprobante> detalleComprobante;
 	private String detalleTextoComprobante;
@@ -321,6 +322,20 @@ public class Comprobante extends BaseNegocio {
 	 */
 	public void setNumeroSerie(String numeroSerie) {
 		this.numeroSerie = numeroSerie;
+	}
+
+	/**
+	 * @return the fechaCompraVenta
+	 */
+	public Date getFechaCompraVenta() {
+		return fechaCompraVenta;
+	}
+
+	/**
+	 * @param fechaCompraVenta the fechaCompraVenta to set
+	 */
+	public void setFechaCompraVenta(Date fechaCompraVenta) {
+		this.fechaCompraVenta = fechaCompraVenta;
 	}
 
 }

@@ -52,6 +52,7 @@ import pe.com.viajes.bean.negocio.Cliente;
 import pe.com.viajes.bean.negocio.Comprobante;
 import pe.com.viajes.bean.negocio.ComprobanteBusqueda;
 import pe.com.viajes.bean.negocio.DetalleComprobante;
+import pe.com.viajes.bean.negocio.DetalleServicioAgencia;
 import pe.com.viajes.bean.negocio.Direccion;
 import pe.com.viajes.bean.negocio.Pasajero;
 import pe.com.viajes.bean.negocio.Proveedor;
@@ -206,19 +207,17 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 			else if (this.isBoleta()) {
 				String plantilla = ruta + File.separator
 						+ "bl-plantilla.jasper";
-				File archivo = new File(plantilla);
-				InputStream streamJasper = new FileInputStream(archivo);
-
 				/**
 				 * Inicio data de documento de cobranza
 				 */
+				String nombreArchivo = "bol_"+this.getComprobanteDetalle().getNumeroSerie()+"-"+this.getComprobanteDetalle().getNumeroComprobante();
+				nombreArchivo = nombreArchivo + ".pdf";
 				HttpServletResponse response = obtenerResponse();
 				response.setHeader("Content-Type", "application/pdf");
 				response.setHeader("Content-Transfer-Encoding", "binary");
-				response.setHeader("Content-disposition","attachment;filename=boleta.pdf");
-				OutputStream stream = response.getOutputStream();
+				response.setHeader("Content-disposition","attachment;filename="+nombreArchivo);
 				//imprimirPDFDocumentoCobranza(this.enviarParametrosDocumentoCobranza(), stream, streamJasper);
-				imprimirPDFBoleta(this.enviarParametrosBoleta(ruta, conn), stream, streamJasper);
+				imprimirPDFBoleta(enviarParametrosBoleta(ruta, conn), response.getOutputStream(), new FileInputStream(new File(plantilla)));
 				/**
 				 * Fin data documento de cobranza
 				 */
@@ -817,6 +816,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 				.getNumeroDocumento());
 		
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.getComprobanteDetalle().getFechaComprobante());
 		mapeo.put("p_diafecha", UtilWeb
 				.completarCerosIzquierda(
 						String.valueOf(cal
@@ -890,6 +890,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 				.getNumeroDocumento());
 		
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.getComprobanteDetalle().getFechaComprobante());
 		mapeo.put("p_diafecha", UtilWeb
 				.completarCerosIzquierda(
 						String.valueOf(cal
@@ -931,75 +932,78 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 			cliente = this.consultaNegocioServicio.consultarCliente(this
 					.getComprobanteDetalle().getTitular().getCodigoEntero(),
 					this.obtenerIdEmpresa());
+			
+			mapeo.put("p_nombrecliente", cliente.getNombreCompleto());
+			mapeo.put("p_direccion", "");
+			List<Direccion> listaDirecciones = cliente
+					.getListaDirecciones();
+			if (listaDirecciones != null
+					&& !listaDirecciones.isEmpty()) {
+				mapeo.put("p_direccion",listaDirecciones.get(0)
+						.getDireccion());
+			}
+			mapeo.put("p_docidentidad", cliente
+					.getDocumentoIdentidad().getTipoDocumento().getAbreviatura()+" - "+cliente
+					.getDocumentoIdentidad()
+					.getNumeroDocumento());
+			mapeo.put("p_numeroruc", cliente
+					.getDocumentoIdentidad()
+					.getNumeroDocumento());
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(this.getComprobanteDetalle().getFechaComprobante());
+			mapeo.put("p_diafecha", UtilWeb
+					.completarCerosIzquierda(
+							String.valueOf(cal
+									.get(Calendar.DATE)),
+							2));
+			mapeo.put("p_mesfecha", UtilWeb.completarCerosIzquierda(
+					String.valueOf(cal
+							.get(Calendar.MONTH) + 1),
+					2));
+			String anio = String.valueOf(cal.get(Calendar.YEAR));
+			mapeo.put("p_aniofecha", anio.substring(2));
+			String montoLetras = UtilConvertirNumeroLetras
+					.convertirNumeroALetras(this
+							.getComprobanteDetalle()
+							.getTotalComprobante()
+							.doubleValue())
+					+ " "
+					+ this.getComprobanteDetalle().getMoneda()
+							.getNombre();
+			mapeo.put("p_montoletras",montoLetras);
+			
+			DecimalFormat df = new DecimalFormat("#,##0.00",
+					new DecimalFormatSymbols(Locale.US));
+			mapeo.put("p_montosubtotal", this.getComprobanteDetalle()
+					.getMoneda().getAbreviatura()
+					+ " "
+					+ df.format(this.getComprobanteDetalle()
+							.getSubTotal().doubleValue()));
+			mapeo.put("p_montoigv", this.getComprobanteDetalle()
+					.getMoneda().getAbreviatura()
+					+ " "
+					+ df.format(this.getComprobanteDetalle()
+							.getTotalIGV().doubleValue()));
+			mapeo.put("p_montototal", this.getComprobanteDetalle()
+					.getMoneda().getAbreviatura()
+					+ " "
+					+ df.format(this.getComprobanteDetalle()
+							.getTotalComprobante()
+							.doubleValue()));
+			mapeo.put("p_idempresa", this.obtenerIdEmpresa());
+			mapeo.put("p_idservicio", this.getComprobanteDetalle().getIdServicio());
+			mapeo.put("REPORT_CONNECTION", conn);
+			/*String rutaImagen = ruta + File.separator + "logocomprobante.jpg";
+			File imagen = new File(ruta);
+			BufferedImage image = ImageIO.read(imagen);
+			mapeo.put("p_imagen", image);*/
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		mapeo.put("p_nombrecliente", cliente.getNombreCompleto());
-		mapeo.put("p_direccion", "");
-		List<Direccion> listaDirecciones = cliente
-				.getListaDirecciones();
-		if (listaDirecciones != null
-				&& !listaDirecciones.isEmpty()) {
-			mapeo.put("p_direccion",listaDirecciones.get(0)
-					.getDireccion());
-		}
-		mapeo.put("p_docidentidad", cliente
-				.getDocumentoIdentidad().getTipoDocumento().getAbreviatura()+" - "+cliente
-				.getDocumentoIdentidad()
-				.getNumeroDocumento());
-		mapeo.put("p_numeroruc", cliente
-				.getDocumentoIdentidad()
-				.getNumeroDocumento());
 		
-		Calendar cal = Calendar.getInstance();
-		mapeo.put("p_diafecha", UtilWeb
-				.completarCerosIzquierda(
-						String.valueOf(cal
-								.get(Calendar.DATE)),
-						2));
-		mapeo.put("p_mesfecha", UtilWeb.completarCerosIzquierda(
-				String.valueOf(cal
-						.get(Calendar.MONTH) + 1),
-				2));
-		String anio = String.valueOf(cal.get(Calendar.YEAR));
-		mapeo.put("p_aniofecha", anio.substring(2));
-		String montoLetras = UtilConvertirNumeroLetras
-				.convertirNumeroALetras(this
-						.getComprobanteDetalle()
-						.getTotalComprobante()
-						.doubleValue())
-				+ " "
-				+ this.getComprobanteDetalle().getMoneda()
-						.getNombre();
-		mapeo.put("p_montoletras",montoLetras);
-		
-		DecimalFormat df = new DecimalFormat("#,##0.00",
-				new DecimalFormatSymbols(Locale.US));
-		mapeo.put("p_montosubtotal", this.getComprobanteDetalle()
-				.getMoneda().getAbreviatura()
-				+ " "
-				+ df.format(this.getComprobanteDetalle()
-						.getSubTotal().doubleValue()));
-		mapeo.put("p_montoigv", this.getComprobanteDetalle()
-				.getMoneda().getAbreviatura()
-				+ " "
-				+ df.format(this.getComprobanteDetalle()
-						.getTotalIGV().doubleValue()));
-		mapeo.put("p_montototal", this.getComprobanteDetalle()
-				.getMoneda().getAbreviatura()
-				+ " "
-				+ df.format(this.getComprobanteDetalle()
-						.getTotalComprobante()
-						.doubleValue()));
-		mapeo.put("p_idempresa", this.obtenerIdEmpresa());
-		mapeo.put("p_idservicio", this.getComprobanteDetalle().getIdServicio());
-		mapeo.put("REPORT_CONNECTION", conn);
-		/*String rutaImagen = ruta + File.separator + "logocomprobante.jpg";
-		File imagen = new File(ruta);
-		BufferedImage image = ImageIO.read(imagen);
-		mapeo.put("p_imagen", image);*/
 		
 		return mapeo;
 	}
@@ -1189,7 +1193,18 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 		List<JasperPrint> printList = new ArrayList<JasperPrint>();
 		try {
 			this.getComprobanteDetalle().setEmpresa(this.obtenerEmpresa());
-			printList.add(JasperFillManager.fillReport(streamJasper,map,new JRBeanCollectionDataSource(this.consultaNegocioServicio.consultarDescripcionServicioBL( this.getComprobanteDetalle()))));
+			List<DetalleServicioAgencia> listaDetalleFinal = new ArrayList<>();
+			DetalleServicioAgencia detalleServicio = null;
+			for (DetalleComprobante detalleComprobante : this.getComprobanteDetalle().getDetalleComprobante()){
+				if (detalleComprobante.isImpresion()){
+					detalleServicio = new DetalleServicioAgencia();
+					detalleServicio.setDescripcionServicio(detalleComprobante.getConcepto());
+					detalleServicio.setCodigoEntero(detalleComprobante.getIdServicioDetalle());
+					listaDetalleFinal.add(detalleServicio);
+				}
+			}
+			
+			printList.add(JasperFillManager.fillReport(streamJasper,map,new JRBeanCollectionDataSource(listaDetalleFinal)));
 			
 			JRPdfExporter exporter = new JRPdfExporter();
 			exporter.setExporterInput(SimpleExporterInput
@@ -1202,7 +1217,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 			exporter.exportReport();
 			
 			this.obtenerContexto().responseComplete();
-		} catch (JRException | ErrorConsultaDataException e) {
+		} catch (JRException e) {
 			logger.error(e.getMessage(), e);
 		}
 		
