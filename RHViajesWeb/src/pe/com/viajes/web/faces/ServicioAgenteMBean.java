@@ -1301,6 +1301,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.setEditaServicioAgregado(true);
 			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio()
 					.getConfiguracionTipoServicio() != null);
+			this.setListaTramos(this.getDetalleServicio().getRuta().getTramos());
 		} catch (SQLException e) {
 			this.setEditaServicioAgregado(false);
 			logger.error(e.getMessage(), e);
