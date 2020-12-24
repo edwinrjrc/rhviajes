@@ -28,7 +28,7 @@ public class UtilConexion {
 
 	private final static Logger logger = Logger.getLogger(UtilConexion.class);
 
-	private static String JNDI = "java:/jboss/jdbc/rhviajesDS";
+	private static String JNDI = "java:/jboss/jdbc/rhviajesProdDS";
 
 	/**
 	 * 
