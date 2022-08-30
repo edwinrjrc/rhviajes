@@ -2222,7 +2222,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 							+ tramo.getOrigen().getDescripcion() + " >> "
 							+ tramo.getDestino().getDescripcion() + " / ";
 
-					precioRuta = precioRuta.add(tramo.getPrecio());
+					precioRuta = precioRuta.add(tramo.getPrecio()==null?BigDecimal.ZERO:tramo.getPrecio());
 				}
 
 				this.getDetalleServicio().setFechaIda(

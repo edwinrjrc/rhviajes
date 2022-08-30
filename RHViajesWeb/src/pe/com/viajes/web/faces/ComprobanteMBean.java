@@ -261,6 +261,7 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 	public void generarComprobanteDigital(){
 		Connection conn = null;
 		try {
+			System.out.println("Inicio de generarComprobanteDigital");
 			Properties prop = UtilProperties
 					.cargaArchivo("aplicacionConfiguracion.properties");
 			String ruta = prop.getProperty("ruta.formatos.excel.comprobantes");
@@ -336,10 +337,10 @@ public class ComprobanteMBean extends BaseMBean implements ComprobanteInterface 
 			 * Inicio datos de excel
 			 */
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			logger.error(e.getMessage(), e);
 		} finally{
 			if (conn != null){
